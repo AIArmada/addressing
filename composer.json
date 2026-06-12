@@ -1,0 +1,46 @@
+{
+    "name": "aiarmada/addressing",
+    "description": "Reusable Laravel address handling package with country reference data, area import contracts, polymorphic address attachment, address snapshots, formatting and normalization",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "addressing",
+        "address",
+        "countries",
+        "areas",
+        "normalization"
+    ],
+    "authors": [
+        {
+            "name": "AIArmada",
+            "email": "dev@aiarmada.com"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "aiarmada/commerce-support": "self.version",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "suggest": {
+        "nnjeim/world": "Optional source for comparing/importing country, state and city data through an adapter."
+    },
+    "autoload": {
+        "psr-4": {
+            "AIArmada\\Addressing\\": "src/",
+            "AIArmada\\Addressing\\Database\\Factories\\": "database/factories"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AIArmada\\Addressing\\AddressingServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
