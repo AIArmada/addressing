@@ -9,6 +9,7 @@ use AIArmada\Addressing\Data\ImportAddressAreaFailureData;
 use AIArmada\Addressing\Data\ImportAddressAreasResultData;
 use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Models\AddressCountry;
+use AIArmada\Addressing\Support\AddressAreaHierarchy;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Str;
 
@@ -96,6 +97,18 @@ class ImportAddressAreasAction
                     $failures[] = new ImportAddressAreaFailureData(
                         sourceId: $areaData->sourceId,
                         reason: "Parent not found for parentSourceId: {$areaData->parentSourceId}",
+                        name: $areaData->name,
+                    );
+
+                    continue;
+                }
+
+                $validationMessage = AddressAreaHierarchy::validateParentAssignment($existing, $parent);
+
+                if ($validationMessage !== null) {
+                    $failures[] = new ImportAddressAreaFailureData(
+                        sourceId: $areaData->sourceId,
+                        reason: $validationMessage,
                         name: $areaData->name,
                     );
 

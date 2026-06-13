@@ -19,7 +19,7 @@ declare(strict_types=1);
  | and record any intentional differences in docs/05-country-data.md.
  */
 
-return 
+return
 [
     [
         'iso2' => 'AD',
@@ -45,10 +45,10 @@ return
         'timezones' => ['Europe/Andorra'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'AE',
@@ -84,12 +84,12 @@ return
                 'es' => 'Emiratos Árabes Unidos',
                 'fr' => 'Émirats arabes unis',
                 'ja' => 'アラブ首長国連邦',
-                'it' => 'Emirati Arabi Uniti'
+                'it' => 'Emirati Arabi Uniti',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'AF',
@@ -125,12 +125,12 @@ return
                 'es' => 'Afganistán',
                 'fr' => 'Afghanistan',
                 'ja' => 'アフガニスタン',
-                'it' => 'Afghanistan'
+                'it' => 'Afghanistan',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'AG',
@@ -165,12 +165,12 @@ return
                 'es' => 'Antigua y Barbuda',
                 'fr' => 'Antigua-et-Barbuda',
                 'ja' => 'アンティグア・バーブーダ',
-                'it' => 'Antigua e Barbuda'
+                'it' => 'Antigua e Barbuda',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'AI',
@@ -205,12 +205,12 @@ return
                 'es' => 'Anguilla',
                 'fr' => 'Anguilla',
                 'ja' => 'アンギラ',
-                'it' => 'Anguilla'
+                'it' => 'Anguilla',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'AL',
@@ -246,12 +246,12 @@ return
                 'es' => 'Albania',
                 'fr' => 'Albanie',
                 'ja' => 'アルバニア',
-                'it' => 'Albania'
+                'it' => 'Albania',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'AM',
@@ -287,12 +287,12 @@ return
                 'es' => 'Armenia',
                 'fr' => 'Arménie',
                 'ja' => 'アルメニア',
-                'it' => 'Armenia'
+                'it' => 'Armenia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'AO',
@@ -328,12 +328,12 @@ return
                 'es' => 'Angola',
                 'fr' => 'Angola',
                 'ja' => 'アンゴラ',
-                'it' => 'Angola'
+                'it' => 'Angola',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'AQ',
@@ -365,14 +365,14 @@ return
             'Antarctica/Palmer',
             'Antarctica/Rothera',
             'Antarctica/Syowa',
-            'Antarctica/Vostok'
+            'Antarctica/Vostok',
         ],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'special_area',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'AR',
@@ -408,12 +408,12 @@ return
                 'es' => 'Argentina',
                 'fr' => 'Argentine',
                 'ja' => 'アルゼンチン',
-                'it' => 'Argentina'
+                'it' => 'Argentina',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'AS',
@@ -448,12 +448,12 @@ return
                 'es' => 'Samoa Americana',
                 'fr' => 'Samoa américaines',
                 'ja' => 'アメリカ領サモア',
-                'it' => 'Samoa Americane'
+                'it' => 'Samoa Americane',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'AT',
@@ -489,12 +489,12 @@ return
                 'es' => 'Austria',
                 'fr' => 'Autriche',
                 'ja' => 'オーストリア',
-                'it' => 'Austria'
+                'it' => 'Austria',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'AU',
@@ -529,12 +529,12 @@ return
                 'es' => 'Australia',
                 'fr' => 'Australie',
                 'ja' => 'オーストラリア',
-                'it' => 'Australia'
+                'it' => 'Australia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'AW',
@@ -569,12 +569,12 @@ return
                 'es' => 'Aruba',
                 'fr' => 'Aruba',
                 'ja' => 'アルバ',
-                'it' => 'Aruba'
+                'it' => 'Aruba',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'constituent_country',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'AX',
@@ -600,10 +600,10 @@ return
         'timezones' => ['Europe/Mariehamn'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'AZ',
@@ -639,12 +639,12 @@ return
                 'es' => 'Azerbaiyán',
                 'fr' => 'Azerbaïdjan',
                 'ja' => 'アゼルバイジャン',
-                'it' => 'Azerbaijan'
+                'it' => 'Azerbaijan',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BA',
@@ -680,12 +680,12 @@ return
                 'es' => 'Bosnia y Herzegovina',
                 'fr' => 'Bosnie-Herzégovine',
                 'ja' => 'ボスニア・ヘルツェゴビナ',
-                'it' => 'Bosnia ed Erzegovina'
+                'it' => 'Bosnia ed Erzegovina',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BB',
@@ -720,12 +720,12 @@ return
                 'es' => 'Barbados',
                 'fr' => 'Barbade',
                 'ja' => 'バルバドス',
-                'it' => 'Barbados'
+                'it' => 'Barbados',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BD',
@@ -761,12 +761,12 @@ return
                 'es' => 'Bangladesh',
                 'fr' => 'Bangladesh',
                 'ja' => 'バングラデシュ',
-                'it' => 'Bangladesh'
+                'it' => 'Bangladesh',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BE',
@@ -805,19 +805,19 @@ return
                 'Kingdom of Belgium',
                 'Koninkrijk België',
                 'Royaume de Belgique',
-                'Königreich Belgien'
+                'Königreich Belgien',
             ],
             'translations' => [
                 'de' => 'Belgien',
                 'es' => 'Bélgica',
                 'fr' => 'Belgique',
                 'ja' => 'ベルギー',
-                'it' => 'Belgio'
+                'it' => 'Belgio',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BF',
@@ -853,12 +853,12 @@ return
                 'es' => 'Burkina Faso',
                 'fr' => 'Burkina Faso',
                 'ja' => 'ブルキナファソ',
-                'it' => 'Burkina Faso'
+                'it' => 'Burkina Faso',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BG',
@@ -894,12 +894,12 @@ return
                 'es' => 'Bulgaria',
                 'fr' => 'Bulgarie',
                 'ja' => 'ブルガリア',
-                'it' => 'Bulgaria'
+                'it' => 'Bulgaria',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BH',
@@ -934,12 +934,12 @@ return
                 'es' => 'Bahrein',
                 'fr' => 'Bahreïn',
                 'ja' => 'バーレーン',
-                'it' => 'Bahrein'
+                'it' => 'Bahrein',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BI',
@@ -975,12 +975,12 @@ return
                 'es' => 'Burundi',
                 'fr' => 'Burundi',
                 'ja' => 'ブルンジ',
-                'it' => 'Burundi'
+                'it' => 'Burundi',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BJ',
@@ -1016,12 +1016,12 @@ return
                 'es' => 'Benín',
                 'fr' => 'Bénin',
                 'ja' => 'ベナン',
-                'it' => 'Benin'
+                'it' => 'Benin',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BL',
@@ -1047,10 +1047,10 @@ return
         'timezones' => ['America/St_Barthelemy'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'BM',
@@ -1085,12 +1085,12 @@ return
                 'es' => 'Bermudas',
                 'fr' => 'Bermudes',
                 'ja' => 'バミューダ',
-                'it' => 'Bermuda'
+                'it' => 'Bermuda',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'BN',
@@ -1126,12 +1126,12 @@ return
                 'es' => 'Brunei',
                 'fr' => 'Brunei',
                 'ja' => 'ブルネイ・ダルサラーム',
-                'it' => 'Brunei'
+                'it' => 'Brunei',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BO',
@@ -1167,12 +1167,12 @@ return
                 'es' => 'Bolivia',
                 'fr' => 'Bolivie',
                 'ja' => 'ボリビア多民族国',
-                'it' => 'Bolivia'
+                'it' => 'Bolivia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BQ',
@@ -1198,10 +1198,10 @@ return
         'timezones' => ['America/Kralendijk'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'BR',
@@ -1240,7 +1240,7 @@ return
                 'PER',
                 'SUR',
                 'URY',
-                'VEN'
+                'VEN',
             ],
             'alt_spellings' => ['BR', 'Brasil', 'Federative Republic of Brazil', 'República Federativa do Brasil'],
             'translations' => [
@@ -1248,12 +1248,12 @@ return
                 'es' => 'Brasil',
                 'fr' => 'Brésil',
                 'ja' => 'ブラジル',
-                'it' => 'Brasile'
+                'it' => 'Brasile',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BS',
@@ -1288,12 +1288,12 @@ return
                 'es' => 'Bahamas',
                 'fr' => 'Bahamas',
                 'ja' => 'バハマ',
-                'it' => 'Bahamas'
+                'it' => 'Bahamas',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BT',
@@ -1329,12 +1329,12 @@ return
                 'es' => 'Bután',
                 'fr' => 'Bhoutan',
                 'ja' => 'ブータン',
-                'it' => 'Bhutan'
+                'it' => 'Bhutan',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BV',
@@ -1360,10 +1360,10 @@ return
         'timezones' => [],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'special_area',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'BW',
@@ -1399,12 +1399,12 @@ return
                 'es' => 'Botswana',
                 'fr' => 'Botswana',
                 'ja' => 'ボツワナ',
-                'it' => 'Botswana'
+                'it' => 'Botswana',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BY',
@@ -1440,12 +1440,12 @@ return
                 'es' => 'Bielorrusia',
                 'fr' => 'Biélorussie',
                 'ja' => 'ベラルーシ',
-                'it' => 'Bielorussia'
+                'it' => 'Bielorussia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'BZ',
@@ -1481,12 +1481,12 @@ return
                 'es' => 'Belice',
                 'fr' => 'Belize',
                 'ja' => 'ベリーズ',
-                'it' => 'Belize'
+                'it' => 'Belize',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CA',
@@ -1522,12 +1522,12 @@ return
                 'es' => 'Canadá',
                 'fr' => 'Canada',
                 'ja' => 'カナダ',
-                'it' => 'Canada'
+                'it' => 'Canada',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CC',
@@ -1562,12 +1562,12 @@ return
                 'es' => 'Islas Cocos o Islas Keeling',
                 'fr' => 'Îles Cocos',
                 'ja' => 'ココス（キーリング）諸島',
-                'it' => 'Isole Cocos e Keeling'
+                'it' => 'Isole Cocos e Keeling',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'CD',
@@ -1605,7 +1605,7 @@ return
                 'SSD',
                 'TZA',
                 'UGA',
-                'ZMB'
+                'ZMB',
             ],
             'alt_spellings' => ['CD', 'DR Congo', 'Congo-Kinshasa', 'DRC'],
             'translations' => [
@@ -1613,12 +1613,12 @@ return
                 'es' => 'Congo (Rep. Dem.)',
                 'fr' => 'Congo (Rép. dém.)',
                 'ja' => 'コンゴ民主共和国',
-                'it' => 'Congo (Rep. Dem.)'
+                'it' => 'Congo (Rep. Dem.)',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CF',
@@ -1654,12 +1654,12 @@ return
                 'es' => 'República Centroafricana',
                 'fr' => 'République centrafricaine',
                 'ja' => '中央アフリカ共和国',
-                'it' => 'Repubblica Centrafricana'
+                'it' => 'Repubblica Centrafricana',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CG',
@@ -1695,12 +1695,12 @@ return
                 'es' => 'Congo',
                 'fr' => 'Congo',
                 'ja' => 'コンゴ共和国',
-                'it' => 'Congo'
+                'it' => 'Congo',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CH',
@@ -1736,12 +1736,12 @@ return
                 'es' => 'Suiza',
                 'fr' => 'Suisse',
                 'ja' => 'スイス',
-                'it' => 'Svizzera'
+                'it' => 'Svizzera',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CI',
@@ -1777,12 +1777,12 @@ return
                 'es' => 'Costa de Marfil',
                 'fr' => 'Côte d\'Ivoire',
                 'ja' => 'コートジボワール',
-                'it' => 'Costa D\'Avorio'
+                'it' => 'Costa D\'Avorio',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CK',
@@ -1817,12 +1817,12 @@ return
                 'es' => 'Islas Cook',
                 'fr' => 'Îles Cook',
                 'ja' => 'クック諸島',
-                'it' => 'Isole Cook'
+                'it' => 'Isole Cook',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'associated_state',
-        'is_independent' => null
+        'is_independent' => null,
     ],
     [
         'iso2' => 'CL',
@@ -1858,12 +1858,12 @@ return
                 'es' => 'Chile',
                 'fr' => 'Chili',
                 'ja' => 'チリ',
-                'it' => 'Cile'
+                'it' => 'Cile',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CM',
@@ -1899,12 +1899,12 @@ return
                 'es' => 'Camerún',
                 'fr' => 'Cameroun',
                 'ja' => 'カメルーン',
-                'it' => 'Camerun'
+                'it' => 'Camerun',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CN',
@@ -1948,7 +1948,7 @@ return
                 'PAK',
                 'RUS',
                 'TJK',
-                'VNM'
+                'VNM',
             ],
             'alt_spellings' => ['CN', 'Zhōngguó', 'Zhongguo', 'Zhonghua', 'People\'s Republic of China', '中华人民共和国', 'Zhōnghuá Rénmín Gònghéguó'],
             'translations' => [
@@ -1956,12 +1956,12 @@ return
                 'es' => 'China',
                 'fr' => 'Chine',
                 'ja' => '中国',
-                'it' => 'Cina'
+                'it' => 'Cina',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CO',
@@ -1997,12 +1997,12 @@ return
                 'es' => 'Colombia',
                 'fr' => 'Colombie',
                 'ja' => 'コロンビア',
-                'it' => 'Colombia'
+                'it' => 'Colombia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CR',
@@ -2038,12 +2038,12 @@ return
                 'es' => 'Costa Rica',
                 'fr' => 'Costa Rica',
                 'ja' => 'コスタリカ',
-                'it' => 'Costa Rica'
+                'it' => 'Costa Rica',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CU',
@@ -2078,12 +2078,12 @@ return
                 'es' => 'Cuba',
                 'fr' => 'Cuba',
                 'ja' => 'キューバ',
-                'it' => 'Cuba'
+                'it' => 'Cuba',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CV',
@@ -2118,12 +2118,12 @@ return
                 'es' => 'Cabo Verde',
                 'fr' => 'Cap Vert',
                 'ja' => 'カーボベルデ',
-                'it' => 'Capo Verde'
+                'it' => 'Capo Verde',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CW',
@@ -2149,10 +2149,10 @@ return
         'timezones' => ['America/Curacao'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'constituent_country',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'CX',
@@ -2187,12 +2187,12 @@ return
                 'es' => 'Isla de Navidad',
                 'fr' => 'Île Christmas',
                 'ja' => 'クリスマス島',
-                'it' => 'Isola di Natale'
+                'it' => 'Isola di Natale',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'CY',
@@ -2228,12 +2228,12 @@ return
                 'es' => 'Chipre',
                 'fr' => 'Chypre',
                 'ja' => 'キプロス',
-                'it' => 'Cipro'
+                'it' => 'Cipro',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'CZ',
@@ -2269,12 +2269,12 @@ return
                 'es' => 'República Checa',
                 'fr' => 'République tchèque',
                 'ja' => 'チェコ',
-                'it' => 'Repubblica Ceca'
+                'it' => 'Repubblica Ceca',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'DE',
@@ -2312,7 +2312,7 @@ return
                 'LUX',
                 'NLD',
                 'POL',
-                'CHE'
+                'CHE',
             ],
             'alt_spellings' => ['DE', 'Federal Republic of Germany', 'Bundesrepublik Deutschland'],
             'translations' => [
@@ -2323,12 +2323,12 @@ return
                 'it' => 'Germania',
                 'nl' => 'Duitsland',
                 'pl' => 'Niemcy',
-                'da' => 'Tyskland'
+                'da' => 'Tyskland',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'DJ',
@@ -2364,12 +2364,12 @@ return
                 'es' => 'Yibuti',
                 'fr' => 'Djibouti',
                 'ja' => 'ジブチ',
-                'it' => 'Gibuti'
+                'it' => 'Gibuti',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'DK',
@@ -2405,12 +2405,12 @@ return
                 'es' => 'Dinamarca',
                 'fr' => 'Danemark',
                 'ja' => 'デンマーク',
-                'it' => 'Danimarca'
+                'it' => 'Danimarca',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'DM',
@@ -2445,12 +2445,12 @@ return
                 'es' => 'Dominica',
                 'fr' => 'Dominique',
                 'ja' => 'ドミニカ国',
-                'it' => 'Dominica'
+                'it' => 'Dominica',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'DO',
@@ -2486,12 +2486,12 @@ return
                 'es' => 'República Dominicana',
                 'fr' => 'République dominicaine',
                 'ja' => 'ドミニカ共和国',
-                'it' => 'Repubblica Dominicana'
+                'it' => 'Repubblica Dominicana',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'DZ',
@@ -2527,12 +2527,12 @@ return
                 'es' => 'Argelia',
                 'fr' => 'Algérie',
                 'ja' => 'アルジェリア',
-                'it' => 'Algeria'
+                'it' => 'Algeria',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'EC',
@@ -2568,12 +2568,12 @@ return
                 'es' => 'Ecuador',
                 'fr' => 'Équateur',
                 'ja' => 'エクアドル',
-                'it' => 'Ecuador'
+                'it' => 'Ecuador',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'EE',
@@ -2609,12 +2609,12 @@ return
                 'es' => 'Estonia',
                 'fr' => 'Estonie',
                 'ja' => 'エストニア',
-                'it' => 'Estonia'
+                'it' => 'Estonia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'EG',
@@ -2650,12 +2650,12 @@ return
                 'es' => 'Egipto',
                 'fr' => 'Égypte',
                 'ja' => 'エジプト',
-                'it' => 'Egitto'
+                'it' => 'Egitto',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'EH',
@@ -2691,12 +2691,12 @@ return
                 'es' => 'Sahara Occidental',
                 'fr' => 'Sahara Occidental',
                 'ja' => '西サハラ',
-                'it' => 'Sahara Occidentale'
+                'it' => 'Sahara Occidentale',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'disputed_or_observer',
-        'is_independent' => null
+        'is_independent' => null,
     ],
     [
         'iso2' => 'ER',
@@ -2732,12 +2732,12 @@ return
                 'es' => 'Eritrea',
                 'fr' => 'Érythrée',
                 'ja' => 'エリトリア',
-                'it' => 'Eritrea'
+                'it' => 'Eritrea',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'ES',
@@ -2773,12 +2773,12 @@ return
                 'es' => 'España',
                 'fr' => 'Espagne',
                 'ja' => 'スペイン',
-                'it' => 'Spagna'
+                'it' => 'Spagna',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'ET',
@@ -2814,12 +2814,12 @@ return
                 'es' => 'Etiopía',
                 'fr' => 'Éthiopie',
                 'ja' => 'エチオピア',
-                'it' => 'Etiopia'
+                'it' => 'Etiopia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'FI',
@@ -2855,12 +2855,12 @@ return
                 'es' => 'Finlandia',
                 'fr' => 'Finlande',
                 'ja' => 'フィンランド',
-                'it' => 'Finlandia'
+                'it' => 'Finlandia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'FJ',
@@ -2895,12 +2895,12 @@ return
                 'es' => 'Fiyi',
                 'fr' => 'Fidji',
                 'ja' => 'フィジー',
-                'it' => 'Figi'
+                'it' => 'Figi',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'FK',
@@ -2935,12 +2935,12 @@ return
                 'es' => 'Islas Malvinas',
                 'fr' => 'Îles Malouines',
                 'ja' => 'フォークランド（マルビナス）諸島',
-                'it' => 'Isole Falkland o Isole Malvine'
+                'it' => 'Isole Falkland o Isole Malvine',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'FM',
@@ -2975,12 +2975,12 @@ return
                 'es' => 'Micronesia',
                 'fr' => 'Micronésie',
                 'ja' => 'ミクロネシア連邦',
-                'it' => 'Micronesia'
+                'it' => 'Micronesia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'FO',
@@ -3015,12 +3015,12 @@ return
                 'es' => 'Islas Faroe',
                 'fr' => 'Îles Féroé',
                 'ja' => 'フェロー諸島',
-                'it' => 'Isole Far Oer'
+                'it' => 'Isole Far Oer',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'FR',
@@ -3055,7 +3055,7 @@ return
             'UTC+04:00',
             'UTC+05:00',
             'UTC+11:00',
-            'UTC+12:00'
+            'UTC+12:00',
         ],
         'top_level_domains' => ['.fr'],
         'metadata' => [
@@ -3069,12 +3069,12 @@ return
                 'es' => 'Francia',
                 'fr' => 'France',
                 'ja' => 'フランス',
-                'it' => 'Francia'
+                'it' => 'Francia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GA',
@@ -3110,12 +3110,12 @@ return
                 'es' => 'Gabón',
                 'fr' => 'Gabon',
                 'ja' => 'ガボン',
-                'it' => 'Gabon'
+                'it' => 'Gabon',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GB',
@@ -3141,10 +3141,10 @@ return
         'timezones' => ['Europe/London'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GD',
@@ -3179,12 +3179,12 @@ return
                 'es' => 'Grenada',
                 'fr' => 'Grenade',
                 'ja' => 'グレナダ',
-                'it' => 'Grenada'
+                'it' => 'Grenada',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GE',
@@ -3220,12 +3220,12 @@ return
                 'es' => 'Georgia',
                 'fr' => 'Géorgie',
                 'ja' => 'グルジア',
-                'it' => 'Georgia'
+                'it' => 'Georgia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GF',
@@ -3259,12 +3259,12 @@ return
                 'es' => 'Guayana Francesa',
                 'fr' => 'Guayane',
                 'ja' => 'フランス領ギアナ',
-                'it' => 'Guyana francese'
+                'it' => 'Guyana francese',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'GG',
@@ -3299,12 +3299,12 @@ return
                 'es' => 'Guernsey',
                 'fr' => 'Guernesey',
                 'ja' => 'ガーンジー',
-                'it' => 'Guernsey'
+                'it' => 'Guernsey',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'GH',
@@ -3340,12 +3340,12 @@ return
                 'es' => 'Ghana',
                 'fr' => 'Ghana',
                 'ja' => 'ガーナ',
-                'it' => 'Ghana'
+                'it' => 'Ghana',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GI',
@@ -3381,12 +3381,12 @@ return
                 'es' => 'Gibraltar',
                 'fr' => 'Gibraltar',
                 'ja' => 'ジブラルタル',
-                'it' => 'Gibilterra'
+                'it' => 'Gibilterra',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'GL',
@@ -3421,12 +3421,12 @@ return
                 'es' => 'Groenlandia',
                 'fr' => 'Groenland',
                 'ja' => 'グリーンランド',
-                'it' => 'Groenlandia'
+                'it' => 'Groenlandia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'GM',
@@ -3462,12 +3462,12 @@ return
                 'es' => 'Gambia',
                 'fr' => 'Gambie',
                 'ja' => 'ガンビア',
-                'it' => 'Gambia'
+                'it' => 'Gambia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GN',
@@ -3503,12 +3503,12 @@ return
                 'es' => 'Guinea',
                 'fr' => 'Guinée',
                 'ja' => 'ギニア',
-                'it' => 'Guinea'
+                'it' => 'Guinea',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GP',
@@ -3542,12 +3542,12 @@ return
                 'es' => 'Guadalupe',
                 'fr' => 'Guadeloupe',
                 'ja' => 'グアドループ',
-                'it' => 'Guadeloupa'
+                'it' => 'Guadeloupa',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'GQ',
@@ -3583,12 +3583,12 @@ return
                 'es' => 'Guinea Ecuatorial',
                 'fr' => 'Guinée-Équatoriale',
                 'ja' => '赤道ギニア',
-                'it' => 'Guinea Equatoriale'
+                'it' => 'Guinea Equatoriale',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GR',
@@ -3624,12 +3624,12 @@ return
                 'es' => 'Grecia',
                 'fr' => 'Grèce',
                 'ja' => 'ギリシャ',
-                'it' => 'Grecia'
+                'it' => 'Grecia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GS',
@@ -3663,12 +3663,12 @@ return
                 'es' => 'Islas Georgias del Sur y Sandwich del Sur',
                 'fr' => 'Géorgie du Sud-et-les Îles Sandwich du Sud',
                 'ja' => 'サウスジョージア・サウスサンドウィッチ諸島',
-                'it' => 'Georgia del Sud e Isole Sandwich Meridionali'
+                'it' => 'Georgia del Sud e Isole Sandwich Meridionali',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'special_area',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'GT',
@@ -3704,12 +3704,12 @@ return
                 'es' => 'Guatemala',
                 'fr' => 'Guatemala',
                 'ja' => 'グアテマラ',
-                'it' => 'Guatemala'
+                'it' => 'Guatemala',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GU',
@@ -3744,12 +3744,12 @@ return
                 'es' => 'Guam',
                 'fr' => 'Guam',
                 'ja' => 'グアム',
-                'it' => 'Guam'
+                'it' => 'Guam',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'GW',
@@ -3785,12 +3785,12 @@ return
                 'es' => 'Guinea-Bisáu',
                 'fr' => 'Guinée-Bissau',
                 'ja' => 'ギニアビサウ',
-                'it' => 'Guinea-Bissau'
+                'it' => 'Guinea-Bissau',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'GY',
@@ -3826,12 +3826,12 @@ return
                 'es' => 'Guyana',
                 'fr' => 'Guyane',
                 'ja' => 'ガイアナ',
-                'it' => 'Guyana'
+                'it' => 'Guyana',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'HK',
@@ -3867,12 +3867,12 @@ return
                 'es' => 'Hong Kong',
                 'fr' => 'Hong Kong',
                 'ja' => '香港',
-                'it' => 'Hong Kong'
+                'it' => 'Hong Kong',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'HM',
@@ -3906,12 +3906,12 @@ return
                 'es' => 'Islas Heard y McDonald',
                 'fr' => 'Îles Heard-et-MacDonald',
                 'ja' => 'ハード島とマクドナルド諸島',
-                'it' => 'Isole Heard e McDonald'
+                'it' => 'Isole Heard e McDonald',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'special_area',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'HN',
@@ -3947,12 +3947,12 @@ return
                 'es' => 'Honduras',
                 'fr' => 'Honduras',
                 'ja' => 'ホンジュラス',
-                'it' => 'Honduras'
+                'it' => 'Honduras',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'HR',
@@ -3988,12 +3988,12 @@ return
                 'es' => 'Croacia',
                 'fr' => 'Croatie',
                 'ja' => 'クロアチア',
-                'it' => 'Croazia'
+                'it' => 'Croazia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'HT',
@@ -4029,12 +4029,12 @@ return
                 'es' => 'Haiti',
                 'fr' => 'Haïti',
                 'ja' => 'ハイチ',
-                'it' => 'Haiti'
+                'it' => 'Haiti',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'HU',
@@ -4070,12 +4070,12 @@ return
                 'es' => 'Hungría',
                 'fr' => 'Hongrie',
                 'ja' => 'ハンガリー',
-                'it' => 'Ungheria'
+                'it' => 'Ungheria',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'ID',
@@ -4111,12 +4111,12 @@ return
                 'es' => 'Indonesia',
                 'fr' => 'Indonésie',
                 'ja' => 'インドネシア',
-                'it' => 'Indonesia'
+                'it' => 'Indonesia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'IE',
@@ -4152,12 +4152,12 @@ return
                 'es' => 'Irlanda',
                 'fr' => 'Irlande',
                 'ja' => 'アイルランド',
-                'it' => 'Irlanda'
+                'it' => 'Irlanda',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'IL',
@@ -4193,12 +4193,12 @@ return
                 'es' => 'Israel',
                 'fr' => 'Israël',
                 'ja' => 'イスラエル',
-                'it' => 'Israele'
+                'it' => 'Israele',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'IM',
@@ -4233,12 +4233,12 @@ return
                 'es' => 'Isla de Man',
                 'fr' => 'Île de Man',
                 'ja' => 'マン島',
-                'it' => 'Isola di Man'
+                'it' => 'Isola di Man',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'IN',
@@ -4274,12 +4274,12 @@ return
                 'es' => 'India',
                 'fr' => 'Inde',
                 'ja' => 'インド',
-                'it' => 'India'
+                'it' => 'India',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'IO',
@@ -4314,12 +4314,12 @@ return
                 'es' => 'Territorio Británico del Océano Índico',
                 'fr' => 'Territoire britannique de l\'océan Indien',
                 'ja' => 'イギリス領インド洋地域',
-                'it' => 'Territorio britannico dell\'oceano indiano'
+                'it' => 'Territorio britannico dell\'oceano indiano',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'IQ',
@@ -4355,12 +4355,12 @@ return
                 'es' => 'Irak',
                 'fr' => 'Irak',
                 'ja' => 'イラク',
-                'it' => 'Iraq'
+                'it' => 'Iraq',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'IR',
@@ -4396,12 +4396,12 @@ return
                 'es' => 'Iran',
                 'fr' => 'Iran',
                 'ja' => 'イラン・イスラム共和国',
-                'it' => null
+                'it' => null,
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'IS',
@@ -4436,12 +4436,12 @@ return
                 'es' => 'Islandia',
                 'fr' => 'Islande',
                 'ja' => 'アイスランド',
-                'it' => 'Islanda'
+                'it' => 'Islanda',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'IT',
@@ -4477,12 +4477,12 @@ return
                 'es' => 'Italia',
                 'fr' => 'Italie',
                 'ja' => 'イタリア',
-                'it' => 'Italia'
+                'it' => 'Italia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'JE',
@@ -4517,12 +4517,12 @@ return
                 'es' => 'Jersey',
                 'fr' => 'Jersey',
                 'ja' => 'ジャージー',
-                'it' => 'Isola di Jersey'
+                'it' => 'Isola di Jersey',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'JM',
@@ -4557,12 +4557,12 @@ return
                 'es' => 'Jamaica',
                 'fr' => 'Jamaïque',
                 'ja' => 'ジャマイカ',
-                'it' => 'Giamaica'
+                'it' => 'Giamaica',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'JO',
@@ -4598,12 +4598,12 @@ return
                 'es' => 'Jordania',
                 'fr' => 'Jordanie',
                 'ja' => 'ヨルダン',
-                'it' => 'Giordania'
+                'it' => 'Giordania',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'JP',
@@ -4638,12 +4638,12 @@ return
                 'es' => 'Japón',
                 'fr' => 'Japon',
                 'ja' => '日本',
-                'it' => 'Giappone'
+                'it' => 'Giappone',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'KE',
@@ -4679,12 +4679,12 @@ return
                 'es' => 'Kenia',
                 'fr' => 'Kenya',
                 'ja' => 'ケニア',
-                'it' => 'Kenya'
+                'it' => 'Kenya',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'KG',
@@ -4720,12 +4720,12 @@ return
                 'es' => 'Kirguizistán',
                 'fr' => 'Kirghizistan',
                 'ja' => 'キルギス',
-                'it' => 'Kirghizistan'
+                'it' => 'Kirghizistan',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'KH',
@@ -4761,12 +4761,12 @@ return
                 'es' => 'Camboya',
                 'fr' => 'Cambodge',
                 'ja' => 'カンボジア',
-                'it' => 'Cambogia'
+                'it' => 'Cambogia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'KI',
@@ -4801,12 +4801,12 @@ return
                 'es' => 'Kiribati',
                 'fr' => 'Kiribati',
                 'ja' => 'キリバス',
-                'it' => 'Kiribati'
+                'it' => 'Kiribati',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'KM',
@@ -4841,12 +4841,12 @@ return
                 'es' => 'Comoras',
                 'fr' => 'Comores',
                 'ja' => 'コモロ',
-                'it' => 'Comore'
+                'it' => 'Comore',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'KN',
@@ -4881,12 +4881,12 @@ return
                 'es' => 'San Cristóbal y Nieves',
                 'fr' => 'Saint-Christophe-et-Niévès',
                 'ja' => 'セントクリストファー・ネイビス',
-                'it' => 'Saint Kitts e Nevis'
+                'it' => 'Saint Kitts e Nevis',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'KP',
@@ -4922,12 +4922,12 @@ return
                 'es' => 'Corea del Norte',
                 'fr' => 'Corée du Nord',
                 'ja' => '朝鮮民主主義人民共和国',
-                'it' => 'Corea del Nord'
+                'it' => 'Corea del Nord',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'KR',
@@ -4963,12 +4963,12 @@ return
                 'es' => 'Corea del Sur',
                 'fr' => 'Corée du Sud',
                 'ja' => '大韓民国',
-                'it' => 'Corea del Sud'
+                'it' => 'Corea del Sud',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'KW',
@@ -5004,12 +5004,12 @@ return
                 'es' => 'Kuwait',
                 'fr' => 'Koweït',
                 'ja' => 'クウェート',
-                'it' => 'Kuwait'
+                'it' => 'Kuwait',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'KY',
@@ -5044,12 +5044,12 @@ return
                 'es' => 'Islas Caimán',
                 'fr' => 'Îles Caïmans',
                 'ja' => 'ケイマン諸島',
-                'it' => 'Isole Cayman'
+                'it' => 'Isole Cayman',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'KZ',
@@ -5085,12 +5085,12 @@ return
                 'es' => 'Kazajistán',
                 'fr' => 'Kazakhstan',
                 'ja' => 'カザフスタン',
-                'it' => 'Kazakistan'
+                'it' => 'Kazakistan',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'LA',
@@ -5126,12 +5126,12 @@ return
                 'es' => 'Laos',
                 'fr' => 'Laos',
                 'ja' => 'ラオス人民民主共和国',
-                'it' => 'Laos'
+                'it' => 'Laos',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'LB',
@@ -5167,12 +5167,12 @@ return
                 'es' => 'Líbano',
                 'fr' => 'Liban',
                 'ja' => 'レバノン',
-                'it' => 'Libano'
+                'it' => 'Libano',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'LC',
@@ -5207,12 +5207,12 @@ return
                 'es' => 'Santa Lucía',
                 'fr' => 'Saint-Lucie',
                 'ja' => 'セントルシア',
-                'it' => 'Santa Lucia'
+                'it' => 'Santa Lucia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'LI',
@@ -5248,12 +5248,12 @@ return
                 'es' => 'Liechtenstein',
                 'fr' => 'Liechtenstein',
                 'ja' => 'リヒテンシュタイン',
-                'it' => 'Liechtenstein'
+                'it' => 'Liechtenstein',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'LK',
@@ -5289,12 +5289,12 @@ return
                 'es' => 'Sri Lanka',
                 'fr' => 'Sri Lanka',
                 'ja' => 'スリランカ',
-                'it' => 'Sri Lanka'
+                'it' => 'Sri Lanka',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'LR',
@@ -5330,12 +5330,12 @@ return
                 'es' => 'Liberia',
                 'fr' => 'Liberia',
                 'ja' => 'リベリア',
-                'it' => 'Liberia'
+                'it' => 'Liberia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'LS',
@@ -5371,12 +5371,12 @@ return
                 'es' => 'Lesotho',
                 'fr' => 'Lesotho',
                 'ja' => 'レソト',
-                'it' => 'Lesotho'
+                'it' => 'Lesotho',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'LT',
@@ -5412,12 +5412,12 @@ return
                 'es' => 'Lituania',
                 'fr' => 'Lituanie',
                 'ja' => 'リトアニア',
-                'it' => 'Lituania'
+                'it' => 'Lituania',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'LU',
@@ -5453,12 +5453,12 @@ return
                 'es' => 'Luxemburgo',
                 'fr' => 'Luxembourg',
                 'ja' => 'ルクセンブルク',
-                'it' => 'Lussemburgo'
+                'it' => 'Lussemburgo',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'LV',
@@ -5494,12 +5494,12 @@ return
                 'es' => 'Letonia',
                 'fr' => 'Lettonie',
                 'ja' => 'ラトビア',
-                'it' => 'Lettonia'
+                'it' => 'Lettonia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'LY',
@@ -5535,12 +5535,12 @@ return
                 'es' => 'Libia',
                 'fr' => 'Libye',
                 'ja' => 'リビア',
-                'it' => 'Libia'
+                'it' => 'Libia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MA',
@@ -5576,12 +5576,12 @@ return
                 'es' => 'Marruecos',
                 'fr' => 'Maroc',
                 'ja' => 'モロッコ',
-                'it' => 'Marocco'
+                'it' => 'Marocco',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MC',
@@ -5617,12 +5617,12 @@ return
                 'es' => 'Mónaco',
                 'fr' => 'Monaco',
                 'ja' => 'モナコ',
-                'it' => 'Principato di Monaco'
+                'it' => 'Principato di Monaco',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MD',
@@ -5658,12 +5658,12 @@ return
                 'es' => 'Moldavia',
                 'fr' => 'Moldavie',
                 'ja' => 'モルドバ共和国',
-                'it' => 'Moldavia'
+                'it' => 'Moldavia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'ME',
@@ -5689,10 +5689,10 @@ return
         'timezones' => ['Europe/Podgorica'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MF',
@@ -5718,10 +5718,10 @@ return
         'timezones' => ['America/Marigot'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'MG',
@@ -5756,12 +5756,12 @@ return
                 'es' => 'Madagascar',
                 'fr' => 'Madagascar',
                 'ja' => 'マダガスカル',
-                'it' => 'Madagascar'
+                'it' => 'Madagascar',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MH',
@@ -5796,12 +5796,12 @@ return
                 'es' => 'Islas Marshall',
                 'fr' => 'Îles Marshall',
                 'ja' => 'マーシャル諸島',
-                'it' => 'Isole Marshall'
+                'it' => 'Isole Marshall',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MK',
@@ -5837,12 +5837,12 @@ return
                 'es' => 'Macedonia',
                 'fr' => 'Macédoine',
                 'ja' => 'マケドニア旧ユーゴスラビア共和国',
-                'it' => 'Macedonia'
+                'it' => 'Macedonia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'ML',
@@ -5878,12 +5878,12 @@ return
                 'es' => 'Mali',
                 'fr' => 'Mali',
                 'ja' => 'マリ',
-                'it' => 'Mali'
+                'it' => 'Mali',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MM',
@@ -5909,10 +5909,10 @@ return
         'timezones' => ['Asia/Yangon'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MN',
@@ -5948,12 +5948,12 @@ return
                 'es' => 'Mongolia',
                 'fr' => 'Mongolie',
                 'ja' => 'モンゴル',
-                'it' => 'Mongolia'
+                'it' => 'Mongolia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MO',
@@ -5989,12 +5989,12 @@ return
                 'es' => 'Macao',
                 'fr' => 'Macao',
                 'ja' => 'マカオ',
-                'it' => 'Macao'
+                'it' => 'Macao',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'MP',
@@ -6029,12 +6029,12 @@ return
                 'es' => 'Islas Marianas del Norte',
                 'fr' => 'Îles Mariannes du Nord',
                 'ja' => '北マリアナ諸島',
-                'it' => 'Isole Marianne Settentrionali'
+                'it' => 'Isole Marianne Settentrionali',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'MQ',
@@ -6068,12 +6068,12 @@ return
                 'es' => 'Martinica',
                 'fr' => 'Martinique',
                 'ja' => 'マルティニーク',
-                'it' => 'Martinica'
+                'it' => 'Martinica',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'MR',
@@ -6109,12 +6109,12 @@ return
                 'es' => 'Mauritania',
                 'fr' => 'Mauritanie',
                 'ja' => 'モーリタニア',
-                'it' => 'Mauritania'
+                'it' => 'Mauritania',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MS',
@@ -6149,12 +6149,12 @@ return
                 'es' => 'Montserrat',
                 'fr' => 'Montserrat',
                 'ja' => 'モントセラト',
-                'it' => 'Montserrat'
+                'it' => 'Montserrat',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'MT',
@@ -6189,12 +6189,12 @@ return
                 'es' => 'Malta',
                 'fr' => 'Malte',
                 'ja' => 'マルタ',
-                'it' => 'Malta'
+                'it' => 'Malta',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MU',
@@ -6229,12 +6229,12 @@ return
                 'es' => 'Mauricio',
                 'fr' => 'Île Maurice',
                 'ja' => 'モーリシャス',
-                'it' => 'Mauritius'
+                'it' => 'Mauritius',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MV',
@@ -6269,12 +6269,12 @@ return
                 'es' => 'Maldivas',
                 'fr' => 'Maldives',
                 'ja' => 'モルディブ',
-                'it' => 'Maldive'
+                'it' => 'Maldive',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MW',
@@ -6310,12 +6310,12 @@ return
                 'es' => 'Malawi',
                 'fr' => 'Malawi',
                 'ja' => 'マラウイ',
-                'it' => 'Malawi'
+                'it' => 'Malawi',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MX',
@@ -6351,12 +6351,12 @@ return
                 'es' => 'México',
                 'fr' => 'Mexique',
                 'ja' => 'メキシコ',
-                'it' => 'Messico'
+                'it' => 'Messico',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MY',
@@ -6392,12 +6392,12 @@ return
                 'es' => 'Malasia',
                 'fr' => 'Malaisie',
                 'ja' => 'マレーシア',
-                'it' => 'Malesia'
+                'it' => 'Malesia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'MZ',
@@ -6433,12 +6433,12 @@ return
                 'es' => 'Mozambique',
                 'fr' => 'Mozambique',
                 'ja' => 'モザンビーク',
-                'it' => 'Mozambico'
+                'it' => 'Mozambico',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'NA',
@@ -6474,12 +6474,12 @@ return
                 'es' => 'Namibia',
                 'fr' => 'Namibie',
                 'ja' => 'ナミビア',
-                'it' => 'Namibia'
+                'it' => 'Namibia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'NC',
@@ -6514,12 +6514,12 @@ return
                 'es' => 'Nueva Caledonia',
                 'fr' => 'Nouvelle-Calédonie',
                 'ja' => 'ニューカレドニア',
-                'it' => 'Nuova Caledonia'
+                'it' => 'Nuova Caledonia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'NE',
@@ -6555,12 +6555,12 @@ return
                 'es' => 'Níger',
                 'fr' => 'Niger',
                 'ja' => 'ニジェール',
-                'it' => 'Niger'
+                'it' => 'Niger',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'NF',
@@ -6595,12 +6595,12 @@ return
                 'es' => 'Isla de Norfolk',
                 'fr' => 'Île de Norfolk',
                 'ja' => 'ノーフォーク島',
-                'it' => 'Isola Norfolk'
+                'it' => 'Isola Norfolk',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'NG',
@@ -6636,12 +6636,12 @@ return
                 'es' => 'Nigeria',
                 'fr' => 'Nigéria',
                 'ja' => 'ナイジェリア',
-                'it' => 'Nigeria'
+                'it' => 'Nigeria',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'NI',
@@ -6677,12 +6677,12 @@ return
                 'es' => 'Nicaragua',
                 'fr' => 'Nicaragua',
                 'ja' => 'ニカラグア',
-                'it' => 'Nicaragua'
+                'it' => 'Nicaragua',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'NL',
@@ -6718,12 +6718,12 @@ return
                 'es' => 'Países Bajos',
                 'fr' => 'Pays-Bas',
                 'ja' => 'オランダ',
-                'it' => 'Paesi Bassi'
+                'it' => 'Paesi Bassi',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'NO',
@@ -6759,12 +6759,12 @@ return
                 'es' => 'Noruega',
                 'fr' => 'Norvège',
                 'ja' => 'ノルウェー',
-                'it' => 'Norvegia'
+                'it' => 'Norvegia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'NP',
@@ -6800,12 +6800,12 @@ return
                 'es' => 'Nepal',
                 'fr' => 'Népal',
                 'ja' => 'ネパール',
-                'it' => 'Nepal'
+                'it' => 'Nepal',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'NR',
@@ -6840,12 +6840,12 @@ return
                 'es' => 'Nauru',
                 'fr' => 'Nauru',
                 'ja' => 'ナウル',
-                'it' => 'Nauru'
+                'it' => 'Nauru',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'NU',
@@ -6880,12 +6880,12 @@ return
                 'es' => 'Niue',
                 'fr' => 'Niue',
                 'ja' => 'ニウエ',
-                'it' => 'Niue'
+                'it' => 'Niue',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'associated_state',
-        'is_independent' => null
+        'is_independent' => null,
     ],
     [
         'iso2' => 'NZ',
@@ -6920,12 +6920,12 @@ return
                 'es' => 'Nueva Zelanda',
                 'fr' => 'Nouvelle-Zélande',
                 'ja' => 'ニュージーランド',
-                'it' => 'Nuova Zelanda'
+                'it' => 'Nuova Zelanda',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'OM',
@@ -6961,12 +6961,12 @@ return
                 'es' => 'Omán',
                 'fr' => 'Oman',
                 'ja' => 'オマーン',
-                'it' => 'oman'
+                'it' => 'oman',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'PA',
@@ -7002,12 +7002,12 @@ return
                 'es' => 'Panamá',
                 'fr' => 'Panama',
                 'ja' => 'パナマ',
-                'it' => 'Panama'
+                'it' => 'Panama',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'PE',
@@ -7043,12 +7043,12 @@ return
                 'es' => 'Perú',
                 'fr' => 'Pérou',
                 'ja' => 'ペルー',
-                'it' => 'Perù'
+                'it' => 'Perù',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'PF',
@@ -7083,12 +7083,12 @@ return
                 'es' => 'Polinesia Francesa',
                 'fr' => 'Polynésie française',
                 'ja' => 'フランス領ポリネシア',
-                'it' => 'Polinesia Francese'
+                'it' => 'Polinesia Francese',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'PG',
@@ -7124,12 +7124,12 @@ return
                 'es' => 'Papúa Nueva Guinea',
                 'fr' => 'Papouasie-Nouvelle-Guinée',
                 'ja' => 'パプアニューギニア',
-                'it' => 'Papua Nuova Guinea'
+                'it' => 'Papua Nuova Guinea',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'PH',
@@ -7164,12 +7164,12 @@ return
                 'es' => 'Filipinas',
                 'fr' => 'Philippines',
                 'ja' => 'フィリピン',
-                'it' => 'Filippine'
+                'it' => 'Filippine',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'PK',
@@ -7205,12 +7205,12 @@ return
                 'es' => 'Pakistán',
                 'fr' => 'Pakistan',
                 'ja' => 'パキスタン',
-                'it' => 'Pakistan'
+                'it' => 'Pakistan',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'PL',
@@ -7246,12 +7246,12 @@ return
                 'es' => 'Polonia',
                 'fr' => 'Pologne',
                 'ja' => 'ポーランド',
-                'it' => 'Polonia'
+                'it' => 'Polonia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'PM',
@@ -7286,12 +7286,12 @@ return
                 'es' => 'San Pedro y Miquelón',
                 'fr' => 'Saint-Pierre-et-Miquelon',
                 'ja' => 'サンピエール島・ミクロン島',
-                'it' => 'Saint-Pierre e Miquelon'
+                'it' => 'Saint-Pierre e Miquelon',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'PN',
@@ -7326,12 +7326,12 @@ return
                 'es' => 'Islas Pitcairn',
                 'fr' => 'Îles Pitcairn',
                 'ja' => 'ピトケアン',
-                'it' => 'Isole Pitcairn'
+                'it' => 'Isole Pitcairn',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'PR',
@@ -7366,12 +7366,12 @@ return
                 'es' => 'Puerto Rico',
                 'fr' => 'Porto Rico',
                 'ja' => 'プエルトリコ',
-                'it' => 'Porto Rico'
+                'it' => 'Porto Rico',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'PS',
@@ -7397,10 +7397,10 @@ return
         'timezones' => ['Asia/Gaza', 'Asia/Hebron'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'disputed_or_observer',
-        'is_independent' => null
+        'is_independent' => null,
     ],
     [
         'iso2' => 'PT',
@@ -7436,12 +7436,12 @@ return
                 'es' => 'Portugal',
                 'fr' => 'Portugal',
                 'ja' => 'ポルトガル',
-                'it' => 'Portogallo'
+                'it' => 'Portogallo',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'PW',
@@ -7476,12 +7476,12 @@ return
                 'es' => 'Palau',
                 'fr' => 'Palaos',
                 'ja' => 'パラオ',
-                'it' => 'Palau'
+                'it' => 'Palau',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'PY',
@@ -7517,12 +7517,12 @@ return
                 'es' => 'Paraguay',
                 'fr' => 'Paraguay',
                 'ja' => 'パラグアイ',
-                'it' => 'Paraguay'
+                'it' => 'Paraguay',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'QA',
@@ -7558,12 +7558,12 @@ return
                 'es' => 'Catar',
                 'fr' => 'Qatar',
                 'ja' => 'カタール',
-                'it' => 'Qatar'
+                'it' => 'Qatar',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'RE',
@@ -7597,12 +7597,12 @@ return
                 'es' => 'Reunión',
                 'fr' => 'Réunion',
                 'ja' => 'レユニオン',
-                'it' => 'Riunione'
+                'it' => 'Riunione',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'RO',
@@ -7638,12 +7638,12 @@ return
                 'es' => 'Rumania',
                 'fr' => 'Roumanie',
                 'ja' => 'ルーマニア',
-                'it' => 'Romania'
+                'it' => 'Romania',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'RS',
@@ -7681,7 +7681,7 @@ return
                 'BIH',
                 'MNE',
                 'ALB',
-                'XKX'
+                'XKX',
             ],
             'alt_spellings' => ['Srbija', 'Republic of Serbia', 'Republika Srbija'],
             'translations' => [
@@ -7689,12 +7689,12 @@ return
                 'es' => 'Serbia',
                 'fr' => 'Serbie',
                 'ja' => 'セルビア',
-                'it' => 'Serbia'
+                'it' => 'Serbia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'RU',
@@ -7726,7 +7726,7 @@ return
             'UTC+09:00',
             'UTC+10:00',
             'UTC+11:00',
-            'UTC+12:00'
+            'UTC+12:00',
         ],
         'top_level_domains' => ['.ru'],
         'metadata' => [
@@ -7747,7 +7747,7 @@ return
                 'MNG',
                 'NOR',
                 'POL',
-                'UKR'
+                'UKR',
             ],
             'alt_spellings' => ['RU', 'Rossiya', 'Russian Federation', 'Российская Федерация', 'Rossiyskaya Federatsiya'],
             'translations' => [
@@ -7755,12 +7755,12 @@ return
                 'es' => 'Rusia',
                 'fr' => 'Russie',
                 'ja' => 'ロシア連邦',
-                'it' => 'Russia'
+                'it' => 'Russia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'RW',
@@ -7796,12 +7796,12 @@ return
                 'es' => 'Ruanda',
                 'fr' => 'Rwanda',
                 'ja' => 'ルワンダ',
-                'it' => 'Ruanda'
+                'it' => 'Ruanda',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SA',
@@ -7837,12 +7837,12 @@ return
                 'es' => 'Arabia Saudí',
                 'fr' => 'Arabie Saoudite',
                 'ja' => 'サウジアラビア',
-                'it' => 'Arabia Saudita'
+                'it' => 'Arabia Saudita',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SB',
@@ -7877,12 +7877,12 @@ return
                 'es' => 'Islas Salomón',
                 'fr' => 'Îles Salomon',
                 'ja' => 'ソロモン諸島',
-                'it' => 'Isole Salomone'
+                'it' => 'Isole Salomone',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SC',
@@ -7917,12 +7917,12 @@ return
                 'es' => 'Seychelles',
                 'fr' => 'Seychelles',
                 'ja' => 'セーシェル',
-                'it' => 'Seychelles'
+                'it' => 'Seychelles',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SD',
@@ -7958,12 +7958,12 @@ return
                 'es' => 'Sudán',
                 'fr' => 'Soudan',
                 'ja' => 'スーダン',
-                'it' => 'Sudan'
+                'it' => 'Sudan',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SE',
@@ -7999,12 +7999,12 @@ return
                 'es' => 'Suecia',
                 'fr' => 'Suède',
                 'ja' => 'スウェーデン',
-                'it' => 'Svezia'
+                'it' => 'Svezia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SG',
@@ -8039,12 +8039,12 @@ return
                 'es' => 'Singapur',
                 'fr' => 'Singapour',
                 'ja' => 'シンガポール',
-                'it' => 'Singapore'
+                'it' => 'Singapore',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SH',
@@ -8078,12 +8078,12 @@ return
                 'es' => 'Santa Helena',
                 'fr' => 'Sainte-Hélène',
                 'ja' => 'セントヘレナ・アセンションおよびトリスタンダクーニャ',
-                'it' => 'Sant\'Elena'
+                'it' => 'Sant\'Elena',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'SI',
@@ -8119,12 +8119,12 @@ return
                 'es' => 'Eslovenia',
                 'fr' => 'Slovénie',
                 'ja' => 'スロベニア',
-                'it' => 'Slovenia'
+                'it' => 'Slovenia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SJ',
@@ -8158,12 +8158,12 @@ return
                 'es' => 'Islas Svalbard y Jan Mayen',
                 'fr' => 'Svalbard et Jan Mayen',
                 'ja' => 'スヴァールバル諸島およびヤンマイエン島',
-                'it' => 'Svalbard e Jan Mayen'
+                'it' => 'Svalbard e Jan Mayen',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'special_area',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'SK',
@@ -8199,12 +8199,12 @@ return
                 'es' => 'República Eslovaca',
                 'fr' => 'Slovaquie',
                 'ja' => 'スロバキア',
-                'it' => 'Slovacchia'
+                'it' => 'Slovacchia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SL',
@@ -8240,12 +8240,12 @@ return
                 'es' => 'Sierra Leone',
                 'fr' => 'Sierra Leone',
                 'ja' => 'シエラレオネ',
-                'it' => 'Sierra Leone'
+                'it' => 'Sierra Leone',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SM',
@@ -8281,12 +8281,12 @@ return
                 'es' => 'San Marino',
                 'fr' => 'Saint-Marin',
                 'ja' => 'サンマリノ',
-                'it' => 'San Marino'
+                'it' => 'San Marino',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SN',
@@ -8322,12 +8322,12 @@ return
                 'es' => 'Senegal',
                 'fr' => 'Sénégal',
                 'ja' => 'セネガル',
-                'it' => 'Senegal'
+                'it' => 'Senegal',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SO',
@@ -8363,12 +8363,12 @@ return
                 'es' => 'Somalia',
                 'fr' => 'Somalie',
                 'ja' => 'ソマリア',
-                'it' => 'Somalia'
+                'it' => 'Somalia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SR',
@@ -8404,12 +8404,12 @@ return
                 'es' => 'Surinam',
                 'fr' => 'Surinam',
                 'ja' => 'スリナム',
-                'it' => 'Suriname'
+                'it' => 'Suriname',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SS',
@@ -8445,12 +8445,12 @@ return
                 'es' => 'Sudán del Sur',
                 'fr' => 'Soudan du Sud',
                 'ja' => '南スーダン',
-                'it' => 'Sudan del sud'
+                'it' => 'Sudan del sud',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'ST',
@@ -8485,12 +8485,12 @@ return
                 'es' => 'Santo Tomé y Príncipe',
                 'fr' => 'Sao Tomé-et-Principe',
                 'ja' => 'サントメ・プリンシペ',
-                'it' => 'São Tomé e Príncipe'
+                'it' => 'São Tomé e Príncipe',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SV',
@@ -8526,12 +8526,12 @@ return
                 'es' => 'El Salvador',
                 'fr' => 'Salvador',
                 'ja' => 'エルサルバドル',
-                'it' => 'El Salvador'
+                'it' => 'El Salvador',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SX',
@@ -8557,10 +8557,10 @@ return
         'timezones' => ['America/Lower_Princes'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'constituent_country',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'SY',
@@ -8596,12 +8596,12 @@ return
                 'es' => 'Siria',
                 'fr' => 'Syrie',
                 'ja' => 'シリア・アラブ共和国',
-                'it' => 'Siria'
+                'it' => 'Siria',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'SZ',
@@ -8637,12 +8637,12 @@ return
                 'es' => 'Suazilandia',
                 'fr' => 'Swaziland',
                 'ja' => 'スワジランド',
-                'it' => 'Swaziland'
+                'it' => 'Swaziland',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TC',
@@ -8668,10 +8668,10 @@ return
         'timezones' => ['America/Grand_Turk'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'TD',
@@ -8707,12 +8707,12 @@ return
                 'es' => 'Chad',
                 'fr' => 'Tchad',
                 'ja' => 'チャド',
-                'it' => 'Ciad'
+                'it' => 'Ciad',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TF',
@@ -8747,12 +8747,12 @@ return
                 'es' => 'Tierras Australes y Antárticas Francesas',
                 'fr' => 'Terres australes et antarctiques françaises',
                 'ja' => 'フランス領南方・南極地域',
-                'it' => 'Territori Francesi del Sud'
+                'it' => 'Territori Francesi del Sud',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'special_area',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'TG',
@@ -8788,12 +8788,12 @@ return
                 'es' => 'Togo',
                 'fr' => 'Togo',
                 'ja' => 'トーゴ',
-                'it' => 'Togo'
+                'it' => 'Togo',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TH',
@@ -8829,12 +8829,12 @@ return
                 'es' => 'Tailandia',
                 'fr' => 'Thaïlande',
                 'ja' => 'タイ',
-                'it' => 'Tailandia'
+                'it' => 'Tailandia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TJ',
@@ -8870,12 +8870,12 @@ return
                 'es' => 'Tayikistán',
                 'fr' => 'Tadjikistan',
                 'ja' => 'タジキスタン',
-                'it' => 'Tagikistan'
+                'it' => 'Tagikistan',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TK',
@@ -8910,12 +8910,12 @@ return
                 'es' => 'Islas Tokelau',
                 'fr' => 'Tokelau',
                 'ja' => 'トケラウ',
-                'it' => 'Isole Tokelau'
+                'it' => 'Isole Tokelau',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'TL',
@@ -8951,12 +8951,12 @@ return
                 'es' => 'Timor Oriental',
                 'fr' => 'Timor oriental',
                 'ja' => '東ティモール',
-                'it' => 'Timor Est'
+                'it' => 'Timor Est',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TM',
@@ -8992,12 +8992,12 @@ return
                 'es' => 'Turkmenistán',
                 'fr' => 'Turkménistan',
                 'ja' => 'トルクメニスタン',
-                'it' => 'Turkmenistan'
+                'it' => 'Turkmenistan',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TN',
@@ -9033,12 +9033,12 @@ return
                 'es' => 'Túnez',
                 'fr' => 'Tunisie',
                 'ja' => 'チュニジア',
-                'it' => 'Tunisia'
+                'it' => 'Tunisia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TO',
@@ -9073,12 +9073,12 @@ return
                 'es' => 'Tonga',
                 'fr' => 'Tonga',
                 'ja' => 'トンガ',
-                'it' => 'Tonga'
+                'it' => 'Tonga',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TR',
@@ -9114,12 +9114,12 @@ return
                 'es' => 'Turquía',
                 'fr' => 'Turquie',
                 'ja' => 'トルコ',
-                'it' => 'Turchia'
+                'it' => 'Turchia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TT',
@@ -9154,12 +9154,12 @@ return
                 'es' => 'Trinidad y Tobago',
                 'fr' => 'Trinité et Tobago',
                 'ja' => 'トリニダード・トバゴ',
-                'it' => 'Trinidad e Tobago'
+                'it' => 'Trinidad e Tobago',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TV',
@@ -9194,12 +9194,12 @@ return
                 'es' => 'Tuvalu',
                 'fr' => 'Tuvalu',
                 'ja' => 'ツバル',
-                'it' => 'Tuvalu'
+                'it' => 'Tuvalu',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'TW',
@@ -9234,12 +9234,12 @@ return
                 'es' => 'Taiwán',
                 'fr' => 'Taïwan',
                 'ja' => '台湾（台湾省/中華民国）',
-                'it' => 'Taiwan'
+                'it' => 'Taiwan',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'disputed_or_observer',
-        'is_independent' => null
+        'is_independent' => null,
     ],
     [
         'iso2' => 'TZ',
@@ -9275,12 +9275,12 @@ return
                 'es' => 'Tanzania',
                 'fr' => 'Tanzanie',
                 'ja' => 'タンザニア',
-                'it' => 'Tanzania'
+                'it' => 'Tanzania',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'UA',
@@ -9316,12 +9316,12 @@ return
                 'es' => 'Ucrania',
                 'fr' => 'Ukraine',
                 'ja' => 'ウクライナ',
-                'it' => 'Ucraina'
+                'it' => 'Ucraina',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'UG',
@@ -9357,12 +9357,12 @@ return
                 'es' => 'Uganda',
                 'fr' => 'Uganda',
                 'ja' => 'ウガンダ',
-                'it' => 'Uganda'
+                'it' => 'Uganda',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'UM',
@@ -9388,10 +9388,10 @@ return
         'timezones' => ['Pacific/Wake', 'Pacific/Midway'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'special_area',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'US',
@@ -9425,7 +9425,7 @@ return
             'UTC−05:00',
             'UTC−04:00',
             'UTC+10:00',
-            'UTC+12:00'
+            'UTC+12:00',
         ],
         'top_level_domains' => ['.us'],
         'metadata' => [
@@ -9439,12 +9439,12 @@ return
                 'es' => 'Estados Unidos',
                 'fr' => 'États-Unis',
                 'ja' => 'アメリカ合衆国',
-                'it' => 'Stati Uniti D\'America'
+                'it' => 'Stati Uniti D\'America',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'UY',
@@ -9480,12 +9480,12 @@ return
                 'es' => 'Uruguay',
                 'fr' => 'Uruguay',
                 'ja' => 'ウルグアイ',
-                'it' => 'Uruguay'
+                'it' => 'Uruguay',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'UZ',
@@ -9521,12 +9521,12 @@ return
                 'es' => 'Uzbekistán',
                 'fr' => 'Ouzbékistan',
                 'ja' => 'ウズベキスタン',
-                'it' => 'Uzbekistan'
+                'it' => 'Uzbekistan',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'VA',
@@ -9552,10 +9552,10 @@ return
         'timezones' => ['Europe/Vatican'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'VC',
@@ -9590,12 +9590,12 @@ return
                 'es' => 'San Vicente y Granadinas',
                 'fr' => 'Saint-Vincent-et-les-Grenadines',
                 'ja' => 'セントビンセントおよびグレナディーン諸島',
-                'it' => 'Saint Vincent e Grenadine'
+                'it' => 'Saint Vincent e Grenadine',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'VE',
@@ -9631,12 +9631,12 @@ return
                 'es' => 'Venezuela',
                 'fr' => 'Venezuela',
                 'ja' => 'ベネズエラ・ボリバル共和国',
-                'it' => 'Venezuela'
+                'it' => 'Venezuela',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'VG',
@@ -9662,10 +9662,10 @@ return
         'timezones' => ['America/Tortola'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'VI',
@@ -9691,10 +9691,10 @@ return
         'timezones' => ['America/St_Thomas'],
         'top_level_domains' => [],
         'metadata' => [
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'VN',
@@ -9730,12 +9730,12 @@ return
                 'es' => 'Vietnam',
                 'fr' => 'Viêt Nam',
                 'ja' => 'ベトナム',
-                'it' => 'Vietnam'
+                'it' => 'Vietnam',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'VU',
@@ -9770,12 +9770,12 @@ return
                 'es' => 'Vanuatu',
                 'fr' => 'Vanuatu',
                 'ja' => 'バヌアツ',
-                'it' => 'Vanuatu'
+                'it' => 'Vanuatu',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'WF',
@@ -9810,12 +9810,12 @@ return
                 'es' => 'Wallis y Futuna',
                 'fr' => 'Wallis-et-Futuna',
                 'ja' => 'ウォリス・フツナ',
-                'it' => 'Wallis e Futuna'
+                'it' => 'Wallis e Futuna',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'WS',
@@ -9850,12 +9850,12 @@ return
                 'es' => 'Samoa',
                 'fr' => 'Samoa',
                 'ja' => 'サモア',
-                'it' => 'Samoa'
+                'it' => 'Samoa',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'YE',
@@ -9891,12 +9891,12 @@ return
                 'es' => 'Yemen',
                 'fr' => 'Yémen',
                 'ja' => 'イエメン',
-                'it' => 'Yemen'
+                'it' => 'Yemen',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'YT',
@@ -9930,12 +9930,12 @@ return
                 'es' => 'Mayotte',
                 'fr' => 'Mayotte',
                 'ja' => 'マヨット',
-                'it' => 'Mayotte'
+                'it' => 'Mayotte',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'territory',
-        'is_independent' => false
+        'is_independent' => false,
     ],
     [
         'iso2' => 'ZA',
@@ -9967,7 +9967,7 @@ return
             'ts',
             've',
             'xh',
-            'zu'
+            'zu',
         ],
         'timezones' => ['UTC+02:00'],
         'top_level_domains' => ['.za'],
@@ -9982,12 +9982,12 @@ return
                 'es' => 'República de Sudáfrica',
                 'fr' => 'Afrique du Sud',
                 'ja' => '南アフリカ',
-                'it' => 'Sud Africa'
+                'it' => 'Sud Africa',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'ZM',
@@ -10023,12 +10023,12 @@ return
                 'es' => 'Zambia',
                 'fr' => 'Zambie',
                 'ja' => 'ザンビア',
-                'it' => 'Zambia'
+                'it' => 'Zambia',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
+        'is_independent' => true,
     ],
     [
         'iso2' => 'ZW',
@@ -10064,11 +10064,11 @@ return
                 'es' => 'Zimbabue',
                 'fr' => 'Zimbabwe',
                 'ja' => 'ジンバブエ',
-                'it' => 'Zimbabwe'
+                'it' => 'Zimbabwe',
             ],
-            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release']
+            'source_notes' => ['ISO 3166-1 country/territory identifiers', 'Best-effort enrichment from local country metadata; verify before release'],
         ],
         'entity_type' => 'country',
-        'is_independent' => true
-    ]
+        'is_independent' => true,
+    ],
 ];
