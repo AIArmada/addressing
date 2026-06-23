@@ -29,7 +29,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property string|null $street_name
  * @property string|null $neighbourhood
  * @property string|null $village
- * @property string|null $district
  * @property string|null $city
  * @property string|null $state
  * @property string|null $postcode
@@ -75,7 +74,6 @@ class Address extends Model
         'street_name',
         'neighbourhood',
         'village',
-        'district',
         'city',
         'state',
         'postcode',

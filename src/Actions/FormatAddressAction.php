@@ -19,7 +19,6 @@ class FormatAddressAction implements AddressFormatter
 
         $cityLine = array_filter([
             $address->city,
-            $address->district,
             $address->state,
         ]);
 

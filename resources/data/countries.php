@@ -12,8 +12,6 @@ declare(strict_types=1);
  | enrichment. The 249 records are ISO-style address entities, not 249
  | sovereign countries.
  |
- | Area/state/city/district/postcode data MUST NOT be bundled here; those are
- | imported by users through AddressAreaSource implementations.
  |
  | Before release, compare this file against nnjeim/world resources/json/countries.json
  | and record any intentional differences in docs/05-country-data.md.

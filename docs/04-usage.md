@@ -103,6 +103,11 @@ $primary = $customer->primaryAddress('shipping');
 $addresses = $customer->addressesOfType('billing');
 ```
 
+> [!info]
+> `primaryAddress()` and `addressesOfType()` only consider pivot rows whose `valid_from` / `valid_until` window includes the current time.
+>
+> Use `scopeWithPrimaryAddress()` when you want to eager-load the current primary subset for display.
+
 ## Address Snapshots
 
 ```php

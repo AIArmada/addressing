@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Traits;
 
 use AIArmada\Addressing\Models\Address;
 use AIArmada\Addressing\Models\Addressable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Str;
@@ -31,7 +32,9 @@ trait HasAddresses
 
     public function primaryAddress(?string $type = null): ?Address
     {
-        $query = $this->addresses()->where('addressables.is_primary', true);
+        $query = $this->validAddressQuery(
+            $this->addresses()->where('addressables.is_primary', true),
+        );
 
         if ($type !== null) {
             $query->where('addressables.type', $type);
@@ -47,7 +50,9 @@ trait HasAddresses
     public function addressesOfType(string $type): Collection
     {
         /** @var Collection<int, Address> */
-        return $this->addresses()->where('addressables.type', $type)->get();
+        return $this->validAddressQuery(
+            $this->addresses()->where('addressables.type', $type),
+        )->get();
     }
 
     public function attachAddress(
@@ -86,5 +91,40 @@ trait HasAddresses
         $pivot->save();
 
         return $pivot;
+    }
+
+    /**
+     * @param  Builder<static>  $query
+     */
+    public function scopeWithPrimaryAddress(Builder $query, ?string $type = null): void
+    {
+        $query->with(['addresses' => function (Builder $q) use ($type): void {
+            $this->validAddressQuery(
+                $q->where('addressables.is_primary', true),
+            );
+
+            if ($type !== null) {
+                $q->where('addressables.type', $type);
+            }
+        }]);
+    }
+
+    /**
+     * @param  Builder<Address>|MorphToMany<Address, $this>  $query
+     * @return Builder<Address>|MorphToMany<Address, $this>
+     */
+    private function validAddressQuery(Builder | MorphToMany $query): Builder | MorphToMany
+    {
+        $now = now();
+
+        return $query
+            ->where(function (Builder $q) use ($now): void {
+                $q->whereNull('addressables.valid_from')
+                    ->orWhere('addressables.valid_from', '<=', $now);
+            })
+            ->where(function (Builder $q) use ($now): void {
+                $q->whereNull('addressables.valid_until')
+                    ->orWhere('addressables.valid_until', '>=', $now);
+            });
     }
 }

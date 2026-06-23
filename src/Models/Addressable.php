@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Models;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
@@ -48,6 +49,25 @@ class Addressable extends MorphPivot
         static::creating(function (Addressable $addressable): void {
             $addressable->id ??= (string) Str::orderedUuid();
         });
+    }
+
+    /**
+     * @param  Builder<Addressable>  $query
+     * @return Builder<Addressable>
+     */
+    public function scopeValidNow(Builder $query): Builder
+    {
+        $now = now();
+
+        return $query
+            ->where(function (Builder $q) use ($now): void {
+                $q->whereNull('valid_from')
+                    ->orWhere('valid_from', '<=', $now);
+            })
+            ->where(function (Builder $q) use ($now): void {
+                $q->whereNull('valid_until')
+                    ->orWhere('valid_until', '>=', $now);
+            });
     }
 
     public function getTable(): string

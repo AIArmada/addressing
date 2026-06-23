@@ -32,7 +32,6 @@ return new class extends Migration
             $table->string('street_name')->nullable();
             $table->string('neighbourhood')->nullable();
             $table->string('village')->nullable();
-            $table->string('district')->nullable();
             $table->string('city')->nullable()->index();
             $table->string('state')->nullable()->index();
             $table->string('postcode')->nullable()->index();

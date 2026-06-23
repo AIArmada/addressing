@@ -35,7 +35,6 @@ class CreateAddressSnapshotAction
             'line2' => $data->line2,
             'line3' => $data->line3,
             'city' => $data->city,
-            'district' => $data->district,
             'state' => $data->state,
             'postcode' => $data->postcode,
             'country' => $data->country,

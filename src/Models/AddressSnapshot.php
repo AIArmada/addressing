@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string|null $line2
  * @property string|null $line3
  * @property string|null $city
- * @property string|null $district
  * @property string|null $state
  * @property string|null $postcode
  * @property string|null $country
@@ -50,7 +49,6 @@ class AddressSnapshot extends Model
         'line2',
         'line3',
         'city',
-        'district',
         'state',
         'postcode',
         'country',
