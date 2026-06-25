@@ -16,7 +16,6 @@ The `aiarmada/addressing` package provides a reusable address handling system fo
 - **AddressSnapshot** — immutable point-in-time address snapshots
 - **Formatting & Normalization** — contracts and default implementations
 - **Area Import Pipeline** — import administrative areas via `AddressAreaSource`, arrays, or CSV
-- **Owner scoping ready** — opt-in through `commerce-support` integration
 
 ## Package Layout
 
@@ -38,7 +37,7 @@ docs/                          Package documentation
 
 ## Non-goals (v1)
 
-- Filament UI (see future `aiarmada/filament-addressing`)
+- Tenant ownership of persisted addresses
 - Geocoding providers
 - Postcode validation by country
 - Full UPU S42 formatting engine

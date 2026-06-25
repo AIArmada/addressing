@@ -45,16 +45,6 @@ Manual URLs always win over generated URLs. See `12-navigation-links.md` for ful
 ],
 ```
 
-## Owner Scoping
-
-```php
-'features' => [
-    'owner_scoping' => false,
-],
-```
-
-When `true`, the addresses table uses `nullableMorphs('owner')` and owner-scoping via `commerce-support`.
-
 ## Area Sources
 
 ```php

@@ -34,16 +34,6 @@ For SQLite or MySQL:
 ADDRESS_JSON_COLUMN_TYPE=json
 ```
 
-## Owner Scoping Not Working
-
-Owner scoping is opt-in. Set in your `.env`:
-
-```env
-ADDRESS_OWNER_ENABLED=true
-```
-
-And ensure `commerce-support` is installed with the owner resolver configured. The `addresses` table will use `nullableMorphs('owner')` when enabled.
-
 ## Navigation URL Not Showing
 
 Make sure the addressing migrations have run. Check the `google_maps_url` and `waze_url` columns exist on your `addresses` table.

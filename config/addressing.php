@@ -20,10 +20,6 @@ return [
         'locale' => env('ADDRESS_DEFAULT_LOCALE', 'ms-MY'),
     ],
 
-    'features' => [
-        'owner_scoping' => false,
-    ],
-
     'area_sources' => [
         // App\Addressing\MalaysiaAddressAreaSource::class,
     ],
