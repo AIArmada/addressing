@@ -46,4 +46,13 @@ final class AddressingServiceProvider extends PackageServiceProvider
         $this->app->bind(AddressNormalizer::class, NormalizeAddressDataAction::class);
         $this->app->bind(AddressFormatter::class, FormatAddressAction::class);
     }
+
+    public function bootingPackage(): void
+    {
+        foreach (config('addressing.area_sources', []) as $source) {
+            if (is_string($source)) {
+                $this->app->singleton($source);
+            }
+        }
+    }
 }
