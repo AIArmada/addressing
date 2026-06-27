@@ -25,6 +25,10 @@ return new class extends Migration
             $table->{$jsonColumnType}('metadata')->nullable();
             $table->timestamps();
             $table->index(['addressable_type', 'addressable_id', 'type']);
+            $table->index(
+                ['addressable_type', 'addressable_id', 'is_primary'],
+                'addrbl_type_id_primary_idx',
+            );
         });
     }
 

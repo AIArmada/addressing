@@ -55,6 +55,8 @@ return new class extends Migration
             $table->timestampTz('validated_at')->nullable();
             $table->{$jsonColumnType}('metadata')->nullable();
             $table->timestamps();
+            $table->index(['country_code', 'city'], 'addr_country_city_idx');
+            $table->index(['country_code', 'postcode'], 'addr_country_postcode_idx');
         });
     }
 
