@@ -8,6 +8,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
@@ -109,6 +110,14 @@ class Address extends Model
     public function country(): BelongsTo
     {
         return $this->belongsTo(AddressCountry::class, 'country_id');
+    }
+
+    /**
+     * @return HasMany<Addressable, $this>
+     */
+    public function addressableLinks(): HasMany
+    {
+        return $this->hasMany(Addressable::class, 'address_id');
     }
 
     /**
