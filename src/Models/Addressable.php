@@ -33,6 +33,7 @@ class Addressable extends MorphPivot
     protected $keyType = 'string';
 
     protected $fillable = [
+        'id',
         'address_id',
         'addressable_type',
         'addressable_id',

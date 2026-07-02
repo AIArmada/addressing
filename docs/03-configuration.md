@@ -10,7 +10,7 @@ The package publishes a `config/addressing.php` file with these sections:
 
 ```php
 'database' => [
-    'json_column_type' => env('ADDRESS_JSON_COLUMN_TYPE', 'json'),
+    'json_column_type' => env('ADDRESS_JSON_COLUMN_TYPE', env('COMMERCE_JSON_COLUMN_TYPE', 'jsonb')),
 ],
 ```
 

@@ -97,7 +97,72 @@ class Address extends Model
         'google_maps_url',
         'waze_url',
         'navigation_links',
+        'lat',
+        'lng',
+        'google_place_id',
     ];
+
+    public function setAttribute($key, $value): mixed
+    {
+        return match ($key) {
+            'lat' => parent::setAttribute('latitude', $value),
+            'lng' => parent::setAttribute('longitude', $value),
+            'google_place_id' => parent::setAttribute('provider_place_id', $value),
+            'state_id' => parent::setAttribute('admin_area_1_id', $value),
+            'district_id' => parent::setAttribute('admin_area_2_id', $value),
+            'subdistrict_id' => parent::setAttribute('admin_area_3_id', $value),
+            'city_id' => parent::setAttribute('admin_area_4_id', $value),
+            'line1',
+            'line2',
+            'line3',
+            'building_name',
+            'unit_number',
+            'floor',
+            'block',
+            'street_number',
+            'street_name',
+            'neighbourhood',
+            'village',
+            'city',
+            'state',
+            'postcode',
+            'country',
+            'country_code' => parent::setAttribute(
+                $key,
+                is_string($value) ? trim($value) : $value,
+            ),
+            default => parent::setAttribute($key, $value),
+        };
+    }
+
+    public function getAttribute($key): mixed
+    {
+        return match ($key) {
+            'lat' => parent::getAttribute('latitude'),
+            'lng' => parent::getAttribute('longitude'),
+            'google_place_id' => parent::getAttribute('provider_place_id'),
+            'country' => $this->relationLoaded('country')
+                ? $this->getRelation('country')
+                : parent::getAttribute('country'),
+            'state' => $this->relationLoaded('state')
+                ? $this->getRelation('state')
+                : parent::getAttribute('state'),
+            'district' => $this->relationLoaded('district')
+                ? $this->getRelation('district')
+                : parent::getAttribute('district'),
+            'subdistrict' => $this->relationLoaded('subdistrict')
+                ? $this->getRelation('subdistrict')
+                : parent::getAttribute('subdistrict'),
+            'city' => $this->relationLoaded('city')
+                ? $this->getRelation('city')
+                : parent::getAttribute('city'),
+            'state_id' => parent::getAttribute('admin_area_1_id'),
+            'district_id' => parent::getAttribute('admin_area_2_id'),
+            'subdistrict_id' => parent::getAttribute('admin_area_3_id'),
+            'city_id' => parent::getAttribute('admin_area_4_id'),
+            default => parent::getAttribute($key),
+        };
+    }
 
     public function getTable(): string
     {
@@ -110,6 +175,108 @@ class Address extends Model
     public function country(): BelongsTo
     {
         return $this->belongsTo(AddressCountry::class, 'country_id');
+    }
+
+    /**
+     * Legacy-compatible relation alias for state-level areas.
+     *
+     * @return BelongsTo<AddressArea, $this>
+     */
+    public function state(): BelongsTo
+    {
+        return $this->adminArea1();
+    }
+
+    /**
+     * Legacy-compatible relation alias for district-level areas.
+     *
+     * @return BelongsTo<AddressArea, $this>
+     */
+    public function district(): BelongsTo
+    {
+        return $this->adminArea2();
+    }
+
+    /**
+     * Legacy-compatible relation alias for subdistrict-level areas.
+     *
+     * @return BelongsTo<AddressArea, $this>
+     */
+    public function subdistrict(): BelongsTo
+    {
+        return $this->adminArea3();
+    }
+
+    /**
+     * Legacy-compatible relation alias for city-level areas.
+     *
+     * @return BelongsTo<AddressArea, $this>
+     */
+    public function city(): BelongsTo
+    {
+        return $this->adminArea4();
+    }
+
+    /**
+     * @return BelongsTo<AddressArea, $this>
+     */
+    public function adminArea1(): BelongsTo
+    {
+        return $this->belongsTo(AddressArea::class, 'admin_area_1_id');
+    }
+
+    /**
+     * @return BelongsTo<AddressArea, $this>
+     */
+    public function adminArea2(): BelongsTo
+    {
+        return $this->belongsTo(AddressArea::class, 'admin_area_2_id');
+    }
+
+    /**
+     * @return BelongsTo<AddressArea, $this>
+     */
+    public function adminArea3(): BelongsTo
+    {
+        return $this->belongsTo(AddressArea::class, 'admin_area_3_id');
+    }
+
+    /**
+     * @return BelongsTo<AddressArea, $this>
+     */
+    public function adminArea4(): BelongsTo
+    {
+        return $this->belongsTo(AddressArea::class, 'admin_area_4_id');
+    }
+
+    /**
+     * Non-colliding legacy-compatible relation alias for state-level area access.
+     *
+     * @return BelongsTo<AddressArea, $this>
+     */
+    public function stateArea(): BelongsTo
+    {
+        return $this->adminArea1();
+    }
+
+    /**
+     * Non-colliding legacy-compatible relation alias for district-level area access.
+     *
+     * @return BelongsTo<AddressArea, $this>
+     */
+    public function districtArea(): BelongsTo
+    {
+        return $this->adminArea2();
+    }
+
+    /**
+     * Non-colliding legacy-compatible relation alias for subdistrict-level area access.
+     *
+     * @return BelongsTo<AddressArea, $this>
+     */
+    public function subdistrictArea(): BelongsTo
+    {
+        return $this->adminArea3();
     }
 
     /**

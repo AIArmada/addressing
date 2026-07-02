@@ -61,15 +61,17 @@ trait HasAddresses
         bool $isPrimary = false,
         ?string $label = null,
     ): Addressable {
-        $this->addresses()->attach($address->id, [
+        $pivot = Addressable::query()->create([
             'id' => (string) Str::orderedUuid(),
+            'address_id' => $address->id,
+            'addressable_type' => $this->getMorphClass(),
+            'addressable_id' => $this->getKey(),
             'type' => $type,
             'is_primary' => $isPrimary,
             'label' => $label,
         ]);
 
-        /** @var Addressable $pivot */
-        $pivot = $this->addresses()->find($address->id)?->pivot;
+        $this->unsetRelation('addresses');
 
         return $pivot;
     }
