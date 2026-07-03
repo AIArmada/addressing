@@ -129,7 +129,7 @@ class Address extends Model
             'country',
             'country_code' => parent::setAttribute(
                 $key,
-                is_string($value) ? trim($value) : $value,
+                is_string($value) ? mb_trim($value) : $value,
             ),
             default => parent::setAttribute($key, $value),
         };

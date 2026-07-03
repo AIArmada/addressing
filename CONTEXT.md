@@ -2,8 +2,8 @@
 title: Addressing Package Context
 package: aiarmada/addressing
 status: planned
-surface: package
-family: core
+surface: domain
+family: foundation
 ---
 
 ## Snapshot
