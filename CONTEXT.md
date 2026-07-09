@@ -10,7 +10,7 @@ family: foundation
 
 Composer package: `aiarmada/addressing`.
 
-Role: reusable address domain package for address data objects, country reference data, area import contracts, address storage, addressable relationships, formatting, normalization and snapshots.
+Role: reusable address domain package for address data objects, country reference data, first-class state/city geography, area import contracts, address storage, addressable relationships, formatting, normalization and snapshots.
 
 Start searches in:
 
@@ -38,13 +38,13 @@ Related packages:
 
 ## Guardrails
 
-This package owns address primitives, country reference data, generic area schema, import contracts, address relationships and snapshots.
+This package owns address primitives, country reference data, first-class `State`/`City` models, generic area schema, import contracts, address relationships and snapshots.
 
 This package does not own venues, spaces, institutions, events, shipping providers, payment gateways, tax engines, documents or Filament UI.
 
-Country data is the only bundled dataset. State, province, federal territory, district, city, mukim, village, neighbourhood and postcode data must be supplied by users through `AddressAreaSource`, array import or CSV import.
+ISO country data is always bundled. Optional Malaysia state/city seed data lives in `MalaysiaGeographySeeder`. Other state, province, district, city, mukim, village, neighbourhood and postcode data must be supplied by users through `State`/`City` rows, `AddressAreaSource`, array import or CSV import.
 
-Use `address_` table prefix for package reference/snapshot tables. Use canonical developer fields `line1`, `line2`, `city`, `district`, `state`, `postcode`, `country`, and ISO2 `country_code`.
+Default table names are unprefixed (`countries`, `states`, `cities`, `addresses`, …) with area/snapshot tables using descriptive names such as `address_areas` and `address_snapshots`. Use canonical developer fields `line1`, `line2`, `city`, `district`, `state`, `postcode`, `country`, and ISO2 `country_code`, plus optional `state_id` / `city_id`.
 
 Do not add database constraints or cascades. Use UUID primary keys. Use package config for table names and JSON column type. Do not use soft deletes.
 

@@ -20,19 +20,24 @@ Set `ADDRESS_JSON_COLUMN_TYPE=jsonb` in your `.env` for PostgreSQL JSONB support
 
 ```php
 'tables' => [
-    'countries' => 'address_countries',
+    'countries' => 'countries',
     'areas' => 'address_areas',
     'addresses' => 'addresses',
     'addressables' => 'addressables',
     'snapshots' => 'address_snapshots',
+    'states' => 'states',
+    'cities' => 'cities',
 ],
 ```
 
 Override any table name via environment variables or config publishing.
 
+- `states` and `cities` back the first-class `State` and `City` models
+- Addresses may store free-text `state` / `city` strings and optionally link via `state_id` / `city_id`
+
 ## Navigation Links
 
-Navigation link columns (`google_maps_url`, `waze_url`, `navigation_links`) are part of the `addresses` and `address_snapshots` table schemas (migrations `2001_01_01_000003` and `2001_01_01_000005`). They use the configured JSON column type for `navigation_links`.
+Navigation link columns (`google_maps_url`, `waze_url`, `navigation_links`) are part of the `addresses` and `address_snapshots` table schemas. They use the configured JSON column type for `navigation_links`.
 
 Manual URLs always win over generated URLs. See `12-navigation-links.md` for full priority rules.
 

@@ -46,6 +46,44 @@ Or via CLI:
 php artisan address:seed-countries
 ```
 
+## States and Cities
+
+First-class geography models sit beside free-text address fields:
+
+```php
+use AIArmada\Addressing\Models\Address;
+use AIArmada\Addressing\Models\City;
+use AIArmada\Addressing\Models\State;
+
+$state = State::query()->where('code', 'SGR')->first();
+$city = City::query()->where('state_id', $state->id)->where('name', 'Shah Alam')->first();
+
+$address = Address::query()->create([
+    'line1' => '123 Jalan Ampang',
+    'city' => $city->name,
+    'state' => $state->name,
+    'state_id' => $state->id,
+    'city_id' => $city->id,
+    'postcode' => '40000',
+    'country_code' => 'MY',
+]);
+
+$address->state; // State model
+$address->city;  // City model
+$state->cities;  // HasMany cities
+```
+
+### Seed Malaysia geography
+
+```php
+use AIArmada\Addressing\Database\Seeders\MalaysiaGeographySeeder;
+
+// After address:seed-countries
+(new MalaysiaGeographySeeder)->run();
+```
+
+This seeds Malaysia states/federal territories and common cities into the `states` and `cities` tables. Other countries still use free-text fields and/or `AddressArea` imports.
+
 ## Import Areas
 
 ### From a custom source

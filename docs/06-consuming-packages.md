@@ -182,13 +182,13 @@ Country should be stored and communicated using ISO2 country code where possible
 'countryCode' => 'MY'
 ```
 
-Display name may be resolved from `address_countries`:
+Display name may be resolved from the countries table (default `countries`):
 
 ```txt
 MY -> Malaysia
 ```
 
-State/city/district data should remain flexible. Not every country has states. Use text fields for compatibility and optional `address_areas` references for stronger filtering.
+State/city/district data should remain flexible. Not every country has states. Prefer free-text `state` / `city` fields for compatibility, optionally link structured `state_id` / `city_id` when first-class geography is available, and use `address_areas` for broader area import hierarchies.
 
 ## Package responsibility boundary
 

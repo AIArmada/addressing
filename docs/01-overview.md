@@ -10,19 +10,21 @@ The `aiarmada/addressing` package provides a reusable address handling system fo
 
 - **AddressData** — canonical address value object with alias normalization
 - **AddressCountry** — ISO 3166-1 country/territory reference data (bundled)
-- **AddressArea** — generic state/province/city/district/locality schema
+- **State** / **City** — first-class geographic models with optional links from `Address` via `state_id` / `city_id`
+- **AddressArea** — generic state/province/city/district/locality schema for broader area import
 - **Address** — Eloquent model for persisted addresses
 - **HasAddresses** — polymorphic trait for attaching addresses to any model
 - **AddressSnapshot** — immutable point-in-time address snapshots
 - **Formatting & Normalization** — contracts and default implementations
 - **Area Import Pipeline** — import administrative areas via `AddressAreaSource`, arrays, or CSV
+- **Malaysia geography seeder** — optional MY states and cities for `State` / `City` tables
 
 ## Package Layout
 
 ```
 config/addressing.php          Package configuration
 database/migrations/           Table migrations
-database/seeders/              Country data seeder
+database/seeders/              Country and geography seeders
 src/Actions/                   Action classes
 src/Casts/                     Custom Eloquent casts
 src/Commands/                  Artisan commands
@@ -41,4 +43,4 @@ docs/                          Package documentation
 - Geocoding providers
 - Postcode validation by country
 - Full UPU S42 formatting engine
-- Bundled state/city/district/postcode data
+- Worldwide bundled district/postcode datasets (beyond optional MY state/city seed data)

@@ -6,9 +6,11 @@ title: Country Data
 
 ## Bundled Dataset
 
-The package bundles ISO 3166-1 country/territory data only. This is the only bundled reference dataset.
+The package always bundles ISO 3166-1 country/territory data.
 
 File location: `resources/data/countries.php`
+
+Optionally, `database/seeders/MalaysiaGeographySeeder.php` seeds first-class Malaysia `State` and `City` rows. That seeder is not run by `address:seed-countries`; call it explicitly when you need structured MY geography.
 
 The dataset contains **249 records** — these are ISO 3166-1 address entities, not 249 sovereign countries. Records include:
 
@@ -26,13 +28,13 @@ The dataset contains **249 records** — these are ISO 3166-1 address entities, 
 - Top-level domains
 - Extended metadata (demonyms, area, population, borders, translations)
 
-## What is NOT Bundled
+## What is NOT Bundled by Default
 
-The following must be supplied by users through `AddressAreaSource`, array imports, or CSV imports:
+Without calling `MalaysiaGeographySeeder`, the following must be supplied by users through `State`/`City` models, `AddressAreaSource`, array imports, or CSV imports:
 
-- States, federal territories, provinces, prefectures, emirates
-- Districts, cities, towns, villages, mukim, neighbourhoods
-- Postcodes
+- States, federal territories, provinces, prefectures, emirates (except optional MY seed)
+- Districts, cities, towns, villages, mukim, neighbourhoods (except optional MY city seed)
+- Postcodes and worldwide area hierarchies
 
 ## Audit Process
 

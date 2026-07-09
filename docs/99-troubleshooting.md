@@ -12,6 +12,14 @@ Run the seed command:
 php artisan address:seed-countries
 ```
 
+## Missing Malaysia States or Cities
+
+`address:seed-countries` only seeds ISO countries. For structured Malaysia geography, run `AIArmada\Addressing\Database\Seeders\MalaysiaGeographySeeder` after countries exist.
+
+## Address Has Text State/City but No Relations
+
+Free-text `state` / `city` columns do not automatically populate `state_id` / `city_id`. Set the foreign keys when you want `Address::state()` / `Address::city()` relations.
+
 ## Duplicate Source IDs During Area Import
 
 The `address_areas` table has a unique constraint on `(source, source_id)`. If you encounter duplicate key errors, check that your `AddressAreaSource` does not yield duplicate `sourceId` values for the same `key()`.
