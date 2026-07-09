@@ -31,6 +31,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property string|null $neighbourhood
  * @property string|null $village
  * @property string|null $city
+ * @property string|null $state_id
+ * @property string|null $city_id
  * @property string|null $state
  * @property string|null $postcode
  * @property string|null $country
@@ -63,6 +65,8 @@ class Address extends Model
         'admin_area_2_id',
         'admin_area_3_id',
         'admin_area_4_id',
+        'state_id',
+        'city_id',
         'label',
         'line1',
         'line2',
@@ -108,10 +112,8 @@ class Address extends Model
             'lat' => parent::setAttribute('latitude', $value),
             'lng' => parent::setAttribute('longitude', $value),
             'google_place_id' => parent::setAttribute('provider_place_id', $value),
-            'state_id' => parent::setAttribute('admin_area_1_id', $value),
             'district_id' => parent::setAttribute('admin_area_2_id', $value),
             'subdistrict_id' => parent::setAttribute('admin_area_3_id', $value),
-            'city_id' => parent::setAttribute('admin_area_4_id', $value),
             'line1',
             'line2',
             'line3',
@@ -156,10 +158,10 @@ class Address extends Model
             'city' => $this->relationLoaded('city')
                 ? $this->getRelation('city')
                 : parent::getAttribute('city'),
-            'state_id' => parent::getAttribute('admin_area_1_id'),
+            'state_id' => parent::getAttribute('state_id'),
             'district_id' => parent::getAttribute('admin_area_2_id'),
             'subdistrict_id' => parent::getAttribute('admin_area_3_id'),
-            'city_id' => parent::getAttribute('admin_area_4_id'),
+            'city_id' => parent::getAttribute('city_id'),
             default => parent::getAttribute($key),
         };
     }
@@ -178,13 +180,11 @@ class Address extends Model
     }
 
     /**
-     * Legacy-compatible relation alias for state-level areas.
-     *
-     * @return BelongsTo<AddressArea, $this>
+     * @return BelongsTo<State, $this>
      */
     public function state(): BelongsTo
     {
-        return $this->adminArea1();
+        return $this->belongsTo(State::class, 'state_id');
     }
 
     /**
@@ -208,13 +208,11 @@ class Address extends Model
     }
 
     /**
-     * Legacy-compatible relation alias for city-level areas.
-     *
-     * @return BelongsTo<AddressArea, $this>
+     * @return BelongsTo<City, $this>
      */
     public function city(): BelongsTo
     {
-        return $this->adminArea4();
+        return $this->belongsTo(City::class, 'city_id');
     }
 
     /**

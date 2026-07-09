@@ -11,7 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         $jsonColumnType = config('addressing.database.json_column_type', 'json');
-        $tableName = config('addressing.tables.countries', 'address_countries');
+        $tableName = config('addressing.tables.countries', 'countries');
 
         Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();
@@ -46,6 +46,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists(config('addressing.tables.countries', 'address_countries'));
+        Schema::dropIfExists(config('addressing.tables.countries', 'countries'));
     }
 };

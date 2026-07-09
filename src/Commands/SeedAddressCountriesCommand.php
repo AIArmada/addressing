@@ -11,7 +11,7 @@ class SeedAddressCountriesCommand extends Command
 {
     protected $signature = 'address:seed-countries';
 
-    protected $description = 'Seed address_countries table with bundled ISO 3166-1 country/territory data';
+    protected $description = 'Seed countries table with bundled ISO 3166-1 country/territory data';
 
     public function handle(SeedAddressCountriesAction $action): int
     {

@@ -69,7 +69,7 @@ class AddressCountry extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.countries', 'address_countries');
+        return config('addressing.tables.countries', 'countries');
     }
 
     protected function casts(): array

@@ -28,7 +28,8 @@
     "autoload": {
         "psr-4": {
             "AIArmada\\Addressing\\": "src/",
-            "AIArmada\\Addressing\\Database\\Factories\\": "database/factories"
+            "AIArmada\\Addressing\\Database\\Factories\\": "database/factories",
+            "AIArmada\\Addressing\\Database\\Seeders\\": "database/seeders"
         }
     },
     "extra": {
