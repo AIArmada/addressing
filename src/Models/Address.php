@@ -112,8 +112,6 @@ class Address extends Model
             'lat' => parent::setAttribute('latitude', $value),
             'lng' => parent::setAttribute('longitude', $value),
             'google_place_id' => parent::setAttribute('provider_place_id', $value),
-            'district_id' => parent::setAttribute('admin_area_2_id', $value),
-            'subdistrict_id' => parent::setAttribute('admin_area_3_id', $value),
             'line1',
             'line2',
             'line3',
@@ -149,19 +147,9 @@ class Address extends Model
             'state' => $this->relationLoaded('state')
                 ? $this->getRelation('state')
                 : parent::getAttribute('state'),
-            'district' => $this->relationLoaded('district')
-                ? $this->getRelation('district')
-                : parent::getAttribute('district'),
-            'subdistrict' => $this->relationLoaded('subdistrict')
-                ? $this->getRelation('subdistrict')
-                : parent::getAttribute('subdistrict'),
             'city' => $this->relationLoaded('city')
                 ? $this->getRelation('city')
                 : parent::getAttribute('city'),
-            'state_id' => parent::getAttribute('state_id'),
-            'district_id' => parent::getAttribute('admin_area_2_id'),
-            'subdistrict_id' => parent::getAttribute('admin_area_3_id'),
-            'city_id' => parent::getAttribute('city_id'),
             default => parent::getAttribute($key),
         };
     }
@@ -185,26 +173,6 @@ class Address extends Model
     public function state(): BelongsTo
     {
         return $this->belongsTo(State::class, 'state_id');
-    }
-
-    /**
-     * Legacy-compatible relation alias for district-level areas.
-     *
-     * @return BelongsTo<AddressArea, $this>
-     */
-    public function district(): BelongsTo
-    {
-        return $this->adminArea2();
-    }
-
-    /**
-     * Legacy-compatible relation alias for subdistrict-level areas.
-     *
-     * @return BelongsTo<AddressArea, $this>
-     */
-    public function subdistrict(): BelongsTo
-    {
-        return $this->adminArea3();
     }
 
     /**
@@ -245,36 +213,6 @@ class Address extends Model
     public function adminArea4(): BelongsTo
     {
         return $this->belongsTo(AddressArea::class, 'admin_area_4_id');
-    }
-
-    /**
-     * Non-colliding legacy-compatible relation alias for state-level area access.
-     *
-     * @return BelongsTo<AddressArea, $this>
-     */
-    public function stateArea(): BelongsTo
-    {
-        return $this->adminArea1();
-    }
-
-    /**
-     * Non-colliding legacy-compatible relation alias for district-level area access.
-     *
-     * @return BelongsTo<AddressArea, $this>
-     */
-    public function districtArea(): BelongsTo
-    {
-        return $this->adminArea2();
-    }
-
-    /**
-     * Non-colliding legacy-compatible relation alias for subdistrict-level area access.
-     *
-     * @return BelongsTo<AddressArea, $this>
-     */
-    public function subdistrictArea(): BelongsTo
-    {
-        return $this->adminArea3();
     }
 
     /**
