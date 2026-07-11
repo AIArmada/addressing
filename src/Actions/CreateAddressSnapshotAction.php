@@ -20,9 +20,13 @@ class CreateAddressSnapshotAction
         if ($address instanceof Address) {
             $data = AddressData::from($address->toArray());
             $addressId = $address->id;
+            $labelSource = $address->label;
+            $formattedLines = $address->formatted_lines;
         } else {
             $data = $address;
             $addressId = null;
+            $labelSource = null;
+            $formattedLines = null;
         }
 
         return AddressSnapshot::create([
@@ -30,7 +34,7 @@ class CreateAddressSnapshotAction
             'snapshotable_type' => $snapshotable->getMorphClass(),
             'snapshotable_id' => $snapshotable->getKey(),
             'reason' => $reason,
-            'label' => $label ?? $data->label ?? null,
+            'label' => $label ?? $labelSource,
             'line1' => $data->line1,
             'line2' => $data->line2,
             'line3' => $data->line3,
@@ -40,6 +44,7 @@ class CreateAddressSnapshotAction
             'country' => $data->country,
             'country_code' => $data->countryCode,
             'formatted_address' => $data->formatted,
+            'formatted_lines' => $formattedLines,
             'components' => $data->components !== [] ? $data->components : null,
             'latitude' => $data->latitude,
             'longitude' => $data->longitude,

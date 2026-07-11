@@ -74,12 +74,20 @@ Migration order:
 ### Example
 
 ```php
-use AIArmada\Addressing\Actions\CreateAddressAction;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Models\Address;
 
-app(CreateAddressAction::class)->execute(
-    addressable: $customer,
-    data: AddressData::from($request->validated('shipping_address')),
+$data = AddressData::from($request->validated('shipping_address'));
+$address = Address::create([
+    'line1' => $data->line1,
+    'line2' => $data->line2,
+    'city' => $data->city,
+    'state' => $data->state,
+    'postcode' => $data->postcode,
+    'country_code' => $data->countryCode,
+]);
+$customer->attachAddress(
+    address: $address,
     type: 'shipping',
     isPrimary: true,
 );

@@ -82,6 +82,10 @@ class AddressCountry extends Model
             'timezones' => 'array',
             'top_level_domains' => 'array',
             'metadata' => 'array',
+            'capital_latitude' => 'float',
+            'capital_longitude' => 'float',
+            'latitude' => 'float',
+            'longitude' => 'float',
         ];
     }
 }

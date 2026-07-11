@@ -49,24 +49,30 @@ country -> countryCode when the value is a 2-letter ISO code
 ```php
 namespace AIArmada\Customers\Actions;
 
-use AIArmada\Addressing\Actions\CreateAddressAction;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Models\Address;
 use AIArmada\Customers\Models\Customer;
 
 final class StoreCustomerShippingAddressAction
 {
-    public function __construct(
-        private readonly CreateAddressAction $createAddress,
-    ) {}
-
     /**
      * @param array{line1?: string|null, line2?: string|null, city?: string|null, state?: string|null, postcode?: string|null, countryCode?: string|null} $input
      */
     public function execute(Customer $customer, array $input): void
     {
-        $this->createAddress->execute(
-            addressable: $customer,
-            data: AddressData::from($input),
+        $data = AddressData::from($input);
+
+        $address = Address::create([
+            'line1' => $data->line1,
+            'line2' => $data->line2,
+            'city' => $data->city,
+            'state' => $data->state,
+            'postcode' => $data->postcode,
+            'country_code' => $data->countryCode,
+        ]);
+
+        $customer->attachAddress(
+            address: $address,
             type: 'shipping',
             isPrimary: true,
         );
@@ -141,7 +147,7 @@ final class ResolveEventAddressAction
         }
 
         if (filled($event->manual_location_text)) {
-            return AddressData::fromFormatted($event->manual_location_text);
+            return AddressData::from(['formatted' => $event->manual_location_text]);
         }
 
         return null;
@@ -342,7 +348,7 @@ Do not add `HasAddresses` to order snapshots, shipment snapshots, gateway payloa
 ```php
 use AIArmada\Addressing\Actions\FormatAddressAction;
 
-$formatted = app(FormatAddressAction::class)->execute($addressData);
+$formatted = app(FormatAddressAction::class)->format($addressData);
 ```
 
 Output may be:

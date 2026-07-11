@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Data\AddressData;
 use AIArmada\Addressing\Models\Address;
+use AIArmada\Addressing\Support\NormalizeNavigationUrl;
 
 final class BuildAddressNavigationLinksAction
 {
@@ -26,82 +27,122 @@ final class BuildAddressNavigationLinksAction
             $data = $address;
         }
 
+        $google = $this->resolveGoogleMaps($data);
+        $waze = $this->resolveWaze($data);
+
         return [
-            'google_maps_url' => $this->googleMapsUrl($data),
-            'google_maps_source' => $this->googleMapsSource($data),
-            'waze_url' => $this->wazeUrl($data),
-            'waze_source' => $this->wazeSource($data),
+            'google_maps_url' => $google['url'],
+            'google_maps_source' => $google['source'],
+            'waze_url' => $waze['url'],
+            'waze_source' => $waze['source'],
             'links' => $data->navigationLinks,
         ];
     }
 
-    private function googleMapsUrl(AddressData $data): ?string
+    /**
+     * @return array{url: string|null, source: string|null}
+     */
+    private function resolveGoogleMaps(AddressData $data): array
     {
+        $normalizer = new NormalizeNavigationUrl;
+
         if ($data->googleMapsUrl !== null) {
-            return $data->googleMapsUrl;
+            return [
+                'url' => $normalizer->normalize($data->googleMapsUrl),
+                'source' => 'manual',
+            ];
         }
 
         $manual = data_get($data->navigationLinks, 'google_maps.url');
 
         if (is_string($manual) && $manual !== '') {
-            return $manual;
+            return [
+                'url' => $normalizer->normalize($manual),
+                'source' => 'navigation_links',
+            ];
         }
 
         if ($data->provider === 'google' && $data->providerPlaceId !== null) {
             $query = $this->coordinateQuery($data) ?? $data->formatted ?? $data->line1;
 
             if ($query !== null) {
-                return 'https://www.google.com/maps/search/?' . http_build_query([
-                    'api' => '1',
-                    'query' => $query,
-                    'query_place_id' => $data->providerPlaceId,
-                ]);
+                return [
+                    'url' => $normalizer->normalize('https://www.google.com/maps/search/?' . http_build_query([
+                        'api' => '1',
+                        'query' => $query,
+                        'query_place_id' => $data->providerPlaceId,
+                    ])),
+                    'source' => 'generated_place_id',
+                ];
             }
         }
 
         if (($coordinateQuery = $this->coordinateQuery($data)) !== null) {
-            return 'https://www.google.com/maps/search/?' . http_build_query([
-                'api' => '1',
-                'query' => $coordinateQuery,
-            ]);
+            return [
+                'url' => $normalizer->normalize('https://www.google.com/maps/search/?' . http_build_query([
+                    'api' => '1',
+                    'query' => $coordinateQuery,
+                ])),
+                'source' => 'generated_coordinates',
+            ];
         }
 
         if ($data->formatted !== null) {
-            return 'https://www.google.com/maps/search/?' . http_build_query([
-                'api' => '1',
-                'query' => $data->formatted,
-            ]);
+            return [
+                'url' => $normalizer->normalize('https://www.google.com/maps/search/?' . http_build_query([
+                    'api' => '1',
+                    'query' => $data->formatted,
+                ])),
+                'source' => 'generated_formatted_address',
+            ];
         }
 
-        return null;
+        return ['url' => null, 'source' => null];
     }
 
-    private function wazeUrl(AddressData $data): ?string
+    /**
+     * @return array{url: string|null, source: string|null}
+     */
+    private function resolveWaze(AddressData $data): array
     {
+        $normalizer = new NormalizeNavigationUrl;
+
         if ($data->wazeUrl !== null) {
-            return $data->wazeUrl;
+            return [
+                'url' => $normalizer->normalize($data->wazeUrl),
+                'source' => 'manual',
+            ];
         }
 
         $manual = data_get($data->navigationLinks, 'waze.url');
 
         if (is_string($manual) && $manual !== '') {
-            return $manual;
+            return [
+                'url' => $normalizer->normalize($manual),
+                'source' => 'navigation_links',
+            ];
         }
 
         if (($coordinateQuery = $this->coordinateQuery($data)) !== null) {
-            return 'https://waze.com/ul?' . http_build_query([
-                'll' => $coordinateQuery,
-                'navigate' => 'yes',
-            ]);
+            return [
+                'url' => $normalizer->normalize('https://waze.com/ul?' . http_build_query([
+                    'll' => $coordinateQuery,
+                    'navigate' => 'yes',
+                ])),
+                'source' => 'generated_coordinates',
+            ];
         }
 
         if ($data->formatted !== null) {
-            return 'https://waze.com/ul?' . http_build_query([
-                'q' => $data->formatted,
-            ]);
+            return [
+                'url' => $normalizer->normalize('https://waze.com/ul?' . http_build_query([
+                    'q' => $data->formatted,
+                ])),
+                'source' => 'generated_formatted_address',
+            ];
         }
 
-        return null;
+        return ['url' => null, 'source' => null];
     }
 
     private function coordinateQuery(AddressData $data): ?string
@@ -111,51 +152,5 @@ final class BuildAddressNavigationLinksAction
         }
 
         return $data->latitude . ',' . $data->longitude;
-    }
-
-    private function googleMapsSource(AddressData $data): ?string
-    {
-        if ($data->googleMapsUrl !== null) {
-            return 'manual';
-        }
-
-        if (data_get($data->navigationLinks, 'google_maps.url') !== null) {
-            return 'navigation_links';
-        }
-
-        if ($data->provider === 'google' && $data->providerPlaceId !== null) {
-            return 'generated_place_id';
-        }
-
-        if ($data->latitude !== null && $data->longitude !== null) {
-            return 'generated_coordinates';
-        }
-
-        if ($data->formatted !== null) {
-            return 'generated_formatted_address';
-        }
-
-        return null;
-    }
-
-    private function wazeSource(AddressData $data): ?string
-    {
-        if ($data->wazeUrl !== null) {
-            return 'manual';
-        }
-
-        if (data_get($data->navigationLinks, 'waze.url') !== null) {
-            return 'navigation_links';
-        }
-
-        if ($data->latitude !== null && $data->longitude !== null) {
-            return 'generated_coordinates';
-        }
-
-        if ($data->formatted !== null) {
-            return 'generated_formatted_address';
-        }
-
-        return null;
     }
 }

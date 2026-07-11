@@ -17,6 +17,9 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('address_id')->nullable()->index();
             $table->uuidMorphs('snapshotable');
+            $table->string('owner_type', 255)->nullable()->after('snapshotable_id');
+            $table->string('owner_id', 36)->nullable()->after('owner_type');
+            $table->index(['owner_type', 'owner_id'], 'snap_owner_idx');
             $table->string('reason')->nullable()->index();
             $table->string('label')->nullable();
             $table->string('line1')->nullable();

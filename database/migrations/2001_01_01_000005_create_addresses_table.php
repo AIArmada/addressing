@@ -15,6 +15,7 @@ return new class extends Migration
 
         Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();
+            $table->nullableMorphs('owner');
             $table->foreignUuid('country_id')->nullable()->index();
             $table->foreignUuid('state_id')->nullable()->index();
             $table->foreignUuid('city_id')->nullable()->index();

@@ -1,7 +1,7 @@
 ---
 title: Addressing Package Context
 package: aiarmada/addressing
-status: planned
+status: active
 surface: domain
 family: foundation
 ---
@@ -24,8 +24,8 @@ Start searches in:
 Related packages:
 
 - `commerce-support` for owner scoping and shared primitives.
-- Future `filament-addressing` for admin UI only.
-- Optional future `addressing-world` adapter for `nnjeim/world` import/compare.
+- `filament-addressing` for admin UI.
+- Optional `addressing-world` adapter for `nnjeim/world` import/compare (future).
 
 ## Read next
 
@@ -48,6 +48,6 @@ Default table names are unprefixed (`countries`, `states`, `cities`, `addresses`
 
 Do not add database constraints or cascades. Use UUID primary keys. Use package config for table names and JSON column type. Do not use soft deletes.
 
-If owner scoping is enabled later, use `commerce-support` primitives. Filament is an adapter package, not a domain owner.
+Owner scoping is implemented via `addressing.owner` config using `commerce-support` primitives. When `addressing.owner.enabled` is true, the `Address` model is owner-scoped with auto-assign-on-create support. Filament is an adapter package, not a domain owner.
 
 When public behavior, config, import contract, data policy or command usage changes, update docs in the same pass.

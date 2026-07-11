@@ -30,7 +30,7 @@ Set `ADDRESS_JSON_COLUMN_TYPE=jsonb` in your `.env` for PostgreSQL JSONB support
 ],
 ```
 
-Override any table name via environment variables or config publishing.
+Override any table name by publishing and editing the config file (individual env var shortcuts are not implemented - use the config file directly).
 
 - `states` and `cities` back the first-class `State` and `City` models
 - Addresses may store free-text `state` / `city` strings and optionally link via `state_id` / `city_id`
@@ -40,15 +40,6 @@ Override any table name via environment variables or config publishing.
 Navigation link columns (`google_maps_url`, `waze_url`, `navigation_links`) are part of the `addresses` and `address_snapshots` table schemas. They use the configured JSON column type for `navigation_links`.
 
 Manual URLs always win over generated URLs. See `12-navigation-links.md` for full priority rules.
-
-## Defaults
-
-```php
-'defaults' => [
-    'country_code' => env('ADDRESS_DEFAULT_COUNTRY_CODE', 'MY'),
-    'locale' => env('ADDRESS_DEFAULT_LOCALE', 'ms-MY'),
-],
-```
 
 ## Area Sources
 

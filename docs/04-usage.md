@@ -55,7 +55,7 @@ use AIArmada\Addressing\Models\Address;
 use AIArmada\Addressing\Models\City;
 use AIArmada\Addressing\Models\State;
 
-$state = State::query()->where('code', 'SGR')->first();
+$state = State::query()->where('code', 'MY-10')->first();
 $city = City::query()->where('state_id', $state->id)->where('name', 'Shah Alam')->first();
 
 $address = Address::query()->create([
@@ -68,8 +68,8 @@ $address = Address::query()->create([
     'country_code' => 'MY',
 ]);
 
-$address->state; // State model
-$address->city;  // City model
+$address->stateReference; // State model
+$address->cityReference;  // City model
 $state->cities;  // HasMany cities
 ```
 
