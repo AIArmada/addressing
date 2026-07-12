@@ -17,9 +17,6 @@ class CsvAddressAreaSource implements AddressAreaSource
 
     private readonly string $sourceKey;
 
-    /** @var array<int, array{row: int, expected: int, actual: int}> */
-    private array $failures = [];
-
     public function __construct(string $path, string $sourceKey)
     {
         if (! file_exists($path) || ! is_readable($path)) {
@@ -33,14 +30,6 @@ class CsvAddressAreaSource implements AddressAreaSource
     public function key(): string
     {
         return $this->sourceKey;
-    }
-
-    /**
-     * @return array<int, array{row: int, expected: int, actual: int}>
-     */
-    public function failures(): array
-    {
-        return $this->failures;
     }
 
     public function areas(): LazyCollection
@@ -58,29 +47,16 @@ class CsvAddressAreaSource implements AddressAreaSource
 
             $headers = array_map('mb_trim', $headers);
 
-            $lineNumber = 1;
-
             while (! $file->eof()) {
                 $row = $file->fgetcsv();
 
                 if ($row === false || $row === [null]) {
-                    $lineNumber++;
-
                     continue;
                 }
 
                 if (count($headers) !== count($row)) {
-                    $this->failures[] = [
-                        'row' => $lineNumber,
-                        'expected' => count($headers),
-                        'actual' => count($row),
-                    ];
-                    $lineNumber++;
-
                     continue;
                 }
-
-                $lineNumber++;
 
                 $data = array_combine($headers, $row);
 

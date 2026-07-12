@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $jsonColumnType = config('addressing.database.json_column_type', 'json');
+        $jsonColumnType = commerce_json_column_type('addressing', 'json');
         $tableName = config('addressing.tables.states', 'states');
 
         Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {

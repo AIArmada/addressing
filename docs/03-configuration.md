@@ -10,11 +10,10 @@ The package publishes a `config/addressing.php` file with these sections:
 
 ```php
 'database' => [
-    'json_column_type' => env('ADDRESS_JSON_COLUMN_TYPE', env('COMMERCE_JSON_COLUMN_TYPE', 'jsonb')),
 ],
 ```
 
-Set `ADDRESS_JSON_COLUMN_TYPE=jsonb` in your `.env` for PostgreSQL JSONB support.
+JSON column type is controlled by `commerce_json_column_type('addressing', 'json')` and inherits from `COMMERCE_JSON_COLUMN_TYPE` when set.
 
 ## Tables
 
@@ -30,7 +29,7 @@ Set `ADDRESS_JSON_COLUMN_TYPE=jsonb` in your `.env` for PostgreSQL JSONB support
 ],
 ```
 
-Override any table name by publishing and editing the config file (individual env var shortcuts are not implemented - use the config file directly).
+Override any table name via environment variables or config publishing.
 
 - `states` and `cities` back the first-class `State` and `City` models
 - Addresses may store free-text `state` / `city` strings and optionally link via `state_id` / `city_id`
@@ -40,6 +39,15 @@ Override any table name by publishing and editing the config file (individual en
 Navigation link columns (`google_maps_url`, `waze_url`, `navigation_links`) are part of the `addresses` and `address_snapshots` table schemas. They use the configured JSON column type for `navigation_links`.
 
 Manual URLs always win over generated URLs. See `12-navigation-links.md` for full priority rules.
+
+## Defaults
+
+```php
+'defaults' => [
+    'country_code' => env('ADDRESS_DEFAULT_COUNTRY_CODE', 'MY'),
+    'locale' => env('ADDRESS_DEFAULT_LOCALE', 'ms-MY'),
+],
+```
 
 ## Area Sources
 

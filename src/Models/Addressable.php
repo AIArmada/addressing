@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
-use AIArmada\CommerceSupport\Traits\HasOwner;
-use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -30,14 +28,9 @@ use Illuminate\Support\Str;
  */
 class Addressable extends MorphPivot
 {
-    use HasOwner;
-    use HasOwnerScopeConfig;
-
     public $incrementing = false;
 
     protected $keyType = 'string';
-
-    protected static string $ownerScopeConfigKey = 'addressing.owner';
 
     protected $fillable = [
         'id',
@@ -50,8 +43,6 @@ class Addressable extends MorphPivot
         'valid_from',
         'valid_until',
         'metadata',
-        'owner_type',
-        'owner_id',
     ];
 
     protected static function booted(): void

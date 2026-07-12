@@ -83,8 +83,6 @@ class AddressArea extends Model
             'synced_at' => 'immutable_datetime',
             'source_payload' => 'array',
             'metadata' => 'array',
-            'latitude' => 'float',
-            'longitude' => 'float',
         ];
     }
 }

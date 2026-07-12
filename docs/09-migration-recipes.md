@@ -94,25 +94,28 @@ Create an Action instead of stuffing logic into a migration closure when the log
 ```php
 namespace AIArmada\Customers\Actions;
 
+use AIArmada\Addressing\Actions\CreateAddressAction;
 use AIArmada\Addressing\Data\AddressData;
-use AIArmada\Addressing\Models\Address;
 use AIArmada\Customers\Models\CustomerAddress;
 
 final class MigrateCustomerAddressToAddressingAction
 {
+    public function __construct(
+        private readonly CreateAddressAction $createAddress,
+    ) {}
+
     public function execute(CustomerAddress $legacyAddress): void
     {
-        $address = Address::create([
-            'line1' => $legacyAddress->line1,
-            'line2' => $legacyAddress->line2,
-            'city' => $legacyAddress->city,
-            'state' => $legacyAddress->state,
-            'postcode' => $legacyAddress->postcode,
-            'country_code' => $legacyAddress->country,
-        ]);
-
-        $legacyAddress->customer->attachAddress(
-            address: $address,
+        $this->createAddress->execute(
+            addressable: $legacyAddress->customer,
+            data: AddressData::from([
+                'line1' => $legacyAddress->line1,
+                'line2' => $legacyAddress->line2,
+                'city' => $legacyAddress->city,
+                'state' => $legacyAddress->state,
+                'postcode' => $legacyAddress->postcode,
+                'countryCode' => $legacyAddress->country,
+            ]),
             type: $legacyAddress->type ?? 'primary',
             isPrimary: (bool) $legacyAddress->is_primary,
         );
@@ -153,20 +156,20 @@ venues use HasAddresses
 ### Copy example
 
 ```php
+use AIArmada\Addressing\Actions\CreateAddressAction;
 use AIArmada\Addressing\Data\AddressData;
-use AIArmada\Addressing\Models\Address;
 
-$address = Address::create([
-    'line1' => $venue->address_line_1,
-    'line2' => $venue->address_line_2,
-    'city' => $venue->city,
-    'state' => $venue->state,
-    'postcode' => $venue->postcode,
-    'country_code' => $venue->country,
-]);
-
-$venue->attachAddress(
-    address: $address,
+app(CreateAddressAction::class)->execute(
+    addressable: $venue,
+    data: AddressData::from([
+        'address_line_1' => $venue->address_line_1,
+        'address_line_2' => $venue->address_line_2,
+        'city' => $venue->city,
+        'district' => $venue->district,
+        'state' => $venue->state,
+        'postcode' => $venue->postcode,
+        'countryCode' => $venue->country,
+    ]),
     type: 'venue',
     isPrimary: true,
 );

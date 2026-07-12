@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
-use AIArmada\CommerceSupport\Traits\HasOwner;
-use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * @property string $id
@@ -31,9 +30,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $street_name
  * @property string|null $neighbourhood
  * @property string|null $village
+ * @property string|null $city
  * @property string|null $state_id
  * @property string|null $city_id
- * @property string|null $city
  * @property string|null $state
  * @property string|null $postcode
  * @property string|null $country
@@ -58,11 +57,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Address extends Model
 {
-    use HasOwner;
-    use HasOwnerScopeConfig;
     use HasUuids;
-
-    protected static string $ownerScopeConfigKey = 'addressing.owner';
 
     protected $fillable = [
         'country_id',
@@ -109,8 +104,6 @@ class Address extends Model
         'lat',
         'lng',
         'google_place_id',
-        'owner_type',
-        'owner_id',
     ];
 
     public function setAttribute($key, $value): mixed
@@ -142,14 +135,23 @@ class Address extends Model
         };
     }
 
-    protected static function booted(): void
+    public function getAttribute($key): mixed
     {
-        static::deleting(function (Address $address): void {
-            $address->addressableLinks()->delete();
-
-            AddressSnapshot::where('address_id', $address->id)
-                ->update(['address_id' => null]);
-        });
+        return match ($key) {
+            'lat' => parent::getAttribute('latitude'),
+            'lng' => parent::getAttribute('longitude'),
+            'google_place_id' => parent::getAttribute('provider_place_id'),
+            'country' => $this->relationLoaded('country')
+                ? $this->getRelation('country')
+                : parent::getAttribute('country'),
+            'state' => $this->relationLoaded('state')
+                ? $this->getRelation('state')
+                : parent::getAttribute('state'),
+            'city' => $this->relationLoaded('city')
+                ? $this->getRelation('city')
+                : parent::getAttribute('city'),
+            default => parent::getAttribute($key),
+        };
     }
 
     public function getTable(): string
@@ -160,7 +162,7 @@ class Address extends Model
     /**
      * @return BelongsTo<AddressCountry, $this>
      */
-    public function countryReference(): BelongsTo
+    public function country(): BelongsTo
     {
         return $this->belongsTo(AddressCountry::class, 'country_id');
     }
@@ -168,7 +170,7 @@ class Address extends Model
     /**
      * @return BelongsTo<State, $this>
      */
-    public function stateReference(): BelongsTo
+    public function state(): BelongsTo
     {
         return $this->belongsTo(State::class, 'state_id');
     }
@@ -176,7 +178,7 @@ class Address extends Model
     /**
      * @return BelongsTo<City, $this>
      */
-    public function cityReference(): BelongsTo
+    public function city(): BelongsTo
     {
         return $this->belongsTo(City::class, 'city_id');
     }
@@ -221,6 +223,18 @@ class Address extends Model
         return $this->hasMany(Addressable::class, 'address_id');
     }
 
+    /**
+     * @return MorphToMany<Model, $this>
+     */
+    public function addressables(): MorphToMany
+    {
+        return $this->morphedByMany(
+            Model::class,
+            'addressable',
+            config('addressing.tables.addressables', 'addressables'),
+        );
+    }
+
     protected function casts(): array
     {
         return [
@@ -230,8 +244,6 @@ class Address extends Model
             'validated_at' => 'immutable_datetime',
             'metadata' => 'array',
             'navigation_links' => 'array',
-            'latitude' => 'float',
-            'longitude' => 'float',
         ];
     }
 }

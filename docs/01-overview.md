@@ -18,7 +18,6 @@ The `aiarmada/addressing` package provides a reusable address handling system fo
 - **Formatting & Normalization** — contracts and default implementations
 - **Area Import Pipeline** — import administrative areas via `AddressAreaSource`, arrays, or CSV
 - **Malaysia geography seeder** — optional MY states and cities for `State` / `City` tables
-- **Owner scoping** — tenant-aware ownership via `addressing.owner` config (optional, disabled by default)
 
 ## Package Layout
 
@@ -40,19 +39,8 @@ docs/                          Package documentation
 
 ## Non-goals (v1)
 
+- Tenant ownership of persisted addresses
 - Geocoding providers
 - Postcode validation by country
 - Full UPU S42 formatting engine
 - Worldwide bundled district/postcode datasets (beyond optional MY state/city seed data)
-
-### DTO convention
-
-Current `AddressData` and `AddressAreaData` are handwritten readonly classes. The repo convention prefers `spatie/laravel-data`. These DTOs are kept as-is for now — migrate only if validation/serialization requirements grow.
-
-### Deletion policy
-
-| Deleted entity | Effect |
-|---|---|
-| Address | Cascade deletes addressable pivot links; preserves snapshots with null address_id |
-| AddressCountry / State / City | Reference columns (country_id, state_id, city_id) become stale — no automatic cascade |
-| AddressArea | References (admin_area_1..4_id) become stale — no automatic cascade |

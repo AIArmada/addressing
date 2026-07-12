@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
-use AIArmada\CommerceSupport\Traits\HasOwner;
-use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use RuntimeException;
 
 /**
  * @property string $id
@@ -40,24 +37,7 @@ use RuntimeException;
  */
 class AddressSnapshot extends Model
 {
-    use HasOwner;
-    use HasOwnerScopeConfig;
     use HasUuids;
-
-    protected static string $ownerScopeConfigKey = 'addressing.owner';
-
-    protected static function booted(): void
-    {
-        static::saving(function (AddressSnapshot $snapshot): void {
-            if ($snapshot->exists) {
-                throw new RuntimeException('Address snapshots are immutable and cannot be modified.');
-            }
-        });
-
-        static::deleting(function (AddressSnapshot $snapshot): void {
-            throw new RuntimeException('Address snapshots are immutable and cannot be deleted.');
-        });
-    }
 
     protected $fillable = [
         'address_id',
@@ -84,8 +64,6 @@ class AddressSnapshot extends Model
         'google_maps_url',
         'waze_url',
         'navigation_links',
-        'owner_type',
-        'owner_id',
     ];
 
     public function getTable(): string
@@ -108,8 +86,6 @@ class AddressSnapshot extends Model
             'components' => 'array',
             'metadata' => 'array',
             'navigation_links' => 'array',
-            'latitude' => 'float',
-            'longitude' => 'float',
         ];
     }
 }

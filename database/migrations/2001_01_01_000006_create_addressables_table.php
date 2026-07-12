@@ -10,16 +10,13 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $jsonColumnType = config('addressing.database.json_column_type', 'json');
+        $jsonColumnType = commerce_json_column_type('addressing', 'json');
         $tableName = config('addressing.tables.addressables', 'addressables');
 
         Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();
             $table->foreignUuid('address_id')->index();
             $table->uuidMorphs('addressable');
-            $table->string('owner_type', 255)->nullable()->after('addressable_id');
-            $table->string('owner_id', 36)->nullable()->after('owner_type');
-            $table->index(['owner_type', 'owner_id'], 'addrbl_owner_idx');
             $table->string('type')->default('primary')->index();
             $table->string('label')->nullable();
             $table->boolean('is_primary')->default(false)->index();
