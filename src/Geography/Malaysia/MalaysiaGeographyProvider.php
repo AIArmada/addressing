@@ -2,39 +2,34 @@
 
 declare(strict_types=1);
 
-namespace AIArmada\Addressing\Database\Seeders;
+namespace AIArmada\Addressing\Geography\Malaysia;
 
+use AIArmada\Addressing\Contracts\AddressAreaSource;
+use AIArmada\Addressing\Contracts\CountryGeographyProvider;
+use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
-use AIArmada\Addressing\Models\City;
-use AIArmada\Addressing\Models\State;
-use Illuminate\Database\Seeder;
+use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\ModelResolver;
 
-class MalaysiaGeographySeeder extends Seeder
+class MalaysiaGeographyProvider implements CountryGeographyProvider, CountryHierarchyProvider
 {
-    public function run(): void
-    {
-        $malaysia = AddressCountry::firstOrCreate(
-            ['iso2' => 'MY'],
-            [
-                'iso3' => 'MYS',
-                'numeric_code' => '458',
-                'name' => 'Malaysia',
-                'official_name' => 'Malaysia',
-                'native_name' => 'Malaysia',
-                'emoji' => '🇲🇾',
-                'phone_code' => '60',
-                'currency_codes' => ['MYR'],
-                'default_currency_code' => 'MYR',
-                'language_codes' => ['ms', 'en'],
-                'region' => 'Asia',
-                'subregion' => 'South-Eastern Asia',
-            ],
-        );
+    private const string AREA_SOURCE = 'aiarmada_addressing_malaysia_v1';
 
+    public function countryCode(): string
+    {
+        return 'MY';
+    }
+
+    public function seed(AddressCountry $malaysia): void
+    {
         $statesData = $this->stateDefinitions();
 
         foreach ($statesData as $s) {
-            $state = State::firstOrCreate(
+            $stateClass = ModelResolver::stateClass();
+            $cityClass = ModelResolver::cityClass();
+
+            $state = $stateClass::firstOrCreate(
                 ['country_id' => $malaysia->id, 'code' => $s['code']],
                 [
                     'name' => $s['name'],
@@ -45,7 +40,7 @@ class MalaysiaGeographySeeder extends Seeder
 
             $cities = $this->cityDefinitions()[$s['code']] ?? [];
             foreach ($cities as $cityData) {
-                City::firstOrCreate(
+                $cityClass::firstOrCreate(
                     ['state_id' => $state->id, 'name' => $cityData['name']],
                     [
                         'postcode' => $cityData['postcode'] ?? null,
@@ -55,6 +50,83 @@ class MalaysiaGeographySeeder extends Seeder
                 );
             }
         }
+    }
+
+    /**
+     * @return list<AddressLevelDefinition>
+     */
+    public function addressLevels(): array
+    {
+        return [
+            new AddressLevelDefinition(
+                key: 'state',
+                label: 'State / Federal Territory',
+                storageColumn: 'state_id',
+                kind: 'state',
+                areaTypes: ['state', 'wilayah_persekutuan'],
+                areaLevel: 1,
+            ),
+            new AddressLevelDefinition(
+                key: 'district',
+                label: 'District',
+                storageColumn: 'admin_area_1_id',
+                kind: 'area',
+                areaTypes: ['district'],
+                areaLevel: 2,
+                parentKey: 'state',
+            ),
+            new AddressLevelDefinition(
+                key: 'subdistrict',
+                label: 'Subdistrict',
+                storageColumn: 'admin_area_2_id',
+                kind: 'area',
+                areaTypes: ['subdistrict'],
+                areaLevels: [2, 3],
+                parentKey: 'district',
+            ),
+        ];
+    }
+
+    public function addressAreaSource(): AddressAreaSource
+    {
+        return new CsvAddressAreaSource(
+            __DIR__ . '/../../../resources/geography/malaysia-address-areas.csv',
+            self::AREA_SOURCE,
+        );
+    }
+
+    /**
+     * @return array<string, array{area_code: string, source: string, area_level: int}>
+     */
+    public function stateAreaMappings(): array
+    {
+        $areaCodes = [
+            'MY-01' => 'johor',
+            'MY-02' => 'kedah',
+            'MY-03' => 'kelantan',
+            'MY-04' => 'melaka',
+            'MY-05' => 'negeri-sembilan',
+            'MY-06' => 'pahang',
+            'MY-07' => 'pulau-pinang',
+            'MY-08' => 'perak',
+            'MY-09' => 'perlis',
+            'MY-10' => 'selangor',
+            'MY-11' => 'terengganu',
+            'MY-12' => 'sabah',
+            'MY-13' => 'sarawak',
+            'MY-14' => 'wp-kuala-lumpur',
+            'MY-15' => 'wp-labuan',
+            'MY-16' => 'wp-putrajaya',
+        ];
+
+        return array_map(
+            static fn (string $areaCode): array => [
+                'area_code' => $areaCode,
+                'source' => self::AREA_SOURCE,
+                'area_level' => 1,
+            ],
+            $areaCodes,
+        );
     }
 
     /**

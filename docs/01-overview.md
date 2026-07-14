@@ -17,7 +17,7 @@ The `aiarmada/addressing` package provides a reusable address handling system fo
 - **AddressSnapshot** — immutable point-in-time address snapshots
 - **Formatting & Normalization** — contracts and default implementations
 - **Area Import Pipeline** — import administrative areas via `AddressAreaSource`, arrays, or CSV
-- **Malaysia geography seeder** — optional MY states and cities for `State` / `City` tables
+- **Country geography providers** — country-specific address structures and data (Malaysia is bundled; more providers can be configured)
 
 ## Package Layout
 

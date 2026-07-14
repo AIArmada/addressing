@@ -14,7 +14,7 @@ php artisan address:seed-countries
 
 ## Missing Malaysia States or Cities
 
-`address:seed-countries` only seeds ISO countries. For structured Malaysia geography, run `AIArmada\Addressing\Database\Seeders\MalaysiaGeographySeeder` after countries exist.
+`address:seed-countries` only seeds ISO countries. For structured Malaysia geography, run `app(SeedCountryGeographiesAction::class)->execute('MY')` after countries exist. This also imports the hierarchy and creates explicit State↔AddressArea links.
 
 ## Address Has Text State/City but No Relations
 

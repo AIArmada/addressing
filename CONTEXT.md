@@ -42,7 +42,7 @@ This package owns address primitives, country reference data, first-class `State
 
 This package does not own venues, spaces, institutions, events, shipping providers, payment gateways, tax engines, documents or Filament UI.
 
-ISO country data is always bundled. Optional Malaysia state/city seed data lives in `MalaysiaGeographySeeder`. Other state, province, district, city, mukim, village, neighbourhood and postcode data must be supplied by users through `State`/`City` rows, `AddressAreaSource`, array import or CSV import.
+ISO country data is always bundled. Country address profiles are configured through geography providers. The package ships a Malaysia provider with State/City catalogs, Malaysia address-level definitions, hierarchy data and explicit State↔AddressArea mappings; other countries can add providers without changing the core schema. `City.state_id` is optional because many countries do not have a state/province relationship.
 
 Default table names are unprefixed (`countries`, `states`, `cities`, `addresses`, …) with area/snapshot tables using descriptive names such as `address_areas` and `address_snapshots`. Use canonical developer fields `line1`, `line2`, `city`, `district`, `state`, `postcode`, `country`, and ISO2 `country_code`, plus optional `state_id` / `city_id`.
 

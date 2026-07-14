@@ -56,7 +56,7 @@ use AIArmada\Addressing\Models\City;
 use AIArmada\Addressing\Models\State;
 
 $state = State::query()->where('code', 'SGR')->first();
-$city = City::query()->where('state_id', $state->id)->where('name', 'Shah Alam')->first();
+$city = City::query()->where('country_id', $state->country_id)->where('name', 'Shah Alam')->first();
 
 $address = Address::query()->create([
     'line1' => '123 Jalan Ampang',
@@ -70,19 +70,21 @@ $address = Address::query()->create([
 
 $address->state; // State model
 $address->city;  // City model
-$state->cities;  // HasMany cities
+$state->cities;  // HasMany cities when this country uses a state relationship
 ```
+
+`City::state()` may be null. Use the selected country's address profile to decide whether the UI should ask for a state, province, prefecture, county, municipality, or no parent region.
 
 ### Seed Malaysia geography
 
 ```php
-use AIArmada\Addressing\Database\Seeders\MalaysiaGeographySeeder;
+use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 
 // After address:seed-countries
-(new MalaysiaGeographySeeder)->run();
+app(SeedCountryGeographiesAction::class)->execute('MY');
 ```
 
-This seeds Malaysia states/federal territories and common cities into the `states` and `cities` tables. Other countries still use free-text fields and/or `AddressArea` imports.
+This uses the bundled Malaysia country provider. Other country providers can define different address structures without changing `State`, `City`, or `AddressArea` core tables.
 
 ## Import Areas
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -48,7 +49,15 @@ class State extends Model
      */
     public function cities(): HasMany
     {
-        return $this->hasMany(City::class, 'state_id');
+        return $this->hasMany(ModelResolver::cityClass(), 'state_id');
+    }
+
+    /**
+     * @return HasMany<AddressAreaStateLink, $this>
+     */
+    public function addressAreaLinks(): HasMany
+    {
+        return $this->hasMany(AddressAreaStateLink::class, 'state_id');
     }
 
     protected function casts(): array

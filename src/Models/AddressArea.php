@@ -8,6 +8,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $id
@@ -74,6 +75,14 @@ class AddressArea extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    /**
+     * @return HasMany<AddressAreaStateLink, $this>
+     */
+    public function stateLinks(): HasMany
+    {
+        return $this->hasMany(AddressAreaStateLink::class, 'address_area_id');
     }
 
     protected function casts(): array

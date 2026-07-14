@@ -39,12 +39,12 @@ php artisan address:seed-countries
 
 This imports the bundled ISO 3166-1 country/territory data into the configured countries table (default `countries`).
 
-## Optional: Seed Malaysia States and Cities
+## Seed a Country Geography Provider
 
 ```php
-use AIArmada\Addressing\Database\Seeders\MalaysiaGeographySeeder;
+use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 
-$this->call(MalaysiaGeographySeeder::class);
+app(SeedCountryGeographiesAction::class)->execute('MY');
 ```
 
-Or from the application database seeder / artisan tinker. This populates first-class `State` and `City` rows for Malaysia after countries are seeded.
+The bundled Malaysia provider populates State/City rows, imports its AddressArea hierarchy, and creates explicit State↔AddressArea links. Add another provider class to `addressing.geography.providers` for another country; the core tables do not change.

@@ -10,11 +10,13 @@ use AIArmada\Addressing\Actions\FormatAddressAction;
 use AIArmada\Addressing\Actions\ImportAddressAreasAction;
 use AIArmada\Addressing\Actions\NormalizeAddressDataAction;
 use AIArmada\Addressing\Actions\SeedAddressCountriesAction;
+use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 use AIArmada\Addressing\Commands\ImportAddressAreasCommand;
 use AIArmada\Addressing\Commands\ImportAddressAreasCsvCommand;
 use AIArmada\Addressing\Commands\SeedAddressCountriesCommand;
 use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Contracts\AddressNormalizer;
+use AIArmada\Addressing\Support\CountryAddressProfileResolver;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -37,6 +39,8 @@ final class AddressingServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         $this->app->singleton(SeedAddressCountriesAction::class);
+        $this->app->singleton(SeedCountryGeographiesAction::class);
+        $this->app->singleton(CountryAddressProfileResolver::class);
         $this->app->singleton(ImportAddressAreasAction::class);
         $this->app->singleton(CreateAddressSnapshotAction::class);
         $this->app->singleton(NormalizeAddressDataAction::class);

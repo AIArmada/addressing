@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -172,7 +173,7 @@ class Address extends Model
      */
     public function state(): BelongsTo
     {
-        return $this->belongsTo(State::class, 'state_id');
+        return $this->belongsTo(ModelResolver::stateClass(), 'state_id');
     }
 
     /**
@@ -180,7 +181,7 @@ class Address extends Model
      */
     public function city(): BelongsTo
     {
-        return $this->belongsTo(City::class, 'city_id');
+        return $this->belongsTo(ModelResolver::cityClass(), 'city_id');
     }
 
     /**
