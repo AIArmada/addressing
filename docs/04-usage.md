@@ -148,6 +148,27 @@ $addresses = $customer->addressesOfType('billing');
 >
 > Use `scopeWithPrimaryAddress()` when you want to eager-load the current primary subset for display.
 
+## Filter Addressable Models by Location
+
+`AddressLocationScope` applies canonical geography criteria through an addressable relation. It does not assume that the address is primary or that the relation uses a particular validity window.
+
+```php
+use AIArmada\Addressing\Data\AddressLocationData;
+use AIArmada\Addressing\Support\AddressLocationScope;
+
+$location = AddressLocationData::fromArray([
+    'country_id' => $malaysia->id,
+    'state_id' => $selangor->id,
+    'admin_area_1_id' => $petalingDistrict->id,
+]);
+
+$institutions = app(AddressLocationScope::class)
+    ->apply(Institution::query(), $location)
+    ->get();
+```
+
+Pass a relation name when the addressable relation is not named `addresses`.
+
 ## Address Snapshots
 
 ```php
