@@ -13,8 +13,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $id
  * @property string|null $state_id
  * @property string $name
- * @property string|null $postcode
  * @property string|null $label
+ * @property float|null $latitude
+ * @property float|null $longitude
  * @property array|null $metadata
  * @property-read State|null $state
  */
@@ -26,8 +27,9 @@ class City extends Model
         'state_id',
         'country_id',
         'name',
-        'postcode',
         'label',
+        'latitude',
+        'longitude',
         'metadata',
     ];
 
@@ -52,6 +54,8 @@ class City extends Model
     protected function casts(): array
     {
         return [
+            'latitude' => 'float',
+            'longitude' => 'float',
             'metadata' => 'array',
         ];
     }

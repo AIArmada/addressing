@@ -17,8 +17,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string|null $official_name
  * @property string|null $common_name
- * @property string|null $native_name
+ * @property string|null $native
  * @property string|null $emoji
+ * @property string|null $emoji_unicode
  * @property string|null $phone_code
  * @property array|null $calling_codes
  * @property string|null $capital
@@ -28,8 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property float|null $longitude
  * @property string|null $region
  * @property string|null $subregion
- * @property array|null $currency_codes
- * @property string|null $default_currency_code
+ * @property array|null $currencies
+ * @property string|null $currency
  * @property array|null $language_codes
  * @property array|null $timezones
  * @property array|null $top_level_domains
@@ -48,8 +49,9 @@ class AddressCountry extends Model
         'name',
         'official_name',
         'common_name',
-        'native_name',
+        'native',
         'emoji',
+        'emoji_unicode',
         'phone_code',
         'calling_codes',
         'capital',
@@ -59,8 +61,8 @@ class AddressCountry extends Model
         'longitude',
         'region',
         'subregion',
-        'currency_codes',
-        'default_currency_code',
+        'currencies',
+        'currency',
         'language_codes',
         'timezones',
         'top_level_domains',
@@ -77,7 +79,7 @@ class AddressCountry extends Model
         return [
             'is_independent' => 'boolean',
             'calling_codes' => 'array',
-            'currency_codes' => 'array',
+            'currencies' => 'array',
             'language_codes' => 'array',
             'timezones' => 'array',
             'top_level_domains' => 'array',

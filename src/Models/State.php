@@ -15,7 +15,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $country_id
  * @property string $name
  * @property string|null $code
+ * @property string|null $type
  * @property string|null $label
+ * @property float|null $latitude
+ * @property float|null $longitude
  * @property array|null $metadata
  * @property-read AddressCountry $country
  */
@@ -27,7 +30,10 @@ class State extends Model
         'country_id',
         'name',
         'code',
+        'type',
         'label',
+        'latitude',
+        'longitude',
         'metadata',
     ];
 
@@ -63,6 +69,8 @@ class State extends Model
     protected function casts(): array
     {
         return [
+            'latitude' => 'float',
+            'longitude' => 'float',
             'metadata' => 'array',
         ];
     }

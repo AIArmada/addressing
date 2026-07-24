@@ -23,8 +23,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('official_name')->nullable();
             $table->string('common_name')->nullable();
-            $table->string('native_name')->nullable();
+            $table->string('native')->nullable();
             $table->string('emoji')->nullable();
+            $table->string('emoji_unicode')->nullable();
             $table->string('phone_code')->nullable();
             $table->{$jsonColumnType}('calling_codes')->nullable();
             $table->string('capital')->nullable();
@@ -34,8 +35,8 @@ return new class extends Migration
             $table->decimal('longitude', 10, 7)->nullable();
             $table->string('region')->nullable()->index();
             $table->string('subregion')->nullable()->index();
-            $table->{$jsonColumnType}('currency_codes')->nullable();
-            $table->string('default_currency_code', 3)->nullable();
+            $table->{$jsonColumnType}('currencies')->nullable();
+            $table->string('currency', 3)->nullable();
             $table->{$jsonColumnType}('language_codes')->nullable();
             $table->{$jsonColumnType}('timezones')->nullable();
             $table->{$jsonColumnType}('top_level_domains')->nullable();

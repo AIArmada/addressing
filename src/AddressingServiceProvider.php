@@ -9,11 +9,16 @@ use AIArmada\Addressing\Actions\CreateAddressSnapshotAction;
 use AIArmada\Addressing\Actions\FormatAddressAction;
 use AIArmada\Addressing\Actions\ImportAddressAreasAction;
 use AIArmada\Addressing\Actions\NormalizeAddressDataAction;
+use AIArmada\Addressing\Actions\SeedAddressCitiesAction;
 use AIArmada\Addressing\Actions\SeedAddressCountriesAction;
+use AIArmada\Addressing\Actions\SeedAddressStatesAction;
 use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 use AIArmada\Addressing\Commands\ImportAddressAreasCommand;
 use AIArmada\Addressing\Commands\ImportAddressAreasCsvCommand;
+use AIArmada\Addressing\Commands\SeedAddressCitiesCommand;
 use AIArmada\Addressing\Commands\SeedAddressCountriesCommand;
+use AIArmada\Addressing\Commands\SeedAddressStatesCommand;
+use AIArmada\Addressing\Commands\SeedCountryGeographiesCommand;
 use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Contracts\AddressNormalizer;
 use AIArmada\Addressing\Support\CountryAddressProfileResolver;
@@ -31,6 +36,9 @@ final class AddressingServiceProvider extends PackageServiceProvider
             ->discoversMigrations()
             ->hasCommands(
                 SeedAddressCountriesCommand::class,
+                SeedAddressStatesCommand::class,
+                SeedAddressCitiesCommand::class,
+                SeedCountryGeographiesCommand::class,
                 ImportAddressAreasCommand::class,
                 ImportAddressAreasCsvCommand::class,
             );
@@ -39,6 +47,8 @@ final class AddressingServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         $this->app->singleton(SeedAddressCountriesAction::class);
+        $this->app->singleton(SeedAddressStatesAction::class);
+        $this->app->singleton(SeedAddressCitiesAction::class);
         $this->app->singleton(SeedCountryGeographiesAction::class);
         $this->app->singleton(CountryAddressProfileResolver::class);
         $this->app->singleton(ImportAddressAreasAction::class);
