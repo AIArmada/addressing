@@ -62,6 +62,16 @@ final class AddressCountryResolver
                 if ($timezone !== null) {
                     return $timezone;
                 }
+            } elseif (is_array($first)) {
+                foreach (['gmtOffsetName', 'zoneName'] as $key) {
+                    if (is_string($first[$key] ?? null)) {
+                        $timezone = $this->normalizeTimezone($first[$key]);
+
+                        if ($timezone !== null) {
+                            return $timezone;
+                        }
+                    }
+                }
             }
         }
 
