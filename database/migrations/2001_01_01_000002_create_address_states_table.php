@@ -13,6 +13,10 @@ return new class extends Migration
         $jsonColumnType = commerce_json_column_type('addressing', 'json');
         $tableName = config('addressing.tables.states', 'states');
 
+        if (Schema::hasTable($tableName)) {
+            return;
+        }
+
         Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();
             $table->foreignUuid('country_id')->index();

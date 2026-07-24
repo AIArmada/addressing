@@ -140,5 +140,4 @@ class MalaysiaGeographyProvider implements CountryGeographyProvider, CountryHier
             ['name' => 'WP Putrajaya', 'code' => '16', 'label' => 'Wilayah Persekutuan Putrajaya'],
         ];
     }
-
 }

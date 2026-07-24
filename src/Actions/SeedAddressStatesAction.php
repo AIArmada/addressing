@@ -10,15 +10,19 @@ use RuntimeException;
 
 class SeedAddressStatesAction
 {
-    public function execute(): array
+    public function execute(?array $states = null): array
     {
-        $states = require __DIR__ . '/../../resources/data/states.php';
+        $states ??= require __DIR__ . '/../../resources/data/states.php';
 
         if (! is_array($states)) {
             throw new RuntimeException('State data file must return an array.');
         }
 
         $stateClass = ModelResolver::stateClass();
+
+        // ponytail: 5k rows — cache country lookups to avoid per-row queries.
+        $countryIds = AddressCountry::query()->pluck('id', 'iso2')->all();
+
         $created = 0;
         $updated = 0;
         $skipped = 0;
@@ -30,20 +34,26 @@ class SeedAddressStatesAction
                 continue;
             }
 
-            $country = AddressCountry::where('iso2', $row['country_code'])->first();
+            $countryId = $countryIds[$row['country_code']] ?? null;
 
-            if (! $country) {
+            if ($countryId === null) {
                 $skipped++;
 
                 continue;
             }
 
-            $existing = $stateClass::where('country_id', $country->id)
-                ->where('code', $row['code'] ?? $row['name'])
-                ->first();
+            $query = $stateClass::where('country_id', $countryId);
+
+            if (isset($row['code'])) {
+                $query->where('code', $row['code']);
+            } else {
+                $query->whereNull('code')->where('name', $row['name']);
+            }
+
+            $existing = $query->first();
 
             $attrs = [
-                'country_id' => $country->id,
+                'country_id' => $countryId,
                 'name' => $row['name'],
                 'code' => $row['code'] ?? null,
                 'type' => $row['type'] ?? null,
