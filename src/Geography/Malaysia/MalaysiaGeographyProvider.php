@@ -32,7 +32,6 @@ class MalaysiaGeographyProvider implements CountryGeographyProvider, CountryHier
                 [
                     'name' => $s['name'],
                     'country_code' => $this->countryCode(),
-                    'label' => $s['label'],
                 ],
             );
         }
@@ -117,27 +116,27 @@ class MalaysiaGeographyProvider implements CountryGeographyProvider, CountryHier
     }
 
     /**
-     * @return list<array{name: string, code: string, label: string}>
+     * @return list<array{name: string, code: string}>
      */
     private function stateDefinitions(): array
     {
         return [
-            ['name' => 'Johor', 'code' => '01', 'label' => 'Johor'],
-            ['name' => 'Kedah', 'code' => '02', 'label' => 'Kedah'],
-            ['name' => 'Kelantan', 'code' => '03', 'label' => 'Kelantan'],
-            ['name' => 'Melaka', 'code' => '04', 'label' => 'Melaka'],
-            ['name' => 'Negeri Sembilan', 'code' => '05', 'label' => 'Negeri Sembilan'],
-            ['name' => 'Pahang', 'code' => '06', 'label' => 'Pahang'],
-            ['name' => 'Perak', 'code' => '08', 'label' => 'Perak'],
-            ['name' => 'Perlis', 'code' => '09', 'label' => 'Perlis'],
-            ['name' => 'Pulau Pinang', 'code' => '07', 'label' => 'Pulau Pinang'],
-            ['name' => 'Sabah', 'code' => '12', 'label' => 'Sabah'],
-            ['name' => 'Sarawak', 'code' => '13', 'label' => 'Sarawak'],
-            ['name' => 'Selangor', 'code' => '10', 'label' => 'Selangor'],
-            ['name' => 'Terengganu', 'code' => '11', 'label' => 'Terengganu'],
-            ['name' => 'WP Kuala Lumpur', 'code' => '14', 'label' => 'Wilayah Persekutuan Kuala Lumpur'],
-            ['name' => 'WP Labuan', 'code' => '15', 'label' => 'Wilayah Persekutuan Labuan'],
-            ['name' => 'WP Putrajaya', 'code' => '16', 'label' => 'Wilayah Persekutuan Putrajaya'],
+            ['name' => 'Johor', 'code' => '01'],
+            ['name' => 'Kedah', 'code' => '02'],
+            ['name' => 'Kelantan', 'code' => '03'],
+            ['name' => 'Melaka', 'code' => '04'],
+            ['name' => 'Negeri Sembilan', 'code' => '05'],
+            ['name' => 'Pahang', 'code' => '06'],
+            ['name' => 'Perak', 'code' => '08'],
+            ['name' => 'Perlis', 'code' => '09'],
+            ['name' => 'Pulau Pinang', 'code' => '07'],
+            ['name' => 'Sabah', 'code' => '12'],
+            ['name' => 'Sarawak', 'code' => '13'],
+            ['name' => 'Selangor', 'code' => '10'],
+            ['name' => 'Terengganu', 'code' => '11'],
+            ['name' => 'WP Kuala Lumpur', 'code' => '14'],
+            ['name' => 'WP Labuan', 'code' => '15'],
+            ['name' => 'WP Putrajaya', 'code' => '16'],
         ];
     }
 }

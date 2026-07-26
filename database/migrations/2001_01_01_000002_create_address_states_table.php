@@ -20,10 +20,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('country_id')->index();
             $table->string('name');
-            $table->string('label')->nullable();
             $table->string('country_code', 3)->nullable();
             $table->string('code', 5)->nullable();
-            $table->string('type')->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->timestamps();

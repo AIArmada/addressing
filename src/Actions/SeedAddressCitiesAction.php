@@ -71,7 +71,6 @@ class SeedAddressCitiesAction
                 'name' => $row['name'],
                 'country_code' => $row['country_code'] ?? null,
                 'state_code' => $stateCode,
-                'label' => $row['name'],
                 'latitude' => is_numeric($row['latitude'] ?? null) ? (float) $row['latitude'] : null,
                 'longitude' => is_numeric($row['longitude'] ?? null) ? (float) $row['longitude'] : null,
             ];
@@ -93,5 +92,4 @@ class SeedAddressCitiesAction
 
         return compact('created', 'updated', 'skipped');
     }
-
 }

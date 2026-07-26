@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property string|null $country_code
  * @property string|null $code
- * @property string|null $type
- * @property string|null $label
  * @property float|null $latitude
  * @property float|null $longitude
  * @property-read AddressCountry $country
@@ -31,8 +29,6 @@ class State extends Model
         'name',
         'country_code',
         'code',
-        'type',
-        'label',
         'latitude',
         'longitude',
     ];

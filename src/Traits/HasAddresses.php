@@ -32,6 +32,21 @@ trait HasAddresses
 
     public function primaryAddress(?string $type = null): ?Address
     {
+        if ($this->relationLoaded('addresses')) {
+            /** @var Collection<int, Address> $addresses */
+            $addresses = $this->getRelation('addresses');
+            $now = now();
+
+            return $addresses->first(function (Address $address) use ($type, $now): bool {
+                $pivot = $address->pivot;
+
+                return (bool) $pivot?->is_primary
+                    && ($type === null || $pivot?->type === $type)
+                    && ($pivot?->valid_from === null || $pivot->valid_from <= $now)
+                    && ($pivot?->valid_until === null || $pivot->valid_until >= $now);
+            });
+        }
+
         $query = $this->validAddressQuery(
             $this->addresses()->where('addressables.is_primary', true),
         );

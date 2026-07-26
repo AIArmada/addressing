@@ -62,8 +62,6 @@ class SeedAddressStatesAction
                 'name' => $row['name'],
                 'country_code' => $row['country_code'] ?? null,
                 'code' => $code,
-                'type' => $row['type'] ?? null,
-                'label' => $row['name'],
                 'latitude' => is_numeric($row['latitude'] ?? null) ? (float) $row['latitude'] : null,
                 'longitude' => is_numeric($row['longitude'] ?? null) ? (float) $row['longitude'] : null,
             ];
@@ -85,5 +83,4 @@ class SeedAddressStatesAction
 
         return compact('created', 'updated', 'skipped');
     }
-
 }
