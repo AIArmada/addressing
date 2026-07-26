@@ -1,7 +1,7 @@
 # Addressing Data Resources
 
-`countries.php` is the only bundled dataset. It contains ISO 3166-1 country/territory address entities, not only sovereign countries.
+`countries.json` is the primary bundled dataset (ISO 3166-1 country/territory address entities). `states.json` and `cities.json` are bundled for address geography.
 
-`countries.audit.json` is included in this instruction pack to make review and comparison easier. It should include `entity_type` and nullable `is_independent` for every record.
+Source: [nnjeim/world](https://github.com/nnjeim/world) — the country, state, and city JSON files are copied from the source. Seed actions assign UUID PKs at runtime (int IDs from source are stripped). Shared currency, language, and timezone data is provided by `commerce-support`.
 
-Do not add states, cities, districts, postcodes or other locality datasets to this directory in the core package. Use `AddressAreaSource` imports instead.
+Do not add districts, postcodes or other locality datasets to this directory in the core package. Use `AddressAreaSource` imports instead.

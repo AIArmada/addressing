@@ -11,18 +11,20 @@ class SeedAddressCountriesAction
 {
     public function execute(): array
     {
-        $countries = require __DIR__ . '/../../resources/data/countries.php';
+        $path = __DIR__ . '/../../resources/data/countries.json';
 
-        if (! is_array($countries)) {
-            throw new RuntimeException('Country data file must return an array.');
+        $raw = json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+
+        if (! is_array($raw)) {
+            throw new RuntimeException('Country data file must contain a JSON array.');
         }
 
         $created = 0;
         $updated = 0;
         $skipped = 0;
 
-        foreach ($countries as $row) {
-            if (! isset($row['iso2'], $row['iso3'], $row['name'])) {
+        foreach ($raw as $row) {
+            if (! isset($row['iso2'], $row['name'])) {
                 $skipped++;
 
                 continue;
@@ -30,64 +32,29 @@ class SeedAddressCountriesAction
 
             $existing = AddressCountry::where('iso2', $row['iso2'])->first();
 
+            $attrs = [
+                'iso2' => $row['iso2'],
+                'name' => $row['name'],
+                'phone_code' => $row['phone_code'] ?? null,
+                'iso3' => $row['iso3'] ?? null,
+                'numeric_code' => $row['numeric_code'] ?? null,
+                'native' => $row['native'] ?? null,
+                'capital' => $row['capital'] ?? null,
+                'region' => $row['region'] ?? null,
+                'subregion' => $row['subregion'] ?? null,
+                'tld' => $row['tld'] ?? null,
+                'latitude' => is_numeric($row['latitude'] ?? null) ? (float) $row['latitude'] : null,
+                'longitude' => is_numeric($row['longitude'] ?? null) ? (float) $row['longitude'] : null,
+                'emoji' => $row['emoji'] ?? null,
+                'emojiU' => $row['emojiU'] ?? null,
+                'translations' => $row['translations'] ?? null,
+            ];
+
             if ($existing === null) {
-                AddressCountry::create([
-                    'iso2' => $row['iso2'],
-                    'iso3' => $row['iso3'],
-                    'numeric_code' => $row['numeric_code'] ?? null,
-                    'entity_type' => $row['entity_type'] ?? 'country',
-                    'is_independent' => $row['is_independent'] ?? null,
-                    'name' => $row['name'],
-                    'official_name' => $row['official_name'] ?? null,
-                    'common_name' => $row['common_name'] ?? null,
-                    'native' => $row['native'] ?? null,
-                    'emoji' => $row['emoji'] ?? null,
-                    'emoji_unicode' => $row['emoji_unicode'] ?? null,
-                    'phone_code' => $row['phone_code'] ?? null,
-                    'calling_codes' => $row['calling_codes'] ?? null,
-                    'capital' => $row['capital'] ?? null,
-                    'capital_latitude' => $row['capital_latitude'] ?? null,
-                    'capital_longitude' => $row['capital_longitude'] ?? null,
-                    'latitude' => $row['latitude'] ?? null,
-                    'longitude' => $row['longitude'] ?? null,
-                    'region' => $row['region'] ?? null,
-                    'subregion' => $row['subregion'] ?? null,
-                    'currencies' => $row['currencies'] ?? null,
-                    'currency' => $row['currency'] ?? null,
-                    'language_codes' => $row['language_codes'] ?? null,
-                    'timezones' => $row['timezones'] ?? null,
-                    'top_level_domains' => $row['top_level_domains'] ?? null,
-                    'metadata' => $row['metadata'] ?? null,
-                ]);
+                AddressCountry::create($attrs);
                 $created++;
             } else {
-                $existing->fill([
-                    'iso3' => $row['iso3'],
-                    'numeric_code' => $row['numeric_code'] ?? null,
-                    'entity_type' => $row['entity_type'] ?? 'country',
-                    'is_independent' => $row['is_independent'] ?? null,
-                    'name' => $row['name'],
-                    'official_name' => $row['official_name'] ?? null,
-                    'common_name' => $row['common_name'] ?? null,
-                    'native' => $row['native'] ?? null,
-                    'emoji' => $row['emoji'] ?? null,
-                    'emoji_unicode' => $row['emoji_unicode'] ?? null,
-                    'phone_code' => $row['phone_code'] ?? null,
-                    'calling_codes' => $row['calling_codes'] ?? null,
-                    'capital' => $row['capital'] ?? null,
-                    'capital_latitude' => $row['capital_latitude'] ?? null,
-                    'capital_longitude' => $row['capital_longitude'] ?? null,
-                    'latitude' => $row['latitude'] ?? null,
-                    'longitude' => $row['longitude'] ?? null,
-                    'region' => $row['region'] ?? null,
-                    'subregion' => $row['subregion'] ?? null,
-                    'currencies' => $row['currencies'] ?? null,
-                    'currency' => $row['currency'] ?? null,
-                    'language_codes' => $row['language_codes'] ?? null,
-                    'timezones' => $row['timezones'] ?? null,
-                    'top_level_domains' => $row['top_level_domains'] ?? null,
-                    'metadata' => $row['metadata'] ?? null,
-                ]);
+                $existing->fill($attrs);
 
                 if ($existing->isDirty()) {
                     $existing->save();

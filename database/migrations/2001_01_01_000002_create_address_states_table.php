@@ -10,23 +10,22 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $jsonColumnType = commerce_json_column_type('addressing', 'json');
         $tableName = config('addressing.tables.states', 'states');
 
         if (Schema::hasTable($tableName)) {
             return;
         }
 
-        Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
+        Schema::create($tableName, function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->foreignUuid('country_id')->index();
             $table->string('name');
-            $table->string('code')->nullable();
-            $table->string('type')->nullable();
             $table->string('label')->nullable();
+            $table->string('country_code', 3)->nullable();
+            $table->string('code', 5)->nullable();
+            $table->string('type')->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
-            $table->{$jsonColumnType}('metadata')->nullable();
             $table->timestamps();
         });
     }

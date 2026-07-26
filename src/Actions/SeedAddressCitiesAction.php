@@ -12,16 +12,20 @@ class SeedAddressCitiesAction
 {
     public function execute(?array $cities = null): array
     {
-        $cities ??= require __DIR__ . '/../../resources/data/cities.php';
+        if ($cities === null) {
+            $path = __DIR__ . '/../../resources/data/cities.json';
+
+            $cities = json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+        }
 
         if (! is_array($cities)) {
-            throw new RuntimeException('City data file must return an array.');
+            throw new RuntimeException('City data must be an array.');
         }
 
         $cityClass = ModelResolver::cityClass();
         $stateClass = ModelResolver::stateClass();
 
-        // ponytail: 150k+ rows — cache country/state lookups to avoid ~300k queries.
+        // ponytail: 150k+ rows — cache country/state lookups.
         $countryIds = AddressCountry::query()->pluck('id', 'iso2')->all();
         $stateIds = $stateClass::query()
             ->get(['id', 'country_id', 'code'])
@@ -31,7 +35,6 @@ class SeedAddressCitiesAction
         $created = 0;
         $updated = 0;
         $skipped = 0;
-
         foreach ($cities as $row) {
             if (! isset($row['name'], $row['country_code'])) {
                 $skipped++;
@@ -47,8 +50,9 @@ class SeedAddressCitiesAction
                 continue;
             }
 
-            $stateId = isset($row['state_code'])
-                ? ($stateIds[$countryId . '|' . $row['state_code']] ?? null)
+            $stateCode = $row['state_code'] ?? null;
+            $stateId = $stateCode !== null
+                ? ($stateIds[$countryId . '|' . $stateCode] ?? null)
                 : null;
 
             $query = $cityClass::where('country_id', $countryId)->where('name', $row['name']);
@@ -65,10 +69,11 @@ class SeedAddressCitiesAction
                 'country_id' => $countryId,
                 'state_id' => $stateId,
                 'name' => $row['name'],
-                'label' => $row['label'] ?? $row['name'],
-                'latitude' => $row['latitude'] ?? null,
-                'longitude' => $row['longitude'] ?? null,
-                'metadata' => $row['metadata'] ?? null,
+                'country_code' => $row['country_code'] ?? null,
+                'state_code' => $stateCode,
+                'label' => $row['name'],
+                'latitude' => is_numeric($row['latitude'] ?? null) ? (float) $row['latitude'] : null,
+                'longitude' => is_numeric($row['longitude'] ?? null) ? (float) $row['longitude'] : null,
             ];
 
             if ($existing === null) {
@@ -88,4 +93,5 @@ class SeedAddressCitiesAction
 
         return compact('created', 'updated', 'skipped');
     }
+
 }

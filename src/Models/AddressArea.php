@@ -85,6 +85,14 @@ class AddressArea extends Model
         return $this->hasMany(AddressAreaStateLink::class, 'address_area_id');
     }
 
+    /**
+     * @return HasMany<AddressAreaCityLink, $this>
+     */
+    public function cityLinks(): HasMany
+    {
+        return $this->hasMany(AddressAreaCityLink::class, 'address_area_id');
+    }
+
     protected function casts(): array
     {
         return [

@@ -12,21 +12,24 @@ class SeedAddressStatesAction
 {
     public function execute(?array $states = null): array
     {
-        $states ??= require __DIR__ . '/../../resources/data/states.php';
+        if ($states === null) {
+            $path = __DIR__ . '/../../resources/data/states.json';
+
+            $states = json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+        }
 
         if (! is_array($states)) {
-            throw new RuntimeException('State data file must return an array.');
+            throw new RuntimeException('State data must be an array.');
         }
 
         $stateClass = ModelResolver::stateClass();
 
-        // ponytail: 5k rows — cache country lookups to avoid per-row queries.
+        // ponytail: cache country lookups by iso2 to avoid per-row queries.
         $countryIds = AddressCountry::query()->pluck('id', 'iso2')->all();
 
         $created = 0;
         $updated = 0;
         $skipped = 0;
-
         foreach ($states as $row) {
             if (! isset($row['name'], $row['country_code'])) {
                 $skipped++;
@@ -42,10 +45,12 @@ class SeedAddressStatesAction
                 continue;
             }
 
+            $code = $row['state_code'] ?? null;
+
             $query = $stateClass::where('country_id', $countryId);
 
-            if (isset($row['code'])) {
-                $query->where('code', $row['code']);
+            if ($code !== null) {
+                $query->where('code', $code);
             } else {
                 $query->whereNull('code')->where('name', $row['name']);
             }
@@ -55,12 +60,12 @@ class SeedAddressStatesAction
             $attrs = [
                 'country_id' => $countryId,
                 'name' => $row['name'],
-                'code' => $row['code'] ?? null,
+                'country_code' => $row['country_code'] ?? null,
+                'code' => $code,
                 'type' => $row['type'] ?? null,
-                'label' => $row['label'] ?? $row['name'],
-                'latitude' => $row['latitude'] ?? null,
-                'longitude' => $row['longitude'] ?? null,
-                'metadata' => $row['metadata'] ?? null,
+                'label' => $row['name'],
+                'latitude' => is_numeric($row['latitude'] ?? null) ? (float) $row['latitude'] : null,
+                'longitude' => is_numeric($row['longitude'] ?? null) ? (float) $row['longitude'] : null,
             ];
 
             if ($existing === null) {
@@ -80,4 +85,5 @@ class SeedAddressStatesAction
 
         return compact('created', 'updated', 'skipped');
     }
+
 }

@@ -8,25 +8,30 @@ title: Country Data
 
 The package always bundles ISO 3166-1 country/territory data.
 
-File location: `resources/data/countries.php`
+File location: `resources/data/countries.json`
 
-The bundled `MalaysiaGeographyProvider` supplies Malaysia's State/City catalogs, address-level definitions, AddressArea hierarchy, and explicit State↔AddressArea mappings. It is selected with `SeedCountryGeographiesAction::execute('MY')` after countries are seeded.
+The bundled `MalaysiaGeographyProvider` supplies Malaysia's State/City catalogs, address-level definitions, AddressArea hierarchy, and explicit State↔AddressArea mappings. Area-to-city relationships use the separate `address_area_city_links` pivot when a provider needs to associate an area directly with a canonical city. It is selected with `SeedCountryGeographiesAction::execute('MY')` after countries are seeded.
 
-The dataset contains **249 records** — these are ISO 3166-1 address entities, not 249 sovereign countries. Records include:
+The dataset contains **250 records** — these are ISO 3166-1 address entities, not 250 sovereign countries. Records include:
 
 - ISO2, ISO3, numeric codes
-- Entity type (country, territory, dependency, constituent_country, associated_state, special_area, disputed_or_observer)
-- Independence flag (nullable — for display/filtering only, not address validity)
-- Names (official, common, native)
-- Phone codes and calling codes
-- Capital (name and coordinates)
+- Names (common, native)
+- Phone codes
+- Capital
 - Country centroid coordinates
 - Region and subregion
-- Currency codes
-- Language codes
+- Currency code
 - Timezones
-- Top-level domains
-- Extended metadata (demonyms, area, population, borders, translations)
+- Top-level domain
+- Translated country names
+
+Currency, language, and timezone reference data is owned and seeded by `commerce-support`:
+
+- `currencies` from the shared currency catalogue
+- `languages` from the shared ISO 639-1 catalogue
+- `timezones` from the shared IANA timezone catalogue
+
+Countries are linked to shared currencies and timezones through UUID pivot tables. The country table does not store currency or timezone JSON/scalar columns. Country-language relationships are intentionally not modelled until a trusted mapping dataset is available.
 
 ## What is NOT Bundled by Default
 
@@ -36,27 +41,18 @@ Without selecting a country provider, the following must be supplied by users th
 - Districts, cities, towns, villages, mukim, neighbourhoods
 - Postcodes and worldwide area hierarchies
 
-## Audit Process
+## Bundled States and Cities
 
-Before a PR is finalized, the country data should be audited against `nnjeim/world`:
-
-```bash
-composer require nnjeim/world --dev
-php artisan address:audit-countries --against=vendor/nnjeim/world/resources/json/countries.json
-```
-
-If the audit command is not yet implemented, compare manually. Record any intentional differences here.
-
-### Intentional Differences from nnjeim/world
-
-| Field | aiarmada/addressing | nnjeim/world | Reason |
-|-------|-------------------|--------------|--------|
-| — | — | — | (None yet — first audit pending) |
+`states.json` and `cities.json` are bundled from the same nnjeim/world source. Seed the global files first; country providers then complement those rows using stable country-scoped identities. The Malaysia provider updates matching states in place and adds Malaysia-specific rows not present in the global file, such as Putrajaya. It does not seed shared commerce-support reference data. The bundled area source contains no canonical city mapping data.
 
 ## Seed Command
 
 ```bash
 php artisan address:seed-countries
+php artisan commerce:seed-currencies
+php artisan commerce:seed-languages
+php artisan commerce:seed-timezones
+php artisan address:seed-country-references
 ```
 
 This is idempotent — running it multiple times is safe.

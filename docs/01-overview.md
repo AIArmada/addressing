@@ -10,6 +10,7 @@ The `aiarmada/addressing` package provides a reusable address handling system fo
 
 - **AddressData** — canonical address value object with alias normalization
 - **AddressCountry** — ISO 3166-1 country/territory reference data (bundled)
+- Country currency and timezone relationships backed by shared `commerce-support` reference data
 - **State** / **City** — first-class geographic models with optional links from `Address` via `state_id` / `city_id`
 - **AddressArea** — generic state/province/city/district/locality schema for broader area import
 - **Address** — Eloquent model for persisted addresses
@@ -18,6 +19,8 @@ The `aiarmada/addressing` package provides a reusable address handling system fo
 - **Formatting & Normalization** — contracts and default implementations
 - **Area Import Pipeline** — import administrative areas via `AddressAreaSource`, arrays, or CSV
 - **Country geography providers** — country-specific address structures and data (Malaysia is bundled; more providers can be configured)
+
+Currency, language, and timezone reference data is owned by `commerce-support`. Addressing owns only the country relationships for currencies and timezones. Languages are not related to countries because no trusted country-language mapping dataset is bundled.
 
 ## Package Layout
 
@@ -33,7 +36,7 @@ src/Data/                      Value objects (DTOs)
 src/Models/                    Eloquent models
 src/Support/                   Support classes
 src/Traits/                    Reusable traits
-resources/data/countries.php   Bundled ISO 3166-1 data
+resources/data/countries.json Bundled ISO 3166-1 data
 docs/                          Package documentation
 ```
 

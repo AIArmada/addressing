@@ -15,7 +15,10 @@ return [
         'snapshots' => 'address_snapshots',
         'states' => 'states',
         'cities' => 'cities',
+        'country_currency_links' => 'country_currency_links',
+        'country_timezone_links' => 'country_timezone_links',
         'area_state_links' => 'address_area_state_links',
+        'area_city_links' => 'address_area_city_links',
     ],
 
     'models' => [

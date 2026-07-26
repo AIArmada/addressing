@@ -51,34 +51,14 @@ final class AddressCountryResolver
             return null;
         }
 
-        $timezones = $resolved->timezones;
+        $timezone = $resolved->timezones()->value('name');
 
-        if (is_array($timezones)) {
-            $first = collect($timezones)->first();
+        if (is_string($timezone)) {
+            $timezone = $this->normalizeTimezone($timezone);
 
-            if (is_string($first)) {
-                $timezone = $this->normalizeTimezone($first);
-
-                if ($timezone !== null) {
-                    return $timezone;
-                }
-            } elseif (is_array($first)) {
-                foreach (['gmtOffsetName', 'zoneName'] as $key) {
-                    if (is_string($first[$key] ?? null)) {
-                        $timezone = $this->normalizeTimezone($first[$key]);
-
-                        if ($timezone !== null) {
-                            return $timezone;
-                        }
-                    }
-                }
+            if ($timezone !== null) {
+                return $timezone;
             }
-        }
-
-        $metadata = $resolved->metadata;
-
-        if (is_array($metadata) && is_string($metadata['timezone'] ?? null)) {
-            return $this->normalizeTimezone($metadata['timezone']);
         }
 
         return null;

@@ -11,12 +11,14 @@ use AIArmada\Addressing\Actions\ImportAddressAreasAction;
 use AIArmada\Addressing\Actions\NormalizeAddressDataAction;
 use AIArmada\Addressing\Actions\SeedAddressCitiesAction;
 use AIArmada\Addressing\Actions\SeedAddressCountriesAction;
+use AIArmada\Addressing\Actions\SeedAddressCountryReferencesAction;
 use AIArmada\Addressing\Actions\SeedAddressStatesAction;
 use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 use AIArmada\Addressing\Commands\ImportAddressAreasCommand;
 use AIArmada\Addressing\Commands\ImportAddressAreasCsvCommand;
 use AIArmada\Addressing\Commands\SeedAddressCitiesCommand;
 use AIArmada\Addressing\Commands\SeedAddressCountriesCommand;
+use AIArmada\Addressing\Commands\SeedAddressCountryReferencesCommand;
 use AIArmada\Addressing\Commands\SeedAddressStatesCommand;
 use AIArmada\Addressing\Commands\SeedCountryGeographiesCommand;
 use AIArmada\Addressing\Contracts\AddressFormatter;
@@ -36,6 +38,7 @@ final class AddressingServiceProvider extends PackageServiceProvider
             ->discoversMigrations()
             ->hasCommands(
                 SeedAddressCountriesCommand::class,
+                SeedAddressCountryReferencesCommand::class,
                 SeedAddressStatesCommand::class,
                 SeedAddressCitiesCommand::class,
                 SeedCountryGeographiesCommand::class,
@@ -47,6 +50,7 @@ final class AddressingServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         $this->app->singleton(SeedAddressCountriesAction::class);
+        $this->app->singleton(SeedAddressCountryReferencesAction::class);
         $this->app->singleton(SeedAddressStatesAction::class);
         $this->app->singleton(SeedAddressCitiesAction::class);
         $this->app->singleton(SeedCountryGeographiesAction::class);

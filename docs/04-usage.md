@@ -37,7 +37,7 @@ Aliases accepted by `AddressData::from()`:
 use AIArmada\Addressing\Actions\SeedAddressCountriesAction;
 
 app(SeedAddressCountriesAction::class)->execute();
-// ['created' => 249, 'updated' => 0, 'skipped' => 0]
+// ['created' => 250, 'updated' => 0, 'skipped' => 0]
 ```
 
 Or via CLI:

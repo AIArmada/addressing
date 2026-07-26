@@ -4,37 +4,29 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\CommerceSupport\Models\Currency;
+use AIArmada\CommerceSupport\Models\Timezone;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property string $id
  * @property string $iso2
+ * @property string $name
+ * @property string|null $phone_code
  * @property string|null $iso3
  * @property string|null $numeric_code
- * @property string $entity_type
- * @property bool|null $is_independent
- * @property string $name
- * @property string|null $official_name
- * @property string|null $common_name
  * @property string|null $native
- * @property string|null $emoji
- * @property string|null $emoji_unicode
- * @property string|null $phone_code
- * @property array|null $calling_codes
  * @property string|null $capital
- * @property float|null $capital_latitude
- * @property float|null $capital_longitude
- * @property float|null $latitude
- * @property float|null $longitude
  * @property string|null $region
  * @property string|null $subregion
- * @property array|null $currencies
- * @property string|null $currency
- * @property array|null $language_codes
- * @property array|null $timezones
- * @property array|null $top_level_domains
- * @property array|null $metadata
+ * @property string|null $tld
+ * @property float|null $latitude
+ * @property float|null $longitude
+ * @property string|null $emoji
+ * @property string|null $emojiU
+ * @property array|null $translations
  */
 class AddressCountry extends Model
 {
@@ -42,31 +34,20 @@ class AddressCountry extends Model
 
     protected $fillable = [
         'iso2',
+        'name',
+        'phone_code',
         'iso3',
         'numeric_code',
-        'entity_type',
-        'is_independent',
-        'name',
-        'official_name',
-        'common_name',
         'native',
-        'emoji',
-        'emoji_unicode',
-        'phone_code',
-        'calling_codes',
         'capital',
-        'capital_latitude',
-        'capital_longitude',
-        'latitude',
-        'longitude',
         'region',
         'subregion',
-        'currencies',
-        'currency',
-        'language_codes',
-        'timezones',
-        'top_level_domains',
-        'metadata',
+        'tld',
+        'latitude',
+        'longitude',
+        'emoji',
+        'emojiU',
+        'translations',
     ];
 
     public function getTable(): string
@@ -77,13 +58,23 @@ class AddressCountry extends Model
     protected function casts(): array
     {
         return [
-            'is_independent' => 'boolean',
-            'calling_codes' => 'array',
-            'currencies' => 'array',
-            'language_codes' => 'array',
-            'timezones' => 'array',
-            'top_level_domains' => 'array',
-            'metadata' => 'array',
+            'translations' => 'array',
         ];
+    }
+
+    /**
+     * @return BelongsToMany<Currency, $this>
+     */
+    public function currencies(): BelongsToMany
+    {
+        return $this->belongsToMany(Currency::class, config('addressing.tables.country_currency_links', 'country_currency_links'), 'country_id', 'currency_id');
+    }
+
+    /**
+     * @return BelongsToMany<Timezone, $this>
+     */
+    public function timezones(): BelongsToMany
+    {
+        return $this->belongsToMany(Timezone::class, config('addressing.tables.country_timezone_links', 'country_timezone_links'), 'country_id', 'timezone_id');
     }
 }

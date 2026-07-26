@@ -31,8 +31,8 @@ class MalaysiaGeographyProvider implements CountryGeographyProvider, CountryHier
                 ['country_id' => $malaysia->id, 'code' => $s['code']],
                 [
                     'name' => $s['name'],
+                    'country_code' => $this->countryCode(),
                     'label' => $s['label'],
-                    'metadata' => $s['metadata'] ?? null,
                 ],
             );
         }
@@ -117,7 +117,7 @@ class MalaysiaGeographyProvider implements CountryGeographyProvider, CountryHier
     }
 
     /**
-     * @return list<array{name: string, code: string, label: string, metadata?: array}>
+     * @return list<array{name: string, code: string, label: string}>
      */
     private function stateDefinitions(): array
     {

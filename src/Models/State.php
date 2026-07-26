@@ -14,12 +14,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $id
  * @property string $country_id
  * @property string $name
+ * @property string|null $country_code
  * @property string|null $code
  * @property string|null $type
  * @property string|null $label
  * @property float|null $latitude
  * @property float|null $longitude
- * @property array|null $metadata
  * @property-read AddressCountry $country
  */
 class State extends Model
@@ -29,12 +29,12 @@ class State extends Model
     protected $fillable = [
         'country_id',
         'name',
+        'country_code',
         'code',
         'type',
         'label',
         'latitude',
         'longitude',
-        'metadata',
     ];
 
     public function getTable(): string
@@ -71,7 +71,6 @@ class State extends Model
         return [
             'latitude' => 'float',
             'longitude' => 'float',
-            'metadata' => 'array',
         ];
     }
 }

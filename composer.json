@@ -22,9 +22,6 @@
         "aiarmada/commerce-support": "self.version",
         "spatie/laravel-package-tools": "^1.16"
     },
-    "suggest": {
-        "nnjeim/world": "Optional source for comparing/importing country, state and city data through an adapter."
-    },
     "autoload": {
         "psr-4": {
             "AIArmada\\Addressing\\": "src/",
