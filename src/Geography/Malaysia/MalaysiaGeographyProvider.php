@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Geography\Malaysia;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
+use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class MalaysiaGeographyProvider implements CountryGeographyProvider, CountryHierarchyProvider
+class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     private const string AREA_SOURCE = 'aiarmada_addressing_malaysia_v1';
 
@@ -27,7 +29,7 @@ class MalaysiaGeographyProvider implements CountryGeographyProvider, CountryHier
         $statesData = $this->stateDefinitions();
 
         foreach ($statesData as $s) {
-            $stateClass::firstOrCreate(
+            $stateClass::updateOrCreate(
                 ['country_id' => $malaysia->id, 'code' => $s['code']],
                 [
                     'name' => $s['name'],
@@ -37,39 +39,126 @@ class MalaysiaGeographyProvider implements CountryGeographyProvider, CountryHier
         }
     }
 
-    /**
-     * @return list<AddressLevelDefinition>
-     */
-    public function addressLevels(): array
+    /** @return list<AddressHierarchyDefinition> */
+    public function addressHierarchies(): array
     {
         return [
-            new AddressLevelDefinition(
-                key: 'state',
-                label: 'State / Federal Territory',
-                storageColumn: 'state_id',
-                kind: 'state',
-                areaTypes: ['state', 'wilayah_persekutuan'],
-                areaLevel: 1,
+            new AddressHierarchyDefinition(
+                key: 'postal',
+                label: 'Postal / Address Geography',
+                levels: [
+                    new AddressLevelDefinition(
+                        key: 'region',
+                        label: 'State / Federal Territory',
+                        storageColumn: 'state_id',
+                        kind: 'state',
+                        areaTypes: ['state', 'wilayah_persekutuan'],
+                        areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'locality',
+                        label: 'Locality / Precinct / Kampung',
+                        storageColumn: 'admin_area_1_id',
+                        kind: 'area',
+                        areaTypes: ['locality', 'precinct'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                    ),
+                ],
             ),
-            new AddressLevelDefinition(
-                key: 'district',
-                label: 'District / Precinct',
-                storageColumn: 'admin_area_1_id',
-                kind: 'area',
-                areaTypes: ['district', 'precinct', 'locality'],
-                areaLevel: 2,
-                parentKey: 'state',
-            ),
-            new AddressLevelDefinition(
-                key: 'mukim',
-                label: 'Mukim / Subdistrict',
-                storageColumn: 'admin_area_2_id',
-                kind: 'area',
-                areaTypes: ['mukim', 'subdistrict'],
-                areaLevel: 3,
-                parentKey: 'district',
+            new AddressHierarchyDefinition(
+                key: 'administrative',
+                label: 'Administrative / Land Geography',
+                levels: [
+                    new AddressLevelDefinition(
+                        key: 'region',
+                        label: 'State / Federal Territory',
+                        storageColumn: 'state_id',
+                        kind: 'state',
+                        areaTypes: ['state', 'wilayah_persekutuan'],
+                        areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District / Division / Jajahan',
+                        storageColumn: 'admin_area_1_id',
+                        kind: 'area',
+                        areaTypes: ['district'],
+                        areaLevel: 2,
+                        parentKey: 'region',
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'subdivision',
+                        label: 'Mukim / Subdistrict / Bandar / Pekan',
+                        storageColumn: 'admin_area_2_id',
+                        kind: 'area',
+                        areaTypes: ['city', 'municipality', 'mukim', 'subdistrict'],
+                        areaLevels: [3],
+                        parentKey: 'district',
+                    ),
+                ],
             ),
         ];
+    }
+
+    /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
+    public function areaRoles(AddressCountry $country): array
+    {
+        $roles = [];
+
+        foreach ($this->addressAreaSource()->areas() as $area) {
+            $areaRoles = match ($area->type) {
+                'state', 'wilayah_persekutuan', 'district', 'mukim', 'subdistrict' => ['administrative_area'],
+                'precinct', 'locality' => ['locality'],
+                default => [],
+            };
+
+            $roles[$area->sourceId] = array_map(
+                static fn (string $role): array => ['role' => $role, 'country_code' => 'MY', 'is_primary' => true],
+                $areaRoles,
+            );
+        }
+
+        return $roles;
+    }
+
+    /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
+    public function areaNames(AddressCountry $country): array
+    {
+        return [
+            'my:state:wilayah-persekutuan-kuala-lumpur' => [
+                ['name' => 'Kuala Lumpur', 'name_type' => 'common', 'is_preferred' => true],
+                ['name' => 'KL', 'name_type' => 'abbreviation'],
+            ],
+            'my:state:wilayah-persekutuan-putrajaya' => [
+                ['name' => 'Putrajaya', 'name_type' => 'common', 'is_preferred' => true],
+            ],
+            'my:state:wilayah-persekutuan-labuan' => [
+                ['name' => 'Labuan', 'name_type' => 'common', 'is_preferred' => true],
+            ],
+        ];
+    }
+
+    /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
+    public function areaRelationships(AddressCountry $country): array
+    {
+        $relationships = [];
+
+        foreach ($this->addressAreaSource()->areas() as $area) {
+            if ($area->parentSourceId === null) {
+                continue;
+            }
+
+            $relationships[$area->sourceId][] = [
+                'parent_source_id' => $area->parentSourceId,
+                'relationship_type' => 'contains',
+                'hierarchy_type' => in_array($area->type, ['locality', 'precinct'], true)
+                    ? 'postal'
+                    : 'administrative',
+            ];
+        }
+
+        return $relationships;
     }
 
     public function addressAreaSource(): AddressAreaSource

@@ -22,6 +22,14 @@ The `aiarmada/addressing` package provides a reusable address handling system fo
 
 Currency, language, and timezone reference data is owned by `commerce-support`. Addressing owns only the country relationships for currencies and timezones. Languages are not related to countries because no trusted country-language mapping dataset is bundled.
 
+## Place capabilities
+
+The package supports address roles, alternate names, typed relationships,
+postcode coverage and alias-aware place search. Place type and address role
+are separate concepts. Alternate names are currently language-neutral; the
+package does not pretend to resolve locale-specific names without a trusted
+translation dataset.
+
 ## Package Layout
 
 ```

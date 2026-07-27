@@ -7,7 +7,7 @@ namespace AIArmada\Addressing\Contracts;
 use AIArmada\Addressing\Models\AddressCountry;
 
 /**
- * Supplies country-specific State/City data to the generic addressing package.
+ * Supplies country-specific geographic reference data to the generic addressing package.
  */
 interface CountryGeographyProvider extends CountryAddressProfile
 {

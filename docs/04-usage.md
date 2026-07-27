@@ -86,6 +86,35 @@ app(SeedCountryGeographiesAction::class)->execute('MY');
 
 This uses the bundled Malaysia country provider. Other country providers can define different address structures without changing `State`, `City`, or `AddressArea` core tables.
 
+Malaysia exposes one first-level region type whose values are either a state or a federal territory. The provider then exposes two separate hierarchies: postal/address geography (`region → locality / precinct / kampung`) and administrative/land geography (`region → district / division / jajahan → mukim / subdistrict / bandar / pekan`). A federal territory is never wrapped in a duplicate postal-town node.
+
+## Search Areas
+
+~~~php
+use AIArmada\Addressing\Actions\SearchAddressAreasAction;
+
+$areas = app(SearchAddressAreasAction::class)->execute(
+    query: 'KL',
+    countryCode: 'MY',
+);
+~~~
+
+Search supports canonical names, aliases, place type, address role, parent
+area and postcode filters.
+
+## Address area assignments
+
+~~~php
+use AIArmada\Addressing\Actions\AssignAddressAreaAction;
+
+app(AssignAddressAreaAction::class)->execute(
+    address: $address,
+    area: $bangsar,
+    role: 'locality',
+    isPrimary: true,
+);
+~~~
+
 ## Import Areas
 
 ### From a custom source
@@ -196,6 +225,7 @@ $address = AddressData::from([
     'city' => 'Kuala Lumpur',
     'postcode' => '50450',
     'country' => 'Malaysia',
+    'countryCode' => 'MY',
 ]);
 
 $formatted = app(FormatAddressAction::class)->format($address);
@@ -203,6 +233,8 @@ $formatted = app(FormatAddressAction::class)->format($address);
 //  50450 Kuala Lumpur
 //  Malaysia"
 ```
+
+When `countryCode` is present, the action uses the configured country-specific formatter when one is available. Otherwise it uses the generic line-based formatter.
 
 ## Normalization
 

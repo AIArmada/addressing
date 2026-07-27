@@ -12,9 +12,9 @@ Run the seed command:
 php artisan address:seed-countries
 ```
 
-## Missing Malaysia States or Cities
+## Missing Malaysia States or Federal Territories
 
-`address:seed-countries` only seeds ISO countries. For structured Malaysia geography, run `app(SeedCountryGeographiesAction::class)->execute('MY')` after countries exist. This also imports the hierarchy and creates explicit State↔AddressArea links.
+`address:seed-countries` only seeds ISO countries. For structured Malaysia geography, run `app(SeedCountryGeographiesAction::class)->execute('MY')` after countries exist. This also imports the hierarchy and creates explicit State↔AddressArea links. Postal localities and administrative districts are separate branches; neither requires a postal-town record.
 
 ## Address Has Text State/City but No Relations
 

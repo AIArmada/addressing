@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use AIArmada\Addressing\Geography\Malaysia\MalaysiaAddressFormatter;
 use AIArmada\Addressing\Geography\Malaysia\MalaysiaGeographyProvider;
 use AIArmada\Addressing\Models\City;
 use AIArmada\Addressing\Models\State;
@@ -19,6 +20,12 @@ return [
         'country_timezone_links' => 'country_timezone_links',
         'area_state_links' => 'address_area_state_links',
         'area_city_links' => 'address_area_city_links',
+        'area_names' => 'address_area_names',
+        'area_roles' => 'address_area_roles',
+        'area_relationships' => 'address_area_relationships',
+        'postal_codes' => 'postal_codes',
+        'area_postal_codes' => 'address_area_postal_codes',
+        'address_area_assignments' => 'address_area_assignments',
     ],
 
     'models' => [
@@ -31,6 +38,10 @@ return [
         'providers' => [
             MalaysiaGeographyProvider::class,
         ],
+    ],
+
+    'formatters' => [
+        MalaysiaAddressFormatter::class,
     ],
 
     'defaults' => [

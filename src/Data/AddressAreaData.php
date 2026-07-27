@@ -18,6 +18,8 @@ class AddressAreaData
         public readonly ?int $level = null,
         public readonly ?float $latitude = null,
         public readonly ?float $longitude = null,
+        public readonly ?string $hierarchyType = null,
+        public readonly string $relationshipType = 'contains',
         public readonly array $metadata = [],
         public readonly array $sourcePayload = [],
     ) {}

@@ -216,6 +216,12 @@ class Address extends Model
         return $this->belongsTo(AddressArea::class, 'admin_area_4_id');
     }
 
+    /** @return HasMany<AddressAreaAssignment, $this> */
+    public function areaAssignments(): HasMany
+    {
+        return $this->hasMany(AddressAreaAssignment::class, 'address_id');
+    }
+
     /**
      * @return HasMany<Addressable, $this>
      */

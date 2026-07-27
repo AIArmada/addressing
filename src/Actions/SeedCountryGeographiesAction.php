@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Actions;
 
+use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Models\AddressArea;
+use AIArmada\Addressing\Models\AddressAreaName;
+use AIArmada\Addressing\Models\AddressAreaRelationship;
+use AIArmada\Addressing\Models\AddressAreaRole;
 use AIArmada\Addressing\Models\AddressAreaStateLink;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\ModelResolver;
@@ -66,7 +70,8 @@ final class SeedCountryGeographiesAction
             $provider->seed($country);
 
             if ($provider instanceof CountryHierarchyProvider) {
-                $areaResult = $this->importAddressAreas->execute($provider->addressAreaSource());
+                $areaSource = $provider->addressAreaSource();
+                $areaResult = $this->importAddressAreas->execute($areaSource);
 
                 if ($areaResult->hasFailures()) {
                     throw new InvalidArgumentException(sprintf(
@@ -77,6 +82,10 @@ final class SeedCountryGeographiesAction
                 }
 
                 $this->linkStateAreas($country, $provider->stateAreaMappings());
+
+                if ($provider instanceof CountryAddressAreaMetadataProvider) {
+                    $this->syncAreaMetadata($country, $provider, $areaSource->key());
+                }
                 $areas[$providerCode] = [
                     'created' => $areaResult->created,
                     'updated' => $areaResult->updated,
@@ -92,6 +101,83 @@ final class SeedCountryGeographiesAction
             'skipped' => array_values(array_unique($skipped)),
             'areas' => $areas,
         ];
+    }
+
+    private function syncAreaMetadata(AddressCountry $country, CountryAddressAreaMetadataProvider $provider, string $source): void
+    {
+        DB::transaction(function () use ($country, $provider, $source): void {
+            $areas = AddressArea::query()
+                ->where('country_id', $country->getKey())
+                ->where('source', $source)
+                ->get()
+                ->keyBy('source_id');
+            $areaIds = $areas->modelKeys();
+
+            AddressAreaRole::query()->whereIn('address_area_id', $areaIds)->delete();
+            AddressAreaName::query()->whereIn('address_area_id', $areaIds)->delete();
+            AddressAreaRelationship::query()
+                ->whereIn('child_address_area_id', $areaIds)
+                ->where('metadata->source', $source)
+                ->delete();
+
+            foreach ($provider->areaRoles($country) as $sourceId => $roles) {
+                $area = $areas->get($sourceId);
+
+                if (! $area instanceof AddressArea) {
+                    continue;
+                }
+
+                foreach ($roles as $role) {
+                    AddressAreaRole::query()->create([
+                        'address_area_id' => $area->getKey(),
+                        'role' => $role['role'],
+                        'country_code' => $role['country_code'] ?? $country->iso2,
+                        'is_primary' => $role['is_primary'] ?? false,
+                    ]);
+                }
+            }
+
+            foreach ($provider->areaNames($country) as $sourceId => $names) {
+                $area = $areas->get($sourceId);
+
+                if (! $area instanceof AddressArea) {
+                    continue;
+                }
+
+                foreach ($names as $name) {
+                    AddressAreaName::query()->create([
+                        'address_area_id' => $area->getKey(),
+                        'name' => $name['name'],
+                        'name_type' => $name['name_type'] ?? 'alternative',
+                        'is_preferred' => $name['is_preferred'] ?? false,
+                    ]);
+                }
+            }
+
+            foreach ($provider->areaRelationships($country) as $childSourceId => $relationships) {
+                $child = $areas->get($childSourceId);
+
+                if (! $child instanceof AddressArea) {
+                    continue;
+                }
+
+                foreach ($relationships as $relationship) {
+                    $parent = $areas->get($relationship['parent_source_id']);
+
+                    if (! $parent instanceof AddressArea) {
+                        continue;
+                    }
+
+                    AddressAreaRelationship::query()->create([
+                        'parent_address_area_id' => $parent->getKey(),
+                        'child_address_area_id' => $child->getKey(),
+                        'relationship_type' => $relationship['relationship_type'],
+                        'hierarchy_type' => $relationship['hierarchy_type'],
+                        'metadata' => ['source' => $source],
+                    ]);
+                }
+            }
+        });
     }
 
     /**

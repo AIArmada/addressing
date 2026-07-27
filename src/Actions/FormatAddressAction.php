@@ -6,10 +6,24 @@ namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Support\CountryAddressFormatterResolver;
 
 class FormatAddressAction implements AddressFormatter
 {
+    public function __construct(private readonly CountryAddressFormatterResolver $countryFormatters) {}
+
     public function format(AddressData $address): string
+    {
+        $countryFormatter = $this->countryFormatters->resolve($address->countryCode);
+
+        if ($countryFormatter !== null && $countryFormatter !== $this) {
+            return $countryFormatter->format($address);
+        }
+
+        return $this->formatGeneric($address);
+    }
+
+    private function formatGeneric(AddressData $address): string
     {
         $lines = array_filter([
             $address->line1,

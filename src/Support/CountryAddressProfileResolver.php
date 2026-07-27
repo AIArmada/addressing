@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Support;
 
 use AIArmada\Addressing\Contracts\CountryAddressProfile;
-use AIArmada\Addressing\Data\AddressLevelDefinition;
+use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use Illuminate\Contracts\Container\Container;
 use InvalidArgumentException;
@@ -46,11 +46,9 @@ final class CountryAddressProfileResolver
         return null;
     }
 
-    /**
-     * @return list<AddressLevelDefinition>
-     */
-    public function levels(mixed $country): array
+    /** @return list<AddressHierarchyDefinition> */
+    public function hierarchies(mixed $country): array
     {
-        return $this->resolve($country)?->addressLevels() ?? [];
+        return $this->resolve($country)?->addressHierarchies() ?? [];
     }
 }

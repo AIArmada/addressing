@@ -10,7 +10,7 @@ The package always bundles ISO 3166-1 country/territory data.
 
 File location: `resources/data/countries.json`
 
-The bundled `MalaysiaGeographyProvider` supplies Malaysia's State/City catalogs, address-level definitions, AddressArea hierarchy, and explicit State↔AddressArea mappings. Area-to-city relationships use the separate `address_area_city_links` pivot when a provider needs to associate an area directly with a canonical city. It is selected with `SeedCountryGeographiesAction::execute('MY')` after countries are seeded.
+The bundled `MalaysiaGeographyProvider` supplies Malaysia's State/Federal Territory catalog, two explicit address hierarchies, the AddressArea hierarchy, and State↔AddressArea mappings. The postal/address hierarchy is `region → locality / precinct / kampung`; the administrative/land hierarchy is `region → district / division / jajahan → mukim / subdistrict / bandar / pekan`. It is selected with `SeedCountryGeographiesAction::execute('MY')` after countries are seeded.
 
 The dataset contains **250 records** — these are ISO 3166-1 address entities, not 250 sovereign countries. Records include:
 
@@ -44,6 +44,16 @@ Without selecting a country provider, the following must be supplied by users th
 ## Bundled States and Cities
 
 `states.json` and `cities.json` are bundled from the same nnjeim/world source. Seed the global files first; country providers then complement those rows using stable country-scoped identities. The Malaysia provider updates matching states in place and adds Malaysia-specific rows not present in the global file, such as Putrajaya. It does not seed shared commerce-support reference data. The bundled area source contains no canonical city mapping data.
+
+## Malaysia place roles
+
+Kuala Lumpur, Putrajaya and Labuan do not receive duplicate postal-town
+records. Their Federal Territory is the administrative area, while localities,
+precincts and settlements are address subdivisions.
+
+- locality: Kuala Lumpur localities and Labuan settlements
+- locality with precinct type: Putrajaya precincts
+- administrative_area: districts, mukim, subdistricts and Federal Territories
 
 ## Seed Command
 

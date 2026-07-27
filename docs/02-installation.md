@@ -47,4 +47,4 @@ use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 app(SeedCountryGeographiesAction::class)->execute('MY');
 ```
 
-The bundled Malaysia provider populates State/City rows, imports its AddressArea hierarchy, and creates explicit State↔AddressArea links. Add another provider class to `addressing.geography.providers` for another country; the core tables do not change.
+The bundled Malaysia provider populates State/Federal Territory rows, imports its AddressArea hierarchy, and creates explicit State↔AddressArea links. Its address model exposes separate postal/address and administrative/land hierarchies. Add another provider class to `addressing.geography.providers` for another country; the core tables do not change.

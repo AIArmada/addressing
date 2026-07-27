@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\CommerceSupport\Models\Currency;
 use AIArmada\CommerceSupport\Models\Timezone;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $id
@@ -76,5 +78,13 @@ class AddressCountry extends Model
     public function timezones(): BelongsToMany
     {
         return $this->belongsToMany(Timezone::class, config('addressing.tables.country_timezone_links', 'country_timezone_links'), 'country_id', 'timezone_id');
+    }
+
+    /**
+     * @return HasMany<State, $this>
+     */
+    public function states(): HasMany
+    {
+        return $this->hasMany(ModelResolver::stateClass(), 'country_id');
     }
 }

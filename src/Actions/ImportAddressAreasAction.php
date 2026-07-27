@@ -8,6 +8,7 @@ use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Data\ImportAddressAreaFailureData;
 use AIArmada\Addressing\Data\ImportAddressAreasResultData;
 use AIArmada\Addressing\Models\AddressArea;
+use AIArmada\Addressing\Models\AddressAreaRelationship;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\AddressAreaHierarchy;
 use Carbon\CarbonImmutable;
@@ -58,6 +59,26 @@ class ImportAddressAreasAction
                     sourceId: $areaData->sourceId,
                     reason: 'Missing required field: name',
                     name: null,
+                );
+
+                continue;
+            }
+
+            if ($areaData->hierarchyType !== null && mb_trim($areaData->hierarchyType) === '') {
+                $failures[] = new ImportAddressAreaFailureData(
+                    sourceId: $areaData->sourceId,
+                    reason: 'Hierarchy type cannot be empty when supplied',
+                    name: $areaData->name,
+                );
+
+                continue;
+            }
+
+            if ($areaData->hierarchyType !== null && mb_trim($areaData->relationshipType) === '') {
+                $failures[] = new ImportAddressAreaFailureData(
+                    sourceId: $areaData->sourceId,
+                    reason: 'Relationship type cannot be empty when hierarchy type is supplied',
+                    name: $areaData->name,
                 );
 
                 continue;
@@ -139,7 +160,7 @@ class ImportAddressAreasAction
             ];
 
             if ($existing === null) {
-                AddressArea::create($data);
+                $existing = AddressArea::create($data);
                 $created++;
             } else {
                 $existing->fill($data);
@@ -151,6 +172,26 @@ class ImportAddressAreasAction
                     $skipped++;
                 }
             }
+
+            if ($areaData->hierarchyType !== null) {
+                AddressAreaRelationship::query()
+                    ->where('child_address_area_id', $existing->getKey())
+                    ->where('hierarchy_type', $areaData->hierarchyType)
+                    ->delete();
+
+                if ($parentId !== null) {
+                    AddressAreaRelationship::query()->updateOrCreate(
+                        [
+                            'parent_address_area_id' => $parentId,
+                            'child_address_area_id' => $existing->getKey(),
+                            'relationship_type' => $areaData->relationshipType,
+                            'hierarchy_type' => $areaData->hierarchyType,
+                        ],
+                        ['metadata' => ['source' => $areaData->source]],
+                    );
+                }
+            }
+
         }
 
         return new ImportAddressAreasResultData(

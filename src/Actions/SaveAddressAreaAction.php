@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Models\AddressArea;
+use AIArmada\Addressing\Models\AddressAreaRelationship;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\AddressAreaHierarchy;
 use Illuminate\Support\Str;
@@ -68,6 +69,27 @@ final class SaveAddressAreaAction
         ]);
 
         $record->save();
+
+        if (array_key_exists('hierarchy_type', $attributes)) {
+            $hierarchyType = $this->resolveNullableString($attributes, 'hierarchy_type');
+
+            if ($hierarchyType !== null) {
+                AddressAreaRelationship::query()
+                    ->where('child_address_area_id', $record->getKey())
+                    ->where('hierarchy_type', $hierarchyType)
+                    ->delete();
+
+                if ($parent instanceof AddressArea) {
+                    AddressAreaRelationship::query()->create([
+                        'parent_address_area_id' => $parent->getKey(),
+                        'child_address_area_id' => $record->getKey(),
+                        'relationship_type' => 'contains',
+                        'hierarchy_type' => $hierarchyType,
+                        'metadata' => ['source' => $record->source],
+                    ]);
+                }
+            }
+        }
 
         return $record->fresh(['country', 'parent']) ?? $record;
     }

@@ -8,6 +8,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -91,6 +92,54 @@ class AddressArea extends Model
     public function cityLinks(): HasMany
     {
         return $this->hasMany(AddressAreaCityLink::class, 'address_area_id');
+    }
+
+    /** @return HasMany<AddressAreaName, $this> */
+    public function names(): HasMany
+    {
+        return $this->hasMany(AddressAreaName::class, 'address_area_id');
+    }
+
+    /** @return HasMany<AddressAreaRole, $this> */
+    public function roles(): HasMany
+    {
+        return $this->hasMany(AddressAreaRole::class, 'address_area_id');
+    }
+
+    /** @return BelongsToMany<AddressArea, $this> */
+    public function relatedAreas(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            self::class,
+            config('addressing.tables.area_relationships', 'address_area_relationships'),
+            'parent_address_area_id',
+            'child_address_area_id',
+        )->withPivot(['relationship_type', 'hierarchy_type', 'valid_from', 'valid_until', 'metadata']);
+    }
+
+    /** @return BelongsToMany<AddressArea, $this> */
+    public function ancestors(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            self::class,
+            config('addressing.tables.area_relationships', 'address_area_relationships'),
+            'child_address_area_id',
+            'parent_address_area_id',
+        )->withPivot(['relationship_type', 'hierarchy_type', 'valid_from', 'valid_until', 'metadata']);
+    }
+
+    /** @return BelongsToMany<PostalCode, $this, AddressAreaPostalCode, 'pivot'> */
+    public function postalCodes(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            PostalCode::class,
+            config('addressing.tables.area_postal_codes', 'address_area_postal_codes'),
+            'address_area_id',
+            'postal_code_id',
+        )
+            ->using(AddressAreaPostalCode::class)
+            ->withPivot(['relationship_type', 'is_primary'])
+            ->withTimestamps();
     }
 
     protected function casts(): array
