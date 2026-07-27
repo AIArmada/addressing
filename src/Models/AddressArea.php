@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $id
+ * @property string|null $parent_id
  * @property string|null $country_id
  * @property string|null $parent_id
  * @property string $country_code
@@ -95,6 +96,14 @@ class AddressArea extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    /**
+     * @return HasMany<AddressArea, $this>
+     */
+    public function children(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
     }
 
     /**

@@ -64,6 +64,19 @@ final class AddressAreaHierarchy
         return 'Selected parent area would create a hierarchy cycle.';
     }
 
+    public static function validateParentCompatibility(AddressArea $parent, ?int $childLevel): ?string
+    {
+        if ($childLevel === null || $parent->level === null) {
+            return null;
+        }
+
+        if ($parent->level >= $childLevel) {
+            return 'The parent area must be at a lower level (' . $parent->level . ') than this area (' . $childLevel . ').';
+        }
+
+        return null;
+    }
+
     private static function wouldCreateCycle(AddressArea $record, AddressArea $candidateParent): bool
     {
         $visited = [];

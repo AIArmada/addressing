@@ -206,6 +206,15 @@ final class SyncAddressAreaAssignmentsAction
             $parentAreaId = $selectedAssignments[$parentRole] ?? null;
 
             if (! is_string($parentAreaId)) {
+                $resolvedStateId = $stateId ?? $address->state_id;
+                $stateAreaId = $resolvedStateId !== null
+                    ? AddressAreaStateBridge::areaIdForState($resolvedStateId, $this->hierarchyType($definition))
+                    : null;
+
+                if ($stateAreaId !== null && in_array($stateAreaId, $ancestorIds[$this->hierarchyType($definition)][$areaId] ?? [], true)) {
+                    continue;
+                }
+
                 throw ValidationException::withMessages([
                     $role => 'The selected area requires its parent hierarchy level to be selected first.',
                 ]);

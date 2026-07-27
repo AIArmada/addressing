@@ -69,6 +69,17 @@ final class SaveAddressAreaAction
             'parent_source_id' => $this->resolveParentSourceId($attributes, $record, $parent),
         ]);
 
+        if ($parent instanceof AddressArea) {
+            $childLevel = $record->level !== null ? (int) $record->level : null;
+            $parentLevelMessage = AddressAreaHierarchy::validateParentCompatibility($parent, $childLevel);
+
+            if ($parentLevelMessage !== null) {
+                throw ValidationException::withMessages([
+                    'parent_id' => $parentLevelMessage,
+                ]);
+            }
+        }
+
         $record->save();
 
         if (array_key_exists('hierarchy_type', $attributes)) {

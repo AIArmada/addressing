@@ -87,12 +87,22 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                         areaLevel: 1,
                     ),
                     new AddressLevelDefinition(
-                        key: 'district',
-                        label: 'District / Division / Jajahan',
+                        key: 'division',
+                        label: 'Division / Bahagian',
                         kind: 'area',
                         hierarchyType: 'administrative',
-                        areaTypes: ['district'],
+                        areaTypes: ['division'],
                         areaLevel: 2,
+                        parentKey: 'region',
+                        assignmentRole: 'administrative_division',
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District / Jajahan / Jajahan Kecil',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district', 'minor_district'],
+                        areaLevels: [2, 3],
                         parentKey: 'region',
                         assignmentRole: 'administrative_district',
                     ),
@@ -102,8 +112,8 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                         kind: 'area',
                         hierarchyType: 'administrative',
                         areaTypes: ['city', 'municipality', 'mukim', 'subdistrict'],
-                        areaLevels: [3],
-                        parentKey: 'district',
+                        areaLevels: [2, 3, 4],
+                        parentKey: 'region',
                         assignmentRole: 'administrative_subdivision',
                     ),
                 ],
@@ -119,8 +129,9 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'state', 'wilayah_persekutuan' => ['region'],
-                'district' => ['administrative_district'],
-                'mukim', 'subdistrict' => ['administrative_subdivision'],
+                'division' => ['administrative_division'],
+                'district', 'minor_district' => ['administrative_district'],
+                'city', 'municipality', 'mukim', 'subdistrict' => ['administrative_subdivision'],
                 'precinct', 'locality' => ['postal_locality'],
                 default => [],
             };
@@ -155,22 +166,69 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
     public function areaRelationships(AddressCountry $country): array
     {
         $relationships = [];
+        $areas = $this->addressAreaSource()->areas()->all();
+        $parentSourceIds = [];
 
-        foreach ($this->addressAreaSource()->areas() as $area) {
+        foreach ($areas as $area) {
+            $parentSourceIds[$area->sourceId] = $area->parentSourceId;
+        }
+
+        foreach ($areas as $area) {
             if ($area->parentSourceId === null) {
                 continue;
             }
 
+            $isPostal = in_array($area->type, ['locality', 'precinct'], true);
+            $hierarchyType = $isPostal ? 'postal' : 'administrative';
+
             $relationships[$area->sourceId][] = [
                 'parent_source_id' => $area->parentSourceId,
                 'relationship_type' => 'contains',
-                'hierarchy_type' => in_array($area->type, ['locality', 'precinct'], true)
-                    ? 'postal'
-                    : 'administrative',
+                'hierarchy_type' => $hierarchyType,
             ];
+
+            if ($isPostal) {
+                continue;
+            }
+
+            $stateSourceId = $this->stateAncestorSourceId($area->sourceId, $parentSourceIds);
+
+            if ($stateSourceId !== null && $stateSourceId !== $area->parentSourceId) {
+                $relationships[$area->sourceId][] = [
+                    'parent_source_id' => $stateSourceId,
+                    'relationship_type' => 'contains',
+                    'hierarchy_type' => 'administrative',
+                ];
+            }
         }
 
         return $relationships;
+    }
+
+    /**
+     * @param  array<string, string|null>  $parentSourceIds
+     */
+    private function stateAncestorSourceId(string $sourceId, array $parentSourceIds): ?string
+    {
+        $visited = [];
+        $currentSourceId = $sourceId;
+
+        while (isset($parentSourceIds[$currentSourceId])) {
+            $parentSourceId = $parentSourceIds[$currentSourceId];
+
+            if (isset($visited[$parentSourceId])) {
+                return null;
+            }
+
+            if (str_starts_with($parentSourceId, 'my:state:')) {
+                return $parentSourceId;
+            }
+
+            $visited[$parentSourceId] = true;
+            $currentSourceId = $parentSourceId;
+        }
+
+        return null;
     }
 
     public function addressAreaSource(): AddressAreaSource
