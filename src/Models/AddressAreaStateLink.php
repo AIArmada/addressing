@@ -19,6 +19,7 @@ class AddressAreaStateLink extends Model
     protected $fillable = [
         'address_area_id',
         'state_id',
+        'hierarchy_type',
         'metadata',
     ];
 

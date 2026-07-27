@@ -19,14 +19,24 @@ final class AddressLocationScope
     public function apply(Builder $query, AddressLocationData $location, string $relation = 'addresses'): Builder
     {
         $criteria = $location->criteria();
+        $assignments = $location->assignments();
 
-        if ($criteria === []) {
+        if ($criteria === [] && $assignments === []) {
             return $query;
         }
 
-        return $query->whereHas($relation, function (Builder $addressQuery) use ($criteria): void {
+        return $query->whereHas($relation, function (Builder $addressQuery) use ($criteria, $assignments): void {
             foreach ($criteria as $column => $value) {
                 $addressQuery->where($column, $value);
+            }
+
+            foreach ($assignments as $role => $areaId) {
+                $addressQuery->whereHas('areaAssignments', function (Builder $assignmentQuery) use ($role, $areaId): void {
+                    $assignmentQuery
+                        ->where('role', $role)
+                        ->where('address_area_id', $areaId)
+                        ->where('is_primary', true);
+                });
             }
         });
     }

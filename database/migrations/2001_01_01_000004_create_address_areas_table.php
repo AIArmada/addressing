@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $jsonColumnType = commerce_json_column_type('addressing', 'json');
+        $jsonColumnType = commerce_json_column_type('addressing', 'jsonb');
         $tableName = config('addressing.tables.areas', 'address_areas');
 
         Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('source')->index();
             $table->string('source_id')->index();
             $table->string('parent_source_id')->nullable()->index();
+            $table->boolean('is_active')->default(true)->index();
             $table->{$jsonColumnType}('source_payload')->nullable();
             $table->timestampTz('synced_at')->nullable();
             $table->{$jsonColumnType}('metadata')->nullable();
@@ -37,10 +38,5 @@ return new class extends Migration
             $table->unique(['source', 'source_id']);
             $table->index(['country_code', 'type', 'name']);
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists(config('addressing.tables.areas', 'address_areas'));
     }
 };

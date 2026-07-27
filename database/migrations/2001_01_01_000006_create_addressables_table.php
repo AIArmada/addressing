@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $jsonColumnType = commerce_json_column_type('addressing', 'json');
+        $jsonColumnType = commerce_json_column_type('addressing', 'jsonb');
         $tableName = config('addressing.tables.addressables', 'addressables');
 
         Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
@@ -30,10 +30,5 @@ return new class extends Migration
                 'addrbl_type_id_primary_idx',
             );
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists(config('addressing.tables.addressables', 'addressables'));
     }
 };

@@ -9,8 +9,8 @@ final readonly class AddressLevelDefinition
     public function __construct(
         public string $key,
         public string $label,
-        public string $storageColumn,
         public string $kind,
+        public ?string $hierarchyType = null,
         public ?string $areaType = null,
         /** @var list<string> */
         public array $areaTypes = [],
@@ -18,5 +18,6 @@ final readonly class AddressLevelDefinition
         /** @var list<int> */
         public array $areaLevels = [],
         public ?string $parentKey = null,
+        public ?string $assignmentRole = null,
     ) {}
 }

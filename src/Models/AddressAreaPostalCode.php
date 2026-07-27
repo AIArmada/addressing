@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
+/**
+ * @property string $address_area_id
+ * @property string $postal_code_id
+ * @property string $source
+ * @property string|null $source_id
+ * @property string $relationship_type
+ * @property bool $is_primary
+ */
 final class AddressAreaPostalCode extends Pivot
 {
     use HasUuids;
@@ -19,6 +27,8 @@ final class AddressAreaPostalCode extends Pivot
     protected $fillable = [
         'address_area_id',
         'postal_code_id',
+        'source',
+        'source_id',
         'relationship_type',
         'is_primary',
     ];

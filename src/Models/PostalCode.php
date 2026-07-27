@@ -12,6 +12,13 @@ class PostalCode extends Model
 {
     use HasUuids;
 
+    protected static function booted(): void
+    {
+        static::deleting(function (PostalCode $postalCode): void {
+            AddressAreaPostalCode::query()->where('postal_code_id', $postalCode->getKey())->delete();
+        });
+    }
+
     protected $fillable = [
         'country_code',
         'code',
@@ -34,7 +41,7 @@ class PostalCode extends Model
             'address_area_id',
         )
             ->using(AddressAreaPostalCode::class)
-            ->withPivot(['relationship_type', 'is_primary'])
+            ->withPivot(['source', 'source_id', 'relationship_type', 'is_primary'])
             ->withTimestamps();
     }
 

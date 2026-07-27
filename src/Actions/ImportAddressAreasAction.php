@@ -13,11 +13,21 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\AddressAreaHierarchy;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 class ImportAddressAreasAction
 {
-    public function execute(AddressAreaSource $source, bool $dryRun = false): ImportAddressAreasResultData
-    {
+    public function execute(
+        AddressAreaSource $source,
+        bool $dryRun = false,
+        ?string $providerKey = null,
+    ): ImportAddressAreasResultData {
+        $providerKey = $providerKey !== null ? mb_trim($providerKey) : null;
+
+        if ($providerKey === '') {
+            throw new InvalidArgumentException('Address-area provider keys cannot be empty.');
+        }
+
         $created = 0;
         $updated = 0;
         $skipped = 0;
@@ -84,7 +94,8 @@ class ImportAddressAreasAction
                 continue;
             }
 
-            $country = AddressCountry::where('iso2', $areaData->countryCode)->first();
+            $countryCode = mb_strtoupper(mb_trim($areaData->countryCode));
+            $country = AddressCountry::where('iso2', $countryCode)->first();
 
             if ($country === null) {
                 $failures[] = new ImportAddressAreaFailureData(
@@ -139,10 +150,16 @@ class ImportAddressAreasAction
                 $parentId = $parent->id;
             }
 
+            $metadata = $areaData->metadata;
+
+            if ($providerKey !== null) {
+                $metadata['provider'] = $providerKey;
+            }
+
             $data = [
                 'country_id' => $country->id,
                 'parent_id' => $parentId,
-                'country_code' => $areaData->countryCode,
+                'country_code' => $countryCode,
                 'type' => $areaData->type,
                 'level' => $areaData->level,
                 'name' => $areaData->name,
@@ -154,9 +171,10 @@ class ImportAddressAreasAction
                 'source' => $areaData->source,
                 'source_id' => $areaData->sourceId,
                 'parent_source_id' => $areaData->parentSourceId,
+                'is_active' => true,
                 'source_payload' => $areaData->sourcePayload !== [] ? $areaData->sourcePayload : null,
                 'synced_at' => CarbonImmutable::now(),
-                'metadata' => $areaData->metadata !== [] ? $areaData->metadata : null,
+                'metadata' => $metadata !== [] ? $metadata : null,
             ];
 
             if ($existing === null) {
@@ -173,12 +191,12 @@ class ImportAddressAreasAction
                 }
             }
 
-            if ($areaData->hierarchyType !== null) {
-                AddressAreaRelationship::query()
-                    ->where('child_address_area_id', $existing->getKey())
-                    ->where('hierarchy_type', $areaData->hierarchyType)
-                    ->delete();
+            AddressAreaRelationship::query()
+                ->where('child_address_area_id', $existing->getKey())
+                ->where('source', $providerKey ?? $areaData->source)
+                ->delete();
 
+            if ($areaData->hierarchyType !== null) {
                 if ($parentId !== null) {
                     AddressAreaRelationship::query()->updateOrCreate(
                         [
@@ -186,8 +204,9 @@ class ImportAddressAreasAction
                             'child_address_area_id' => $existing->getKey(),
                             'relationship_type' => $areaData->relationshipType,
                             'hierarchy_type' => $areaData->hierarchyType,
+                            'source' => $providerKey ?? $areaData->source,
                         ],
-                        ['metadata' => ['source' => $areaData->source]],
+                        ['metadata' => null],
                     );
                 }
             }

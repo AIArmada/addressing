@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $parent_address_area_id
+ * @property string $child_address_area_id
+ * @property string $hierarchy_type
+ * @property string $source
+ */
 class AddressAreaRelationship extends Model
 {
     use HasUuids;
@@ -17,6 +23,7 @@ class AddressAreaRelationship extends Model
         'child_address_area_id',
         'relationship_type',
         'hierarchy_type',
+        'source',
         'valid_from',
         'valid_until',
         'metadata',

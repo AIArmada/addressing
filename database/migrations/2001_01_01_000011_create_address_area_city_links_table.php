@@ -27,7 +27,7 @@ return new class extends Migration
             return;
         }
 
-        $jsonColumnType = commerce_json_column_type('addressing', 'json');
+        $jsonColumnType = commerce_json_column_type('addressing', 'jsonb');
 
         Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();

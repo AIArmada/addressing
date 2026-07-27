@@ -12,7 +12,7 @@ interface CountryHierarchyProvider
     public function addressAreaSource(): AddressAreaSource;
 
     /**
-     * @return array<string, array{area_code: string, source: string, area_level: int}>
+     * @return array<string, array{area_code: string, source: string, area_level: int, hierarchy_types?: list<string>}>
      */
     public function stateAreaMappings(): array;
 }

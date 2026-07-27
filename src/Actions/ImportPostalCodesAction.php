@@ -8,6 +8,7 @@ use AIArmada\Addressing\Contracts\PostalCodeSource;
 use AIArmada\Addressing\Data\ImportPostalCodeFailureData;
 use AIArmada\Addressing\Data\ImportPostalCodesResultData;
 use AIArmada\Addressing\Models\AddressArea;
+use AIArmada\Addressing\Models\AddressAreaPostalCode;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Models\PostalCode;
 use Illuminate\Support\Facades\DB;
@@ -59,7 +60,7 @@ final class ImportPostalCodesAction
                 }
             }
 
-            $postalCode = DB::transaction(function () use ($item, $countryCode, $code, $area): PostalCode {
+            [$postalCode, $coverageChanged] = DB::transaction(function () use ($item, $countryCode, $code, $area): array {
                 $metadata = array_merge($item->metadata, [
                     'source' => $item->source,
                     'source_id' => $item->sourceId,
@@ -70,21 +71,60 @@ final class ImportPostalCodesAction
                     ['is_active' => true, 'metadata' => $metadata],
                 );
 
+                $existingCoverage = AddressAreaPostalCode::query()
+                    ->where('source', $item->source)
+                    ->where('source_id', $item->sourceId)
+                    ->whereHas('postalCode', fn ($query) => $query->where('country_code', $countryCode))
+                    ->get(['address_area_id', 'postal_code_id', 'relationship_type', 'is_primary'])
+                    ->map(static fn (AddressAreaPostalCode $coverage): string => implode('|', [
+                        $coverage->address_area_id,
+                        $coverage->postal_code_id,
+                        $coverage->relationship_type,
+                        (int) $coverage->is_primary,
+                    ]))
+                    ->sort()
+                    ->values()
+                    ->all();
+
+                AddressAreaPostalCode::query()
+                    ->where('source', $item->source)
+                    ->where('source_id', $item->sourceId)
+                    ->whereHas('postalCode', fn ($query) => $query->where('country_code', $countryCode))
+                    ->delete();
+
                 if ($area instanceof AddressArea) {
-                    $area->postalCodes()->syncWithoutDetaching([
-                        $postalCode->getKey() => [
+                    AddressAreaPostalCode::query()->updateOrCreate(
+                        [
+                            'address_area_id' => $area->getKey(),
+                            'postal_code_id' => $postalCode->getKey(),
                             'relationship_type' => $item->relationshipType,
+                            'source' => $item->source,
+                        ],
+                        [
+                            'source_id' => $item->sourceId,
                             'is_primary' => $item->isPrimary,
                         ],
-                    ]);
+                    );
                 }
 
-                return $postalCode;
+                $newCoverage = $area instanceof AddressArea
+                    ? [implode('|', [
+                        $area->getKey(),
+                        $postalCode->getKey(),
+                        $item->relationshipType,
+                        (int) $item->isPrimary,
+                    ])]
+                    : [];
+
+                return [
+                    $postalCode,
+                    $existingCoverage !== $newCoverage,
+                ];
             });
 
             if ($postalCode->wasRecentlyCreated) {
                 $created++;
-            } elseif ($postalCode->wasChanged()) {
+            } elseif ($coverageChanged || $postalCode->wasChanged()) {
                 $updated++;
             } else {
                 $skipped++;

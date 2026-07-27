@@ -67,11 +67,25 @@ final class SeedCountryGeographiesAction
                 ));
             }
 
-            $provider->seed($country);
+            $areaSummary = DB::transaction(function () use ($provider, $country, $providerCode): ?array {
+                $provider->seed($country);
 
-            if ($provider instanceof CountryHierarchyProvider) {
+                if (! $provider instanceof CountryHierarchyProvider) {
+                    return null;
+                }
+
+                $providerKey = mb_trim($provider->providerKey());
+
+                if ($providerKey === '') {
+                    throw new InvalidArgumentException('Addressing geography provider keys cannot be empty.');
+                }
+
                 $areaSource = $provider->addressAreaSource();
-                $areaResult = $this->importAddressAreas->execute($areaSource);
+                AddressArea::query()
+                    ->where('country_id', $country->getKey())
+                    ->where('metadata->provider', $providerKey)
+                    ->update(['is_active' => false]);
+                $areaResult = $this->importAddressAreas->execute($areaSource, providerKey: $providerKey);
 
                 if ($areaResult->hasFailures()) {
                     throw new InvalidArgumentException(sprintf(
@@ -81,16 +95,21 @@ final class SeedCountryGeographiesAction
                     ));
                 }
 
-                $this->linkStateAreas($country, $provider->stateAreaMappings());
+                $this->linkStateAreas($country, $provider->stateAreaMappings(), $providerKey);
 
                 if ($provider instanceof CountryAddressAreaMetadataProvider) {
-                    $this->syncAreaMetadata($country, $provider, $areaSource->key());
+                    $this->syncAreaMetadata($country, $provider, $providerKey);
                 }
-                $areas[$providerCode] = [
+
+                return [
                     'created' => $areaResult->created,
                     'updated' => $areaResult->updated,
                     'skipped' => $areaResult->skipped,
                 ];
+            });
+
+            if ($areaSummary !== null) {
+                $areas[$providerCode] = $areaSummary;
             }
 
             $seeded[] = $providerCode;
@@ -103,21 +122,30 @@ final class SeedCountryGeographiesAction
         ];
     }
 
-    private function syncAreaMetadata(AddressCountry $country, CountryAddressAreaMetadataProvider $provider, string $source): void
+    private function syncAreaMetadata(AddressCountry $country, CountryAddressAreaMetadataProvider $provider, string $providerKey): void
     {
-        DB::transaction(function () use ($country, $provider, $source): void {
-            $areas = AddressArea::query()
+        DB::transaction(function () use ($country, $provider, $providerKey): void {
+            $providerAreas = AddressArea::query()
                 ->where('country_id', $country->getKey())
-                ->where('source', $source)
-                ->get()
-                ->keyBy('source_id');
-            $areaIds = $areas->modelKeys();
+                ->where('metadata->provider', $providerKey)
+                ->get();
+            $areaIds = $providerAreas->modelKeys();
 
-            AddressAreaRole::query()->whereIn('address_area_id', $areaIds)->delete();
-            AddressAreaName::query()->whereIn('address_area_id', $areaIds)->delete();
+            AddressAreaRole::query()
+                ->whereIn('address_area_id', $areaIds)
+                ->where('source', $providerKey)
+                ->delete();
+
+            $areas = $providerAreas
+                ->where('is_active', true)
+                ->keyBy('source_id');
+            AddressAreaName::query()
+                ->whereIn('address_area_id', $areaIds)
+                ->where('source', $providerKey)
+                ->delete();
             AddressAreaRelationship::query()
                 ->whereIn('child_address_area_id', $areaIds)
-                ->where('metadata->source', $source)
+                ->where('source', $providerKey)
                 ->delete();
 
             foreach ($provider->areaRoles($country) as $sourceId => $roles) {
@@ -131,6 +159,7 @@ final class SeedCountryGeographiesAction
                     AddressAreaRole::query()->create([
                         'address_area_id' => $area->getKey(),
                         'role' => $role['role'],
+                        'source' => $providerKey,
                         'country_code' => $role['country_code'] ?? $country->iso2,
                         'is_primary' => $role['is_primary'] ?? false,
                     ]);
@@ -148,6 +177,7 @@ final class SeedCountryGeographiesAction
                     AddressAreaName::query()->create([
                         'address_area_id' => $area->getKey(),
                         'name' => $name['name'],
+                        'source' => $providerKey,
                         'name_type' => $name['name_type'] ?? 'alternative',
                         'is_preferred' => $name['is_preferred'] ?? false,
                     ]);
@@ -173,7 +203,7 @@ final class SeedCountryGeographiesAction
                         'child_address_area_id' => $child->getKey(),
                         'relationship_type' => $relationship['relationship_type'],
                         'hierarchy_type' => $relationship['hierarchy_type'],
-                        'metadata' => ['source' => $source],
+                        'source' => $providerKey,
                     ]);
                 }
             }
@@ -181,13 +211,18 @@ final class SeedCountryGeographiesAction
     }
 
     /**
-     * @param  array<string, array{area_code: string, source: string, area_level: int}>  $mappings
+     * @param  array<string, array{area_code: string, source: string, area_level: int, hierarchy_types?: list<string>}>  $mappings
      */
-    private function linkStateAreas(AddressCountry $country, array $mappings): void
+    private function linkStateAreas(AddressCountry $country, array $mappings, string $providerKey): void
     {
         $stateClass = ModelResolver::stateClass();
 
-        DB::transaction(function () use ($country, $mappings, $stateClass): void {
+        DB::transaction(function () use ($country, $mappings, $providerKey, $stateClass): void {
+            AddressAreaStateLink::query()
+                ->where('metadata->provider', $providerKey)
+                ->whereHas('addressArea', fn ($query) => $query->where('country_id', $country->getKey()))
+                ->delete();
+
             foreach ($mappings as $stateCode => $mapping) {
                 $state = $stateClass::query()
                     ->where('country_id', $country->getKey())
@@ -199,15 +234,21 @@ final class SeedCountryGeographiesAction
                     ->where('source', $mapping['source'])
                     ->where('level', $mapping['area_level'])
                     ->where('code', $mapping['area_code'])
+                    ->where('is_active', true)
                     ->firstOrFail();
 
-                AddressAreaStateLink::query()->updateOrCreate(
-                    [
-                        'address_area_id' => $area->getKey(),
-                        'state_id' => $state->getKey(),
-                    ],
-                    ['metadata' => ['provider' => $country->iso2]],
-                );
+                $hierarchyTypes = $mapping['hierarchy_types'] ?? [null];
+
+                foreach ($hierarchyTypes as $hierarchyType) {
+                    AddressAreaStateLink::query()->updateOrCreate(
+                        [
+                            'address_area_id' => $area->getKey(),
+                            'state_id' => $state->getKey(),
+                            'hierarchy_type' => $hierarchyType,
+                        ],
+                        ['metadata' => ['provider' => $providerKey]],
+                    );
+                }
             }
         });
     }

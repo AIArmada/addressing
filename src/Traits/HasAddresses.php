@@ -9,7 +9,9 @@ use AIArmada\Addressing\Models\Addressable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 trait HasAddresses
 {
@@ -18,6 +20,8 @@ trait HasAddresses
      */
     public function addresses(): MorphToMany
     {
+        $pivotTable = config('addressing.tables.addressables', 'addressables');
+
         return $this->morphToMany(
             Address::class,
             'addressable',
@@ -26,8 +30,8 @@ trait HasAddresses
             ->using(Addressable::class)
             ->withPivot(['id', 'type', 'label', 'is_primary', 'valid_from', 'valid_until'])
             ->withTimestamps()
-            ->orderBy('addressables.is_primary', 'desc')
-            ->orderBy('addressables.created_at', 'desc');
+            ->orderBy("{$pivotTable}.is_primary", 'desc')
+            ->orderBy("{$pivotTable}.created_at", 'desc');
     }
 
     public function primaryAddress(?string $type = null): ?Address
@@ -47,12 +51,13 @@ trait HasAddresses
             });
         }
 
+        $pivotTable = config('addressing.tables.addressables', 'addressables');
         $query = $this->validAddressQuery(
-            $this->addresses()->where('addressables.is_primary', true),
+            $this->addresses()->where("{$pivotTable}.is_primary", true),
         );
 
         if ($type !== null) {
-            $query->where('addressables.type', $type);
+            $query->where("{$pivotTable}.type", $type);
         }
 
         /** @var Address|null */
@@ -66,7 +71,10 @@ trait HasAddresses
     {
         /** @var Collection<int, Address> */
         return $this->validAddressQuery(
-            $this->addresses()->where('addressables.type', $type),
+            $this->addresses()->where(
+                config('addressing.tables.addressables', 'addressables') . '.type',
+                $type,
+            ),
         )->get();
     }
 
@@ -76,38 +84,76 @@ trait HasAddresses
         bool $isPrimary = false,
         ?string $label = null,
     ): Addressable {
-        $pivot = Addressable::query()->create([
-            'id' => (string) Str::orderedUuid(),
-            'address_id' => $address->id,
-            'addressable_type' => $this->getMorphClass(),
-            'addressable_id' => $this->getKey(),
-            'type' => $type,
-            'is_primary' => $isPrimary,
-            'label' => $label,
-        ]);
+        return DB::transaction(function () use ($address, $type, $isPrimary, $label): Addressable {
+            $this->lockForAddressMutation();
 
-        $this->unsetRelation('addresses');
+            $existing = Addressable::query()
+                ->where('address_id', $address->getKey())
+                ->where('addressable_type', $this->getMorphClass())
+                ->where('addressable_id', $this->getKey())
+                ->where('type', $type)
+                ->lockForUpdate()
+                ->first();
 
-        return $pivot;
+            if ($existing instanceof Addressable) {
+                if ($isPrimary) {
+                    $this->demotePrimaryAddressPivots($type);
+                    $existing->update(['is_primary' => true]);
+                }
+
+                $this->unsetRelation('addresses');
+
+                return $existing->fresh() ?? $existing;
+            }
+
+            if ($isPrimary) {
+                $this->demotePrimaryAddressPivots($type);
+            }
+
+            $pivot = Addressable::query()->create([
+                'id' => (string) Str::orderedUuid(),
+                'address_id' => $address->id,
+                'addressable_type' => $this->getMorphClass(),
+                'addressable_id' => $this->getKey(),
+                'type' => $type,
+                'is_primary' => $isPrimary,
+                'label' => $label,
+            ]);
+
+            $this->unsetRelation('addresses');
+
+            return $pivot->fresh() ?? $pivot;
+        });
     }
 
     public function setPrimaryAddress(Address $address, string $type = 'primary'): Addressable
     {
-        $this->addresses()
-            ->newPivotStatement()
-            ->where('addressable_type', $this->getMorphClass())
-            ->where('addressable_id', $this->getKey())
-            ->where('type', $type)
-            ->where('is_primary', true)
-            ->update(['is_primary' => false]);
+        return DB::transaction(function () use ($address, $type): Addressable {
+            $this->lockForAddressMutation();
 
-        /** @var Addressable $pivot */
-        $pivot = $this->addresses()->find($address->id)?->pivot;
-        $pivot->is_primary = true;
-        $pivot->type = $type;
-        $pivot->save();
+            $pivotTable = config('addressing.tables.addressables', 'addressables');
 
-        return $pivot;
+            /** @var Addressable|null $pivot */
+            $pivot = $this->addresses()
+                ->whereKey($address->id)
+                ->where("{$pivotTable}.type", $type)
+                ->first()
+                ?->pivot;
+
+            if (! $pivot instanceof Addressable) {
+                throw new InvalidArgumentException('The address must be attached with the requested type before it can be primary.');
+            }
+
+            $this->demotePrimaryAddressPivots($type);
+            Addressable::query()
+                ->whereKey($pivot->getKey())
+                ->update(['is_primary' => true]);
+            $pivot->is_primary = true;
+
+            $this->unsetRelation('addresses');
+
+            return $pivot;
+        });
     }
 
     /**
@@ -116,12 +162,13 @@ trait HasAddresses
     public function scopeWithPrimaryAddress(Builder $query, ?string $type = null): void
     {
         $query->with(['addresses' => function (Builder $q) use ($type): void {
+            $pivotTable = config('addressing.tables.addressables', 'addressables');
             $this->validAddressQuery(
-                $q->where('addressables.is_primary', true),
+                $q->where("{$pivotTable}.is_primary", true),
             );
 
             if ($type !== null) {
-                $q->where('addressables.type', $type);
+                $q->where("{$pivotTable}.type", $type);
             }
         }]);
     }
@@ -136,12 +183,33 @@ trait HasAddresses
 
         return $query
             ->where(function (Builder $q) use ($now): void {
-                $q->whereNull('addressables.valid_from')
-                    ->orWhere('addressables.valid_from', '<=', $now);
+                $pivotTable = config('addressing.tables.addressables', 'addressables');
+                $q->whereNull("{$pivotTable}.valid_from")
+                    ->orWhere("{$pivotTable}.valid_from", '<=', $now);
             })
             ->where(function (Builder $q) use ($now): void {
-                $q->whereNull('addressables.valid_until')
-                    ->orWhere('addressables.valid_until', '>=', $now);
+                $pivotTable = config('addressing.tables.addressables', 'addressables');
+                $q->whereNull("{$pivotTable}.valid_until")
+                    ->orWhere("{$pivotTable}.valid_until", '>=', $now);
             });
+    }
+
+    private function demotePrimaryAddressPivots(string $type): void
+    {
+        $this->addresses()
+            ->newPivotStatement()
+            ->where('addressable_type', $this->getMorphClass())
+            ->where('addressable_id', $this->getKey())
+            ->where('type', $type)
+            ->where('is_primary', true)
+            ->update(['is_primary' => false]);
+    }
+
+    private function lockForAddressMutation(): void
+    {
+        $this->newQuery()
+            ->whereKey($this->getKey())
+            ->lockForUpdate()
+            ->first();
     }
 }

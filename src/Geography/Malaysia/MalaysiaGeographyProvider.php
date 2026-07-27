@@ -18,6 +18,13 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
 {
     private const string AREA_SOURCE = 'aiarmada_addressing_malaysia_v1';
 
+    private const string PROVIDER_KEY = 'aiarmada.addressing.malaysia';
+
+    public function providerKey(): string
+    {
+        return self::PROVIDER_KEY;
+    }
+
     public function countryCode(): string
     {
         return 'MY';
@@ -50,19 +57,20 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                     new AddressLevelDefinition(
                         key: 'region',
                         label: 'State / Federal Territory',
-                        storageColumn: 'state_id',
                         kind: 'state',
+                        hierarchyType: 'postal',
                         areaTypes: ['state', 'wilayah_persekutuan'],
                         areaLevel: 1,
                     ),
                     new AddressLevelDefinition(
                         key: 'locality',
                         label: 'Locality / Precinct / Kampung',
-                        storageColumn: 'admin_area_1_id',
                         kind: 'area',
+                        hierarchyType: 'postal',
                         areaTypes: ['locality', 'precinct'],
                         areaLevels: [2],
                         parentKey: 'region',
+                        assignmentRole: 'postal_locality',
                     ),
                 ],
             ),
@@ -73,28 +81,30 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                     new AddressLevelDefinition(
                         key: 'region',
                         label: 'State / Federal Territory',
-                        storageColumn: 'state_id',
                         kind: 'state',
+                        hierarchyType: 'administrative',
                         areaTypes: ['state', 'wilayah_persekutuan'],
                         areaLevel: 1,
                     ),
                     new AddressLevelDefinition(
                         key: 'district',
                         label: 'District / Division / Jajahan',
-                        storageColumn: 'admin_area_1_id',
                         kind: 'area',
+                        hierarchyType: 'administrative',
                         areaTypes: ['district'],
                         areaLevel: 2,
                         parentKey: 'region',
+                        assignmentRole: 'administrative_district',
                     ),
                     new AddressLevelDefinition(
                         key: 'subdivision',
                         label: 'Mukim / Subdistrict / Bandar / Pekan',
-                        storageColumn: 'admin_area_2_id',
                         kind: 'area',
+                        hierarchyType: 'administrative',
                         areaTypes: ['city', 'municipality', 'mukim', 'subdistrict'],
                         areaLevels: [3],
                         parentKey: 'district',
+                        assignmentRole: 'administrative_subdivision',
                     ),
                 ],
             ),
@@ -108,8 +118,10 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
 
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
-                'state', 'wilayah_persekutuan', 'district', 'mukim', 'subdistrict' => ['administrative_area'],
-                'precinct', 'locality' => ['locality'],
+                'state', 'wilayah_persekutuan' => ['region'],
+                'district' => ['administrative_district'],
+                'mukim', 'subdistrict' => ['administrative_subdivision'],
+                'precinct', 'locality' => ['postal_locality'],
                 default => [],
             };
 
@@ -170,7 +182,7 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
     }
 
     /**
-     * @return array<string, array{area_code: string, source: string, area_level: int}>
+     * @return array<string, array{area_code: string, source: string, area_level: int, hierarchy_types: list<string>}>
      */
     public function stateAreaMappings(): array
     {
@@ -199,6 +211,7 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                 'area_code' => $areaCode,
                 'source' => self::AREA_SOURCE,
                 'area_level' => 1,
+                'hierarchy_types' => ['postal', 'administrative'],
             ],
             $areaCodes,
         );

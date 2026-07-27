@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $jsonColumnType = commerce_json_column_type('addressing', 'json');
+        $jsonColumnType = commerce_json_column_type('addressing', 'jsonb');
         $tableName = config('addressing.tables.snapshots', 'address_snapshots');
 
         Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
@@ -40,10 +40,5 @@ return new class extends Migration
             $table->{$jsonColumnType}('metadata')->nullable();
             $table->timestamps();
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists(config('addressing.tables.snapshots', 'address_snapshots'));
     }
 };

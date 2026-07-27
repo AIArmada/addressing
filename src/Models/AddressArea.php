@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $native_name
  * @property string|null $code
  * @property string $slug
+ * @property bool $is_active
  * @property float|null $latitude
  * @property float|null $longitude
  * @property string $source
@@ -36,6 +37,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class AddressArea extends Model
 {
     use HasUuids;
+
+    protected static function booted(): void
+    {
+        static::deleting(function (AddressArea $area): void {
+            AddressAreaAssignment::query()->where('address_area_id', $area->getKey())->delete();
+            AddressAreaCityLink::query()->where('address_area_id', $area->getKey())->delete();
+            AddressAreaName::query()->where('address_area_id', $area->getKey())->delete();
+            AddressAreaPostalCode::query()->where('address_area_id', $area->getKey())->delete();
+            AddressAreaRole::query()->where('address_area_id', $area->getKey())->delete();
+            AddressAreaStateLink::query()->where('address_area_id', $area->getKey())->delete();
+            AddressAreaRelationship::query()
+                ->where('parent_address_area_id', $area->getKey())
+                ->orWhere('child_address_area_id', $area->getKey())
+                ->delete();
+            self::query()->where('parent_id', $area->getKey())->update(['parent_id' => null]);
+        });
+    }
 
     protected $fillable = [
         'country_id',
@@ -52,6 +70,7 @@ class AddressArea extends Model
         'source',
         'source_id',
         'parent_source_id',
+        'is_active',
         'source_payload',
         'synced_at',
         'metadata',
@@ -114,7 +133,7 @@ class AddressArea extends Model
             config('addressing.tables.area_relationships', 'address_area_relationships'),
             'parent_address_area_id',
             'child_address_area_id',
-        )->withPivot(['relationship_type', 'hierarchy_type', 'valid_from', 'valid_until', 'metadata']);
+        )->withPivot(['relationship_type', 'hierarchy_type', 'source', 'valid_from', 'valid_until', 'metadata']);
     }
 
     /** @return BelongsToMany<AddressArea, $this> */
@@ -125,7 +144,7 @@ class AddressArea extends Model
             config('addressing.tables.area_relationships', 'address_area_relationships'),
             'child_address_area_id',
             'parent_address_area_id',
-        )->withPivot(['relationship_type', 'hierarchy_type', 'valid_from', 'valid_until', 'metadata']);
+        )->withPivot(['relationship_type', 'hierarchy_type', 'source', 'valid_from', 'valid_until', 'metadata']);
     }
 
     /** @return BelongsToMany<PostalCode, $this, AddressAreaPostalCode, 'pivot'> */
@@ -138,7 +157,7 @@ class AddressArea extends Model
             'postal_code_id',
         )
             ->using(AddressAreaPostalCode::class)
-            ->withPivot(['relationship_type', 'is_primary'])
+            ->withPivot(['source', 'source_id', 'relationship_type', 'is_primary'])
             ->withTimestamps();
     }
 
@@ -149,6 +168,7 @@ class AddressArea extends Model
             'synced_at' => 'immutable_datetime',
             'source_payload' => 'array',
             'metadata' => 'array',
+            'is_active' => 'boolean',
         ];
     }
 }

@@ -10,10 +10,8 @@ final readonly class AddressLocationData
         public ?string $countryId = null,
         public ?string $stateId = null,
         public ?string $cityId = null,
-        public ?string $adminArea1Id = null,
-        public ?string $adminArea2Id = null,
-        public ?string $adminArea3Id = null,
-        public ?string $adminArea4Id = null,
+        /** @var array<string, string> */
+        public array $areaAssignments = [],
     ) {}
 
     /**
@@ -25,16 +23,13 @@ final readonly class AddressLocationData
             countryId: self::stringValue($attributes['country_id'] ?? null),
             stateId: self::stringValue($attributes['state_id'] ?? null),
             cityId: self::stringValue($attributes['city_id'] ?? null),
-            adminArea1Id: self::stringValue($attributes['admin_area_1_id'] ?? null),
-            adminArea2Id: self::stringValue($attributes['admin_area_2_id'] ?? null),
-            adminArea3Id: self::stringValue($attributes['admin_area_3_id'] ?? null),
-            adminArea4Id: self::stringValue($attributes['admin_area_4_id'] ?? null),
+            areaAssignments: self::assignmentValues($attributes['area_assignments'] ?? []),
         );
     }
 
     public function isEmpty(): bool
     {
-        return $this->criteria() === [];
+        return $this->criteria() === [] && $this->areaAssignments === [];
     }
 
     /**
@@ -46,11 +41,42 @@ final readonly class AddressLocationData
             'country_id' => $this->countryId,
             'state_id' => $this->stateId,
             'city_id' => $this->cityId,
-            'admin_area_1_id' => $this->adminArea1Id,
-            'admin_area_2_id' => $this->adminArea2Id,
-            'admin_area_3_id' => $this->adminArea3Id,
-            'admin_area_4_id' => $this->adminArea4Id,
         ], static fn (?string $value): bool => $value !== null);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function assignments(): array
+    {
+        return $this->areaAssignments;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private static function assignmentValues(mixed $value): array
+    {
+        if (! is_array($value)) {
+            return [];
+        }
+
+        $assignments = [];
+
+        foreach ($value as $role => $areaId) {
+            if (! is_string($role) || ! is_string($areaId)) {
+                continue;
+            }
+
+            $role = mb_trim($role);
+            $areaId = mb_trim($areaId);
+
+            if ($role !== '' && $areaId !== '') {
+                $assignments[$role] = $areaId;
+            }
+        }
+
+        return $assignments;
     }
 
     private static function stringValue(mixed $value): ?string

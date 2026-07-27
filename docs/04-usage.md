@@ -105,15 +105,18 @@ area and postcode filters.
 ## Address area assignments
 
 ~~~php
-use AIArmada\Addressing\Actions\AssignAddressAreaAction;
+use AIArmada\Addressing\Actions\SyncAddressAreaAssignmentsAction;
 
-app(AssignAddressAreaAction::class)->execute(
+app(SyncAddressAreaAssignmentsAction::class)->execute(
     address: $address,
-    area: $bangsar,
-    role: 'locality',
-    isPrimary: true,
+    assignments: [
+        'postal_locality' => $bangsar->id,
+    ],
+    stateId: $address->state_id,
 );
 ~~~
+
+Assignment sync is authoritative: pass the complete current role map. Passing an empty map removes all area assignments from the address. Each selected area is checked against the country profile and its typed containment hierarchy.
 
 ## Import Areas
 
@@ -148,8 +151,8 @@ php artisan address:import-areas-csv /path/to/areas.csv --source=my-source
 CSV format:
 
 ```csv
-source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
-1,MY,state,Selangor,Selangor,SGR,,1,3.0738,101.5183
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude,hierarchy_type,relationship_type,metadata,source_payload
+1,MY,state,Selangor,Selangor,SGR,,1,3.0738,101.5183,,,{},{}
 ```
 
 ## HasAddresses Trait
@@ -166,7 +169,6 @@ $customer = Customer::find(1);
 $address = Address::find(1);
 
 $customer->attachAddress($address, type: 'shipping', isPrimary: true);
-$customer->setPrimaryAddress($address, type: 'shipping');
 
 $primary = $customer->primaryAddress('shipping');
 $addresses = $customer->addressesOfType('billing');
@@ -188,7 +190,9 @@ use AIArmada\Addressing\Support\AddressLocationScope;
 $location = AddressLocationData::fromArray([
     'country_id' => $malaysia->id,
     'state_id' => $selangor->id,
-    'admin_area_1_id' => $petalingDistrict->id,
+    'area_assignments' => [
+        'administrative_district' => $petalingDistrict->id,
+    ],
 ]);
 
 $institutions = app(AddressLocationScope::class)

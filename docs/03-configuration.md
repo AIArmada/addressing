@@ -56,7 +56,11 @@ Override any table name via environment variables or config publishing.
 ],
 ```
 
-Providers define country address levels such as state, district, municipality or locality. Resolve the profile by country with `CountryAddressProfileResolver`; do not assume that `admin_area_1` means the same thing in every country.
+Providers define country address levels such as state, district, municipality or locality. Resolve the profile by country with `CountryAddressProfileResolver`; do not assume that a provider level has the same meaning in every country.
+
+A `CountryGeographyProvider` also has a stable `providerKey()`. Keep that key unchanged when its imported `AddressAreaSource` key changes: it owns provider-seeded areas, aliases, roles, relationships, and State links across reseeds. The source key identifies a particular feed, while the provider key identifies its long-lived owner.
+
+When a provider uses different first-level area roots for separate hierarchies, its State mappings may declare `hierarchy_types`. The same canonical `State` can then resolve the correct root for postal and administrative selectors independently.
 
 Country-specific formatters are configured separately from geography providers:
 
@@ -80,6 +84,8 @@ Address areas store the place itself. Alternate names, address roles, typed
 relationships and postcode coverage are stored separately. Alternate names
 have a type such as `common` or `abbreviation`; there is no unused language
 column because locale-aware name selection is not implemented.
+
+Typed relationships have their own `source`. A manual relationship and a provider relationship with the same parent, child, type, and hierarchy remain separate records, so reseeding a provider cannot remove a manual edge.
 
 ## Defaults
 

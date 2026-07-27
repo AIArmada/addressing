@@ -46,6 +46,13 @@ class CsvAddressAreaSource implements AddressAreaSource
             }
 
             $headers = array_map('mb_trim', $headers);
+            $requiredHeaders = ['source_id', 'country_code', 'type', 'name'];
+
+            foreach ($requiredHeaders as $requiredHeader) {
+                if (! in_array($requiredHeader, $headers, true)) {
+                    throw new InvalidArgumentException("CSV is missing required header: {$requiredHeader}");
+                }
+            }
 
             while (! $file->eof()) {
                 $row = $file->fgetcsv();
@@ -55,7 +62,12 @@ class CsvAddressAreaSource implements AddressAreaSource
                 }
 
                 if (count($headers) !== count($row)) {
-                    continue;
+                    throw new InvalidArgumentException(sprintf(
+                        'CSV row %d has %d columns; expected %d.',
+                        $file->key() + 1,
+                        count($row),
+                        count($headers),
+                    ));
                 }
 
                 $data = array_combine($headers, $row);
@@ -72,6 +84,10 @@ class CsvAddressAreaSource implements AddressAreaSource
                     level: self::nullableInt($data['level'] ?? null),
                     latitude: self::nullableFloat($data['latitude'] ?? null),
                     longitude: self::nullableFloat($data['longitude'] ?? null),
+                    hierarchyType: self::nullableString($data['hierarchy_type'] ?? null),
+                    relationshipType: self::nullableString($data['relationship_type'] ?? null) ?? 'contains',
+                    metadata: self::jsonArray($data['metadata'] ?? null),
+                    sourcePayload: self::jsonArray($data['source_payload'] ?? null),
                 );
             }
         });
@@ -112,5 +128,23 @@ class CsvAddressAreaSource implements AddressAreaSource
         }
 
         return null;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private static function jsonArray(mixed $value): array
+    {
+        if ($value === null || $value === '') {
+            return [];
+        }
+
+        $decoded = json_decode((string) $value, true, 512, JSON_THROW_ON_ERROR);
+
+        if (! is_array($decoded)) {
+            throw new InvalidArgumentException('CSV JSON fields must contain an object or array.');
+        }
+
+        return $decoded;
     }
 }

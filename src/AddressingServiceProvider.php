@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing;
 
-use AIArmada\Addressing\Actions\AssignAddressAreaAction;
 use AIArmada\Addressing\Actions\BuildAddressNavigationLinksAction;
 use AIArmada\Addressing\Actions\CreateAddressSnapshotAction;
 use AIArmada\Addressing\Actions\FormatAddressAction;
@@ -60,7 +59,6 @@ final class AddressingServiceProvider extends PackageServiceProvider
         $this->app->singleton(SeedAddressCitiesAction::class);
         $this->app->singleton(SeedCountryGeographiesAction::class);
         $this->app->singleton(SearchAddressAreasAction::class);
-        $this->app->singleton(AssignAddressAreaAction::class);
         $this->app->singleton(SyncAddressAreaAssignmentsAction::class);
         $this->app->singleton(ImportPostalCodesAction::class);
         $this->app->singleton(CountryAddressProfileResolver::class);

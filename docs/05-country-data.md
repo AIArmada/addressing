@@ -45,15 +45,16 @@ Without selecting a country provider, the following must be supplied by users th
 
 `states.json` and `cities.json` are bundled from the same nnjeim/world source. Seed the global files first; country providers then complement those rows using stable country-scoped identities. The Malaysia provider updates matching states in place and adds Malaysia-specific rows not present in the global file, such as Putrajaya. It does not seed shared commerce-support reference data. The bundled area source contains no canonical city mapping data.
 
-## Malaysia place roles
+## Malaysia area roles
 
 Kuala Lumpur, Putrajaya and Labuan do not receive duplicate postal-town
 records. Their Federal Territory is the administrative area, while localities,
 precincts and settlements are address subdivisions.
 
-- locality: Kuala Lumpur localities and Labuan settlements
-- locality with precinct type: Putrajaya precincts
-- administrative_area: districts, mukim, subdistricts and Federal Territories
+- postal_locality: Kuala Lumpur localities, Labuan settlements and Putrajaya precincts
+- administrative_district: districts
+- administrative_subdivision: mukim and subdistricts
+- region: states and Federal Territories
 
 ## Seed Command
 

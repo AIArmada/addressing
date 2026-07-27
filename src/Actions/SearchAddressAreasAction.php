@@ -36,6 +36,7 @@ final class SearchAddressAreasAction
         }
 
         return AddressArea::query()
+            ->where('is_active', true)
             ->when($countryCode !== null, fn (Builder $builder): Builder => $builder->where('country_code', mb_strtoupper($countryCode)))
             ->when($type !== null, fn (Builder $builder): Builder => $builder->where('type', $type))
             ->when($parentId !== null && $hierarchyType === null, fn (Builder $builder): Builder => $builder->where('parent_id', $parentId))
@@ -43,13 +44,30 @@ final class SearchAddressAreasAction
                 return $builder->whereHas('ancestors', function (Builder $relationshipQuery) use ($parentId, $hierarchyType): void {
                     $relationshipQuery
                         ->whereKey($parentId)
-                        ->where(config('addressing.tables.area_relationships', 'address_area_relationships') . '.hierarchy_type', $hierarchyType);
+                        ->where(config('addressing.tables.area_relationships', 'address_area_relationships') . '.hierarchy_type', $hierarchyType)
+                        ->where(config('addressing.tables.area_relationships', 'address_area_relationships') . '.relationship_type', 'contains')
+                        ->where(function (Builder $query): void {
+                            $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
+                        })
+                        ->where(function (Builder $query): void {
+                            $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
+                        });
                 });
             })
             ->when($hierarchyType !== null && $parentId === null, function (Builder $builder) use ($hierarchyType): Builder {
                 return $builder->where(function (Builder $hierarchyQuery) use ($hierarchyType): void {
                     $hierarchyQuery
-                        ->whereHas('ancestors', fn (Builder $query): Builder => $query->where(config('addressing.tables.area_relationships', 'address_area_relationships') . '.hierarchy_type', $hierarchyType))
+                        ->whereHas('ancestors', function (Builder $query) use ($hierarchyType): void {
+                            $query
+                                ->where(config('addressing.tables.area_relationships', 'address_area_relationships') . '.hierarchy_type', $hierarchyType)
+                                ->where(config('addressing.tables.area_relationships', 'address_area_relationships') . '.relationship_type', 'contains')
+                                ->where(function (Builder $relationshipQuery): void {
+                                    $relationshipQuery->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
+                                })
+                                ->where(function (Builder $relationshipQuery): void {
+                                    $relationshipQuery->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
+                                });
+                        })
                         ->orWhereDoesntHave('ancestors');
                 });
             })

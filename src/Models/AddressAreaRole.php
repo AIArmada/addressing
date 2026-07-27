@@ -12,7 +12,7 @@ class AddressAreaRole extends Model
 {
     use HasUuids;
 
-    protected $fillable = ['address_area_id', 'role', 'country_code', 'is_primary'];
+    protected $fillable = ['address_area_id', 'role', 'source', 'country_code', 'is_primary'];
 
     public function getTable(): string
     {

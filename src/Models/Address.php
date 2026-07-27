@@ -15,10 +15,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 /**
  * @property string $id
  * @property string|null $country_id
- * @property string|null $admin_area_1_id
- * @property string|null $admin_area_2_id
- * @property string|null $admin_area_3_id
- * @property string|null $admin_area_4_id
  * @property string|null $label
  * @property string|null $line1
  * @property string|null $line2
@@ -60,12 +56,17 @@ class Address extends Model
 {
     use HasUuids;
 
+    protected static function booted(): void
+    {
+        static::deleting(function (Address $address): void {
+            $address->areaAssignments()->delete();
+            $address->addressableLinks()->delete();
+            $address->snapshots()->update(['address_id' => null]);
+        });
+    }
+
     protected $fillable = [
         'country_id',
-        'admin_area_1_id',
-        'admin_area_2_id',
-        'admin_area_3_id',
-        'admin_area_4_id',
         'state_id',
         'city_id',
         'label',
@@ -184,42 +185,16 @@ class Address extends Model
         return $this->belongsTo(ModelResolver::cityClass(), 'city_id');
     }
 
-    /**
-     * @return BelongsTo<AddressArea, $this>
-     */
-    public function adminArea1(): BelongsTo
-    {
-        return $this->belongsTo(AddressArea::class, 'admin_area_1_id');
-    }
-
-    /**
-     * @return BelongsTo<AddressArea, $this>
-     */
-    public function adminArea2(): BelongsTo
-    {
-        return $this->belongsTo(AddressArea::class, 'admin_area_2_id');
-    }
-
-    /**
-     * @return BelongsTo<AddressArea, $this>
-     */
-    public function adminArea3(): BelongsTo
-    {
-        return $this->belongsTo(AddressArea::class, 'admin_area_3_id');
-    }
-
-    /**
-     * @return BelongsTo<AddressArea, $this>
-     */
-    public function adminArea4(): BelongsTo
-    {
-        return $this->belongsTo(AddressArea::class, 'admin_area_4_id');
-    }
-
     /** @return HasMany<AddressAreaAssignment, $this> */
     public function areaAssignments(): HasMany
     {
         return $this->hasMany(AddressAreaAssignment::class, 'address_id');
+    }
+
+    /** @return HasMany<AddressSnapshot, $this> */
+    public function snapshots(): HasMany
+    {
+        return $this->hasMany(AddressSnapshot::class, 'address_id');
     }
 
     /**

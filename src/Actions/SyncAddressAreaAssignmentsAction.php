@@ -4,33 +4,52 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Actions;
 
+use AIArmada\Addressing\Data\AddressHierarchyDefinition;
+use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\Address;
 use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Models\AddressAreaAssignment;
+use AIArmada\Addressing\Models\AddressAreaRelationship;
+use AIArmada\Addressing\Support\AddressAreaStateBridge;
+use AIArmada\Addressing\Support\CountryAddressProfileResolver;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 final class SyncAddressAreaAssignmentsAction
 {
+    public function __construct(
+        private readonly CountryAddressProfileResolver $profiles,
+    ) {}
+
     /**
      * @param  array<string, string|null>  $assignments
+     * @param  array<string, mixed>  $metadata
      */
-    public function execute(Address $address, array $assignments): void
-    {
+    public function execute(
+        Address $address,
+        array $assignments,
+        ?string $stateId = null,
+        array $metadata = [],
+    ): void {
         if ($assignments === []) {
+            AddressAreaAssignment::query()
+                ->where('address_id', $address->getKey())
+                ->delete();
+
             return;
         }
 
+        $countryCode = mb_strtoupper(mb_trim((string) $address->country_code));
         $selectedAssignments = array_filter(
             $assignments,
             static fn (mixed $areaId): bool => is_string($areaId) && mb_trim($areaId) !== '',
         );
-
         $areaIds = array_values($selectedAssignments);
         $areas = AddressArea::query()
             ->whereIn('id', $areaIds)
-            ->where('country_code', mb_strtoupper((string) $address->country_code))
-            ->with('roles')
+            ->where('country_code', $countryCode)
+            ->where('is_active', true)
             ->get()
             ->keyBy(fn (AddressArea $area): string => (string) $area->getKey());
 
@@ -42,29 +61,26 @@ final class SyncAddressAreaAssignmentsAction
 
         foreach ($selectedAssignments as $role => $areaId) {
             $area = $areas->get($areaId);
+            $definition = is_string($role) ? $this->definitionForRole($address, $role) : null;
 
-            if (! $area instanceof AddressArea) {
-                continue;
+            if (! $area instanceof AddressArea || $definition === null) {
+                throw ValidationException::withMessages([
+                    is_string($role) ? $role : 'address_areas' => 'The selected address area role is not defined by the country address profile.',
+                ]);
             }
 
-            $requiredRole = str_starts_with($role, 'postal_') ? 'locality' : 'administrative_area';
-
-            $validByRole = $area->roles->contains('role', $requiredRole);
-            $validByType = str_starts_with($role, 'postal_')
-                ? in_array($area->type, ['locality', 'precinct'], true)
-                : in_array($area->type, ['state', 'wilayah_persekutuan', 'district', 'city', 'municipality', 'mukim', 'subdistrict'], true);
-
-            if (! $validByRole && ! $validByType) {
+            if (! $this->areaMatchesDefinition($area, $definition['level'])) {
                 throw ValidationException::withMessages([
-                    $role => "The selected area is not a valid {$requiredRole}.",
+                    $role => 'The selected area does not match the required hierarchy level.',
                 ]);
             }
         }
 
-        DB::transaction(function () use ($address, $assignments, $selectedAssignments): void {
+        $this->validateHierarchy($address, $selectedAssignments, $stateId, $areas, $countryCode);
+
+        DB::transaction(function () use ($address, $selectedAssignments, $metadata): void {
             AddressAreaAssignment::query()
                 ->where('address_id', $address->getKey())
-                ->whereIn('role', array_keys($assignments))
                 ->delete();
 
             foreach ($selectedAssignments as $role => $areaId) {
@@ -73,9 +89,180 @@ final class SyncAddressAreaAssignmentsAction
                     'address_area_id' => $areaId,
                     'role' => $role,
                     'is_primary' => true,
-                    'metadata' => ['source' => 'filament-addressing'],
+                    'metadata' => $metadata !== [] ? $metadata : null,
                 ]);
             }
         });
+    }
+
+    /** @return array{hierarchy: AddressHierarchyDefinition, level: AddressLevelDefinition}|null */
+    private function definitionForRole(Address $address, string $role): ?array
+    {
+        foreach ($this->profiles->hierarchies($address->country_code) as $hierarchy) {
+            foreach ($hierarchy->levels as $level) {
+                $assignmentRole = $level->assignmentRole ?? "{$hierarchy->key}_{$level->key}";
+
+                if ($level->kind !== 'state' && $assignmentRole === $role) {
+                    return ['hierarchy' => $hierarchy, 'level' => $level];
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private function areaMatchesDefinition(AddressArea $area, AddressLevelDefinition $definition): bool
+    {
+        $types = $definition->areaTypes !== []
+            ? $definition->areaTypes
+            : ($definition->areaType !== null ? [$definition->areaType] : []);
+        $levels = $definition->areaLevels !== []
+            ? $definition->areaLevels
+            : ($definition->areaLevel !== null ? [$definition->areaLevel] : []);
+
+        return ($types === [] || in_array($area->type, $types, true))
+            && ($levels === [] || in_array($area->level, $levels, true));
+    }
+
+    /**
+     * @param  array<string, string>  $selectedAssignments
+     * @param  Collection<string, AddressArea>  $areas
+     */
+    private function validateHierarchy(
+        Address $address,
+        array $selectedAssignments,
+        ?string $stateId,
+        Collection $areas,
+        string $countryCode,
+    ): void {
+        /** @var array<string, array{hierarchy: AddressHierarchyDefinition, level: AddressLevelDefinition}> $definitions */
+        $definitions = [];
+
+        foreach (array_keys($selectedAssignments) as $role) {
+            $definition = $this->definitionForRole($address, $role);
+
+            if ($definition !== null) {
+                $definitions[$role] = $definition;
+            }
+        }
+
+        $relationships = AddressAreaRelationship::query()
+            ->whereHas('child', fn ($query) => $query->where('country_code', $countryCode))
+            ->where('relationship_type', 'contains')
+            ->where(function ($query): void {
+                $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
+            })
+            ->where(function ($query): void {
+                $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
+            })
+            ->get(['parent_address_area_id', 'child_address_area_id', 'hierarchy_type']);
+        $parents = $relationships->groupBy('child_address_area_id');
+        $ancestorIds = [];
+
+        foreach (array_unique(array_filter(array_map(
+            fn (array $definition): string => $this->hierarchyType($definition),
+            $definitions,
+        ))) as $hierarchyType) {
+            foreach ($areas as $area) {
+                $ancestorIds[$hierarchyType][(string) $area->getKey()] = $this->ancestorIds(
+                    (string) $area->getKey(),
+                    $parents,
+                    $hierarchyType,
+                );
+            }
+        }
+
+        foreach ($definitions as $role => $definition) {
+            $level = $definition['level'];
+
+            if ($level->parentKey === null) {
+                continue;
+            }
+
+            $parentDefinition = collect($definition['hierarchy']->levels)
+                ->first(fn (AddressLevelDefinition $candidate): bool => $candidate->key === $level->parentKey);
+            $areaId = $selectedAssignments[$role];
+
+            if (! $parentDefinition instanceof AddressLevelDefinition) {
+                throw ValidationException::withMessages([
+                    $role => 'The selected area requires a parent level defined by the country address profile.',
+                ]);
+            }
+
+            if ($parentDefinition->kind === 'state') {
+                $resolvedStateId = $stateId ?? $address->state_id;
+                $stateAreaId = AddressAreaStateBridge::areaIdForState($resolvedStateId, $this->hierarchyType($definition));
+
+                if ($stateAreaId === null || ! in_array($stateAreaId, $ancestorIds[$this->hierarchyType($definition)][$areaId] ?? [], true)) {
+                    throw ValidationException::withMessages([
+                        $role => sprintf('The selected area must belong to the selected %s.', $parentDefinition->label),
+                    ]);
+                }
+
+                continue;
+            }
+
+            $parentRole = $this->roleForLevel($definition['hierarchy'], $parentDefinition);
+            $parentAreaId = $selectedAssignments[$parentRole] ?? null;
+
+            if (! is_string($parentAreaId)) {
+                throw ValidationException::withMessages([
+                    $role => 'The selected area requires its parent hierarchy level to be selected first.',
+                ]);
+            }
+
+            if (! in_array($parentAreaId, $ancestorIds[$this->hierarchyType($definition)][$areaId] ?? [], true)) {
+                throw ValidationException::withMessages([
+                    $role => 'The selected area must be inside the selected parent area.',
+                ]);
+            }
+        }
+    }
+
+    /** @param array{hierarchy: AddressHierarchyDefinition, level: AddressLevelDefinition} $definition */
+    private function hierarchyType(array $definition): string
+    {
+        return $definition['level']->hierarchyType ?? $definition['hierarchy']->key;
+    }
+
+    private function roleForLevel(AddressHierarchyDefinition $hierarchy, AddressLevelDefinition $level): string
+    {
+        return $level->assignmentRole ?? "{$hierarchy->key}_{$level->key}";
+    }
+
+    /**
+     * @param  Collection<string, Collection<int, AddressAreaRelationship>>  $parents
+     * @return list<string>
+     */
+    private function ancestorIds(string $areaId, Collection $parents, ?string $hierarchyType): array
+    {
+        $ancestors = [];
+        $pending = [$areaId];
+
+        while ($pending !== []) {
+            $currentId = array_shift($pending);
+
+            if (! is_string($currentId) || isset($ancestors[$currentId])) {
+                continue;
+            }
+
+            $ancestors[$currentId] = true;
+
+            foreach ($parents->get($currentId, []) as $relationship) {
+                if ($hierarchyType !== null && $relationship->hierarchy_type !== $hierarchyType) {
+                    continue;
+                }
+
+                $parentId = (string) $relationship->parent_address_area_id;
+
+                if (! isset($ancestors[$parentId])) {
+                    $pending[] = $parentId;
+                }
+            }
+        }
+
+        unset($ancestors[$areaId]);
+
+        return array_keys($ancestors);
     }
 }

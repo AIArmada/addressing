@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Support;
 
 use AIArmada\Addressing\Models\AddressArea;
+use AIArmada\Addressing\Models\AddressAreaRelationship;
 use AIArmada\Addressing\Models\AddressAreaStateLink;
 use AIArmada\Addressing\Models\State;
 
@@ -21,7 +22,7 @@ final class AddressAreaStateBridge
     /**
      * Resolve the explicitly linked AddressArea node for a State.
      */
-    public static function areaIdForState(State | string | null $state): ?string
+    public static function areaIdForState(State | string | null $state, ?string $hierarchyType = null): ?string
     {
         $state = self::resolveState($state);
 
@@ -31,6 +32,15 @@ final class AddressAreaStateBridge
 
         $link = AddressAreaStateLink::query()
             ->where('state_id', $state->getKey())
+            ->whereHas('addressArea', fn ($query) => $query->where('is_active', true))
+            ->when($hierarchyType !== null, function ($query) use ($hierarchyType): void {
+                $query->where(function ($query) use ($hierarchyType): void {
+                    $query->where('hierarchy_type', $hierarchyType)
+                        ->orWhereNull('hierarchy_type');
+                })->orderByRaw('CASE WHEN hierarchy_type = ? THEN 0 ELSE 1 END', [$hierarchyType]);
+            })
+            ->orderByDesc('updated_at')
+            ->orderByDesc('id')
             ->with('addressArea')
             ->first();
 
@@ -48,30 +58,50 @@ final class AddressAreaStateBridge
             return null;
         }
 
+        if (! AddressArea::query()->whereKey($area->getKey())->where('is_active', true)->exists()) {
+            return null;
+        }
+
+        $pending = [(string) $area->getKey()];
         $visited = [];
 
-        while ($area instanceof AddressArea) {
-            $areaId = (string) $area->getKey();
+        while ($pending !== []) {
+            $areaId = array_shift($pending);
 
-            if (isset($visited[$areaId])) {
-                return null;
+            if (! is_string($areaId) || isset($visited[$areaId])) {
+                continue;
             }
 
             $visited[$areaId] = true;
 
             $stateId = AddressAreaStateLink::query()
                 ->where('address_area_id', $areaId)
+                ->whereHas('addressArea', fn ($query) => $query->where('is_active', true))
+                ->orderByDesc('updated_at')
+                ->orderByDesc('id')
                 ->value('state_id');
 
             if (is_string($stateId) && $stateId !== '') {
                 return $stateId;
             }
 
-            if (! is_string($area->parent_id) || $area->parent_id === '') {
-                return null;
-            }
+            $parentIds = AddressAreaRelationship::query()
+                ->where('child_address_area_id', $areaId)
+                ->where('relationship_type', 'contains')
+                ->where(function ($query): void {
+                    $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
+                })
+                ->where(function ($query): void {
+                    $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
+                })
+                ->whereHas('parent', fn ($query) => $query->where('is_active', true))
+                ->orderByDesc('updated_at')
+                ->orderByDesc('id')
+                ->pluck('parent_address_area_id');
 
-            $area = AddressArea::query()->find($area->parent_id);
+            foreach ($parentIds as $parentId) {
+                $pending[] = (string) $parentId;
+            }
         }
 
         return null;

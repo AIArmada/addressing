@@ -15,6 +15,7 @@ class AddressAreaName extends Model
     protected $fillable = [
         'address_area_id',
         'name',
+        'source',
         'name_type',
         'is_preferred',
     ];

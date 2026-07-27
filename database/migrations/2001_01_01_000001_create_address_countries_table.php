@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $jsonColumnType = commerce_json_column_type('addressing', 'json');
+        $jsonColumnType = commerce_json_column_type('addressing', 'jsonb');
         $tableName = config('addressing.tables.countries', 'countries');
 
         Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
@@ -32,10 +32,5 @@ return new class extends Migration
             $table->{$jsonColumnType}('translations')->nullable();
             $table->timestamps();
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists(config('addressing.tables.countries', 'countries'));
     }
 };

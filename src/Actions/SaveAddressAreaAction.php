@@ -42,6 +42,7 @@ final class SaveAddressAreaAction
 
         $name = $this->resolveString($attributes, 'name', $record->name, trim: true);
         $type = $this->resolveString($attributes, 'type', $record->type, trim: true);
+        $previousSource = $record->source;
         $source = $this->resolveString($attributes, 'source', $record->source, fallback: 'manual', trim: true);
         $sourceId = $this->resolveString(
             $attributes,
@@ -73,19 +74,20 @@ final class SaveAddressAreaAction
         if (array_key_exists('hierarchy_type', $attributes)) {
             $hierarchyType = $this->resolveNullableString($attributes, 'hierarchy_type');
 
-            if ($hierarchyType !== null) {
-                AddressAreaRelationship::query()
-                    ->where('child_address_area_id', $record->getKey())
-                    ->where('hierarchy_type', $hierarchyType)
-                    ->delete();
+            $relationshipQuery = AddressAreaRelationship::query()
+                ->where('child_address_area_id', $record->getKey())
+                ->whereIn('source', array_filter([$previousSource, $record->source]));
 
+            $relationshipQuery->delete();
+
+            if ($hierarchyType !== null) {
                 if ($parent instanceof AddressArea) {
                     AddressAreaRelationship::query()->create([
                         'parent_address_area_id' => $parent->getKey(),
                         'child_address_area_id' => $record->getKey(),
                         'relationship_type' => 'contains',
                         'hierarchy_type' => $hierarchyType,
-                        'metadata' => ['source' => $record->source],
+                        'source' => $record->source,
                     ]);
                 }
             }
