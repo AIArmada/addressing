@@ -102,6 +102,35 @@ $areas = app(SearchAddressAreasAction::class)->execute(
 Search supports canonical names, aliases, place type, address role, parent
 area and postcode filters.
 
+For incomplete external place-provider results, use the package hierarchy
+resolver to locate a named area below a known state root and recover its typed
+ancestor. The resolver is provider-agnostic; integrations remain responsible
+for translating provider components into the canonical area types and roles.
+
+~~~php
+use AIArmada\Addressing\Support\AddressAreaHierarchyResolver;
+
+$subdivision = app(AddressAreaHierarchyResolver::class)->resolveWithinHierarchy(
+    name: 'Shah Alam',
+    countryId: $country->id,
+    hierarchyRootId: $selangorArea->id,
+    hierarchyType: 'administrative',
+    types: ['city', 'municipality', 'mukim', 'subdistrict'],
+);
+
+$district = app(AddressAreaHierarchyResolver::class)->ancestorOfTypes(
+    area: $subdivision,
+    types: ['district', 'minor_district'],
+    hierarchyType: 'administrative',
+);
+
+$allAncestors = app(AddressAreaHierarchyResolver::class)->ancestorsOf(
+    area: $subdivision,
+    hierarchyType: 'administrative',
+);
+// Nearest first: district, state, ... for this provider's hierarchy.
+~~~
+
 ## Address area assignments
 
 ~~~php
