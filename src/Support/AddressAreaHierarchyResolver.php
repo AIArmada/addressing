@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Collection;
 
 final class AddressAreaHierarchyResolver
 {
+    /** @var array<string, Collection<int, AddressArea>> */
+    private array $ancestorCache = [];
+
     /**
      * Resolve an exact area name anywhere below a typed hierarchy root.
      *
@@ -96,51 +99,67 @@ final class AddressAreaHierarchyResolver
      */
     public function ancestorsOf(AddressArea $area, string $hierarchyType): Collection
     {
-        $ancestors = new Collection;
-        $current = $area;
-        $visited = [];
+        $cacheKey = (string) $area->getKey() . ':' . $hierarchyType;
 
-        while (is_string($current->parent_id) && $current->parent_id !== '') {
-            if (in_array($current->parent_id, $visited, true)) {
-                break;
-            }
-
-            $visited[] = $current->parent_id;
-            $current = $this->parentFor($current, $hierarchyType);
-
-            if (! $current instanceof AddressArea) {
-                break;
-            }
-
-            $ancestors->push($current);
+        if (array_key_exists($cacheKey, $this->ancestorCache)) {
+            return $this->ancestorCache[$cacheKey];
         }
 
-        return $ancestors;
+        $ancestors = collect();
+        $pending = [(string) $area->getKey()];
+        $visited = [(string) $area->getKey() => true];
+
+        while ($pending !== []) {
+            $relationships = AddressAreaRelationship::query()
+                ->whereIn('child_address_area_id', $pending)
+                ->where('relationship_type', 'contains')
+                ->where('hierarchy_type', $hierarchyType)
+                ->where(function ($query): void {
+                    $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
+                })
+                ->where(function ($query): void {
+                    $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
+                })
+                ->orderByDesc('updated_at')
+                ->orderByDesc('id')
+                ->get(['parent_address_area_id', 'child_address_area_id']);
+
+            $parentIds = $relationships
+                ->pluck('parent_address_area_id')
+                ->map(static fn (mixed $id): string => (string) $id)
+                ->unique()
+                ->filter(static fn (string $id): bool => ! isset($visited[$id]))
+                ->values();
+
+            if ($parentIds->isEmpty()) {
+                break;
+            }
+
+            $parents = AddressArea::query()
+                ->whereIn('id', $parentIds->all())
+                ->where('is_active', true)
+                ->get()
+                ->keyBy(fn (AddressArea $parent): string => (string) $parent->getKey());
+
+            $pending = [];
+
+            foreach ($parentIds as $parentId) {
+                $visited[$parentId] = true;
+                $parent = $parents->get($parentId);
+
+                if ($parent instanceof AddressArea) {
+                    $ancestors->push($parent);
+                    $pending[] = $parentId;
+                }
+            }
+        }
+
+        return $this->ancestorCache[$cacheKey] = $ancestors;
     }
 
     private function hasAncestor(AddressArea $area, string $ancestorId, string $hierarchyType): bool
     {
         return $this->ancestorsOf($area, $hierarchyType)
             ->contains(fn (AddressArea $ancestor): bool => (string) $ancestor->getKey() === $ancestorId);
-    }
-
-    private function parentFor(AddressArea $area, string $hierarchyType): ?AddressArea
-    {
-        $parentId = $area->parent_id;
-
-        if (! is_string($parentId) || $parentId === '') {
-            return null;
-        }
-
-        $relationshipExists = AddressAreaRelationship::query()
-            ->where('parent_address_area_id', $parentId)
-            ->where('child_address_area_id', $area->getKey())
-            ->where('relationship_type', 'contains')
-            ->where('hierarchy_type', $hierarchyType)
-            ->exists();
-
-        return $relationshipExists
-            ? AddressArea::query()->find($parentId)
-            : null;
     }
 }

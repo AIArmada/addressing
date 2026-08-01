@@ -146,17 +146,7 @@ final class SyncAddressAreaAssignmentsAction
             }
         }
 
-        $relationships = AddressAreaRelationship::query()
-            ->whereHas('child', fn ($query) => $query->where('country_code', $countryCode))
-            ->where('relationship_type', 'contains')
-            ->where(function ($query): void {
-                $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
-            })
-            ->where(function ($query): void {
-                $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
-            })
-            ->get(['parent_address_area_id', 'child_address_area_id', 'hierarchy_type']);
-        $parents = $relationships->groupBy('child_address_area_id');
+        $parents = $this->loadAncestorRelationships($areas->keys()->all());
         $ancestorIds = [];
 
         foreach (array_unique(array_filter(array_map(
@@ -273,5 +263,59 @@ final class SyncAddressAreaAssignmentsAction
         unset($ancestors[$areaId]);
 
         return array_keys($ancestors);
+    }
+
+    /**
+     * Load only the ancestor graph reachable from the selected areas.
+     *
+     * The previous implementation loaded every active relationship for the
+     * address country. A breadth-first frontier keeps the query count bounded
+     * by hierarchy depth while avoiding unrelated country data.
+     *
+     * @param  list<string>  $areaIds
+     * @return Collection<string, Collection<int, AddressAreaRelationship>>
+     */
+    private function loadAncestorRelationships(array $areaIds): Collection
+    {
+        $parents = collect();
+        $pending = array_values(array_unique($areaIds));
+        $visited = [];
+
+        while ($pending !== []) {
+            $frontier = array_values(array_filter(
+                array_unique($pending),
+                static fn (mixed $areaId): bool => is_string($areaId) && ! isset($visited[$areaId]),
+            ));
+            $pending = [];
+
+            if ($frontier === []) {
+                break;
+            }
+
+            foreach ($frontier as $areaId) {
+                $visited[$areaId] = true;
+            }
+
+            $relationships = AddressAreaRelationship::query()
+                ->whereIn('child_address_area_id', $frontier)
+                ->where('relationship_type', 'contains')
+                ->where(function ($query): void {
+                    $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
+                })
+                ->where(function ($query): void {
+                    $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
+                })
+                ->get(['parent_address_area_id', 'child_address_area_id', 'hierarchy_type']);
+
+            foreach ($relationships as $relationship) {
+                $parents->put(
+                    (string) $relationship->child_address_area_id,
+                    $parents->get((string) $relationship->child_address_area_id, collect())->push($relationship),
+                );
+                $pending[] = (string) $relationship->parent_address_area_id;
+            }
+        }
+
+        return $parents;
     }
 }
