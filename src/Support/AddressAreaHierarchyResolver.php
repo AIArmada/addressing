@@ -105,7 +105,7 @@ final class AddressAreaHierarchyResolver
             return $this->ancestorCache[$cacheKey];
         }
 
-        $ancestors = collect();
+        $ancestors = new Collection;
         $pending = [(string) $area->getKey()];
         $visited = [(string) $area->getKey() => true];
 
