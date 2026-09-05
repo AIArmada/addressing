@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Support;
 
 use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Models\AddressAreaRelationship;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -115,10 +116,10 @@ final class AddressAreaHierarchyResolver
                 ->where('relationship_type', 'contains')
                 ->where('hierarchy_type', $hierarchyType)
                 ->where(function ($query): void {
-                    $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
+                    $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', CarbonImmutable::now());
                 })
                 ->where(function ($query): void {
-                    $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
+                    $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', CarbonImmutable::now());
                 })
                 ->orderByDesc('updated_at')
                 ->orderByDesc('id')

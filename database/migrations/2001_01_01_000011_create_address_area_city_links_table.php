@@ -10,17 +10,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        foreach ([
-            config('addressing.tables.states', 'states'),
-            config('addressing.tables.cities', 'cities'),
-        ] as $tableName) {
-            if (Schema::hasColumn($tableName, 'metadata')) {
-                Schema::table($tableName, function (Blueprint $table): void {
-                    $table->dropColumn('metadata');
-                });
-            }
-        }
-
         $tableName = config('addressing.tables.area_city_links', 'address_area_city_links');
 
         if (Schema::hasTable($tableName)) {
@@ -29,7 +18,7 @@ return new class extends Migration
 
         $jsonColumnType = commerce_json_column_type('addressing', 'jsonb');
 
-        Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
+        commerce_schema_create_if_missing($tableName, function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();
             $table->foreignUuid('address_area_id')->index();
             $table->foreignUuid('city_id')->index();

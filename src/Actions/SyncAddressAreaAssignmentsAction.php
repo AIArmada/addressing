@@ -12,6 +12,7 @@ use AIArmada\Addressing\Models\AddressAreaAssignment;
 use AIArmada\Addressing\Models\AddressAreaRelationship;
 use AIArmada\Addressing\Support\AddressAreaStateBridge;
 use AIArmada\Addressing\Support\CountryAddressProfileResolver;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -300,10 +301,10 @@ final class SyncAddressAreaAssignmentsAction
                 ->whereIn('child_address_area_id', $frontier)
                 ->where('relationship_type', 'contains')
                 ->where(function ($query): void {
-                    $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
+                    $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', CarbonImmutable::now());
                 })
                 ->where(function ($query): void {
-                    $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
+                    $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', CarbonImmutable::now());
                 })
                 ->get(['parent_address_area_id', 'child_address_area_id', 'hierarchy_type']);
 

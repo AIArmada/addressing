@@ -21,7 +21,7 @@ final class BuildAddressNavigationLinksAction
     public function execute(Address | AddressData $address): array
     {
         if ($address instanceof Address) {
-            $data = AddressData::from($address->toArray());
+            $data = AddressData::from($address->attributesToArray());
         } else {
             $data = $address;
         }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -13,7 +12,7 @@ return new class extends Migration
         $jsonColumnType = commerce_json_column_type('addressing', 'jsonb');
         $tableName = config('addressing.tables.addressables', 'addressables');
 
-        Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
+        commerce_schema_create_if_missing($tableName, function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();
             $table->foreignUuid('address_id')->index();
             $table->uuidMorphs('addressable');

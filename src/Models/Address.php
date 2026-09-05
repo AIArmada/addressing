@@ -137,25 +137,6 @@ class Address extends Model
         };
     }
 
-    public function getAttribute($key): mixed
-    {
-        return match ($key) {
-            'lat' => parent::getAttribute('latitude'),
-            'lng' => parent::getAttribute('longitude'),
-            'google_place_id' => parent::getAttribute('provider_place_id'),
-            'country' => $this->relationLoaded('country')
-                ? $this->getRelation('country')
-                : parent::getAttribute('country'),
-            'state' => $this->relationLoaded('state')
-                ? $this->getRelation('state')
-                : parent::getAttribute('state'),
-            'city' => $this->relationLoaded('city')
-                ? $this->getRelation('city')
-                : parent::getAttribute('city'),
-            default => parent::getAttribute($key),
-        };
-    }
-
     public function getTable(): string
     {
         return config('addressing.tables.addresses', 'addresses');

@@ -18,7 +18,7 @@ class CreateAddressSnapshotAction
         ?string $label = null,
     ): AddressSnapshot {
         if ($address instanceof Address) {
-            $data = AddressData::from($address->toArray());
+            $data = AddressData::from($address->attributesToArray());
             $addressId = $address->id;
         } else {
             $data = $address;

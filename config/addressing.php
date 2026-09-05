@@ -8,6 +8,10 @@ use AIArmada\Addressing\Models\City;
 use AIArmada\Addressing\Models\State;
 
 return [
+    'database' => [
+        'json_column_type' => env('ADDRESSING_JSON_COLUMN_TYPE', 'jsonb'),
+    ],
+
     'tables' => [
         'countries' => 'countries',
         'areas' => 'address_areas',

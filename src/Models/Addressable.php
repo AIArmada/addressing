@@ -6,11 +6,11 @@ namespace AIArmada\Addressing\Models;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Support\Str;
 
 /**
  * @property string $id
@@ -28,9 +28,7 @@ use Illuminate\Support\Str;
  */
 class Addressable extends MorphPivot
 {
-    public $incrementing = false;
-
-    protected $keyType = 'string';
+    use HasUuids;
 
     protected $fillable = [
         'id',
@@ -45,20 +43,13 @@ class Addressable extends MorphPivot
         'metadata',
     ];
 
-    protected static function booted(): void
-    {
-        static::creating(function (Addressable $addressable): void {
-            $addressable->id ??= (string) Str::orderedUuid();
-        });
-    }
-
     /**
      * @param  Builder<Addressable>  $query
      * @return Builder<Addressable>
      */
     public function scopeValidNow(Builder $query): Builder
     {
-        $now = now();
+        $now = CarbonImmutable::now();
 
         return $query
             ->where(function (Builder $q) use ($now): void {

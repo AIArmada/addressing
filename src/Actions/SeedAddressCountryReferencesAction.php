@@ -9,6 +9,7 @@ use AIArmada\CommerceSupport\Actions\SeedCurrenciesAction;
 use AIArmada\CommerceSupport\Actions\SeedTimezonesAction;
 use AIArmada\CommerceSupport\Models\Currency;
 use AIArmada\CommerceSupport\Models\Timezone;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -155,8 +156,8 @@ class SeedAddressCountryReferencesAction
         return DB::table($table)->insertOrIgnore([
             'id' => (string) Str::uuid(),
             ...$attributes,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at' => CarbonImmutable::now(),
+            'updated_at' => CarbonImmutable::now(),
         ]);
     }
 }

@@ -8,6 +8,7 @@ use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Models\AddressAreaRelationship;
 use AIArmada\Addressing\Models\AddressAreaStateLink;
 use AIArmada\Addressing\Models\State;
+use Carbon\CarbonImmutable;
 
 /**
  * Resolves an optional explicit relationship between canonical State rows and
@@ -136,10 +137,10 @@ final class AddressAreaStateBridge
                 ->whereIn('child_address_area_id', $frontier)
                 ->where('relationship_type', 'contains')
                 ->where(function ($query): void {
-                    $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
+                    $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', CarbonImmutable::now());
                 })
                 ->where(function ($query): void {
-                    $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
+                    $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', CarbonImmutable::now());
                 })
                 ->whereHas('parent', fn ($query) => $query->where('is_active', true))
                 ->orderByDesc('updated_at')

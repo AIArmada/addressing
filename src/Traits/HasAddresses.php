@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Traits;
 
 use AIArmada\Addressing\Models\Address;
 use AIArmada\Addressing\Models\Addressable;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -39,7 +40,7 @@ trait HasAddresses
         if ($this->relationLoaded('addresses')) {
             /** @var Collection<int, Address> $addresses */
             $addresses = $this->getRelation('addresses');
-            $now = now();
+            $now = CarbonImmutable::now();
 
             return $addresses->first(function (Address $address) use ($type, $now): bool {
                 $pivot = $address->pivot;
@@ -179,7 +180,7 @@ trait HasAddresses
      */
     private function validAddressQuery(Builder | MorphToMany $query): Builder | MorphToMany
     {
-        $now = now();
+        $now = CarbonImmutable::now();
 
         return $query
             ->where(function (Builder $q) use ($now): void {

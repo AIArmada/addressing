@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Models\AddressArea;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -30,6 +31,9 @@ final class SearchAddressAreasAction
         }
 
         $needle = mb_strtolower($query);
+        $escapedNeedle = addcslashes($needle, '\\%_');
+        $containsPattern = "%{$escapedNeedle}%";
+        $prefixPattern = "{$escapedNeedle}%";
 
         if ($hierarchyType !== null && mb_trim($hierarchyType) === '') {
             return new Collection;
@@ -47,10 +51,10 @@ final class SearchAddressAreasAction
                         ->where(config('addressing.tables.area_relationships', 'address_area_relationships') . '.hierarchy_type', $hierarchyType)
                         ->where(config('addressing.tables.area_relationships', 'address_area_relationships') . '.relationship_type', 'contains')
                         ->where(function (Builder $query): void {
-                            $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
+                            $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', CarbonImmutable::now());
                         })
                         ->where(function (Builder $query): void {
-                            $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
+                            $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', CarbonImmutable::now());
                         });
                 });
             })
@@ -62,10 +66,10 @@ final class SearchAddressAreasAction
                                 ->where(config('addressing.tables.area_relationships', 'address_area_relationships') . '.hierarchy_type', $hierarchyType)
                                 ->where(config('addressing.tables.area_relationships', 'address_area_relationships') . '.relationship_type', 'contains')
                                 ->where(function (Builder $relationshipQuery): void {
-                                    $relationshipQuery->whereNull('valid_from')->orWhereDate('valid_from', '<=', now());
+                                    $relationshipQuery->whereNull('valid_from')->orWhereDate('valid_from', '<=', CarbonImmutable::now());
                                 })
                                 ->where(function (Builder $relationshipQuery): void {
-                                    $relationshipQuery->whereNull('valid_until')->orWhereDate('valid_until', '>=', now());
+                                    $relationshipQuery->whereNull('valid_until')->orWhereDate('valid_until', '>=', CarbonImmutable::now());
                                 });
                         })
                         ->orWhereDoesntHave('ancestors');
@@ -73,7 +77,7 @@ final class SearchAddressAreasAction
             })
             ->when($postalCode !== null, fn (Builder $builder): Builder => $builder->whereHas('postalCodes', fn (Builder $codes): Builder => $codes->where('code', mb_trim($postalCode))))
             ->when($role !== null, fn (Builder $builder): Builder => $builder->whereHas('roles', fn (Builder $roles): Builder => $roles->where('role', $role)))
-            ->where(function (Builder $builder) use ($needle): void {
+            ->where(function (Builder $builder) use ($containsPattern, $needle): void {
                 if (mb_strlen($needle) < 3) {
                     $builder
                         ->whereRaw('LOWER(name) = ?', [$needle])
@@ -84,11 +88,11 @@ final class SearchAddressAreasAction
                 }
 
                 $builder
-                    ->whereRaw('LOWER(name) LIKE ?', ["%{$needle}%"])
-                    ->orWhereRaw('LOWER(slug) LIKE ?', ["%{$needle}%"])
-                    ->orWhereHas('names', fn (Builder $names): Builder => $names->whereRaw('LOWER(name) LIKE ?', ["%{$needle}%"]));
+                    ->whereRaw("LOWER(name) LIKE ? ESCAPE '\\'", [$containsPattern])
+                    ->orWhereRaw("LOWER(slug) LIKE ? ESCAPE '\\'", [$containsPattern])
+                    ->orWhereHas('names', fn (Builder $names): Builder => $names->whereRaw("LOWER(name) LIKE ? ESCAPE '\\'", [$containsPattern]));
             })
-            ->orderByRaw('CASE WHEN LOWER(name) = ? THEN 0 WHEN LOWER(name) LIKE ? THEN 1 ELSE 2 END', [$needle, "{$needle}%"])
+            ->orderByRaw("CASE WHEN LOWER(name) = ? THEN 0 WHEN LOWER(name) LIKE ? ESCAPE '\\' THEN 1 ELSE 2 END", [$needle, $prefixPattern])
             ->orderBy('name')
             ->limit(max(1, min($limit, 100)))
             ->get();
