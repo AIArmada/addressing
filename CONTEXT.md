@@ -36,6 +36,8 @@ keywords:
 
 ## Guardrails
 - Owns models, actions, services, events, calculations, and persistence rules.
+- Canonical-addressing doctrine: addressing is required infrastructure for identity/addressing consumers — downstream `require` (not `suggest`) is the policy, starting with `customers`. Consumers inherit its migrations; dataset seeding stays opt-in.
+- Direction guard (mechanical, see `tests/src/CommerceSupport/Architecture/CommerceSupportArchitectureTest.php`): addressing `require` stays at support + package-tools, and `src/` never imports consumer namespaces (`Customers`, `Persons`, `Orders`, `Events`). Never depend back.
 - `Address` + `HasAddresses` is the forward path for new reusable attachments. The customers package is the first pilot consumer; its `customer_addresses` lineage remains frozen and is bridged with `toAddressingData()` without a backfill.
 - Reference geography (`countries`, `states`, `cities`, areas, postcodes, and links) is global; instance addresses, pivots, and snapshots remain owner-scoped. Use `OwnerQuery` for raw queries against the instance tier.
 - `AddressingTableResolver` is the sole table-name resolver for runtime readers and migrations; it reads `addressing.database.tables.*`.
