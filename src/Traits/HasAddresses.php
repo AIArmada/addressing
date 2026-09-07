@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Traits;
 
 use AIArmada\Addressing\Models\Address;
 use AIArmada\Addressing\Models\Addressable;
+use AIArmada\Addressing\Support\AddressOwnerGuard;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,16 +24,18 @@ trait HasAddresses
     {
         $pivotTable = config('addressing.tables.addressables', 'addressables');
 
-        return $this->morphToMany(
+        $relation = $this->morphToMany(
             Address::class,
             'addressable',
             config('addressing.tables.addressables', 'addressables'),
         )
             ->using(Addressable::class)
-            ->withPivot(['id', 'type', 'label', 'is_primary', 'valid_from', 'valid_until'])
+            ->withPivot(['id', 'type', 'label', 'is_primary', 'valid_from', 'valid_until', 'owner_type', 'owner_id'])
             ->withTimestamps()
             ->orderBy("{$pivotTable}.is_primary", 'desc')
             ->orderBy("{$pivotTable}.created_at", 'desc');
+
+        return AddressOwnerGuard::applyToRelation($relation);
     }
 
     public function primaryAddress(?string $type = null): ?Address
@@ -86,6 +89,8 @@ trait HasAddresses
         ?string $label = null,
     ): Addressable {
         return DB::transaction(function () use ($address, $type, $isPrimary, $label): Addressable {
+            AddressOwnerGuard::assertAddressIsWritable($address->getKey());
+            AddressOwnerGuard::assertAddressableIsWritable($this->getMorphClass(), $this->getKey());
             $this->lockForAddressMutation();
 
             $existing = Addressable::query()
@@ -130,6 +135,8 @@ trait HasAddresses
     public function setPrimaryAddress(Address $address, string $type = 'primary'): Addressable
     {
         return DB::transaction(function () use ($address, $type): Addressable {
+            AddressOwnerGuard::assertAddressIsWritable($address->getKey());
+            AddressOwnerGuard::assertAddressableIsWritable($this->getMorphClass(), $this->getKey());
             $this->lockForAddressMutation();
 
             $pivotTable = config('addressing.tables.addressables', 'addressables');
@@ -197,8 +204,7 @@ trait HasAddresses
 
     private function demotePrimaryAddressPivots(string $type): void
     {
-        $this->addresses()
-            ->newPivotStatement()
+        Addressable::query()
             ->where('addressable_type', $this->getMorphClass())
             ->where('addressable_id', $this->getKey())
             ->where('type', $type)

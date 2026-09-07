@@ -42,7 +42,7 @@ keywords:
 ## Decide fast
 - Use when: Storing, validating, formatting, or importing addresses / geographic areas.
 - Skip when: Tenant scoping (explicit non-goal in v1) or org identity — see organizations.
-- Owner/security: No owner scoping by design (v1); shared reference data.
+- Owner/security: `Address`, `Addressable`, and `AddressSnapshot` are owner-scoped; geography reference data remains global.
 
 ## Key surfaces
 - Models: `Address`, `AddressArea`, `AddressAreaAssignment`, `AddressAreaCityLink`, `AddressAreaName`, `AddressAreaPostalCode`, `AddressAreaRelationship`, `AddressAreaRole`, `AddressAreaStateLink`, `AddressCountry`

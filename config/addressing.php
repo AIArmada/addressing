@@ -37,6 +37,14 @@ return [
         'city' => City::class,
     ],
 
+    'features' => [
+        'owner' => [
+            'enabled' => env('ADDRESSING_OWNER_ENABLED', true),
+            'include_global' => env('ADDRESSING_OWNER_INCLUDE_GLOBAL', false),
+            'auto_assign_on_create' => env('ADDRESSING_OWNER_AUTO_ASSIGN', true),
+        ],
+    ],
+
     'geography' => [
         // Add country providers here; the core package remains country-neutral.
         'providers' => [

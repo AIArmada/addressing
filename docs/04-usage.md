@@ -203,6 +203,20 @@ $primary = $customer->primaryAddress('shipping');
 $addresses = $customer->addressesOfType('billing');
 ```
 
+Address instances and attachment pivots are owner-scoped. Resolve the
+addressable and the address inside the same owner context before attaching:
+
+```php
+use AIArmada\CommerceSupport\Support\OwnerContext;
+
+OwnerContext::withOwner($owner, function () use ($customer, $address): void {
+    $customer->attachAddress($address, type: 'shipping', isPrimary: true);
+});
+```
+
+Global address records require explicit global context and are not implicitly
+shared with tenants.
+
 > [!info]
 > `primaryAddress()` and `addressesOfType()` only consider pivot rows whose `valid_from` / `valid_until` window includes the current time.
 >

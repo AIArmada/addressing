@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressOwnerGuard;
 use AIArmada\Addressing\Support\ModelResolver;
+use AIArmada\CommerceSupport\Traits\HasOwner;
+use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -54,7 +57,11 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  */
 class Address extends Model
 {
+    use HasOwner;
+    use HasOwnerScopeConfig;
     use HasUuids;
+
+    protected static string $ownerScopeConfigKey = 'addressing.features.owner';
 
     protected static function booted(): void
     {
@@ -191,11 +198,13 @@ class Address extends Model
      */
     public function addressables(): MorphToMany
     {
-        return $this->morphedByMany(
+        $relation = $this->morphedByMany(
             Model::class,
             'addressable',
             config('addressing.tables.addressables', 'addressables'),
         );
+
+        return AddressOwnerGuard::applyToRelation($relation);
     }
 
     protected function casts(): array

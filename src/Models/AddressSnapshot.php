@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressOwnerGuard;
+use AIArmada\CommerceSupport\Traits\HasOwner;
+use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -37,7 +40,11 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class AddressSnapshot extends Model
 {
+    use HasOwner;
+    use HasOwnerScopeConfig;
     use HasUuids;
+
+    protected static string $ownerScopeConfigKey = 'addressing.features.owner';
 
     protected $fillable = [
         'address_id',
@@ -87,5 +94,21 @@ class AddressSnapshot extends Model
             'metadata' => 'array',
             'navigation_links' => 'array',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (AddressSnapshot $snapshot): void {
+            AddressOwnerGuard::assertAddressableIsWritable(
+                $snapshot->getAttribute('snapshotable_type'),
+                $snapshot->getAttribute('snapshotable_id'),
+            );
+
+            $addressId = $snapshot->getAttribute('address_id');
+
+            if ($addressId !== null) {
+                AddressOwnerGuard::assertAddressIsWritable($addressId);
+            }
+        });
     }
 }

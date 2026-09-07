@@ -42,6 +42,26 @@ Override any table name via environment variables or config publishing.
 - `cities.state_id` is nullable; countries without a state/province level can still use country-scoped cities
 - Addresses may store free-text `state` / `city` strings and optionally link via `state_id` / `city_id`
 
+## Owner scoping
+
+Instance address data is owner-scoped by default. Existing ownerless rows are
+global and are not included in an owner query unless the caller explicitly
+uses global context or opts into `include_global`.
+
+```php
+'features' => [
+    'owner' => [
+        'enabled' => true,
+        'include_global' => false,
+        'auto_assign_on_create' => true,
+    ],
+],
+```
+
+Use `OwnerContext::withOwner($owner, ...)` for tenant work and
+`OwnerContext::withOwner(null, ...)` for deliberate global work. Reference
+geography tables remain global and are not owner-scoped.
+
 ## Models and Geography Providers
 
 ```php

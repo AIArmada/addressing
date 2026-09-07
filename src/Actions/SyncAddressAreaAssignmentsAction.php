@@ -11,6 +11,7 @@ use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Models\AddressAreaAssignment;
 use AIArmada\Addressing\Models\AddressAreaRelationship;
 use AIArmada\Addressing\Support\AddressAreaStateBridge;
+use AIArmada\Addressing\Support\AddressOwnerGuard;
 use AIArmada\Addressing\Support\CountryAddressProfileResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Collection;
@@ -33,6 +34,8 @@ final class SyncAddressAreaAssignmentsAction
         ?string $stateId = null,
         array $metadata = [],
     ): void {
+        AddressOwnerGuard::assertAddressIsWritable($address->getKey());
+
         if ($assignments === []) {
             AddressAreaAssignment::query()
                 ->where('address_id', $address->getKey())

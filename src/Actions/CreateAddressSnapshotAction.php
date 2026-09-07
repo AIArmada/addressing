@@ -7,6 +7,7 @@ namespace AIArmada\Addressing\Actions;
 use AIArmada\Addressing\Data\AddressData;
 use AIArmada\Addressing\Models\Address;
 use AIArmada\Addressing\Models\AddressSnapshot;
+use AIArmada\Addressing\Support\AddressOwnerGuard;
 use Illuminate\Database\Eloquent\Model;
 
 class CreateAddressSnapshotAction
@@ -17,7 +18,13 @@ class CreateAddressSnapshotAction
         ?string $reason = null,
         ?string $label = null,
     ): AddressSnapshot {
+        AddressOwnerGuard::assertAddressableIsWritable(
+            $snapshotable->getMorphClass(),
+            $snapshotable->getKey(),
+        );
+
         if ($address instanceof Address) {
+            AddressOwnerGuard::assertAddressIsWritable($address->getKey());
             $data = AddressData::from($address->attributesToArray());
             $addressId = $address->id;
         } else {

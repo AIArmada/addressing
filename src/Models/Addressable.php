@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressOwnerGuard;
+use AIArmada\CommerceSupport\Traits\HasOwner;
+use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -28,7 +31,11 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class Addressable extends MorphPivot
 {
+    use HasOwner;
+    use HasOwnerScopeConfig;
     use HasUuids;
+
+    protected static string $ownerScopeConfigKey = 'addressing.features.owner';
 
     protected $fillable = [
         'id',
@@ -42,6 +49,17 @@ class Addressable extends MorphPivot
         'valid_until',
         'metadata',
     ];
+
+    protected static function booted(): void
+    {
+        static::saving(function (Addressable $addressable): void {
+            AddressOwnerGuard::assertAddressIsWritable($addressable->getAttribute('address_id'));
+            AddressOwnerGuard::assertAddressableIsWritable(
+                $addressable->getAttribute('addressable_type'),
+                $addressable->getAttribute('addressable_id'),
+            );
+        });
+    }
 
     /**
      * @param  Builder<Addressable>  $query
