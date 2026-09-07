@@ -16,7 +16,7 @@ class AddressAreaAssignment extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.address_area_assignments', 'address_area_assignments');
+        return config('addressing.database.tables.address_area_assignments', 'address_area_assignments');
     }
 
     /** @return BelongsTo<Address, $this> */

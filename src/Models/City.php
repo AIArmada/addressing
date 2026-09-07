@@ -37,7 +37,7 @@ class City extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.cities', 'cities');
+        return config('addressing.database.tables.cities', 'cities');
     }
 
     /**

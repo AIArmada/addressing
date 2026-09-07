@@ -28,7 +28,7 @@ class PostalCode extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.postal_codes', 'postal_codes');
+        return config('addressing.database.tables.postal_codes', 'postal_codes');
     }
 
     /** @return BelongsToMany<AddressArea, $this, AddressAreaPostalCode, 'pivot'> */
@@ -36,7 +36,7 @@ class PostalCode extends Model
     {
         return $this->belongsToMany(
             AddressArea::class,
-            config('addressing.tables.area_postal_codes', 'address_area_postal_codes'),
+            config('addressing.database.tables.area_postal_codes', 'address_area_postal_codes'),
             'postal_code_id',
             'address_area_id',
         )

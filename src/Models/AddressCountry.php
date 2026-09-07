@@ -54,7 +54,7 @@ class AddressCountry extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.countries', 'countries');
+        return config('addressing.database.tables.countries', 'countries');
     }
 
     protected function casts(): array
@@ -69,7 +69,7 @@ class AddressCountry extends Model
      */
     public function currencies(): BelongsToMany
     {
-        return $this->belongsToMany(Currency::class, config('addressing.tables.country_currency_links', 'country_currency_links'), 'country_id', 'currency_id');
+        return $this->belongsToMany(Currency::class, config('addressing.database.tables.country_currency_links', 'country_currency_links'), 'country_id', 'currency_id');
     }
 
     /**
@@ -77,7 +77,7 @@ class AddressCountry extends Model
      */
     public function timezones(): BelongsToMany
     {
-        return $this->belongsToMany(Timezone::class, config('addressing.tables.country_timezone_links', 'country_timezone_links'), 'country_id', 'timezone_id');
+        return $this->belongsToMany(Timezone::class, config('addressing.database.tables.country_timezone_links', 'country_timezone_links'), 'country_id', 'timezone_id');
     }
 
     /**

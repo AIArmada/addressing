@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Support;
 
+use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Models\City;
 use AIArmada\Addressing\Models\State;
 
@@ -12,6 +13,17 @@ use AIArmada\Addressing\Models\State;
  */
 final class ModelResolver
 {
+    /**
+     * @return class-string<AddressCountry>
+     */
+    public static function countryClass(): string
+    {
+        /** @var class-string<AddressCountry> $modelClass */
+        $modelClass = config('addressing.models.country', AddressCountry::class);
+
+        return $modelClass;
+    }
+
     /**
      * @return class-string<State>
      */

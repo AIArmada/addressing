@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Support;
 
-use AIArmada\Addressing\Models\AddressCountry;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 final class AddressCountryResolver
 {
-    public function resolve(mixed $country): ?AddressCountry
+    public function resolve(mixed $country): ?Model
     {
-        if ($country instanceof AddressCountry) {
+        $countryClass = ModelResolver::countryClass();
+
+        if ($country instanceof $countryClass) {
             return $country;
         }
 
@@ -25,7 +28,14 @@ final class AddressCountryResolver
             return null;
         }
 
-        $query = AddressCountry::query();
+        /** @var Model $countryModel */
+        $countryModel = new $countryClass;
+
+        if (! Schema::hasTable($countryModel->getTable())) {
+            return null;
+        }
+
+        $query = $countryClass::query();
 
         if (Str::isUuid($value)) {
             return $query->whereKey($value)->first();
@@ -40,14 +50,16 @@ final class AddressCountryResolver
 
     public function resolveId(mixed $country): ?string
     {
-        return $this->resolve($country)?->getKey();
+        $key = $this->resolve($country)?->getKey();
+
+        return $key === null ? null : (string) $key;
     }
 
     public function timezoneFor(mixed $country): ?string
     {
         $resolved = $this->resolve($country);
 
-        if (! $resolved instanceof AddressCountry) {
+        if (! $resolved instanceof Model || ! method_exists($resolved, 'timezones')) {
             return null;
         }
 

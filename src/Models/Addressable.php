@@ -82,7 +82,7 @@ class Addressable extends MorphPivot
 
     public function getTable(): string
     {
-        return config('addressing.tables.addressables', 'addressables');
+        return config('addressing.database.tables.addressables', 'addressables');
     }
 
     /**

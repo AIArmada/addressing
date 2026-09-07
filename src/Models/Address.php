@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
-use AIArmada\Addressing\Support\AddressOwnerGuard;
+use AIArmada\Addressing\Contracts\AddressNormalizer;
 use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\CommerceSupport\Traits\HasOwner;
 use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
  * @property string $id
@@ -65,6 +64,11 @@ class Address extends Model
 
     protected static function booted(): void
     {
+        static::saving(function (Address $address): void {
+            $normalized = app(AddressNormalizer::class)->normalize($address->attributesToArray());
+            $address->forceFill($normalized->toModelAttributes());
+        });
+
         static::deleting(function (Address $address): void {
             $address->areaAssignments()->delete();
             $address->addressableLinks()->delete();
@@ -110,17 +114,12 @@ class Address extends Model
         'google_maps_url',
         'waze_url',
         'navigation_links',
-        'lat',
-        'lng',
-        'google_place_id',
     ];
 
     public function setAttribute($key, $value): mixed
     {
         return match ($key) {
-            'lat' => parent::setAttribute('latitude', $value),
-            'lng' => parent::setAttribute('longitude', $value),
-            'google_place_id' => parent::setAttribute('provider_place_id', $value),
+            'label',
             'line1',
             'line2',
             'line3',
@@ -136,7 +135,16 @@ class Address extends Model
             'state',
             'postcode',
             'country',
-            'country_code' => parent::setAttribute(
+            'country_code',
+            'raw_address',
+            'formatted_address',
+            'geohash',
+            'geo_precision',
+            'provider',
+            'provider_place_id',
+            'validation_status',
+            'google_maps_url',
+            'waze_url' => parent::setAttribute(
                 $key,
                 is_string($value) ? mb_trim($value) : $value,
             ),
@@ -146,15 +154,15 @@ class Address extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.addresses', 'addresses');
+        return config('addressing.database.tables.addresses', 'addresses');
     }
 
     /**
-     * @return BelongsTo<AddressCountry, $this>
+     * @return BelongsTo<Model, $this>
      */
     public function country(): BelongsTo
     {
-        return $this->belongsTo(AddressCountry::class, 'country_id');
+        return $this->belongsTo(ModelResolver::countryClass(), 'country_id');
     }
 
     /**
@@ -191,20 +199,6 @@ class Address extends Model
     public function addressableLinks(): HasMany
     {
         return $this->hasMany(Addressable::class, 'address_id');
-    }
-
-    /**
-     * @return MorphToMany<Model, $this>
-     */
-    public function addressables(): MorphToMany
-    {
-        $relation = $this->morphedByMany(
-            Model::class,
-            'addressable',
-            config('addressing.tables.addressables', 'addressables'),
-        );
-
-        return AddressOwnerGuard::applyToRelation($relation);
     }
 
     protected function casts(): array

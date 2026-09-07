@@ -16,7 +16,7 @@ class AddressAreaRole extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.area_roles', 'address_area_roles');
+        return config('addressing.database.tables.area_roles', 'address_area_roles');
     }
 
     /** @return BelongsTo<AddressArea, $this> */

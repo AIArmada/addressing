@@ -35,7 +35,7 @@ class State extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.states', 'states');
+        return config('addressing.database.tables.states', 'states');
     }
 
     /**

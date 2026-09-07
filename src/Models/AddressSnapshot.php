@@ -75,7 +75,7 @@ class AddressSnapshot extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.snapshots', 'address_snapshots');
+        return config('addressing.database.tables.snapshots', 'address_snapshots');
     }
 
     /**

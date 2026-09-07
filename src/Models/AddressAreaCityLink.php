@@ -24,7 +24,7 @@ class AddressAreaCityLink extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.area_city_links', 'address_area_city_links');
+        return config('addressing.database.tables.area_city_links', 'address_area_city_links');
     }
 
     /**

@@ -35,7 +35,7 @@ final class AddressAreaPostalCode extends Pivot
 
     public function getTable(): string
     {
-        return config('addressing.tables.area_postal_codes', 'address_area_postal_codes');
+        return config('addressing.database.tables.area_postal_codes', 'address_area_postal_codes');
     }
 
     /** @return BelongsTo<AddressArea, $this> */

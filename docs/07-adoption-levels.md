@@ -162,6 +162,13 @@ app(CreateAddressAction::class)->execute(
 
 This level may eventually replace legacy reusable address tables.
 
+### Pilot status
+
+`customers.Customer` now uses `HasAddresses` for new reusable attachments.
+`customers.Address` / `customer_addresses` remain the explicit legacy path for
+checkout hydration and default billing/shipping helpers. There is no backfill,
+dual-read, or deletion in the pilot.
+
 ## Level 5: Storage migration and cleanup
 
 Use only after a package has already adopted Level 4 or Level 3 and tests prove new reads/writes are correct.

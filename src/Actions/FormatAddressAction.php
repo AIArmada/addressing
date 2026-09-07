@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Contracts\AddressFormatter;
+use AIArmada\Addressing\Contracts\AddressNormalizer;
 use AIArmada\Addressing\Data\AddressData;
 use AIArmada\Addressing\Support\CountryAddressFormatterResolver;
 
 class FormatAddressAction implements AddressFormatter
 {
-    public function __construct(private readonly CountryAddressFormatterResolver $countryFormatters) {}
+    public function __construct(
+        private readonly CountryAddressFormatterResolver $countryFormatters,
+        private readonly AddressNormalizer $normalizer,
+    ) {}
 
     public function format(AddressData $address): string
     {
+        $address = $this->normalizer->normalize($address->toArray());
         $countryFormatter = $this->countryFormatters->resolve($address->countryCode);
 
         if ($countryFormatter !== null && $countryFormatter !== $this) {

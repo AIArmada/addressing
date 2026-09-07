@@ -28,6 +28,9 @@ class AddressData
         public readonly array $navigationLinks = [],
         public readonly ?string $provider = null,
         public readonly ?string $providerPlaceId = null,
+        public readonly ?string $countryId = null,
+        public readonly ?string $stateId = null,
+        public readonly ?string $cityId = null,
     ) {}
 
     public static function from(array $data): self
@@ -43,7 +46,7 @@ class AddressData
             state: self::stringOrNull($mapped['state'] ?? null),
             postcode: self::stringOrNull($mapped['postcode'] ?? null),
             country: self::stringOrNull($mapped['country'] ?? null),
-            countryCode: self::stringOrNull($mapped['countryCode'] ?? null),
+            countryCode: self::upperStringOrNull($mapped['countryCode'] ?? null),
             formatted: self::stringOrNull($mapped['formatted'] ?? null),
             latitude: self::floatOrNull($mapped['latitude'] ?? null),
             longitude: self::floatOrNull($mapped['longitude'] ?? null),
@@ -54,6 +57,9 @@ class AddressData
             navigationLinks: isset($mapped['navigationLinks']) && is_array($mapped['navigationLinks']) ? $mapped['navigationLinks'] : [],
             provider: self::stringOrNull($mapped['provider'] ?? null),
             providerPlaceId: self::stringOrNull($mapped['providerPlaceId'] ?? null),
+            countryId: self::stringOrNull($mapped['countryId'] ?? null),
+            stateId: self::stringOrNull($mapped['stateId'] ?? null),
+            cityId: self::stringOrNull($mapped['cityId'] ?? null),
         );
     }
 
@@ -79,6 +85,42 @@ class AddressData
             'navigationLinks' => $this->navigationLinks,
             'provider' => $this->provider,
             'providerPlaceId' => $this->providerPlaceId,
+            'countryId' => $this->countryId,
+            'stateId' => $this->stateId,
+            'cityId' => $this->cityId,
+        ];
+    }
+
+    /**
+     * Return the persisted address fields using the model's snake_case names.
+     *
+     * @return array<string, mixed>
+     */
+    public function toModelAttributes(): array
+    {
+        return [
+            'country_id' => $this->countryId,
+            'state_id' => $this->stateId,
+            'city_id' => $this->cityId,
+            'label' => $this->label,
+            'line1' => $this->line1,
+            'line2' => $this->line2,
+            'line3' => $this->line3,
+            'city' => $this->city,
+            'state' => $this->state,
+            'postcode' => $this->postcode,
+            'country' => $this->country,
+            'country_code' => $this->countryCode,
+            'formatted_address' => $this->formatted,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'components' => $this->components,
+            'metadata' => $this->metadata,
+            'google_maps_url' => $this->googleMapsUrl,
+            'waze_url' => $this->wazeUrl,
+            'navigation_links' => $this->navigationLinks,
+            'provider' => $this->provider,
+            'provider_place_id' => $this->providerPlaceId,
         ];
     }
 
@@ -88,7 +130,16 @@ class AddressData
             return null;
         }
 
-        return (string) $value;
+        $value = mb_trim((string) $value);
+
+        return $value === '' ? null : $value;
+    }
+
+    private static function upperStringOrNull(mixed $value): ?string
+    {
+        $value = self::stringOrNull($value);
+
+        return $value === null ? null : mb_strtoupper($value);
     }
 
     private static function floatOrNull(mixed $value): ?float

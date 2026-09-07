@@ -25,7 +25,7 @@ class AddressAreaStateLink extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.area_state_links', 'address_area_state_links');
+        return config('addressing.database.tables.area_state_links', 'address_area_state_links');
     }
 
     /**

@@ -22,12 +22,12 @@ trait HasAddresses
      */
     public function addresses(): MorphToMany
     {
-        $pivotTable = config('addressing.tables.addressables', 'addressables');
+        $pivotTable = config('addressing.database.tables.addressables', 'addressables');
 
         $relation = $this->morphToMany(
             Address::class,
             'addressable',
-            config('addressing.tables.addressables', 'addressables'),
+            config('addressing.database.tables.addressables', 'addressables'),
         )
             ->using(Addressable::class)
             ->withPivot(['id', 'type', 'label', 'is_primary', 'valid_from', 'valid_until', 'owner_type', 'owner_id'])
@@ -55,7 +55,7 @@ trait HasAddresses
             });
         }
 
-        $pivotTable = config('addressing.tables.addressables', 'addressables');
+        $pivotTable = config('addressing.database.tables.addressables', 'addressables');
         $query = $this->validAddressQuery(
             $this->addresses()->where("{$pivotTable}.is_primary", true),
         );
@@ -76,7 +76,7 @@ trait HasAddresses
         /** @var Collection<int, Address> */
         return $this->validAddressQuery(
             $this->addresses()->where(
-                config('addressing.tables.addressables', 'addressables') . '.type',
+                config('addressing.database.tables.addressables', 'addressables') . '.type',
                 $type,
             ),
         )->get();
@@ -139,7 +139,7 @@ trait HasAddresses
             AddressOwnerGuard::assertAddressableIsWritable($this->getMorphClass(), $this->getKey());
             $this->lockForAddressMutation();
 
-            $pivotTable = config('addressing.tables.addressables', 'addressables');
+            $pivotTable = config('addressing.database.tables.addressables', 'addressables');
 
             /** @var Addressable|null $pivot */
             $pivot = $this->addresses()
@@ -170,7 +170,7 @@ trait HasAddresses
     public function scopeWithPrimaryAddress(Builder $query, ?string $type = null): void
     {
         $query->with(['addresses' => function (Builder $q) use ($type): void {
-            $pivotTable = config('addressing.tables.addressables', 'addressables');
+            $pivotTable = config('addressing.database.tables.addressables', 'addressables');
             $this->validAddressQuery(
                 $q->where("{$pivotTable}.is_primary", true),
             );
@@ -191,12 +191,12 @@ trait HasAddresses
 
         return $query
             ->where(function (Builder $q) use ($now): void {
-                $pivotTable = config('addressing.tables.addressables', 'addressables');
+                $pivotTable = config('addressing.database.tables.addressables', 'addressables');
                 $q->whereNull("{$pivotTable}.valid_from")
                     ->orWhere("{$pivotTable}.valid_from", '<=', $now);
             })
             ->where(function (Builder $q) use ($now): void {
-                $pivotTable = config('addressing.tables.addressables', 'addressables');
+                $pivotTable = config('addressing.database.tables.addressables', 'addressables');
                 $q->whereNull("{$pivotTable}.valid_until")
                     ->orWhere("{$pivotTable}.valid_until", '>=', $now);
             });

@@ -31,7 +31,7 @@ class AddressAreaRelationship extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.area_relationships', 'address_area_relationships');
+        return config('addressing.database.tables.area_relationships', 'address_area_relationships');
     }
 
     /** @return BelongsTo<AddressArea, $this> */

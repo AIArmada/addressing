@@ -79,7 +79,7 @@ class AddressArea extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.areas', 'address_areas');
+        return config('addressing.database.tables.areas', 'address_areas');
     }
 
     /**
@@ -139,7 +139,7 @@ class AddressArea extends Model
     {
         return $this->belongsToMany(
             self::class,
-            config('addressing.tables.area_relationships', 'address_area_relationships'),
+            config('addressing.database.tables.area_relationships', 'address_area_relationships'),
             'parent_address_area_id',
             'child_address_area_id',
         )->withPivot(['relationship_type', 'hierarchy_type', 'source', 'valid_from', 'valid_until', 'metadata']);
@@ -150,7 +150,7 @@ class AddressArea extends Model
     {
         return $this->belongsToMany(
             self::class,
-            config('addressing.tables.area_relationships', 'address_area_relationships'),
+            config('addressing.database.tables.area_relationships', 'address_area_relationships'),
             'child_address_area_id',
             'parent_address_area_id',
         )->withPivot(['relationship_type', 'hierarchy_type', 'source', 'valid_from', 'valid_until', 'metadata']);
@@ -161,7 +161,7 @@ class AddressArea extends Model
     {
         return $this->belongsToMany(
             PostalCode::class,
-            config('addressing.tables.area_postal_codes', 'address_area_postal_codes'),
+            config('addressing.database.tables.area_postal_codes', 'address_area_postal_codes'),
             'address_area_id',
             'postal_code_id',
         )

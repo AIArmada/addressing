@@ -1,7 +1,7 @@
 ---
 title: Addressing Context
 package: addressing
-status: planned
+status: current
 surface: domain
 family: foundation
 keywords:
@@ -20,7 +20,7 @@ keywords:
 
 ## Snapshot
 - Composer: `aiarmada/addressing`
-- Role: Reusable address domain: polymorphic addresses, country/area/state/city/postcode reference data, snapshots, formatting, and import pipeline.
+- Role: Canonical reusable-address domain: owner-scoped polymorphic addresses, global geography reference data, snapshots, formatting, and import pipeline.
 - Triggers: address, addresses, country, state, city, postcode, area-import, snapshot
 - Search first: `src/Models, src/Actions, src/Support, config, database/migrations, docs`
 - Related: `commerce-support`, `filament-addressing`, `customers`, `orders`, `events`
@@ -36,18 +36,21 @@ keywords:
 
 ## Guardrails
 - Owns models, actions, services, events, calculations, and persistence rules.
+- `Address` + `HasAddresses` is the forward path for new reusable attachments. The customers package is the first pilot consumer; its `customer_addresses` lineage remains frozen and is bridged with `toAddressingData()` without a backfill.
+- Reference geography (`countries`, `states`, `cities`, areas, postcodes, and links) is global; instance addresses, pivots, and snapshots remain owner-scoped. Use `OwnerQuery` for raw queries against the instance tier.
+- The canonical config path is `addressing.database.tables.*`; the former flat path is not supported by runtime readers.
 - If admin UI changes too, audit `filament-addressing`.
 - Update `docs/*.md` in the same pass when public behavior or config changes.
 
 ## Decide fast
-- Use when: Storing, validating, formatting, or importing addresses / geographic areas.
-- Skip when: Tenant scoping (explicit non-goal in v1) or org identity — see organizations.
-- Owner/security: `Address`, `Addressable`, and `AddressSnapshot` are owner-scoped; geography reference data remains global.
+- Use when: Storing, validating, formatting, attaching, or importing addresses / geographic areas.
+- Skip when: Tenant/org identity — see organizations; contact points — see contacting.
+- Owner/security: `Address`, `Addressable`, and `AddressSnapshot` are owner-scoped; geography reference data remains global. The attaching model and address must be resolved in the same owner context.
 
 ## Key surfaces
 - Models: `Address`, `AddressArea`, `AddressAreaAssignment`, `AddressAreaCityLink`, `AddressAreaName`, `AddressAreaPostalCode`, `AddressAreaRelationship`, `AddressAreaRole`, `AddressAreaStateLink`, `AddressCountry`
 - Actions/Services: `Actions/BuildAddressNavigationLinksAction`, `Actions/CreateAddressSnapshotAction`, `Actions/FormatAddressAction`, `Actions/ImportAddressAreasAction`, `Actions/ImportPostalCodesAction`, `Actions/NormalizeAddressDataAction`, `Actions/SaveAddressAreaAction`, `Actions/SearchAddressAreasAction`
-- Config `addressing.php`: `database`, `json_column_type`, `tables`, `countries`, `areas`, `addresses`, `addressables`, `snapshots`, `states`, `cities`
+- Config `addressing.php`: `database.tables`, `database.json_column_type`, `models`, `countries`, `areas`, `addresses`, `addressables`, `snapshots`, `states`, `cities`
 
 ## Docs map
 - Start: `01-overview` → `03-configuration` → `04-usage` → `99-troubleshooting`

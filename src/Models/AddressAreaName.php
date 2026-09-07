@@ -22,7 +22,7 @@ class AddressAreaName extends Model
 
     public function getTable(): string
     {
-        return config('addressing.tables.area_names', 'address_area_names');
+        return config('addressing.database.tables.area_names', 'address_area_names');
     }
 
     /** @return BelongsTo<AddressArea, $this> */

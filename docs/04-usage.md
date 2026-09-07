@@ -30,6 +30,13 @@ Aliases accepted by `AddressData::from()`:
 | `postal_code` | `postcode` |
 | `zip_code` | `postcode` |
 | `country_code` | `countryCode` |
+| `country_id` / `countryId` | `countryId` |
+| `state_id` / `stateId` | `stateId` |
+| `city_id` / `cityId` | `cityId` |
+
+`lat`, `lng`, and `google_place_id` are accepted as `AddressData` input
+aliases, but persisted `Address` models expose only the canonical
+`latitude`, `longitude`, and `provider_place_id` fields.
 
 ## Seed Country Data
 
@@ -74,6 +81,12 @@ $state->cities;  // HasMany cities when this country uses a state relationship
 ```
 
 `City::state()` may be null. Use the selected country's address profile to decide whether the UI should ask for a state, province, prefecture, county, municipality, or no parent region.
+
+`NormalizeAddressDataAction` treats reference IDs as authoritative. When only
+country/state/city names or codes are supplied, it resolves matching reference
+rows and returns their IDs and canonical names. Explicit IDs are validated for
+existence and country/state consistency; no database foreign-key constraint is
+added.
 
 ### Seed Malaysia geography
 
@@ -216,6 +229,16 @@ OwnerContext::withOwner($owner, function () use ($customer, $address): void {
 
 Global address records require explicit global context and are not implicitly
 shared with tenants.
+
+The customers package is the first pilot consumer. Its existing
+`customer_addresses` relation is available as `legacyAddresses()` for
+checkout/default behavior, while new reusable attachments use the shared
+`addresses()` relation above. No legacy rows are copied or deleted in this
+pilot.
+
+Raw queries against `addresses`, `addressables`, or `address_snapshots` must
+apply the shared owner query primitive. Reference geography tables are
+intentionally global and do not use owner scoping.
 
 > [!info]
 > `primaryAddress()` and `addressesOfType()` only consider pivot rows whose `valid_from` / `valid_until` window includes the current time.

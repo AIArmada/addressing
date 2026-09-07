@@ -10,29 +10,46 @@ The package publishes a `config/addressing.php` file with these sections:
 
 ```php
 'database' => [
+    'json_column_type' => 'jsonb',
+    'tables' => [
+        'countries' => 'countries',
+        'areas' => 'address_areas',
+        'addresses' => 'addresses',
+        'addressables' => 'addressables',
+        'snapshots' => 'address_snapshots',
+        'states' => 'states',
+        'cities' => 'cities',
+    ],
 ],
 ```
 
-JSON column type is controlled by `commerce_json_column_type('addressing', 'json')` and inherits from `COMMERCE_JSON_COLUMN_TYPE` when set.
+The canonical runtime key is `addressing.database.tables.*`. The former
+`addressing.tables.*` path is not read. Table names are unchanged by this
+configuration-section rename; update published config before deploying.
+
+JSON column type is controlled by `addressing.database.json_column_type` and
+inherits from the package/shared default when set.
 
 ## Tables
 
 ```php
-'tables' => [
-    'countries' => 'countries',
-    'areas' => 'address_areas',
-    'addresses' => 'addresses',
-    'addressables' => 'addressables',
-    'snapshots' => 'address_snapshots',
-    'states' => 'states',
-    'cities' => 'cities',
-    'area_state_links' => 'address_area_state_links',
-    'area_names' => 'address_area_names',
-    'area_roles' => 'address_area_roles',
-    'area_relationships' => 'address_area_relationships',
-    'postal_codes' => 'postal_codes',
-    'area_postal_codes' => 'address_area_postal_codes',
-    'address_area_assignments' => 'address_area_assignments',
+'database' => [
+    'tables' => [
+        'countries' => 'countries',
+        'areas' => 'address_areas',
+        'addresses' => 'addresses',
+        'addressables' => 'addressables',
+        'snapshots' => 'address_snapshots',
+        'states' => 'states',
+        'cities' => 'cities',
+        'area_state_links' => 'address_area_state_links',
+        'area_names' => 'address_area_names',
+        'area_roles' => 'address_area_roles',
+        'area_relationships' => 'address_area_relationships',
+        'postal_codes' => 'postal_codes',
+        'area_postal_codes' => 'address_area_postal_codes',
+        'address_area_assignments' => 'address_area_assignments',
+    ],
 ],
 ```
 
@@ -72,6 +89,7 @@ geography tables remain global and are not owner-scoped.
 
 ```php
 'models' => [
+    'country' => AIArmada\Addressing\Models\AddressCountry::class,
     'state' => AIArmada\Addressing\Models\State::class,
     'city' => AIArmada\Addressing\Models\City::class,
 ],

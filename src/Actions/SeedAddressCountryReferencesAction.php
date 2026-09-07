@@ -74,7 +74,7 @@ class SeedAddressCountryReferencesAction
         }
 
         foreach (['country_currency_links', 'country_timezone_links'] as $configKey) {
-            DB::table(config("addressing.tables.{$configKey}", $configKey))
+            DB::table(config("addressing.database.tables.{$configKey}", $configKey))
                 ->whereIn('country_id', $countryIds)
                 ->delete();
         }
@@ -102,7 +102,7 @@ class SeedAddressCountryReferencesAction
             }
 
             $created += $this->insertLink(
-                config('addressing.tables.country_currency_links', 'country_currency_links'),
+                config('addressing.database.tables.country_currency_links', 'country_currency_links'),
                 ['country_id' => $countryId, 'currency_id' => $currencyId],
             );
         }
@@ -139,7 +139,7 @@ class SeedAddressCountryReferencesAction
                 }
 
                 $created += $this->insertLink(
-                    config('addressing.tables.country_timezone_links', 'country_timezone_links'),
+                    config('addressing.database.tables.country_timezone_links', 'country_timezone_links'),
                     ['country_id' => $countryId, 'timezone_id' => $timezoneId],
                 );
             }

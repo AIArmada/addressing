@@ -26,7 +26,7 @@ It does **not** automatically mean every package must delete existing address co
 Use the package in the right mode:
 
 ```txt
-Reusable address       -> Address model + HasAddresses
+Reusable address       -> Address model + HasAddresses (customers pilot landed)
 Historical address     -> AddressSnapshot or AddressData JSON
 Provider payload       -> AddressData mapper
 Config display address -> string or optional AddressData array
