@@ -45,8 +45,14 @@ Override any table name via environment variables or config publishing.
 ## Owner scoping
 
 Instance address data is owner-scoped by default. Existing ownerless rows are
-global and are not included in an owner query unless the caller explicitly
-uses global context or opts into `include_global`.
+not supported by the owner cutover. The owner-column migration fails closed if
+any pre-existing address, addressable, or snapshot row has a null owner tuple;
+this release does not backfill or retain a legacy compatibility path.
+
+Intentional global rows remain possible only when the application explicitly
+uses `OwnerContext::withOwner(null, ...)`. They are not included in tenant
+queries unless the caller explicitly uses global context or opts into
+`include_global`.
 
 ```php
 'features' => [
