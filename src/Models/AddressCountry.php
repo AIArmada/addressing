@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\CommerceSupport\Models\Currency;
 use AIArmada\CommerceSupport\Models\Timezone;
@@ -54,7 +55,7 @@ class AddressCountry extends Model
 
     public function getTable(): string
     {
-        return config('addressing.database.tables.countries', 'countries');
+        return AddressingTableResolver::resolve('countries');
     }
 
     protected function casts(): array
@@ -69,7 +70,7 @@ class AddressCountry extends Model
      */
     public function currencies(): BelongsToMany
     {
-        return $this->belongsToMany(Currency::class, config('addressing.database.tables.country_currency_links', 'country_currency_links'), 'country_id', 'currency_id');
+        return $this->belongsToMany(Currency::class, AddressingTableResolver::resolve('country_currency_links'), 'country_id', 'currency_id');
     }
 
     /**
@@ -77,7 +78,7 @@ class AddressCountry extends Model
      */
     public function timezones(): BelongsToMany
     {
-        return $this->belongsToMany(Timezone::class, config('addressing.database.tables.country_timezone_links', 'country_timezone_links'), 'country_id', 'timezone_id');
+        return $this->belongsToMany(Timezone::class, AddressingTableResolver::resolve('country_timezone_links'), 'country_id', 'timezone_id');
     }
 
     /**

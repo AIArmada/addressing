@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -10,7 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         $jsonColumnType = commerce_json_column_type('addressing', 'jsonb');
-        $tableName = config('addressing.tables.areas', 'address_areas');
+        $tableName = AddressingTableResolver::resolve('areas');
 
         commerce_schema_create_if_missing($tableName, function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();

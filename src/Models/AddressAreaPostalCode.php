@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -35,7 +36,7 @@ final class AddressAreaPostalCode extends Pivot
 
     public function getTable(): string
     {
-        return config('addressing.database.tables.area_postal_codes', 'address_area_postal_codes');
+        return AddressingTableResolver::resolve('area_postal_codes');
     }
 
     /** @return BelongsTo<AddressArea, $this> */

@@ -23,9 +23,9 @@ The package publishes a `config/addressing.php` file with these sections:
 ],
 ```
 
-The canonical runtime key is `addressing.database.tables.*`. The former
-`addressing.tables.*` path is not read. Table names are unchanged by this
-configuration-section rename; update published config before deploying.
+`addressing.database.tables.*` is the only table-name configuration source.
+Runtime models, integrations, and migrations resolve names through
+`AddressingTableResolver`; configure this map before deploying.
 
 JSON column type is controlled by `addressing.database.json_column_type` and
 inherits from the package/shared default when set.

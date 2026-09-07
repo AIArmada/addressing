@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\AddressOwnerGuard;
 use AIArmada\CommerceSupport\Traits\HasOwner;
 use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
@@ -75,7 +76,7 @@ class AddressSnapshot extends Model
 
     public function getTable(): string
     {
-        return config('addressing.database.tables.snapshots', 'address_snapshots');
+        return AddressingTableResolver::resolve('snapshots');
     }
 
     /**

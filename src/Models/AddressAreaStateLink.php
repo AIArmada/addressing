@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +26,7 @@ class AddressAreaStateLink extends Model
 
     public function getTable(): string
     {
-        return config('addressing.database.tables.area_state_links', 'address_area_state_links');
+        return AddressingTableResolver::resolve('area_state_links');
     }
 
     /**

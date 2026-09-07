@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -79,7 +80,7 @@ class AddressArea extends Model
 
     public function getTable(): string
     {
-        return config('addressing.database.tables.areas', 'address_areas');
+        return AddressingTableResolver::resolve('areas');
     }
 
     /**
@@ -139,7 +140,7 @@ class AddressArea extends Model
     {
         return $this->belongsToMany(
             self::class,
-            config('addressing.database.tables.area_relationships', 'address_area_relationships'),
+            AddressingTableResolver::resolve('area_relationships'),
             'parent_address_area_id',
             'child_address_area_id',
         )->withPivot(['relationship_type', 'hierarchy_type', 'source', 'valid_from', 'valid_until', 'metadata']);
@@ -150,7 +151,7 @@ class AddressArea extends Model
     {
         return $this->belongsToMany(
             self::class,
-            config('addressing.database.tables.area_relationships', 'address_area_relationships'),
+            AddressingTableResolver::resolve('area_relationships'),
             'child_address_area_id',
             'parent_address_area_id',
         )->withPivot(['relationship_type', 'hierarchy_type', 'source', 'valid_from', 'valid_until', 'metadata']);
@@ -161,7 +162,7 @@ class AddressArea extends Model
     {
         return $this->belongsToMany(
             PostalCode::class,
-            config('addressing.database.tables.area_postal_codes', 'address_area_postal_codes'),
+            AddressingTableResolver::resolve('area_postal_codes'),
             'address_area_id',
             'postal_code_id',
         )

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
@@ -53,9 +54,9 @@ return new class extends Migration
     private function instanceTables(): array
     {
         return [
-            (string) config('addressing.tables.addresses', 'addresses'),
-            (string) config('addressing.tables.addressables', 'addressables'),
-            (string) config('addressing.tables.snapshots', 'address_snapshots'),
+            AddressingTableResolver::resolve('addresses'),
+            AddressingTableResolver::resolve('addressables'),
+            AddressingTableResolver::resolve('snapshots'),
         ];
     }
 };

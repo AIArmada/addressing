@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,7 +11,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $tableName = config('addressing.tables.area_city_links', 'address_area_city_links');
+        $tableName = AddressingTableResolver::resolve('area_city_links');
 
         if (Schema::hasTable($tableName)) {
             return;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Models\AddressCountry;
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\CommerceSupport\Actions\SeedCurrenciesAction;
 use AIArmada\CommerceSupport\Actions\SeedTimezonesAction;
 use AIArmada\CommerceSupport\Models\Currency;
@@ -74,7 +75,7 @@ class SeedAddressCountryReferencesAction
         }
 
         foreach (['country_currency_links', 'country_timezone_links'] as $configKey) {
-            DB::table(config("addressing.database.tables.{$configKey}", $configKey))
+            DB::table(AddressingTableResolver::resolve($configKey))
                 ->whereIn('country_id', $countryIds)
                 ->delete();
         }
@@ -102,7 +103,7 @@ class SeedAddressCountryReferencesAction
             }
 
             $created += $this->insertLink(
-                config('addressing.database.tables.country_currency_links', 'country_currency_links'),
+                AddressingTableResolver::resolve('country_currency_links'),
                 ['country_id' => $countryId, 'currency_id' => $currencyId],
             );
         }
@@ -139,7 +140,7 @@ class SeedAddressCountryReferencesAction
                 }
 
                 $created += $this->insertLink(
-                    config('addressing.database.tables.country_timezone_links', 'country_timezone_links'),
+                    AddressingTableResolver::resolve('country_timezone_links'),
                     ['country_id' => $countryId, 'timezone_id' => $timezoneId],
                 );
             }

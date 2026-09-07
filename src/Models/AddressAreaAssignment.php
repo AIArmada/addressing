@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,7 @@ class AddressAreaAssignment extends Model
 
     public function getTable(): string
     {
-        return config('addressing.database.tables.address_area_assignments', 'address_area_assignments');
+        return AddressingTableResolver::resolve('address_area_assignments');
     }
 
     /** @return BelongsTo<Address, $this> */

@@ -16,6 +16,20 @@ Each playbook answers:
 - What level should it adopt first?
 - What code pattern should it use?
 
+## Integration dependency policy
+
+A package must hard-require `aiarmada/addressing` when one of its domain models
+uses `HasAddresses` unconditionally. Conditional trait composition is not a
+valid standalone-package boundary in PHP, so these integrations must declare
+the dependency explicitly and document the resulting package direction.
+
+The customers pilot ratifies this policy: `aiarmada/customers` hard-requires
+`aiarmada/addressing` because `Customer` uses `HasAddresses`. The events
+integration remains an optional suggestion because its address behavior is
+conditional and does not make the event package's core model depend on the
+addressing trait. The orders pilot must make the same hard-require versus
+optional-integration decision before adopting `HasAddresses`.
+
 ## Summary table
 
 | Package/surface | First adoption level | Storage migration? | Notes |

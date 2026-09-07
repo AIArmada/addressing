@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Models\AddressArea;
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -48,8 +49,8 @@ final class SearchAddressAreasAction
                 return $builder->whereHas('ancestors', function (Builder $relationshipQuery) use ($parentId, $hierarchyType): void {
                     $relationshipQuery
                         ->whereKey($parentId)
-                        ->where(config('addressing.database.tables.area_relationships', 'address_area_relationships') . '.hierarchy_type', $hierarchyType)
-                        ->where(config('addressing.database.tables.area_relationships', 'address_area_relationships') . '.relationship_type', 'contains')
+                        ->where(AddressingTableResolver::resolve('area_relationships') . '.hierarchy_type', $hierarchyType)
+                        ->where(AddressingTableResolver::resolve('area_relationships') . '.relationship_type', 'contains')
                         ->where(function (Builder $query): void {
                             $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', CarbonImmutable::now());
                         })
@@ -63,8 +64,8 @@ final class SearchAddressAreasAction
                     $hierarchyQuery
                         ->whereHas('ancestors', function (Builder $query) use ($hierarchyType): void {
                             $query
-                                ->where(config('addressing.database.tables.area_relationships', 'address_area_relationships') . '.hierarchy_type', $hierarchyType)
-                                ->where(config('addressing.database.tables.area_relationships', 'address_area_relationships') . '.relationship_type', 'contains')
+                                ->where(AddressingTableResolver::resolve('area_relationships') . '.hierarchy_type', $hierarchyType)
+                                ->where(AddressingTableResolver::resolve('area_relationships') . '.relationship_type', 'contains')
                                 ->where(function (Builder $relationshipQuery): void {
                                     $relationshipQuery->whereNull('valid_from')->orWhereDate('valid_from', '<=', CarbonImmutable::now());
                                 })

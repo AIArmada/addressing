@@ -38,7 +38,7 @@ keywords:
 - Owns models, actions, services, events, calculations, and persistence rules.
 - `Address` + `HasAddresses` is the forward path for new reusable attachments. The customers package is the first pilot consumer; its `customer_addresses` lineage remains frozen and is bridged with `toAddressingData()` without a backfill.
 - Reference geography (`countries`, `states`, `cities`, areas, postcodes, and links) is global; instance addresses, pivots, and snapshots remain owner-scoped. Use `OwnerQuery` for raw queries against the instance tier.
-- The canonical config path is `addressing.database.tables.*`; the former flat path is not supported by runtime readers.
+- `AddressingTableResolver` is the sole table-name resolver for runtime readers and migrations; it reads `addressing.database.tables.*`.
 - If admin UI changes too, audit `filament-addressing`.
 - Update `docs/*.md` in the same pass when public behavior or config changes.
 

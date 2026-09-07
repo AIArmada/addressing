@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -9,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        commerce_schema_create_if_missing(config('addressing.tables.area_postal_codes', 'address_area_postal_codes'), function (Blueprint $table): void {
+        commerce_schema_create_if_missing(AddressingTableResolver::resolve('area_postal_codes'), function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->foreignUuid('address_area_id')->index();
             $table->foreignUuid('postal_code_id')->index();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Models;
 
 use AIArmada\Addressing\Contracts\AddressNormalizer;
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\CommerceSupport\Traits\HasOwner;
 use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
@@ -154,7 +155,7 @@ class Address extends Model
 
     public function getTable(): string
     {
-        return config('addressing.database.tables.addresses', 'addresses');
+        return AddressingTableResolver::resolve('addresses');
     }
 
     /**

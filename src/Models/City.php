@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -37,7 +38,7 @@ class City extends Model
 
     public function getTable(): string
     {
-        return config('addressing.database.tables.cities', 'cities');
+        return AddressingTableResolver::resolve('cities');
     }
 
     /**

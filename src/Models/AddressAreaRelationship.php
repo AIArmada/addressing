@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,7 +32,7 @@ class AddressAreaRelationship extends Model
 
     public function getTable(): string
     {
-        return config('addressing.database.tables.area_relationships', 'address_area_relationships');
+        return AddressingTableResolver::resolve('area_relationships');
     }
 
     /** @return BelongsTo<AddressArea, $this> */

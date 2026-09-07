@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -11,7 +12,7 @@ return new class extends Migration
     {
         $jsonColumnType = commerce_json_column_type('addressing', 'jsonb');
 
-        commerce_schema_create_if_missing(config('addressing.tables.postal_codes', 'postal_codes'), function (Blueprint $table) use ($jsonColumnType): void {
+        commerce_schema_create_if_missing(AddressingTableResolver::resolve('postal_codes'), function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();
             $table->string('country_code', 2)->index();
             $table->string('code', 20);

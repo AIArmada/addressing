@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\AddressOwnerGuard;
 use AIArmada\CommerceSupport\Traits\HasOwner;
 use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
@@ -82,7 +83,7 @@ class Addressable extends MorphPivot
 
     public function getTable(): string
     {
-        return config('addressing.database.tables.addressables', 'addressables');
+        return AddressingTableResolver::resolve('addressables');
     }
 
     /**

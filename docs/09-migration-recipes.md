@@ -6,11 +6,10 @@ title: Migration Recipes
 
 ## Current identity and lineage rules
 
-The runtime config path is `addressing.database.tables.*`; the former flat
-`addressing.tables.*` path is not supported. Published config must be updated
-before deployment. Existing shipped migrations retain their historical config
-lookups, so custom table-name overrides for those migrations require an
-explicit operator review rather than editing a shipped migration.
+`addressing.database.tables.*` is the only table-name configuration source.
+Every runtime surface and migration resolves names through
+`AddressingTableResolver`, so a customized map is applied consistently from
+initial schema creation through later migrations.
 
 The customers address pilot is code-only: it adds no copy migration, performs
 no backfill, and does not delete `customer_addresses`.

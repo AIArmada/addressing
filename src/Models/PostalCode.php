@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -28,7 +29,7 @@ class PostalCode extends Model
 
     public function getTable(): string
     {
-        return config('addressing.database.tables.postal_codes', 'postal_codes');
+        return AddressingTableResolver::resolve('postal_codes');
     }
 
     /** @return BelongsToMany<AddressArea, $this, AddressAreaPostalCode, 'pivot'> */
@@ -36,7 +37,7 @@ class PostalCode extends Model
     {
         return $this->belongsToMany(
             AddressArea::class,
-            config('addressing.database.tables.area_postal_codes', 'address_area_postal_codes'),
+            AddressingTableResolver::resolve('area_postal_codes'),
             'postal_code_id',
             'address_area_id',
         )
