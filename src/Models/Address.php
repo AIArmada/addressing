@@ -54,6 +54,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $google_maps_url
  * @property string|null $waze_url
  * @property array|null $navigation_links
+ * @property-read Addressable|null $pivot
  */
 class Address extends Model
 {
