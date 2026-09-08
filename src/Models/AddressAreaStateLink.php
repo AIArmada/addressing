@@ -34,7 +34,7 @@ class AddressAreaStateLink extends Model
      */
     public function addressArea(): BelongsTo
     {
-        return $this->belongsTo(AddressArea::class, 'address_area_id');
+        return $this->belongsTo(ModelResolver::areaClass(), 'address_area_id');
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Models;
 
 use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -36,7 +37,7 @@ class PostalCode extends Model
     public function areas(): BelongsToMany
     {
         return $this->belongsToMany(
-            AddressArea::class,
+            ModelResolver::areaClass(),
             AddressingTableResolver::resolve('area_postal_codes'),
             'postal_code_id',
             'address_area_id',

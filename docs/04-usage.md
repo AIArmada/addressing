@@ -34,9 +34,10 @@ Aliases accepted by `AddressData::from()`:
 | `state_id` / `stateId` | `stateId` |
 | `city_id` / `cityId` | `cityId` |
 
-`lat`, `lng`, and `google_place_id` are accepted as `AddressData` input
-aliases, but persisted `Address` models expose only the canonical
-`latitude`, `longitude`, and `provider_place_id` fields.
+Geographic values use the canonical `latitude`, `longitude`, and
+`providerPlaceId`/`provider_place_id` fields. The removed `lat`, `lng`,
+`lon`, `google_place_id`, and `googlePlaceId` aliases are intentionally not
+normalized.
 
 ## Seed Country Data
 
@@ -87,6 +88,10 @@ country/state/city names or codes are supplied, it resolves matching reference
 rows and returns their IDs and canonical names. Explicit IDs are validated for
 existence and country/state consistency; no database foreign-key constraint is
 added.
+
+When a reference ID is present, its persisted name and country relationship
+win over conflicting free-text fields. If an explicit reference ID cannot be
+resolved, normalization throws instead of preserving a stale ID.
 
 ### Seed Malaysia geography
 
@@ -283,6 +288,11 @@ $snapshot = app(CreateAddressSnapshotAction::class)->execute(
 // Snapshots are immutable — subsequent changes to the original address
 // do not affect existing snapshots.
 ```
+
+Snapshot reasons are nullable, but a supplied reason must be a non-empty
+string. Use stable lowercase identifiers such as `order_shipping`,
+`order_placed`, or `event_location`; the value records the domain event that
+created the immutable snapshot.
 
 ## Formatting
 

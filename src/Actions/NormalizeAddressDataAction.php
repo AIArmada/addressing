@@ -60,7 +60,11 @@ class NormalizeAddressDataAction implements AddressNormalizer
     private function resolveCountry(AddressData $address): ?Model
     {
         if ($address->countryId !== null) {
-            return $this->countryResolver->resolve($address->countryId);
+            return $this->findExplicitReference(
+                ModelResolver::countryClass(),
+                $address->countryId,
+                'country',
+            );
         }
 
         $country = $this->countryResolver->resolve($address->countryCode);
@@ -89,13 +93,10 @@ class NormalizeAddressDataAction implements AddressNormalizer
         }
 
         if ($address->stateId !== null) {
-            $state = $stateClass::query()->find($address->stateId);
+            $state = $this->findExplicitReference($stateClass, $address->stateId, 'state');
+            $this->assertCountryMatch($state, $countryId, 'state');
 
-            if ($state instanceof Model) {
-                $this->assertCountryMatch($state, $countryId, 'state');
-            }
-
-            return $state instanceof Model ? $state : null;
+            return $state;
         }
 
         if ($address->state === null || $countryId === null) {
@@ -117,17 +118,14 @@ class NormalizeAddressDataAction implements AddressNormalizer
         }
 
         if ($address->cityId !== null) {
-            $city = $cityClass::query()->find($address->cityId);
+            $city = $this->findExplicitReference($cityClass, $address->cityId, 'city');
+            $this->assertCountryMatch($city, $countryId, 'city');
 
-            if ($city instanceof Model) {
-                $this->assertCountryMatch($city, $countryId, 'city');
-
-                if ($stateId !== null && (string) $city->getAttribute('state_id') !== $stateId) {
-                    throw new InvalidArgumentException('The address city does not belong to the selected state.');
-                }
+            if ($stateId !== null && (string) $city->getAttribute('state_id') !== $stateId) {
+                throw new InvalidArgumentException('The address city does not belong to the selected state.');
             }
 
-            return $city instanceof Model ? $city : null;
+            return $city;
         }
 
         if ($address->city === null || $countryId === null) {
@@ -159,6 +157,31 @@ class NormalizeAddressDataAction implements AddressNormalizer
         }
 
         return (string) $model->getKey();
+    }
+
+    /**
+     * @param  class-string<Model>  $modelClass
+     */
+    private function findExplicitReference(string $modelClass, string $id, string $field): Model
+    {
+        if (! $this->modelTableExists($modelClass)) {
+            throw new InvalidArgumentException(sprintf(
+                'The address %s reference cannot be resolved because its table is unavailable.',
+                $field,
+            ));
+        }
+
+        $model = $modelClass::query()->whereKey($id)->first();
+
+        if (! $model instanceof Model) {
+            throw new InvalidArgumentException(sprintf(
+                'The address %s reference [%s] could not be found.',
+                $field,
+                $id,
+            ));
+        }
+
+        return $model;
     }
 
     /**

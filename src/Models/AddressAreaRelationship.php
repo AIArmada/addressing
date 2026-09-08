@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Models;
 
 use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,13 +39,13 @@ class AddressAreaRelationship extends Model
     /** @return BelongsTo<AddressArea, $this> */
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(AddressArea::class, 'parent_address_area_id');
+        return $this->belongsTo(ModelResolver::areaClass(), 'parent_address_area_id');
     }
 
     /** @return BelongsTo<AddressArea, $this> */
     public function child(): BelongsTo
     {
-        return $this->belongsTo(AddressArea::class, 'child_address_area_id');
+        return $this->belongsTo(ModelResolver::areaClass(), 'child_address_area_id');
     }
 
     protected function casts(): array

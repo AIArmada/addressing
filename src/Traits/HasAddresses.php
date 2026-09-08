@@ -8,6 +8,7 @@ use AIArmada\Addressing\Models\Address;
 use AIArmada\Addressing\Models\Addressable;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\AddressOwnerGuard;
+use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -26,7 +27,7 @@ trait HasAddresses
         $pivotTable = AddressingTableResolver::resolve('addressables');
 
         $relation = $this->morphToMany(
-            Address::class,
+            ModelResolver::addressClass(),
             'addressable',
             AddressingTableResolver::resolve('addressables'),
         )

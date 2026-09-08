@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 use AIArmada\Addressing\Geography\Malaysia\MalaysiaAddressFormatter;
 use AIArmada\Addressing\Geography\Malaysia\MalaysiaGeographyProvider;
+use AIArmada\Addressing\Models\Address;
+use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Models\AddressCountry;
+use AIArmada\Addressing\Models\AddressSnapshot;
 use AIArmada\Addressing\Models\City;
 use AIArmada\Addressing\Models\State;
 use AIArmada\Addressing\Support\AddressingTableResolver;
@@ -19,6 +22,9 @@ return [
         'country' => AddressCountry::class,
         'state' => State::class,
         'city' => City::class,
+        'area' => AddressArea::class,
+        'address' => Address::class,
+        'snapshot' => AddressSnapshot::class,
     ],
 
     'features' => [

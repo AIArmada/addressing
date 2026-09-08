@@ -92,6 +92,9 @@ geography tables remain global and are not owner-scoped.
     'country' => AIArmada\Addressing\Models\AddressCountry::class,
     'state' => AIArmada\Addressing\Models\State::class,
     'city' => AIArmada\Addressing\Models\City::class,
+    'area' => AIArmada\Addressing\Models\AddressArea::class,
+    'address' => AIArmada\Addressing\Models\Address::class,
+    'snapshot' => AIArmada\Addressing\Models\AddressSnapshot::class,
 ],
 'geography' => [
     'providers' => [
@@ -139,6 +142,13 @@ Typed relationships have their own `source`. A manual relationship and a provide
     'locale' => env('ADDRESS_DEFAULT_LOCALE'),
 ],
 ```
+
+When configured, `ADDRESS_DEFAULT_COUNTRY_CODE` is trimmed and normalized to
+uppercase during package boot. Invalid or blank values are treated as unset.
+
+The configured model classes must extend the corresponding core model. Core
+relations and normalization use `ModelResolver`, so host subclasses are
+applied consistently.
 
 ## Area Sources
 

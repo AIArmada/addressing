@@ -22,9 +22,6 @@ class AddressAliasMap
         'state_id' => 'stateId',
         'cityId' => 'cityId',
         'city_id' => 'cityId',
-        'lat' => 'latitude',
-        'lng' => 'longitude',
-        'lon' => 'longitude',
         'formatted_address' => 'formatted',
         'formattedAddress' => 'formatted',
         'google_maps_url' => 'googleMapsUrl',
@@ -44,8 +41,6 @@ class AddressAliasMap
         'providerPlaceId' => 'providerPlaceId',
         'place_id' => 'providerPlaceId',
         'placeId' => 'providerPlaceId',
-        'google_place_id' => 'providerPlaceId',
-        'googlePlaceId' => 'providerPlaceId',
     ];
 
     public static function normalize(array $data): array

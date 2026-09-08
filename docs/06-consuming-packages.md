@@ -79,6 +79,15 @@ It can mean any of these:
 
 It does not always mean storage migration.
 
+## Canonical topology
+
+`addressing.Address` plus `HasAddresses` is the canonical forward path for
+new reusable polymorphic attachments. `customers.Address` and
+`orders.OrderAddress` remain frozen legacy storage with bridges and
+order-time snapshots; existing rows are not backfilled in this cutover.
+Packages adding new address fields should add them to the canonical
+`addressing` model or use `AddressData`, not extend a legacy address table.
+
 ## Who should use addressing?
 
 ### Strong consumers

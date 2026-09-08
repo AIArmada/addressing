@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Models;
 
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\AddressOwnerGuard;
+use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\CommerceSupport\Traits\HasOwner;
 use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
 use Carbon\CarbonImmutable;
@@ -91,7 +92,7 @@ class Addressable extends MorphPivot
      */
     public function address(): BelongsTo
     {
-        return $this->belongsTo(Address::class, 'address_id');
+        return $this->belongsTo(ModelResolver::addressClass(), 'address_id');
     }
 
     /**

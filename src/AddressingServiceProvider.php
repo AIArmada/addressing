@@ -26,8 +26,11 @@ use AIArmada\Addressing\Commands\SeedAddressStatesCommand;
 use AIArmada\Addressing\Commands\SeedCountryGeographiesCommand;
 use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Contracts\AddressNormalizer;
+use AIArmada\Addressing\Contracts\CountryAddressFormatter;
+use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Support\CountryAddressFormatterResolver;
 use AIArmada\Addressing\Support\CountryAddressProfileResolver;
+use InvalidArgumentException;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -75,9 +78,59 @@ final class AddressingServiceProvider extends PackageServiceProvider
 
     public function bootingPackage(): void
     {
+        $this->normalizeDefaultCountryCode();
+        $this->validateConfiguredClasses(
+            config('addressing.geography.providers', []),
+            CountryGeographyProvider::class,
+            'geography provider',
+        );
+        $this->validateConfiguredClasses(
+            config('addressing.formatters', []),
+            CountryAddressFormatter::class,
+            'address formatter',
+        );
+
         foreach (config('addressing.area_sources', []) as $source) {
             if (is_string($source)) {
                 $this->app->singleton($source);
+            }
+        }
+    }
+
+    private function normalizeDefaultCountryCode(): void
+    {
+        $countryCode = config('addressing.defaults.country_code');
+
+        if ($countryCode === null) {
+            return;
+        }
+
+        if (! is_string($countryCode) || mb_trim($countryCode) === '') {
+            config(['addressing.defaults.country_code' => null]);
+
+            return;
+        }
+
+        config(['addressing.defaults.country_code' => mb_strtoupper(mb_trim($countryCode))]);
+    }
+
+    private function validateConfiguredClasses(mixed $classes, string $contract, string $label): void
+    {
+        if (! is_array($classes)) {
+            throw new InvalidArgumentException(sprintf(
+                'Addressing %s configuration must be an array of class strings.',
+                $label,
+            ));
+        }
+
+        foreach ($classes as $class) {
+            if (! is_string($class) || ! class_exists($class) || ! is_a($class, $contract, true)) {
+                throw new InvalidArgumentException(sprintf(
+                    'Addressing %s [%s] must implement [%s].',
+                    $label,
+                    is_string($class) ? $class : get_debug_type($class),
+                    $contract,
+                ));
             }
         }
     }

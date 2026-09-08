@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Support;
 
-use AIArmada\Addressing\Models\Address;
 use AIArmada\Addressing\Models\Addressable;
 use AIArmada\CommerceSupport\Support\OwnerContext;
 use AIArmada\CommerceSupport\Support\OwnerQuery;
@@ -28,7 +27,7 @@ final class AddressOwnerGuard
 
         OwnerContext::assertResolvedOrExplicitGlobal(
             $owner,
-            sprintf('%s requires an owner context or explicit global context.', Address::class),
+            sprintf('%s requires an owner context or explicit global context.', ModelResolver::addressClass()),
         );
 
         OwnerQuery::applyToQueryBuilder(
@@ -44,8 +43,10 @@ final class AddressOwnerGuard
 
     public static function assertAddressIsWritable(mixed $addressId): void
     {
-        if (! Address::ownerScopeConfig()->enabled) {
-            Address::query()->whereKey($addressId)->firstOrFail();
+        $addressClass = ModelResolver::addressClass();
+
+        if (! $addressClass::ownerScopeConfig()->enabled) {
+            $addressClass::query()->whereKey($addressId)->firstOrFail();
 
             return;
         }
@@ -54,7 +55,7 @@ final class AddressOwnerGuard
             throw new AuthorizationException('A valid address is required.');
         }
 
-        OwnerWriteGuard::findOrFailForOwner(Address::class, $addressId);
+        OwnerWriteGuard::findOrFailForOwner($addressClass, $addressId);
     }
 
     public static function assertAddressableIsWritable(mixed $addressableType, mixed $addressableId): void

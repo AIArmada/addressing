@@ -8,7 +8,9 @@ use AIArmada\Addressing\Data\AddressData;
 use AIArmada\Addressing\Models\Address;
 use AIArmada\Addressing\Models\AddressSnapshot;
 use AIArmada\Addressing\Support\AddressOwnerGuard;
+use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 
 class CreateAddressSnapshotAction
 {
@@ -18,6 +20,8 @@ class CreateAddressSnapshotAction
         ?string $reason = null,
         ?string $label = null,
     ): AddressSnapshot {
+        $reason = $this->normalizeReason($reason);
+
         AddressOwnerGuard::assertAddressableIsWritable(
             $snapshotable->getMorphClass(),
             $snapshotable->getKey(),
@@ -32,7 +36,9 @@ class CreateAddressSnapshotAction
             $addressId = null;
         }
 
-        return AddressSnapshot::create([
+        $snapshotClass = ModelResolver::snapshotClass();
+
+        return $snapshotClass::create([
             'address_id' => $addressId,
             'snapshotable_type' => $snapshotable->getMorphClass(),
             'snapshotable_id' => $snapshotable->getKey(),
@@ -57,5 +63,20 @@ class CreateAddressSnapshotAction
             'waze_url' => $data->wazeUrl,
             'navigation_links' => $data->navigationLinks !== [] ? $data->navigationLinks : null,
         ]);
+    }
+
+    private function normalizeReason(?string $reason): ?string
+    {
+        if ($reason === null) {
+            return null;
+        }
+
+        $reason = mb_trim($reason);
+
+        if ($reason === '') {
+            throw new InvalidArgumentException('Address snapshot reason must be a non-empty string when provided.');
+        }
+
+        return $reason;
     }
 }

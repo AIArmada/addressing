@@ -191,7 +191,7 @@ class Address extends Model
     /** @return HasMany<AddressSnapshot, $this> */
     public function snapshots(): HasMany
     {
-        return $this->hasMany(AddressSnapshot::class, 'address_id');
+        return $this->hasMany(ModelResolver::snapshotClass(), 'address_id');
     }
 
     /**

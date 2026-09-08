@@ -44,7 +44,7 @@ class State extends Model
      */
     public function country(): BelongsTo
     {
-        return $this->belongsTo(AddressCountry::class, 'country_id');
+        return $this->belongsTo(ModelResolver::countryClass(), 'country_id');
     }
 
     /**

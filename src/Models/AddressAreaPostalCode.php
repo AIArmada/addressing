@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Models;
 
 use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -42,7 +43,7 @@ final class AddressAreaPostalCode extends Pivot
     /** @return BelongsTo<AddressArea, $this> */
     public function area(): BelongsTo
     {
-        return $this->belongsTo(AddressArea::class, 'address_area_id');
+        return $this->belongsTo(ModelResolver::areaClass(), 'address_area_id');
     }
 
     /** @return BelongsTo<PostalCode, $this> */

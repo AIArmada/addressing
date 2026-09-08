@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Models;
 
 use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -88,7 +89,7 @@ class AddressArea extends Model
      */
     public function country(): BelongsTo
     {
-        return $this->belongsTo(AddressCountry::class, 'country_id');
+        return $this->belongsTo(ModelResolver::countryClass(), 'country_id');
     }
 
     /**
@@ -96,7 +97,7 @@ class AddressArea extends Model
      */
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(self::class, 'parent_id');
+        return $this->belongsTo(ModelResolver::areaClass(), 'parent_id');
     }
 
     /**
@@ -104,7 +105,7 @@ class AddressArea extends Model
      */
     public function children(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id');
+        return $this->hasMany(ModelResolver::areaClass(), 'parent_id');
     }
 
     /**
@@ -139,7 +140,7 @@ class AddressArea extends Model
     public function relatedAreas(): BelongsToMany
     {
         return $this->belongsToMany(
-            self::class,
+            ModelResolver::areaClass(),
             AddressingTableResolver::resolve('area_relationships'),
             'parent_address_area_id',
             'child_address_area_id',
@@ -150,7 +151,7 @@ class AddressArea extends Model
     public function ancestors(): BelongsToMany
     {
         return $this->belongsToMany(
-            self::class,
+            ModelResolver::areaClass(),
             AddressingTableResolver::resolve('area_relationships'),
             'child_address_area_id',
             'parent_address_area_id',
