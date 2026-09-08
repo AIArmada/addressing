@@ -7,6 +7,7 @@ namespace AIArmada\Addressing\Support;
 use AIArmada\Addressing\Models\Addressable;
 use AIArmada\CommerceSupport\Support\OwnerContext;
 use AIArmada\CommerceSupport\Support\OwnerQuery;
+use AIArmada\CommerceSupport\Support\OwnerScope;
 use AIArmada\CommerceSupport\Support\OwnerWriteGuard;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
@@ -87,20 +88,43 @@ final class AddressOwnerGuard
             return;
         }
 
-        $eventBoundaryClass = 'AIArmada\\Events\\Support\\EventTenantBoundary';
-        $eventOwnerScopeClass = 'AIArmada\\Events\\Support\\EventOwnerScope';
-
-        if (class_exists($eventBoundaryClass)
-            && class_exists($eventOwnerScopeClass)
-            && is_callable([$eventOwnerScopeClass, 'supports'])
-            && $eventOwnerScopeClass::supports($modelClass)) {
-            $addressable = $modelClass::query()->whereKey($addressableId)->first();
+        if (method_exists($modelClass, 'eventOwnerRelation')) {
+            $addressable = $modelClass::query()
+                ->withoutGlobalScope('event_owner')
+                ->whereKey($addressableId)
+                ->first();
 
             if (! $addressable instanceof Model) {
                 throw new AuthorizationException('The addressable model is not accessible to the current owner.');
             }
 
-            $eventBoundaryClass::assertWritable($addressable);
+            if (! method_exists($addressable, 'event')) {
+                throw new AuthorizationException('The addressable model does not expose an event owner relation.');
+            }
+
+            $event = $addressable->event()
+                ->getQuery()
+                ->withoutGlobalScope(OwnerScope::class)
+                ->first();
+
+            if (! $event instanceof Model) {
+                throw new AuthorizationException('The addressable model is not accessible to the current owner.');
+            }
+
+            $owner = OwnerContext::resolve();
+
+            if ($owner === null) {
+                if (! OwnerContext::isExplicitGlobal()) {
+                    throw new AuthorizationException(sprintf('Cross-owner write blocked for %s.', $modelClass));
+                }
+
+                return;
+            }
+
+            if ($event->getAttribute('owner_type') !== $owner->getMorphClass()
+                || (string) $event->getAttribute('owner_id') !== (string) $owner->getKey()) {
+                throw new AuthorizationException(sprintf('Cross-owner write blocked for %s.', $modelClass));
+            }
 
             return;
         }
