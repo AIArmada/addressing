@@ -160,14 +160,13 @@ app(CreateAddressAction::class)->execute(
 );
 ```
 
-This level may eventually replace legacy reusable address tables.
+This level is the canonical reusable-address path for customers and venues.
 
-### Pilot status
+### Customer adoption status
 
-`customers.Customer` now uses `HasAddresses` for new reusable attachments.
-`customers.Address` / `customer_addresses` remain the explicit legacy path for
-checkout hydration and default billing/shipping helpers. There is no backfill,
-dual-read, or deletion in the pilot.
+`customers.Customer` uses `HasAddresses` for all customer address reads and
+writes. Billing and shipping defaults are typed `addressables` pivots selected
+through `primaryAddress()`; the cutover has no backfill or dual-read path.
 
 ## Level 5: Storage migration and cleanup
 

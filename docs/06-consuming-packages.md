@@ -81,10 +81,11 @@ It does not always mean storage migration.
 
 ## Canonical topology
 
-`addressing.Address` plus `HasAddresses` is the canonical forward path for
-new reusable polymorphic attachments. `customers.Address` and
-`orders.OrderAddress` remain frozen legacy storage with bridges and
-order-time snapshots; existing rows are not backfilled in this cutover.
+`addressing.Address` plus `HasAddresses` is the canonical path for reusable
+polymorphic attachments. `customers.Customer` uses it for saved addresses and
+typed checkout defaults. `orders.OrderAddress` remains an order-time
+historical snapshot; package-specific snapshot storage is not replaced by a
+mutable reusable address.
 Packages adding new address fields should add them to the canonical
 `addressing` model or use `AddressData`, not extend a legacy address table.
 

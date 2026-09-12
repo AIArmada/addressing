@@ -108,18 +108,21 @@ packages/customers/tests
 
 ### Tasks
 
-- Add `HasAddresses` to reusable customer address owner model if approved.
-- Add conversion methods from legacy `customer_addresses` to `AddressData`.
-- Create data-copy migration/action only in migration phase.
-- Preserve billing/shipping/default semantics.
-- Do not delete `customer_addresses` in first pass.
+- Keep `Customer` on the canonical `HasAddresses` relation.
+- Route billing/shipping/default reads through typed pivots and
+  `primaryAddress()`.
+- Use `SetDefaultCustomerAddress` or `setPrimaryAddress()` for primary
+  changes.
+- Keep owner validation on every attach and mutation path.
+- Retire package-local storage only after the consumer audit is empty and the
+  guarded cleanup migration is ready.
 
 ### Tests
 
 - Customer can create shipping address.
 - Customer can create billing address.
 - Primary address remains primary per type.
-- Legacy rows convert correctly to `AddressData`.
+- Canonical address rows attach correctly to a customer.
 - Owner scoping remains enforced if package is tenant-owned.
 
 ## Agent D: Orders package

@@ -11,8 +11,9 @@ Every runtime surface and migration resolves names through
 `AddressingTableResolver`, so a customized map is applied consistently from
 initial schema creation through later migrations.
 
-The customers address pilot is code-only: it adds no copy migration, performs
-no backfill, and does not delete `customer_addresses`.
+Customer address adoption is complete: reads and writes use canonical
+`addresses` and `addressables`, with no copy migration, backfill, or
+dual-read bridge.
 
 ## Purpose
 
@@ -71,75 +72,21 @@ return AddressData::from([
 ]);
 ```
 
-## Recipe 2: Customer addresses to addressables
+## Recipe 2: Customer address storage retirement
 
-Use when converting reusable customer saved addresses.
+Use after every customer read and write has moved to canonical
+`Address::addresses()` and `primaryAddress()` APIs.
 
-### Before
+The cleanup migration should:
 
-```txt
-customer_addresses
-- id
-- customer_id
-- type
-- line1
-- line2
-- city
-- state
-- postcode
-- country
-```
+1. Preflight the configured table and one or more known package-local columns.
+2. Remove non-primary indexes before dropping the table.
+3. Drop the table only when the preflight identifies the retired shape.
+4. Avoid backfills and rollback paths; development databases are
+   delete-and-rerun.
 
-### After
-
-```txt
-addresses
-addressables
-```
-
-### Data-copy action
-
-Create an Action instead of stuffing logic into a migration closure when the logic is non-trivial.
-
-```php
-namespace AIArmada\Customers\Actions;
-
-use AIArmada\Addressing\Actions\CreateAddressAction;
-use AIArmada\Addressing\Data\AddressData;
-use AIArmada\Customers\Models\CustomerAddress;
-
-final class MigrateCustomerAddressToAddressingAction
-{
-    public function __construct(
-        private readonly CreateAddressAction $createAddress,
-    ) {}
-
-    public function execute(CustomerAddress $legacyAddress): void
-    {
-        $this->createAddress->execute(
-            addressable: $legacyAddress->customer,
-            data: AddressData::from([
-                'line1' => $legacyAddress->line1,
-                'line2' => $legacyAddress->line2,
-                'city' => $legacyAddress->city,
-                'state' => $legacyAddress->state,
-                'postcode' => $legacyAddress->postcode,
-                'countryCode' => $legacyAddress->country,
-            ]),
-            type: $legacyAddress->type ?? 'primary',
-            isPrimary: (bool) $legacyAddress->is_primary,
-        );
-    }
-}
-```
-
-### Checklist
-
-- Preserve `type` such as billing/shipping.
-- Preserve primary/default flags.
-- Preserve recipient/contact metadata if present.
-- Do not duplicate on rerun; use a migration marker or deterministic metadata.
-- Add tests for old customer address accessors.
+Verify the migration twice on a development database and confirm that
+canonical address rows and addressable pivots remain available.
 
 ## Recipe 3: Venue address columns to Address
 

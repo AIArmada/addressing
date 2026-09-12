@@ -6,17 +6,16 @@ title: Overview
 
 The `aiarmada/addressing` package provides a reusable address handling system for the AIArmada Commerce monorepo. It includes normalized address value objects, country reference data, generic administrative area schema, polymorphic address attachment, historical snapshots, and formatting/normalization utilities.
 
-`Address` plus `HasAddresses` is the canonical forward path for new reusable
-attachments. The customers package is the first adoption pilot. Its existing
-`customer_addresses` rows remain frozen legacy storage and are bridged with
-`customers.Address::toAddressingData()`; this release performs no backfill.
+`Address` plus `HasAddresses` is the canonical path for reusable
+attachments. Customers use typed addressable pivots for billing and shipping
+defaults; the customer package's former parallel address storage is retired.
 
 ## Address lineage
 
 | Surface | Role | Current decision |
 |---|---|---|
 | `addressing.Address` + `addressables` | Mutable reusable address and polymorphic attachment | Canonical for new attachments |
-| `customers.Address` + `customer_addresses` | Checkout/default-address legacy lineage | Frozen; explicit bridge only |
+| `customers.Customer` + `addresses/addressables` | Reusable customer addresses and typed defaults | Canonical; owner-scoped |
 | `orders.OrderAddress` | Order-bound historical address | Keep as snapshot lineage; no pilot here |
 | `events` location/organizer surfaces | Event-scoped role or historical location | Follow the later adoption plan |
 

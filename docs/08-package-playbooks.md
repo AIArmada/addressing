@@ -34,7 +34,7 @@ optional-integration decision before adopting `HasAddresses`.
 
 | Package/surface | First adoption level | Storage migration? | Notes |
 |---|---:|---|---|
-| customers / customer_addresses | Level 4 pilot landed | Later, separately approved | New attachments use `HasAddresses`; legacy checkout rows remain |
+| customers / typed addressables | Level 4 complete | Retired storage cleanup complete | Checkout and defaults use `HasAddresses` and `primaryAddress()` |
 | orders / order_addresses | Level 3 | Maybe | Historical snapshots, not mutable addresses |
 | events / venues / event_locations | Level 4 + Level 3 | Eventually for venues | Venue/institution address reusable; event location snapshot historical |
 | chip / chip_clients | Level 2 | Not first | Provider/client mapper |
@@ -52,13 +52,10 @@ optional-integration decision before adopting `HasAddresses`.
 ### Current shape
 
 ```txt
-customer_addresses
-- line1
-- line2
-- city
-- state
-- postcode
-- country
+addresses
+addressables
+- type (billing/shipping)
+- is_primary
 ```
 
 ### Recommendation
@@ -67,11 +64,10 @@ Use Level 4 first.
 
 ### Pilot result
 
-The customers pilot is complete: `Customer` owns the shared
-`HasAddresses::addresses()` relation for new attachments, and the old
-`legacyAddresses()` relation remains for `customer_addresses` checkout/default
-behavior. `customers.Address::toAddressingData()` is the read bridge. Do not
-copy, backfill, or delete legacy rows as part of this pilot.
+The customers adoption is complete: `Customer` uses the shared
+`HasAddresses::addresses()` relation for checkout and default behavior.
+`primaryAddress('billing')` and `primaryAddress('shipping')` resolve the
+typed primary pivots. No copy, backfill, or compatibility bridge remains.
 
 Customer saved addresses are reusable and mutable. They are strong candidates for `Address` + `addressables`.
 
@@ -79,30 +75,21 @@ Customer saved addresses are reusable and mutable. They are strong candidates fo
 
 Yes, if customers will use shared address storage.
 
-### Should `customer_addresses` be deleted?
+### Storage retirement
 
-Eventually, but not in the first pass.
-
-Migration order:
-
-1. Keep new reusable attachments on `Customer::addresses()`.
-2. Keep checkout/default reads and writes on `Customer::legacyAddresses()`.
-3. Use `toAddressingData()` for explicit bridges and tests.
-4. In a later migration phase, decide whether to copy legacy rows after owner and duplicate analysis.
-5. Only then update legacy reads/writes and remove the old table in a dedicated cleanup migration.
+The former customer-specific address table was removed by a guarded cleanup
+migration after all reads and writes moved to canonical addressables. The
+migration preflights the table and known columns, removes non-primary indexes,
+and drops the table without backfill. Development databases use delete-and-
+rerun; production deployment requires the normal migration rollout process.
 
 ### Example
 
 ```php
-use AIArmada\Addressing\Actions\CreateAddressAction;
-use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Models\Address;
 
-app(CreateAddressAction::class)->execute(
-    addressable: $customer,
-    data: AddressData::from($request->validated('shipping_address')),
-    type: 'shipping',
-    isPrimary: true,
-);
+$address = Address::create($request->validated('shipping_address'));
+$customer->attachAddress($address, type: 'shipping', isPrimary: true);
 ```
 
 ## Orders

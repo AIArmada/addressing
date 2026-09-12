@@ -235,11 +235,10 @@ OwnerContext::withOwner($owner, function () use ($customer, $address): void {
 Global address records require explicit global context and are not implicitly
 shared with tenants.
 
-The customers package is the first pilot consumer. Its existing
-`customer_addresses` relation is available as `legacyAddresses()` for
-checkout/default behavior, while new reusable attachments use the shared
-`addresses()` relation above. No legacy rows are copied or deleted in this
-pilot.
+The customers package uses the shared `addresses()` relation for checkout
+hydration and typed billing/shipping defaults. Attach and resolve addresses
+inside the same owner context; no package-local address storage or bridge is
+required.
 
 Raw queries against `addresses`, `addressables`, or `address_snapshots` must
 apply the shared owner query primitive. Reference geography tables are
