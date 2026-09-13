@@ -13,13 +13,9 @@ return new class extends Migration
     {
         $tableName = AddressingTableResolver::resolve('area_city_links');
 
-        if (Schema::hasTable($tableName)) {
-            return;
-        }
-
         $jsonColumnType = commerce_json_column_type('addressing', 'jsonb');
 
-        commerce_schema_create_if_missing($tableName, function (Blueprint $table) use ($jsonColumnType): void {
+        Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();
             $table->foreignUuid('address_area_id')->index();
             $table->foreignUuid('city_id')->index();

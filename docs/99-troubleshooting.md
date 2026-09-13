@@ -4,6 +4,10 @@ title: Troubleshooting
 
 # Troubleshooting
 
+## Slow name lookups on large geography tables
+
+Name matching uses case-insensitive `LOWER(name)` lookups, which cannot use the plain `name` index. The migrations ship `LOWER(name)` functional indexes on countries, states, cities, areas, and area names (with a normalized-column fallback on drivers without functional-index support). If lookups still scan, verify the indexes exist under your configured table prefix.
+
 ## Missing Countries After Migration
 
 Run the seed command:

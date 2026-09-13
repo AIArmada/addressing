@@ -13,11 +13,7 @@ return new class extends Migration
     {
         $tableName = AddressingTableResolver::resolve('states');
 
-        if (Schema::hasTable($tableName)) {
-            return;
-        }
-
-        commerce_schema_create_if_missing($tableName, function (Blueprint $table): void {
+        Schema::create($tableName, function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->foreignUuid('country_id')->index();
             $table->string('name');
@@ -26,6 +22,7 @@ return new class extends Migration
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->timestamps();
+            $table->index('name', 'states_name_lower_index');
         });
     }
 };

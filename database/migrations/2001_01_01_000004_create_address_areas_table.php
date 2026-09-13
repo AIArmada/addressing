@@ -5,6 +5,7 @@ declare(strict_types=1);
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -13,7 +14,7 @@ return new class extends Migration
         $jsonColumnType = commerce_json_column_type('addressing', 'jsonb');
         $tableName = AddressingTableResolver::resolve('areas');
 
-        commerce_schema_create_if_missing($tableName, function (Blueprint $table) use ($jsonColumnType): void {
+        Schema::create($tableName, function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();
             $table->foreignUuid('country_id')->nullable()->index();
             $table->foreignUuid('parent_id')->nullable()->index();
@@ -37,6 +38,7 @@ return new class extends Migration
 
             $table->unique(['source', 'source_id']);
             $table->index(['country_code', 'type', 'name']);
+            $table->index('name', 'address_areas_name_lower_index');
         });
     }
 };
