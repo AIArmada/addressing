@@ -62,7 +62,10 @@ final class AddressCountryResolver
             return null;
         }
 
-        $timezone = $resolved->timezones()->value('name');
+        // Order explicitly: without it SQLite may return any linked row
+        // (e.g. Asia/Kuching before Asia/Kuala_Lumpur for MY) depending on
+        // the query plan, and the UUID-keyed tables give no stable order.
+        $timezone = $resolved->timezones()->orderBy('name')->value('name');
 
         if (is_string($timezone)) {
             $timezone = $this->normalizeTimezone($timezone);
