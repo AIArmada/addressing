@@ -6,6 +6,8 @@ namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\ModelResolver;
+use Carbon\CarbonImmutable;
+use Illuminate\Support\Str;
 use RuntimeException;
 
 class SeedAddressCitiesAction
@@ -34,50 +36,67 @@ class SeedAddressCitiesAction
         $created = 0;
         $updated = 0;
         $skipped = 0;
-        foreach ($cities as $row) {
-            if (! isset($row['name'], $row['country_code'])) {
-                $skipped++;
 
-                continue;
-            }
+        foreach (array_chunk($cities, 2000) as $chunk) {
+            $existingByKey = $cityClass::query()
+                ->whereIn('name', array_column($chunk, 'name'))
+                ->get(['id', 'country_id', 'state_id', 'name', 'country_code', 'state_code', 'latitude', 'longitude'])
+                ->keyBy(fn ($city): string => $city->country_id . '|' . ($city->state_id ?? '') . '|' . $city->name);
 
-            $countryId = $countryIds[$row['country_code']] ?? null;
+            $inserts = [];
 
-            if ($countryId === null) {
-                $skipped++;
+            foreach ($chunk as $row) {
+                if (! isset($row['name'], $row['country_code'])) {
+                    $skipped++;
 
-                continue;
-            }
+                    continue;
+                }
 
-            $stateCode = $row['state_code'] ?? null;
-            $stateId = $stateCode !== null
-                ? ($stateIds[$countryId . '|' . $stateCode] ?? null)
-                : null;
+                $countryId = $countryIds[$row['country_code']] ?? null;
 
-            $query = $cityClass::where('country_id', $countryId)->where('name', $row['name']);
+                if ($countryId === null) {
+                    $skipped++;
 
-            if ($stateId !== null) {
-                $query->where('state_id', $stateId);
-            } else {
-                $query->whereNull('state_id');
-            }
+                    continue;
+                }
 
-            $existing = $query->first();
+                $stateCode = $row['state_code'] ?? null;
+                $stateId = $stateCode !== null
+                    ? ($stateIds[$countryId . '|' . $stateCode] ?? null)
+                    : null;
 
-            $attrs = [
-                'country_id' => $countryId,
-                'state_id' => $stateId,
-                'name' => $row['name'],
-                'country_code' => $row['country_code'] ?? null,
-                'state_code' => $stateCode,
-                'latitude' => is_numeric($row['latitude'] ?? null) ? (float) $row['latitude'] : null,
-                'longitude' => is_numeric($row['longitude'] ?? null) ? (float) $row['longitude'] : null,
-            ];
+                $attrs = [
+                    'country_id' => $countryId,
+                    'state_id' => $stateId,
+                    'name' => $row['name'],
+                    'country_code' => $row['country_code'] ?? null,
+                    'state_code' => $stateCode,
+                    'latitude' => is_numeric($row['latitude'] ?? null) ? (float) $row['latitude'] : null,
+                    'longitude' => is_numeric($row['longitude'] ?? null) ? (float) $row['longitude'] : null,
+                ];
 
-            if ($existing === null) {
-                $cityClass::create($attrs);
-                $created++;
-            } else {
+                $key = $countryId . '|' . ($stateId ?? '') . '|' . $row['name'];
+                $existing = $existingByKey->get($key);
+
+                if ($existing === null) {
+                    if (isset($inserts[$key])) {
+                        $skipped++;
+
+                        continue;
+                    }
+
+                    $now = CarbonImmutable::now()->toDateTimeString();
+                    $inserts[$key] = [
+                        'id' => (string) Str::orderedUuid(),
+                        ...$attrs,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+                    $created++;
+
+                    continue;
+                }
+
                 $existing->fill($attrs);
 
                 if ($existing->isDirty()) {
@@ -86,6 +105,10 @@ class SeedAddressCitiesAction
                 } else {
                     $skipped++;
                 }
+            }
+
+            if ($inserts !== []) {
+                $cityClass::query()->insert(array_values($inserts));
             }
         }
 

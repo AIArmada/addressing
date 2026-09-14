@@ -8,6 +8,7 @@ use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Models\AddressAreaRelationship;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\AddressAreaHierarchy;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -80,29 +81,30 @@ final class SaveAddressAreaAction
             }
         }
 
-        $record->save();
+        DB::transaction(function () use ($record, $attributes, $parent, $previousSource): void {
+            $record->save();
 
-        if (array_key_exists('hierarchy_type', $attributes)) {
+            if (! array_key_exists('hierarchy_type', $attributes)) {
+                return;
+            }
+
             $hierarchyType = $this->resolveNullableString($attributes, 'hierarchy_type');
 
-            $relationshipQuery = AddressAreaRelationship::query()
+            AddressAreaRelationship::query()
                 ->where('child_address_area_id', $record->getKey())
-                ->whereIn('source', array_filter([$previousSource, $record->source]));
+                ->whereIn('source', array_filter([$previousSource, $record->source]))
+                ->delete();
 
-            $relationshipQuery->delete();
-
-            if ($hierarchyType !== null) {
-                if ($parent instanceof AddressArea) {
-                    AddressAreaRelationship::query()->create([
-                        'parent_address_area_id' => $parent->getKey(),
-                        'child_address_area_id' => $record->getKey(),
-                        'relationship_type' => 'contains',
-                        'hierarchy_type' => $hierarchyType,
-                        'source' => $record->source,
-                    ]);
-                }
+            if ($hierarchyType !== null && $parent instanceof AddressArea) {
+                AddressAreaRelationship::query()->create([
+                    'parent_address_area_id' => $parent->getKey(),
+                    'child_address_area_id' => $record->getKey(),
+                    'relationship_type' => 'contains',
+                    'hierarchy_type' => $hierarchyType,
+                    'source' => $record->source,
+                ]);
             }
-        }
+        });
 
         return $record->fresh(['country', 'parent']) ?? $record;
     }

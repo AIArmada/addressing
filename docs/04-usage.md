@@ -202,6 +202,12 @@ source_id,country_code,type,name,native_name,code,parent_source_id,level,latitud
 1,MY,state,Selangor,Selangor,SGR,,1,3.0738,101.5183,,,{},{}
 ```
 
+Re-imports are idempotent: rows without changes are reported as skipped. Dry-run mode validates every row (including parent and hierarchy checks) without writing. Re-imports never reactivate areas an operator deactivated; pass `--reactivate` (or `reactivate: true`) to opt back in:
+
+```bash
+php artisan address:import-areas-csv /path/to/areas.csv --source=my-source --reactivate
+```
+
 ## HasAddresses Trait
 
 ```php
@@ -315,6 +321,8 @@ $formatted = app(FormatAddressAction::class)->format($address);
 
 When `countryCode` is present, the action uses the configured country-specific formatter when one is available. Otherwise it uses the generic line-based formatter.
 
+Saving an `Address` regenerates `formatted_address` and `formatted_lines` automatically whenever address inputs change, unless you explicitly set a formatted value on that save. Saves that touch no address inputs skip normalization entirely.
+
 ## Normalization
 
 ```php
@@ -346,7 +354,7 @@ This allows JSON columns to be cast to/from `AddressData` objects.
 
 ## Navigation Links
 
-Navigation links let you store manual Google Maps and Waze URLs on addresses. Manual links always win over generated links.
+Navigation links let you store manual Google Maps and Waze URLs on addresses. Manual links always win over generated links. Stored URLs must be valid `http`/`https` URLs; anything else is discarded on write.
 
 ### Storing Links
 

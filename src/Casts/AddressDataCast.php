@@ -42,7 +42,7 @@ class AddressDataCast implements CastsAttributes
         }
 
         if (is_array($value)) {
-            return json_encode($value, JSON_THROW_ON_ERROR);
+            return json_encode(AddressData::from($value)->toArray(), JSON_THROW_ON_ERROR);
         }
 
         return $value;

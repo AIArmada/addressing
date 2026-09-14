@@ -85,7 +85,7 @@ final class SeedCountryGeographiesAction
                     ->where('country_id', $country->getKey())
                     ->where('metadata->provider', $providerKey)
                     ->update(['is_active' => false]);
-                $areaResult = $this->importAddressAreas->execute($areaSource, providerKey: $providerKey);
+                $areaResult = $this->importAddressAreas->execute($areaSource, providerKey: $providerKey, reactivate: true);
 
                 if ($areaResult->hasFailures()) {
                     throw new InvalidArgumentException(sprintf(

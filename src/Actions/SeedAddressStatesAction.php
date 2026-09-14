@@ -6,6 +6,8 @@ namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\ModelResolver;
+use Carbon\CarbonImmutable;
+use Illuminate\Support\Str;
 use RuntimeException;
 
 class SeedAddressStatesAction
@@ -30,6 +32,13 @@ class SeedAddressStatesAction
         $created = 0;
         $updated = 0;
         $skipped = 0;
+
+        $existingByKey = $stateClass::query()
+            ->get(['id', 'country_id', 'name', 'country_code', 'code', 'latitude', 'longitude'])
+            ->keyBy(fn ($state): string => self::naturalKey($state->country_id, $state->code, $state->name));
+
+        $inserts = [];
+
         foreach ($states as $row) {
             if (! isset($row['name'], $row['country_code'])) {
                 $skipped++;
@@ -47,16 +56,6 @@ class SeedAddressStatesAction
 
             $code = $row['state_code'] ?? null;
 
-            $query = $stateClass::where('country_id', $countryId);
-
-            if ($code !== null) {
-                $query->where('code', $code);
-            } else {
-                $query->whereNull('code')->where('name', $row['name']);
-            }
-
-            $existing = $query->first();
-
             $attrs = [
                 'country_id' => $countryId,
                 'name' => $row['name'],
@@ -66,21 +65,49 @@ class SeedAddressStatesAction
                 'longitude' => is_numeric($row['longitude'] ?? null) ? (float) $row['longitude'] : null,
             ];
 
-            if ($existing === null) {
-                $stateClass::create($attrs);
-                $created++;
-            } else {
-                $existing->fill($attrs);
+            $key = self::naturalKey($countryId, $code, $row['name']);
+            $existing = $existingByKey->get($key);
 
-                if ($existing->isDirty()) {
-                    $existing->save();
-                    $updated++;
-                } else {
+            if ($existing === null) {
+                if (isset($inserts[$key])) {
                     $skipped++;
+
+                    continue;
                 }
+
+                $now = CarbonImmutable::now()->toDateTimeString();
+                $inserts[$key] = [
+                    'id' => (string) Str::orderedUuid(),
+                    ...$attrs,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+                $created++;
+
+                continue;
+            }
+
+            $existing->fill($attrs);
+
+            if ($existing->isDirty()) {
+                $existing->save();
+                $updated++;
+            } else {
+                $skipped++;
             }
         }
 
+        foreach (array_chunk(array_values($inserts), 1000) as $insertChunk) {
+            $stateClass::query()->insert($insertChunk);
+        }
+
         return compact('created', 'updated', 'skipped');
+    }
+
+    private static function naturalKey(string $countryId, ?string $code, string $name): string
+    {
+        return $code !== null
+            ? 'code|' . $countryId . '|' . $code
+            : 'name|' . $countryId . '|' . $name;
     }
 }

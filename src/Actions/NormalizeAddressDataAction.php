@@ -8,8 +8,8 @@ use AIArmada\Addressing\Contracts\AddressNormalizer;
 use AIArmada\Addressing\Data\AddressData;
 use AIArmada\Addressing\Support\AddressCountryResolver;
 use AIArmada\Addressing\Support\ModelResolver;
+use AIArmada\Addressing\Support\SchemaTableCache;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Schema;
 use InvalidArgumentException;
 
 class NormalizeAddressDataAction implements AddressNormalizer
@@ -192,6 +192,6 @@ class NormalizeAddressDataAction implements AddressNormalizer
         /** @var Model $model */
         $model = new $modelClass;
 
-        return Schema::hasTable($model->getTable());
+        return SchemaTableCache::exists($model->getTable());
     }
 }

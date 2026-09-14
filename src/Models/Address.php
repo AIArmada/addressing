@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Contracts\AddressNormalizer;
+use AIArmada\Addressing\Data\AddressData;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\CommerceSupport\Traits\HasOwner;
@@ -14,6 +16,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property string $id
@@ -64,20 +67,85 @@ class Address extends Model
 
     protected static string $ownerScopeConfigKey = 'addressing.features.owner';
 
+    /**
+     * Attributes consumed by the address normalizer. Saves that touch none of
+     * these skip normalization (and its reference-table lookups) entirely.
+     *
+     * @var list<string>
+     */
+    public const array NORMALIZED_ATTRIBUTES = [
+        'country_id',
+        'state_id',
+        'city_id',
+        'label',
+        'line1',
+        'line2',
+        'line3',
+        'city',
+        'state',
+        'postcode',
+        'country',
+        'country_code',
+        'latitude',
+        'longitude',
+        'provider',
+        'provider_place_id',
+        'google_maps_url',
+        'waze_url',
+        'navigation_links',
+    ];
+
     protected static function booted(): void
     {
         static::saving(function (Address $address): void {
+            if ($address->exists && ! $address->isDirty(self::NORMALIZED_ATTRIBUTES)) {
+                return;
+            }
+
+            $preserveFormatted = $address->isDirty(['formatted_address', 'formatted_lines']);
             $normalized = app(AddressNormalizer::class)->normalize($address->attributesToArray());
             $address->forceFill($normalized->toModelAttributes());
+
+            if (! $preserveFormatted) {
+                $address->forceFill($address->regeneratedFormattedAttributes($normalized));
+            }
         });
 
         static::deleting(function (Address $address): void {
-            $address->areaAssignments()->delete();
-            $address->addressableLinks()->delete();
-            $address->snapshots()->update(['address_id' => null]);
+            DB::transaction(function () use ($address): void {
+                foreach ($address->areaAssignments()->get() as $assignment) {
+                    $assignment->delete();
+                }
+
+                foreach ($address->addressableLinks()->get() as $link) {
+                    $link->delete();
+                }
+
+                $address->snapshots()->update(['address_id' => null]);
+            });
         });
     }
 
+    /**
+     * @return array{formatted_address: string|null, formatted_lines: array|null}
+     */
+    private function regeneratedFormattedAttributes(AddressData $normalized): array
+    {
+        $formatted = app(AddressFormatter::class)->format($normalized);
+
+        if (mb_trim($formatted) === '') {
+            return ['formatted_address' => null, 'formatted_lines' => null];
+        }
+
+        return ['formatted_address' => $formatted, 'formatted_lines' => explode("\n", $formatted)];
+    }
+
+    /**
+     * Trusted-write-only fields (`validation_status`, `validated_at`, `provider`,
+     * `provider_place_id`, `provider_payload`) must only be written by server-side
+     * verification flows. Never bind them to user input: callers who forge them
+     * can fake verification state.
+     */
     protected $fillable = [
         'country_id',
         'state_id',

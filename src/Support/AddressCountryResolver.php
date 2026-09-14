@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Support;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 final class AddressCountryResolver
@@ -31,7 +30,7 @@ final class AddressCountryResolver
         /** @var Model $countryModel */
         $countryModel = new $countryClass;
 
-        if (! Schema::hasTable($countryModel->getTable())) {
+        if (! SchemaTableCache::exists($countryModel->getTable())) {
             return null;
         }
 

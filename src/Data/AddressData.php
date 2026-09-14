@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Data;
 
 use AIArmada\Addressing\Support\AddressAliasMap;
+use AIArmada\Addressing\Support\NormalizeNavigationUrl;
 
 class AddressData
 {
@@ -52,9 +53,9 @@ class AddressData
             longitude: self::floatOrNull($mapped['longitude'] ?? null),
             components: isset($mapped['components']) && is_array($mapped['components']) ? $mapped['components'] : [],
             metadata: isset($mapped['metadata']) && is_array($mapped['metadata']) ? $mapped['metadata'] : [],
-            googleMapsUrl: self::stringOrNull($mapped['googleMapsUrl'] ?? null),
-            wazeUrl: self::stringOrNull($mapped['wazeUrl'] ?? null),
-            navigationLinks: isset($mapped['navigationLinks']) && is_array($mapped['navigationLinks']) ? $mapped['navigationLinks'] : [],
+            googleMapsUrl: self::navigationUrlOrNull($mapped['googleMapsUrl'] ?? null),
+            wazeUrl: self::navigationUrlOrNull($mapped['wazeUrl'] ?? null),
+            navigationLinks: self::navigationLinksOrEmpty($mapped['navigationLinks'] ?? null),
             provider: self::stringOrNull($mapped['provider'] ?? null),
             providerPlaceId: self::stringOrNull($mapped['providerPlaceId'] ?? null),
             countryId: self::stringOrNull($mapped['countryId'] ?? null),
@@ -148,6 +149,37 @@ class AddressData
             return null;
         }
 
+        if (! is_numeric($value)) {
+            return null;
+        }
+
         return (float) $value;
+    }
+
+    private static function navigationUrlOrNull(mixed $value): ?string
+    {
+        return (new NormalizeNavigationUrl)->normalize(self::stringOrNull($value));
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private static function navigationLinksOrEmpty(mixed $value): array
+    {
+        if (! is_array($value)) {
+            return [];
+        }
+
+        $normalizer = new NormalizeNavigationUrl;
+
+        foreach ($value as $key => $link) {
+            if (is_array($link) && array_key_exists('url', $link)) {
+                $value[$key]['url'] = is_string($link['url']) || $link['url'] === null
+                    ? $normalizer->normalize($link['url'])
+                    : null;
+            }
+        }
+
+        return $value;
     }
 }

@@ -11,7 +11,7 @@ use Illuminate\Contracts\Foundation\Application;
 
 class ImportAddressAreasCommand extends Command
 {
-    protected $signature = 'address:import-areas {source} {--dry-run}';
+    protected $signature = 'address:import-areas {source} {--dry-run} {--reactivate}';
 
     protected $description = 'Import address areas from a configured area source';
 
@@ -54,7 +54,7 @@ class ImportAddressAreasCommand extends Command
             $this->info('Running in dry-run mode. No records will be created or updated.');
         }
 
-        $result = $action->execute($source, $dryRun);
+        $result = $action->execute($source, $dryRun, reactivate: (bool) $this->option('reactivate'));
 
         $this->info(sprintf(
             'Import complete: %d created, %d updated, %d skipped, %d failures.',

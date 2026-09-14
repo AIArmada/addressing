@@ -104,9 +104,19 @@ trait HasAddresses
                 ->first();
 
             if ($existing instanceof Addressable) {
+                $updates = [];
+
                 if ($isPrimary) {
                     $this->demotePrimaryAddressPivots($type);
-                    $existing->update(['is_primary' => true]);
+                    $updates['is_primary'] = true;
+                }
+
+                if ($label !== null && $existing->label !== $label) {
+                    $updates['label'] = $label;
+                }
+
+                if ($updates !== []) {
+                    $existing->update($updates);
                 }
 
                 $this->unsetRelation('addresses');

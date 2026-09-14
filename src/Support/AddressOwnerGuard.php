@@ -79,7 +79,7 @@ final class AddressOwnerGuard
         $modelClass = Relation::getMorphedModel($addressableType) ?? $addressableType;
 
         if (! class_exists($modelClass) || ! is_a($modelClass, Model::class, true)) {
-            throw new AuthorizationException('The addressable model could not be resolved.');
+            throw new AuthorizationException(self::inaccessibleMessage());
         }
 
         if (self::hasOwnerScope($modelClass)) {
@@ -95,11 +95,11 @@ final class AddressOwnerGuard
                 ->first();
 
             if (! $addressable instanceof Model) {
-                throw new AuthorizationException('The addressable model is not accessible to the current owner.');
+                throw new AuthorizationException(self::inaccessibleMessage());
             }
 
             if (! method_exists($addressable, 'event')) {
-                throw new AuthorizationException('The addressable model does not expose an event owner relation.');
+                throw new AuthorizationException(self::inaccessibleMessage());
             }
 
             $event = $addressable->event()
@@ -108,14 +108,14 @@ final class AddressOwnerGuard
                 ->first();
 
             if (! $event instanceof Model) {
-                throw new AuthorizationException('The addressable model is not accessible to the current owner.');
+                throw new AuthorizationException(self::inaccessibleMessage());
             }
 
             $owner = OwnerContext::resolve();
 
             if ($owner === null) {
                 if (! OwnerContext::isExplicitGlobal()) {
-                    throw new AuthorizationException(sprintf('Cross-owner write blocked for %s.', $modelClass));
+                    throw new AuthorizationException(self::inaccessibleMessage());
                 }
 
                 return;
@@ -123,15 +123,20 @@ final class AddressOwnerGuard
 
             if ($event->getAttribute('owner_type') !== $owner->getMorphClass()
                 || (string) $event->getAttribute('owner_id') !== (string) $owner->getKey()) {
-                throw new AuthorizationException(sprintf('Cross-owner write blocked for %s.', $modelClass));
+                throw new AuthorizationException(self::inaccessibleMessage());
             }
 
             return;
         }
 
         if (! $modelClass::query()->whereKey($addressableId)->exists()) {
-            throw new AuthorizationException('The addressable model could not be found.');
+            throw new AuthorizationException(self::inaccessibleMessage());
         }
+    }
+
+    private static function inaccessibleMessage(): string
+    {
+        return 'The addressable model is not accessible to the current owner.';
     }
 
     /**

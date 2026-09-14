@@ -12,16 +12,29 @@ final class AddressAreaHierarchy
     /**
      * @return array<string, string>
      */
-    public static function parentOptions(?string $countryId, ?string $currentAreaId = null): array
-    {
+    public static function parentOptions(
+        ?string $countryId,
+        ?string $currentAreaId = null,
+        ?string $search = null,
+        ?int $limit = 5000,
+    ): array {
         if ($countryId === null) {
             return [];
         }
 
-        $areas = AddressArea::query()
+        $query = AddressArea::query()
             ->where('country_id', $countryId)
-            ->orderBy('name')
-            ->get(['id', 'name', 'parent_id']);
+            ->orderBy('name');
+
+        if ($search !== null && mb_trim($search) !== '') {
+            $query->where('name', 'like', '%' . addcslashes(mb_trim($search), '\\%_') . '%');
+        }
+
+        if ($limit !== null) {
+            $query->limit(max(1, $limit));
+        }
+
+        $areas = $query->get(['id', 'name', 'parent_id']);
 
         if ($currentAreaId === null) {
             return $areas

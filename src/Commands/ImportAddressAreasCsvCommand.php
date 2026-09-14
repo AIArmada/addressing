@@ -11,7 +11,7 @@ use InvalidArgumentException;
 
 class ImportAddressAreasCsvCommand extends Command
 {
-    protected $signature = 'address:import-areas-csv {path} {--source=} {--dry-run}';
+    protected $signature = 'address:import-areas-csv {path} {--source=} {--dry-run} {--reactivate}';
 
     protected $description = 'Import address areas from a CSV file';
 
@@ -27,19 +27,18 @@ class ImportAddressAreasCsvCommand extends Command
             return self::FAILURE;
         }
 
+        if ($dryRun) {
+            $this->info('Running in dry-run mode. No records will be created or updated.');
+        }
+
         try {
             $csvSource = new CsvAddressAreaSource($path, $sourceKey);
+            $result = $action->execute($csvSource, $dryRun, reactivate: (bool) $this->option('reactivate'));
         } catch (InvalidArgumentException $e) {
             $this->error($e->getMessage());
 
             return self::FAILURE;
         }
-
-        if ($dryRun) {
-            $this->info('Running in dry-run mode. No records will be created or updated.');
-        }
-
-        $result = $action->execute($csvSource, $dryRun);
 
         $this->info(sprintf(
             'Import complete: %d created, %d updated, %d skipped, %d failures.',

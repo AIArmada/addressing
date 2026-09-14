@@ -17,50 +17,63 @@ final class ImportPostalCodesAction
 {
     public function execute(PostalCodeSource $source): ImportPostalCodesResultData
     {
-        $created = 0;
-        $updated = 0;
-        $skipped = 0;
-        $failures = [];
+        $countryCodes = AddressCountry::query()
+            ->pluck('iso2')
+            ->map(static fn ($iso2): string => mb_strtoupper((string) $iso2))
+            ->flip()
+            ->all();
 
-        foreach ($source->postalCodes() as $item) {
-            $countryCode = mb_strtoupper(mb_trim($item->countryCode));
-            $code = mb_trim($item->code);
+        return DB::transaction(function () use ($source, $countryCodes): ImportPostalCodesResultData {
+            $created = 0;
+            $updated = 0;
+            $skipped = 0;
+            $failures = [];
+            $areasByKey = [];
 
-            if ($item->source === '' || $item->sourceId === '') {
-                $failures[] = new ImportPostalCodeFailureData($item->sourceId, 'Missing required field: source or sourceId', $code ?: null);
+            foreach ($source->postalCodes() as $item) {
+                $countryCode = mb_strtoupper(mb_trim($item->countryCode));
+                $code = mb_trim($item->code);
 
-                continue;
-            }
-
-            if (mb_strlen($countryCode) !== 2 || ! AddressCountry::query()->where('iso2', $countryCode)->exists()) {
-                $failures[] = new ImportPostalCodeFailureData($item->sourceId, "Country not found for countryCode: {$countryCode}", $code ?: null);
-
-                continue;
-            }
-
-            if ($code === '') {
-                $failures[] = new ImportPostalCodeFailureData($item->sourceId, 'Missing required field: code', null);
-
-                continue;
-            }
-
-            $area = null;
-
-            if ($item->areaSourceId !== null) {
-                $area = AddressArea::query()
-                    ->where('country_code', $countryCode)
-                    ->where('source', $item->areaSource ?? $source->key())
-                    ->where('source_id', $item->areaSourceId)
-                    ->first();
-
-                if (! $area instanceof AddressArea) {
-                    $failures[] = new ImportPostalCodeFailureData($item->sourceId, "Area not found for areaSourceId: {$item->areaSourceId}", $code);
+                if ($item->source === '' || $item->sourceId === '') {
+                    $failures[] = new ImportPostalCodeFailureData($item->sourceId, 'Missing required field: source or sourceId', $code ?: null);
 
                     continue;
                 }
-            }
 
-            [$postalCode, $coverageChanged] = DB::transaction(function () use ($item, $countryCode, $code, $area): array {
+                if (mb_strlen($countryCode) !== 2 || ! isset($countryCodes[$countryCode])) {
+                    $failures[] = new ImportPostalCodeFailureData($item->sourceId, "Country not found for countryCode: {$countryCode}", $code ?: null);
+
+                    continue;
+                }
+
+                if ($code === '') {
+                    $failures[] = new ImportPostalCodeFailureData($item->sourceId, 'Missing required field: code', null);
+
+                    continue;
+                }
+
+                $area = null;
+
+                if ($item->areaSourceId !== null) {
+                    $areaKey = $countryCode . "\0" . ($item->areaSource ?? $source->key()) . "\0" . $item->areaSourceId;
+
+                    if (! array_key_exists($areaKey, $areasByKey)) {
+                        $areasByKey[$areaKey] = AddressArea::query()
+                            ->where('country_code', $countryCode)
+                            ->where('source', $item->areaSource ?? $source->key())
+                            ->where('source_id', $item->areaSourceId)
+                            ->first();
+                    }
+
+                    $area = $areasByKey[$areaKey];
+
+                    if (! $area instanceof AddressArea) {
+                        $failures[] = new ImportPostalCodeFailureData($item->sourceId, "Area not found for areaSourceId: {$item->areaSourceId}", $code);
+
+                        continue;
+                    }
+                }
+
                 $metadata = array_merge($item->metadata, [
                     'source' => $item->source,
                     'source_id' => $item->sourceId,
@@ -116,21 +129,18 @@ final class ImportPostalCodesAction
                     ])]
                     : [];
 
-                return [
-                    $postalCode,
-                    $existingCoverage !== $newCoverage,
-                ];
-            });
+                $coverageChanged = $existingCoverage !== $newCoverage;
 
-            if ($postalCode->wasRecentlyCreated) {
-                $created++;
-            } elseif ($coverageChanged || $postalCode->wasChanged()) {
-                $updated++;
-            } else {
-                $skipped++;
+                if ($postalCode->wasRecentlyCreated) {
+                    $created++;
+                } elseif ($coverageChanged || $postalCode->wasChanged()) {
+                    $updated++;
+                } else {
+                    $skipped++;
+                }
             }
-        }
 
-        return new ImportPostalCodesResultData($created, $updated, $skipped, $failures);
+            return new ImportPostalCodesResultData($created, $updated, $skipped, $failures);
+        });
     }
 }

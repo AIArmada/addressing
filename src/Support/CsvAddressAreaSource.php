@@ -9,6 +9,7 @@ use AIArmada\Addressing\Data\AddressAreaData;
 use Generator;
 use Illuminate\Support\LazyCollection;
 use InvalidArgumentException;
+use JsonException;
 use SplFileObject;
 
 class CsvAddressAreaSource implements AddressAreaSource
@@ -59,6 +60,24 @@ class CsvAddressAreaSource implements AddressAreaSource
 
                 if ($row === false || $row === [null]) {
                     continue;
+                }
+
+                if (count($row) > count($headers)) {
+                    $trailing = array_slice($row, count($headers));
+
+                    $allEmpty = true;
+
+                    foreach ($trailing as $cell) {
+                        if ($cell !== null && mb_trim((string) $cell) !== '') {
+                            $allEmpty = false;
+
+                            break;
+                        }
+                    }
+
+                    if ($allEmpty) {
+                        $row = array_slice($row, 0, count($headers));
+                    }
                 }
 
                 if (count($headers) !== count($row)) {
@@ -139,7 +158,14 @@ class CsvAddressAreaSource implements AddressAreaSource
             return [];
         }
 
-        $decoded = json_decode((string) $value, true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $decoded = json_decode((string) $value, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $exception) {
+            throw new InvalidArgumentException(
+                sprintf('CSV JSON field is malformed: %s', $exception->getMessage()),
+                previous: $exception,
+            );
+        }
 
         if (! is_array($decoded)) {
             throw new InvalidArgumentException('CSV JSON fields must contain an object or array.');
