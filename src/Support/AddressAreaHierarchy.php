@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Support;
 
 use AIArmada\Addressing\Models\AddressArea;
+use AIArmada\CommerceSupport\Support\LikeSearch;
 use Illuminate\Support\Collection;
 
 final class AddressAreaHierarchy
@@ -27,7 +28,7 @@ final class AddressAreaHierarchy
             ->orderBy('name');
 
         if ($search !== null && mb_trim($search) !== '') {
-            $query->where('name', 'like', '%' . addcslashes(mb_trim($search), '\\%_') . '%');
+            LikeSearch::whereLike($query, 'name', LikeSearch::contains(mb_trim($search)));
         }
 
         if ($limit !== null) {

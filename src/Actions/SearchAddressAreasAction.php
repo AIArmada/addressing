@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\CommerceSupport\Support\LikeSearch;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -32,13 +33,15 @@ final class SearchAddressAreasAction
         }
 
         $needle = mb_strtolower($query);
-        $escapedNeedle = addcslashes($needle, '\\%_');
+        $escapedNeedle = LikeSearch::escape($needle);
         $containsPattern = "%{$escapedNeedle}%";
         $prefixPattern = "{$escapedNeedle}%";
 
         if ($hierarchyType !== null && mb_trim($hierarchyType) === '') {
             return new Collection;
         }
+
+        $escapeClause = LikeSearch::escapeClause(AddressArea::query()->getConnection());
 
         return AddressArea::query()
             ->where('is_active', true)
@@ -78,7 +81,7 @@ final class SearchAddressAreasAction
             })
             ->when($postalCode !== null, fn (Builder $builder): Builder => $builder->whereHas('postalCodes', fn (Builder $codes): Builder => $codes->where('code', mb_trim($postalCode))))
             ->when($role !== null, fn (Builder $builder): Builder => $builder->whereHas('roles', fn (Builder $roles): Builder => $roles->where('role', $role)))
-            ->where(function (Builder $builder) use ($containsPattern, $needle): void {
+            ->where(function (Builder $builder) use ($containsPattern, $needle, $escapeClause): void {
                 if (mb_strlen($needle) < 3) {
                     $builder
                         ->whereRaw('LOWER(name) = ?', [$needle])
@@ -89,11 +92,11 @@ final class SearchAddressAreasAction
                 }
 
                 $builder
-                    ->whereRaw("LOWER(name) LIKE ? ESCAPE '\\'", [$containsPattern])
-                    ->orWhereRaw("LOWER(slug) LIKE ? ESCAPE '\\'", [$containsPattern])
-                    ->orWhereHas('names', fn (Builder $names): Builder => $names->whereRaw("LOWER(name) LIKE ? ESCAPE '\\'", [$containsPattern]));
+                    ->whereRaw("LOWER(name) LIKE ? {$escapeClause}", [$containsPattern])
+                    ->orWhereRaw("LOWER(slug) LIKE ? {$escapeClause}", [$containsPattern])
+                    ->orWhereHas('names', fn (Builder $names): Builder => $names->whereRaw("LOWER(name) LIKE ? {$escapeClause}", [$containsPattern]));
             })
-            ->orderByRaw("CASE WHEN LOWER(name) = ? THEN 0 WHEN LOWER(name) LIKE ? ESCAPE '\\' THEN 1 ELSE 2 END", [$needle, $prefixPattern])
+            ->orderByRaw("CASE WHEN LOWER(name) = ? THEN 0 WHEN LOWER(name) LIKE ? {$escapeClause} THEN 1 ELSE 2 END", [$needle, $prefixPattern])
             ->orderBy('name')
             ->limit(max(1, min($limit, 100)))
             ->get();
