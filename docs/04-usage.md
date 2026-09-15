@@ -392,3 +392,20 @@ echo $links['waze_source'];
 ### Snapshots
 
 Navigation links are copied into snapshots and preserved even when the original address is later edited.
+
+## Location Slug Segments
+
+`LocationSlugSegments` resolves canonical location names from the global geography reference data so hosts can build location-disambiguated slugs (`grand-hall-kuala-lumpur-my`) from canonical names rather than free-text input:
+
+```php
+use AIArmada\Addressing\Support\LocationSlugSegments;
+
+$suffix = LocationSlugSegments::suffix(
+    ['city' => 'Kuala Lumpur', 'state_id' => $stateId, 'country_id' => $countryId],
+    cityAreaId: $subdivisionAreaId,
+    stateAreaId: $districtAreaId,
+);
+// 'kuala-lumpur-wilayah-persekutuan-my'
+```
+
+Each level prefers the literal address string, then the canonical name for the referenced geography id, then the assigned area name; consecutive duplicates collapse to one. Granular resolvers (`areaName()`, `cityName()`, `stateName()`, `countryCode()`) are available when you need a single level.
