@@ -29,8 +29,10 @@ final class LocationSlugSegments
      * assigned area id. Consecutive duplicate segments collapse to one.
      *
      * @param  array<string, mixed>  $address
+     * @param  mixed  $cityAreaId  Area id for the city fallback. Non-string values resolve to null.
+     * @param  mixed  $stateAreaId  Area id for the state fallback. Non-string values resolve to null.
      */
-    public static function suffix(array $address, ?string $cityAreaId = null, ?string $stateAreaId = null, bool $preferLiteralCountry = true): string
+    public static function suffix(array $address, mixed $cityAreaId = null, mixed $stateAreaId = null, bool $preferLiteralCountry = true): string
     {
         $city = self::firstFilled([
             $address['city'] ?? null,
