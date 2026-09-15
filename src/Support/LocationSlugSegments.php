@@ -30,7 +30,7 @@ final class LocationSlugSegments
      *
      * @param  array<string, mixed>  $address
      */
-    public static function suffix(array $address, ?string $cityAreaId = null, ?string $stateAreaId = null): string
+    public static function suffix(array $address, ?string $cityAreaId = null, ?string $stateAreaId = null, bool $preferLiteralCountry = true): string
     {
         $city = self::firstFilled([
             $address['city'] ?? null,
@@ -42,7 +42,7 @@ final class LocationSlugSegments
             self::stateName($address['state_id'] ?? null),
             self::areaName($stateAreaId),
         ]);
-        $countryCode = self::countryCode($address, true);
+        $countryCode = self::countryCode($address, $preferLiteralCountry);
 
         $segments = [];
 

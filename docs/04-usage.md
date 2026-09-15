@@ -408,4 +408,4 @@ $suffix = LocationSlugSegments::suffix(
 // 'kuala-lumpur-wilayah-persekutuan-my'
 ```
 
-Each level prefers the literal address string, then the canonical name for the referenced geography id, then the assigned area name; consecutive duplicates collapse to one. Granular resolvers (`areaName()`, `cityName()`, `stateName()`, `countryCode()`) are available when you need a single level.
+Each level prefers the literal address string, then the canonical name for the referenced geography id, then the assigned area name; consecutive duplicates collapse to one. Pass `preferLiteralCountry: false` when the referenced country's ISO code should win over the literal `country_code`. Granular resolvers (`areaName()`, `cityName()`, `stateName()`, `countryCode()`) are available when you need a single level.
