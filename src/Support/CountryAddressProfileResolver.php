@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Support;
 
 use AIArmada\Addressing\Contracts\CountryAddressProfile;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
+use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use Illuminate\Contracts\Container\Container;
 use InvalidArgumentException;
@@ -71,6 +72,27 @@ final class CountryAddressProfileResolver
     public function hierarchies(mixed $country): array
     {
         return $this->resolve($country)?->addressHierarchies() ?? [];
+    }
+
+    /**
+     * Return the country's state-kind (region) level, if its profile defines one.
+     *
+     * Region levels carry no assignment role because a State is not an area
+     * assignment, so consumers label the State selector through this lookup
+     * instead of matching a role. When several hierarchies define one, the
+     * first wins; providers list their primary hierarchy first.
+     */
+    public function stateLevel(mixed $country): ?AddressLevelDefinition
+    {
+        foreach ($this->hierarchies($country) as $hierarchy) {
+            foreach ($hierarchy->levels as $level) {
+                if ($level->kind === 'state') {
+                    return $level;
+                }
+            }
+        }
+
+        return null;
     }
 
     private function cacheKey(mixed $country): ?string
