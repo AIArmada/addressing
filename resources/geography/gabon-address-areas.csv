@@ -1,0 +1,10 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ga:province:estuaire,GA,province,Estuaire,,1,,1,,
+ga:province:haut-ogooue,GA,province,Haut-Ogooué,,2,,1,,
+ga:province:moyen-ogooue,GA,province,Moyen-Ogooué,,3,,1,,
+ga:province:ngounie,GA,province,Ngounié,,4,,1,,
+ga:province:nyanga,GA,province,Nyanga,,5,,1,,
+ga:province:ogooue-ivindo,GA,province,Ogooué-Ivindo,,6,,1,,
+ga:province:ogooue-lolo,GA,province,Ogooué-Lolo,,7,,1,,
+ga:province:ogooue-maritime,GA,province,Ogooué-Maritime,,8,,1,,
+ga:province:woleu-ntem,GA,province,Woleu-Ntem,,9,,1,,

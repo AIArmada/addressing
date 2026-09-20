@@ -1,0 +1,12 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+mz:province:niassa,MZ,province,Niassa,,A,,1,,
+mz:province:manica,MZ,province,Manica,,B,,1,,
+mz:province:gaza,MZ,province,Gaza,,G,,1,,
+mz:province:inhambane,MZ,province,Inhambane,,I,,1,,
+mz:province:maputo-province,MZ,province,Maputo Province,,L,,1,,
+mz:city:maputo-city,MZ,city,Maputo City,,MPM,,1,,
+mz:province:nampula,MZ,province,Nampula,,N,,1,,
+mz:province:cabo-delgado,MZ,province,Cabo Delgado,,P,,1,,
+mz:province:zambezia,MZ,province,Zambezia,,Q,,1,,
+mz:province:sofala,MZ,province,Sofala,,S,,1,,
+mz:province:tete,MZ,province,Tete,,T,,1,,

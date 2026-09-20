@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+dj:region:ali-sabieh,DJ,region,Ali Sabieh,,AS,,1,,
+dj:region:arta,DJ,region,Arta,,AR,,1,,
+dj:region:dikhil,DJ,region,Dikhil,,DI,,1,,
+dj:city:djibouti,DJ,city,Djibouti,,DJ,,1,,
+dj:region:obock,DJ,region,Obock,,OB,,1,,
+dj:region:tadjourah,DJ,region,Tadjourah,,TA,,1,,

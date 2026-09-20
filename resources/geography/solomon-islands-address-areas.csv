@@ -1,0 +1,11 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+sb:province:central,SB,province,Central,,CE,,1,,
+sb:province:choiseul,SB,province,Choiseul,,CH,,1,,
+sb:province:guadalcanal,SB,province,Guadalcanal,,GU,,1,,
+sb:capital_territory:honiara,SB,capital_territory,Honiara,,CT,,1,,
+sb:province:isabel,SB,province,Isabel,,IS,,1,,
+sb:province:makira-ulawa,SB,province,Makira-Ulawa,,MK,,1,,
+sb:province:malaita,SB,province,Malaita,,ML,,1,,
+sb:province:rennell-and-bellona,SB,province,Rennell and Bellona,,RB,,1,,
+sb:province:temotu,SB,province,Temotu,,TE,,1,,
+sb:province:western,SB,province,Western,,WE,,1,,

@@ -10,6 +10,15 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $id
+ * @property string $address_area_id
+ * @property string $name
+ * @property string $source
+ * @property string $name_type
+ * @property bool $is_preferred
+ * @property-read AddressArea|null $area
+ */
 class AddressAreaName extends Model
 {
     use HasUuids;

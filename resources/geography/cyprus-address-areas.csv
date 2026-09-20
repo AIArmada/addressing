@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+cy:district:famagusta-magusa,CY,district,Famagusta (Mağusa),,04,,1,,
+cy:district:kyrenia-keryneia,CY,district,Kyrenia (Keryneia),,06,,1,,
+cy:district:larnaca-larnaka,CY,district,Larnaca (Larnaka),,03,,1,,
+cy:district:limassol-leymasun,CY,district,Limassol (Leymasun),,02,,1,,
+cy:district:nicosia-lefkosa,CY,district,Nicosia (Lefkoşa),,01,,1,,
+cy:district:paphos-pafos,CY,district,Paphos (Pafos),,05,,1,,

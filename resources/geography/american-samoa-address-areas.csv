@@ -1,0 +1,6 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+as:district:eastern,AS,district,Eastern,,02,,1,,
+as:district:manua,AS,district,Manuʻa,,03,,1,,
+as:atoll:rose,AS,atoll,Rose,,05,,1,,
+as:atoll:swains,AS,atoll,Swains,,04,,1,,
+as:district:western,AS,district,Western,,01,,1,,

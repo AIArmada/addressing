@@ -1,0 +1,12 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ml:district:bamako,ML,district,Bamako,,BKO,,1,,
+ml:region:gao,ML,region,Gao,,7,,1,,
+ml:region:kayes,ML,region,Kayes,,1,,1,,
+ml:region:kidal,ML,region,Kidal,,8,,1,,
+ml:region:koulikoro,ML,region,Koulikoro,,2,,1,,
+ml:region:menaka,ML,region,Ménaka,,9,,1,,
+ml:region:mopti,ML,region,Mopti,,5,,1,,
+ml:region:segou,ML,region,Ségou,,4,,1,,
+ml:region:sikasso,ML,region,Sikasso,,3,,1,,
+ml:region:taoudenit,ML,region,Taoudénit,,10,,1,,
+ml:region:tombouctou,ML,region,Tombouctou,,6,,1,,

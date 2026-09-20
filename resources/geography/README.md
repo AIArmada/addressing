@@ -1,0 +1,233 @@
+# Addressing Geography Resources
+
+Country-specific `AddressArea` trees imported by the bundled geography providers.
+
+- `malaysia-address-areas.csv`, `malaysia-postal-codes.csv`, `malaysia-postal-code-areas.csv` — used by `MalaysiaGeographyProvider`.
+- `singapore-address-areas.csv` — used by `SingaporeGeographyProvider`.
+- `indonesia-address-areas.csv` — used by `IndonesiaGeographyProvider`. Derived from [lokabisa-oss/region-id v1.0.1](https://github.com/lokabisa-oss/region-id/releases/tag/v1.0.1) (MIT, © 2025 lokabisa), keeping Kemendagri codes, official names, and parent links for provinces, regencies/cities, and districts. Province 31 is named `DKI Jakarta` and province 34 `DI Yogyakarta` to match the seeded states; see `docs/05-country-data.md`.
+- `indonesia-villages.csv` — opt-in L4 set for `IndonesiaGeographyProvider` (83,762 desa/kelurahan from the same region-id v1.0.1 release). Seeded only when `addressing.geography.indonesia.villages` is true.
+- `brunei-address-areas.csv` — used by `BruneiGeographyProvider`. Districts per ISO 3166-2:BN; 39 mukims per the government-cited mukim list (18/8/8/5 split). Mukim spelling `Pengkalan Batu` follows Brunei government sources.
+- `bahrain-address-areas.csv` — used by `BahrainGeographyProvider`. 4 governorates per ISO 3166-2:BH.
+- `qatar-address-areas.csv` — used by `QatarGeographyProvider`. 8 municipalities; official English spellings with ISO names aliased.
+- `kuwait-address-areas.csv` — used by `KuwaitGeographyProvider`. 6 governorates per ISO 3166-2:KW with 134 areas at L2 (31/29/24/20/17/13); uninhabited islands excluded.
+- `jordan-address-areas.csv` — used by `JordanGeographyProvider`. 12 governorates per ISO 3166-2:JO.
+- `oman-address-areas.csv` — used by `OmanGeographyProvider`. 11 governorates per ISO 3166-2:OM plus 63 wilayats.
+- `united-arab-emirates-address-areas.csv` — used by `UnitedArabEmiratesGeographyProvider`. 7 emirates.
+- `saudi-arabia-address-areas.csv` — used by `SaudiArabiaGeographyProvider`. 13 regions per ISO 3166-2:SA.
+- `egypt-address-areas.csv` — used by `EgyptGeographyProvider`. 27 governorates per ISO 3166-2:EG.
+- `south-africa-address-areas.csv` — used by `SouthAfricaGeographyProvider`. 9 provinces per ISO 3166-2:ZA.
+- `turkiye-address-areas.csv` — used by `TurkiyeGeographyProvider`. 81 provinces per ISO 3166-2:TR plus 973 districts (51 bare `Merkez`; `Ereğli` twins Konya/Zonguldak; newest Derecik 2018; no district codes).
+- `pakistan-address-areas.csv` — used by `PakistanGeographyProvider`. 4 provinces + 3 federal territories per ISO 3166-2:PK plus 174 districts (late-2025 reorganization state; contradictory 2026 Balochistan batch excluded).
+- `india-address-areas.csv` — used by `IndiaGeographyProvider`. 28 states + 8 union territories per ISO 3166-2:IN.
+- `united-kingdom-address-areas.csv` — used by `UnitedKingdomGeographyProvider`. 4 nations only; the 221 subdivisions stay global states.
+- `bangladesh-address-areas.csv` — used by `BangladeshGeographyProvider`. 8 divisions + 64 districts per ISO 3166-2:BD with post-2018 spellings; parents verified against the division/district table.
+- `morocco-address-areas.csv` — used by `MoroccoGeographyProvider`. 12 regions + 62 provinces + 13 prefectures per the post-2015 division; parents verified against the prefecture/province table.
+- `china-address-areas.csv` — used by `ChinaGeographyProvider`. 33 provincial-level divisions per ISO 3166-2:CN; Taiwan excluded (own TW country).
+- `russia-address-areas.csv` — used by `RussiaGeographyProvider`. 83 federal subjects per ISO 3166-2:RU; names per the UPU province list.
+- `germany-address-areas.csv` — used by `GermanyGeographyProvider`. 16 Länder with German official names; English exonyms aliased.
+- `france-address-areas.csv` — used by `FranceGeographyProvider`. 18 regions only; departments intentionally not areas.
+- `italy-address-areas.csv` — used by `ItalyGeographyProvider`. 20 regions with Italian official names; English exonyms aliased; provinces intentionally not areas.
+- `japan-address-areas.csv` — used by `JapanGeographyProvider`. 47 prefectures plus 1,747 municipalities (792 cities + 743 towns + 183 villages + 23 Tokyo special wards + 6 Northern-Territories paper villages) from the MIC R6.1.1 table; bare unmacroned romanization with kanji in `native_name`; 13 same-prefecture twins (Tomari ×2, Fuchu ×2, Toshima ×2, …); designated-city wards excluded.
+- `united-states-address-areas.csv` — used by `UnitedStatesGeographyProvider`. 50 states + DC + 5 inhabited territories; military codes and UM excluded.
+- `spain-address-areas.csv` — used by `SpainGeographyProvider`. 19 communities/cities + 50 provinces with official local spellings.
+- `poland-address-areas.csv` — used by `PolandGeographyProvider`. 16 voivodeships with English exonyms.
+- `netherlands-address-areas.csv` — used by `NetherlandsGeographyProvider`. 12 provinces with Dutch official names.
+- `nigeria-address-areas.csv` — used by `NigeriaGeographyProvider`. 36 states + FCT, plus the constitutional 774 LGAs (768 `lga` + 6 FCT `area_council`); post-2023 gazetted names with pre-2023 aliases; six cross-state twins (Obi, Bassa, Ifelodun, Irepodun, Surulere, Nasarawa); LCDAs excluded.
+- `ethiopia-address-areas.csv` — used by `EthiopiaGeographyProvider`. 14 regions/cities post-SNNPR; CE/SE codes provisional.
+- `democratic-republic-of-congo-address-areas.csv` — used by `DemocraticRepublicOfCongoGeographyProvider`. 26 provinces.
+- `tanzania-address-areas.csv` — used by `TanzaniaGeographyProvider`. 31 regions including Songwe.
+- `kenya-address-areas.csv` — used by `KenyaGeographyProvider`. 47 counties.
+- `sudan-address-areas.csv` — used by `SudanGeographyProvider`. 18 states.
+- `uganda-address-areas.csv` — used by `UgandaGeographyProvider`. 4 regions only; volatile districts intentionally not bundled.
+- `algeria-address-areas.csv` — used by `AlgeriaGeographyProvider`. 69 wilayas (2019 batch renumbered + 59–69 per Law 26-06) + 548 dairas per décrets 91-306/26-253 (JO 2026 n°52); one cross-wilaya twin (Mansoura); communes excluded.
+- `brazil-address-areas.csv` — used by `BrazilGeographyProvider`. 26 states + DF per ISO 3166-2:BR.
+- `mexico-address-areas.csv` — used by `MexicoGeographyProvider`. 32 federal entities; CDMX typed state.
+- `canada-address-areas.csv` — used by `CanadaGeographyProvider`. 10 provinces + 3 territories.
+- `australia-address-areas.csv` — used by `AustraliaGeographyProvider`. 6 states + 2 mainland territories.
+- `argentina-address-areas.csv` — used by `ArgentinaGeographyProvider`. 23 provinces + CABA.
+- `colombia-address-areas.csv` — used by `ColombiaGeographyProvider`. 32 departments + Bogotá D.C.
+- `peru-address-areas.csv` — used by `PeruGeographyProvider`. 25 regions + Lima municipality; Huánuco accent fixed.
+- `vietnam-address-areas.csv` — used by `VietnamGeographyProvider`. Post-merger 34 (28 provinces + 6 cities); Huế renamed and retyped.
+- `thailand-address-areas.csv` — used by `ThailandGeographyProvider`. 76 provinces + Bangkok + Pattaya.
+- `philippines-address-areas.csv` — used by `PhilippinesGeographyProvider`. 82 provinces only; Samar renamed with Western Samar aliased.
+- `south-korea-address-areas.csv` — used by `SouthKoreaGeographyProvider`. 17 divisions incl. self-governing Gangwon/Jeju/Jeonbuk.
+- `taiwan-address-areas.csv` — used by `TaiwanGeographyProvider`. 6 municipalities + 3 cities + 13 counties.
+- `ukraine-address-areas.csv` — used by `UkraineGeographyProvider`. 24 oblasts + Kyiv + Sevastopol + Crimea; ISO adjectival names.
+- `iraq-address-areas.csv` — used by `IraqGeographyProvider`. 19 governorates incl. Halabja (HL per UK usage, provisional); overlapping KR region excluded.
+- `ghana-address-areas.csv` — used by `GhanaGeographyProvider`. 16 regions including the 2019 batch.
+- `angola-address-areas.csv` — used by `AngolaGeographyProvider`. 18 ISO provinces; 2024 split pending implementation.
+- `cameroon-address-areas.csv` — used by `CameroonGeographyProvider`. 10 regions.
+- `madagascar-address-areas.csv` — used by `MadagascarGeographyProvider`. 6 provinces per ISO; codeless 23 regions excluded.
+- `afghanistan-address-areas.csv` — used by `AfghanistanGeographyProvider`. 34 provinces; Ghor/Kunduz spellings fixed.
+- `mozambique-address-areas.csv` — used by `MozambiqueGeographyProvider`. 10 provinces + Maputo City, disambiguated.
+- `uzbekistan-address-areas.csv` — used by `UzbekistanGeographyProvider`. 12 regions + Karakalpakstan + Tashkent City, disambiguated.
+- `myanmar-address-areas.csv` — used by `MyanmarGeographyProvider`. 7 regions + 7 states + Naypyidaw; Mon normalized.
+- `cambodia-address-areas.csv` — used by `CambodiaGeographyProvider`. 24 provinces + Phnom Penh; official `Preah Sihanouk` with `Sihanoukville` aliased.
+- `laos-address-areas.csv` — used by `LaosGeographyProvider`. 17 provinces + Vientiane Prefecture; Vientiane province/prefecture share a name.
+- `timor-leste-address-areas.csv` — used by `TimorLesteGeographyProvider`. 13 ISO municipalities + Atauro (`AT` provisional, no ISO code yet).
+- `armenia-address-areas.csv` — used by `ArmeniaGeographyProvider`. 10 regions + Yerevan.
+- `azerbaijan-address-areas.csv` — used by `AzerbaijanGeographyProvider`. 66 districts + 11 municipalities + Nakhchivan AR; city/district name twins share names.
+- `bhutan-address-areas.csv` — used by `BhutanGeographyProvider`. 20 dzongkhags per ISO 3166-2:BT.
+- `cyprus-address-areas.csv` — used by `CyprusGeographyProvider`. 6 districts with bilingual names.
+- `georgia-address-areas.csv` — used by `GeorgiaGeographyProvider`. 9 regions + Abkhazia/Adjara ARs + Tbilisi.
+- `hong-kong-address-areas.csv` — used by `HongKongGeographyProvider`. 18 districts; no postcode system.
+- `iran-address-areas.csv` — used by `IranGeographyProvider`. 31 ostans.
+- `israel-address-areas.csv` — used by `IsraelGeographyProvider`. 6 districts.
+- `kazakhstan-address-areas.csv` — used by `KazakhstanGeographyProvider`. 17 regions + Almaty/Astana/Shymkent; region/city Almaty share a name.
+- `kyrgyzstan-address-areas.csv` — used by `KyrgyzstanGeographyProvider`. 7 regions + Bishkek/Osh; region/city Osh share a name.
+- `lebanon-address-areas.csv` — used by `LebanonGeographyProvider`. 8 governorates incl. Akkar and Baalbek-Hermel.
+- `maldives-address-areas.csv` — used by `MaldivesGeographyProvider`. 20 atolls + Addu City.
+- `mongolia-address-areas.csv` — used by `MongoliaGeographyProvider`. 21 aimags + Ulaanbaatar.
+- `nepal-address-areas.csv` — used by `NepalGeographyProvider`. 7 provinces per 2015 constitution.
+- `north-korea-address-areas.csv` — used by `NorthKoreaGeographyProvider`. 9 provinces + 4 cities; no postcode system.
+- `palestine-address-areas.csv` — used by `PalestineGeographyProvider`. 16 governorates (West Bank + Gaza).
+- `sri-lanka-address-areas.csv` — used by `SriLankaGeographyProvider`. 9 provinces with 25 districts at L2 (5/3/3/3/3/2/2/2/2).
+- `syria-address-areas.csv` — used by `SyriaGeographyProvider`. 14 provinces.
+- `tajikistan-address-areas.csv` — used by `TajikistanGeographyProvider`. 2 regions + GBAR + Dushanbe + republican-subordination districts.
+- `turkmenistan-address-areas.csv` — used by `TurkmenistanGeographyProvider`. 5 regions + Ashgabat.
+- `yemen-address-areas.csv` — used by `YemenGeographyProvider`. 21 governorates + Amanat Al Asimah (Sanaa municipality).
+- `benin-address-areas.csv` — used by `BeninGeographyProvider`. 12 departments.
+- `botswana-address-areas.csv` — used by `BotswanaGeographyProvider`. 10 districts + Gaborone/Francistown + 4 towns.
+- `burkina-faso-address-areas.csv` — used by `BurkinaFasoGeographyProvider`. 17 regions + 47 provinces flat at L1 (July 2025 reform); region codes 14–17 + KAR/DYA provisional.
+- `burundi-address-areas.csv` — used by `BurundiGeographyProvider`. 5 provinces (July 2025 reform); codes 01-05 provisional pending ISO.
+- `cape-verde-address-areas.csv` — used by `CapeVerdeGeographyProvider`. 22 municipalities + Barlavento/Sotavento groups.
+- `central-african-republic-address-areas.csv` — used by `CentralAfricanRepublicGeographyProvider`. 15 prefectures + Bangui commune + Nana-Grébizi.
+- `chad-address-areas.csv` — used by `ChadGeographyProvider`. 23 provinces incl. N'Djamena.
+- `comoros-address-areas.csv` — used by `ComorosGeographyProvider`. 3 islands.
+- `congo-address-areas.csv` — used by `CongoGeographyProvider`. 12 departments incl. Brazzaville/Pointe-Noire.
+- `ivory-coast-address-areas.csv` — used by `IvoryCoastGeographyProvider`. 12 districts + Abidjan/Yamoussoukro autonomous districts.
+- `djibouti-address-areas.csv` — used by `DjiboutiGeographyProvider`. 5 regions + Djibouti City.
+- `equatorial-guinea-address-areas.csv` — used by `EquatorialGuineaGeographyProvider`. 2 regions with 8 provinces at L2 (3 Insular, 5 Río Muni).
+- `eritrea-address-areas.csv` — used by `EritreaGeographyProvider`. 6 regions.
+- `gabon-address-areas.csv` — used by `GabonGeographyProvider`. 9 provinces.
+- `gambia-address-areas.csv` — used by `GambiaGeographyProvider`. 5 divisions + Banjul.
+- `guinea-address-areas.csv` — used by `GuineaGeographyProvider`. 7 regions + Conakry with 33 prefectures at L2 (6/5/5/5/5/4/3; Conakry childless); region/prefecture name twins share names.
+- `guinea-bissau-address-areas.csv` — used by `GuineaBissauGeographyProvider`. 3 provinces + 8 regions + Bissau sector.
+- `lesotho-address-areas.csv` — used by `LesothoGeographyProvider`. 10 districts.
+- `liberia-address-areas.csv` — used by `LiberiaGeographyProvider`. 15 counties.
+- `libya-address-areas.csv` — used by `LibyaGeographyProvider`. 22 popularates (sha'biyat).
+- `malawi-address-areas.csv` — used by `MalawiGeographyProvider`. 3 regions with 28 districts at L2 (13/9/6).
+- `mali-address-areas.csv` — used by `MaliGeographyProvider`. 10 regions + Bamako district.
+- `mauritania-address-areas.csv` — used by `MauritaniaGeographyProvider`. 15 regions incl. 3 Nouakchott regions.
+- `mauritius-address-areas.csv` — used by `MauritiusGeographyProvider`. 9 districts + Agaléga/Rodrigues/Saint Brandon.
+- `namibia-address-areas.csv` — used by `NamibiaGeographyProvider`. 14 regions.
+- `niger-address-areas.csv` — used by `NigerGeographyProvider`. 7 regions + Niamey urban community.
+- `rwanda-address-areas.csv` — used by `RwandaGeographyProvider`. 4 provinces + Kigali.
+- `sao-tome-and-principe-address-areas.csv` — used by `SaoTomeAndPrincipeGeographyProvider`. 6 districts + Príncipe AR.
+- `senegal-address-areas.csv` — used by `SenegalGeographyProvider`. 14 regions.
+- `seychelles-address-areas.csv` — used by `SeychellesGeographyProvider`. 27 districts incl. Ile Perseverance I/II.
+- `sierra-leone-address-areas.csv` — used by `SierraLeoneGeographyProvider`. 4 provinces + Western Area.
+- `somalia-address-areas.csv` — used by `SomaliaGeographyProvider`. 18 regions (gobolka).
+- `south-sudan-address-areas.csv` — used by `SouthSudanGeographyProvider`. 10 states.
+- `eswatini-address-areas.csv` — used by `EswatiniGeographyProvider`. 4 regions.
+- `togo-address-areas.csv` — used by `TogoGeographyProvider`. 5 regions.
+- `tunisia-address-areas.csv` — used by `TunisiaGeographyProvider`. 24 governorates.
+- `zambia-address-areas.csv` — used by `ZambiaGeographyProvider`. 10 provinces.
+- `zimbabwe-address-areas.csv` — used by `ZimbabweGeographyProvider`. 10 provinces incl. Harare/Bulawayo.
+- `albania-address-areas.csv` — used by `AlbaniaGeographyProvider`. 12 counties.
+- `andorra-address-areas.csv` — used by `AndorraGeographyProvider`. 7 parishes.
+- `austria-address-areas.csv` — used by `AustriaGeographyProvider`. 9 states.
+- `belarus-address-areas.csv` — used by `BelarusGeographyProvider`. 6 oblasts + Minsk; oblast/city Minsk share a name.
+- `belgium-address-areas.csv` — used by `BelgiumGeographyProvider`. 3 regions with 10 provinces at L2 (5 Flanders, 5 Wallonia; Brussels childless).
+- `bosnia-and-herzegovina-address-areas.csv` — used by `BosniaAndHerzegovinaGeographyProvider`. 2 entities + Brčko District.
+- `bulgaria-address-areas.csv` — used by `BulgariaGeographyProvider`. 28 districts.
+- `croatia-address-areas.csv` — used by `CroatiaGeographyProvider`. 20 counties incl. Zagreb + City of Zagreb (21).
+- `czech-republic-address-areas.csv` — used by `CzechRepublicGeographyProvider`. 13 regions + Praha with 76 districts at L2 (12/7/7/7/7/6/5/5/5/4/4/4/3; Praha childless).
+- `denmark-address-areas.csv` — used by `DenmarkGeographyProvider`. 5 regions.
+- `estonia-address-areas.csv` — used by `EstoniaGeographyProvider`. 15 counties with 78 municipalities at L2 (16/8/8/7/7/5/4/4/3/3/3/3/3/3/1); county/municipality twins share names.
+- `finland-address-areas.csv` — used by `FinlandGeographyProvider`. 18 regions.
+- `greece-address-areas.csv` — used by `GreeceGeographyProvider`. 13 regions + Mount Athos (69).
+- `hungary-address-areas.csv` — used by `HungaryGeographyProvider`. 20 counties + 22 county-rights cities + Budapest.
+- `iceland-address-areas.csv` — used by `IcelandGeographyProvider`. 8 regions + 64 municipalities flat at L1.
+- `ireland-address-areas.csv` — used by `IrelandGeographyProvider`. 4 provinces with 26 counties at L2 (12/6/5/3).
+- `kosovo-address-areas.csv` — used by `KosovoGeographyProvider`. 7 districts.
+- `latvia-address-areas.csv` — used by `LatviaGeographyProvider`. 36 municipalities + 7 state cities; Jelgava/Rēzekne/Ventspils twins share names.
+- `liechtenstein-address-areas.csv` — used by `LiechtensteinGeographyProvider`. 11 communes.
+- `lithuania-address-areas.csv` — used by `LithuaniaGeographyProvider`. 10 counties + 60 municipalities flat at L1; Alytus/Kaunas/Šiauliai/Vilnius same-type twins suffixed by code.
+- `luxembourg-address-areas.csv` — used by `LuxembourgGeographyProvider`. 12 cantons.
+- `malta-address-areas.csv` — used by `MaltaGeographyProvider`. 68 local councils.
+- `moldova-address-areas.csv` — used by `MoldovaGeographyProvider`. 32 districts + 3 cities + Gagauzia/Transnistria units.
+- `monaco-address-areas.csv` — used by `MonacoGeographyProvider`. 17 quarters incl. Monte-Carlo.
+- `montenegro-address-areas.csv` — used by `MontenegroGeographyProvider`. 25 municipalities.
+- `north-macedonia-address-areas.csv` — used by `NorthMacedoniaGeographyProvider`. 80 municipalities.
+- `norway-address-areas.csv` — used by `NorwayGeographyProvider`. 15 counties + Svalbard/Jan Mayen.
+- `portugal-address-areas.csv` — used by `PortugalGeographyProvider`. 18 districts + Azores/Madeira.
+- `romania-address-areas.csv` — used by `RomaniaGeographyProvider`. 41 departments + Bucharest.
+- `san-marino-address-areas.csv` — used by `SanMarinoGeographyProvider`. 9 municipalities.
+- `serbia-address-areas.csv` — used by `SerbiaGeographyProvider`. 29 districts + 2 provinces + Belgrade.
+- `slovakia-address-areas.csv` — used by `SlovakiaGeographyProvider`. 8 regions.
+- `slovenia-address-areas.csv` — used by `SloveniaGeographyProvider`. 200 municipalities + 12 urban municipalities.
+- `sweden-address-areas.csv` — used by `SwedenGeographyProvider`. 21 counties.
+- `switzerland-address-areas.csv` — used by `SwitzerlandGeographyProvider`. 26 cantons.
+- `aland-address-areas.csv` — used by `AlandGeographyProvider`. 16 municipalities.
+- `faroe-islands-address-areas.csv` — used by `FaroeIslandsGeographyProvider`. 6 regions.
+- `guernsey-address-areas.csv` — used by `GuernseyGeographyProvider`. 12 parishes.
+- `jersey-address-areas.csv` — used by `JerseyGeographyProvider`. 12 parishes.
+- `isle-of-man-address-areas.csv` — used by `IsleOfManGeographyProvider`. 6 sheadings.
+- `american-samoa-address-areas.csv` — used by `AmericanSamoaGeographyProvider`. 3 districts + Rose/Swains atolls.
+- `antigua-and-barbuda-address-areas.csv` — used by `AntiguaAndBarbudaGeographyProvider`. 6 parishes + Barbuda/Redonda.
+- `anguilla-address-areas.csv` — used by `AnguillaGeographyProvider`. 14 districts.
+- `aruba-address-areas.csv` — used by `ArubaGeographyProvider`. 8 regions + Oranjestad.
+- `bahamas-address-areas.csv` — used by `BahamasGeographyProvider`. 31 districts + New Providence island.
+- `barbados-address-areas.csv` — used by `BarbadosGeographyProvider`. 11 parishes.
+- `belize-address-areas.csv` — used by `BelizeGeographyProvider`. 6 districts.
+- `bermuda-address-areas.csv` — used by `BermudaGeographyProvider`. 9 municipalities.
+- `bolivia-address-areas.csv` — used by `BoliviaGeographyProvider`. 9 departments.
+- `caribbean-netherlands-address-areas.csv` — used by `CaribbeanNetherlandsGeographyProvider`. 3 special municipalities.
+- `cayman-islands-address-areas.csv` — used by `CaymanIslandsGeographyProvider`. 3 islands (source ships no types; normalized to island).
+- `chile-address-areas.csv` — used by `ChileGeographyProvider`. 16 regions.
+- `costa-rica-address-areas.csv` — used by `CostaRicaGeographyProvider`. 7 provinces.
+- `cuba-address-areas.csv` — used by `CubaGeographyProvider`. 15 provinces + Isla de la Juventud.
+- `dominica-address-areas.csv` — used by `DominicaGeographyProvider`. 10 parishes.
+- `dominican-republic-address-areas.csv` — used by `DominicanRepublicGeographyProvider`. 10 regions with 31 provinces + DN at L2 (4/4/4/4/3/3/3/3/2/2; DN under Ozama).
+- `ecuador-address-areas.csv` — used by `EcuadorGeographyProvider`. 24 provinces.
+- `el-salvador-address-areas.csv` — used by `ElSalvadorGeographyProvider`. 14 departments.
+- `fiji-address-areas.csv` — used by `FijiGeographyProvider`. 4 divisions + Rotuma with 14 provinces at L2 (5/3/3/3; Rotuma standalone).
+- `micronesia-address-areas.csv` — used by `MicronesiaGeographyProvider`. 4 states.
+- `grenada-address-areas.csv` — used by `GrenadaGeographyProvider`. 6 parishes + Carriacou.
+- `french-guiana-address-areas.csv` — used by `FrenchGuianaGeographyProvider`. Single overseas region.
+- `greenland-address-areas.csv` — used by `GreenlandGeographyProvider`. 5 municipalities.
+- `guadeloupe-address-areas.csv` — used by `GuadeloupeGeographyProvider`. 2 districts.
+- `guatemala-address-areas.csv` — used by `GuatemalaGeographyProvider`. 22 departments.
+- `guam-address-areas.csv` — used by `GuamGeographyProvider`. 19 villages.
+- `guyana-address-areas.csv` — used by `GuyanaGeographyProvider`. 10 regions.
+- `honduras-address-areas.csv` — used by `HondurasGeographyProvider`. 18 departments.
+- `haiti-address-areas.csv` — used by `HaitiGeographyProvider`. 10 departments.
+- `jamaica-address-areas.csv` — used by `JamaicaGeographyProvider`. 14 parishes.
+- `kiribati-address-areas.csv` — used by `KiribatiGeographyProvider`. 3 island groups.
+- `saint-kitts-and-nevis-address-areas.csv` — used by `SaintKittsAndNevisGeographyProvider`. 2 islands with 14 parishes at L2 (9 Saint Kitts, 5 Nevis).
+- `saint-lucia-address-areas.csv` — used by `SaintLuciaGeographyProvider`. 10 districts.
+- `saint-martin-address-areas.csv` — used by `SaintMartinGeographyProvider`. Single overseas collectivity (French part).
+- `marshall-islands-address-areas.csv` — used by `MarshallIslandsGeographyProvider`. 24 municipalities + Ralik/Ratak chains.
+- `martinique-address-areas.csv` — used by `MartiniqueGeographyProvider`. 4 districts.
+- `montserrat-address-areas.csv` — used by `MontserratGeographyProvider`. 3 parishes.
+- `new-caledonia-address-areas.csv` — used by `NewCaledoniaGeographyProvider`. 3 provinces.
+- `nicaragua-address-areas.csv` — used by `NicaraguaGeographyProvider`. 15 departments + 2 autonomous regions.
+- `nauru-address-areas.csv` — used by `NauruGeographyProvider`. 14 districts.
+- `niue-address-areas.csv` — used by `NiueGeographyProvider`. 14 villages.
+- `new-zealand-address-areas.csv` — used by `NewZealandGeographyProvider`. 16 regions + Chatham Islands.
+- `panama-address-areas.csv` — used by `PanamaGeographyProvider`. 10 provinces + 4 comarcas.
+- `french-polynesia-address-areas.csv` — used by `FrenchPolynesiaGeographyProvider`. 5 divisions.
+- `papua-new-guinea-address-areas.csv` — used by `PapuaNewGuineaGeographyProvider`. 20 provinces + Bougainville + Port Moresby.
+- `saint-pierre-and-miquelon-address-areas.csv` — used by `SaintPierreAndMiquelonGeographyProvider`. Single overseas collectivity.
+- `puerto-rico-address-areas.csv` — used by `PuertoRicoGeographyProvider`. 78 municipios (10 typed region in source data).
+- `palau-address-areas.csv` — used by `PalauGeographyProvider`. 16 states.
+- `paraguay-address-areas.csv` — used by `ParaguayGeographyProvider`. 17 departments + Asunción.
+- `reunion-address-areas.csv` — used by `ReunionGeographyProvider`. 4 districts.
+- `solomon-islands-address-areas.csv` — used by `SolomonIslandsGeographyProvider`. 9 provinces + Honiara.
+- `saint-helena-address-areas.csv` — used by `SaintHelenaGeographyProvider`. 8 districts.
+- `suriname-address-areas.csv` — used by `SurinameGeographyProvider`. 10 districts.
+- `turks-and-caicos-address-areas.csv` — used by `TurksAndCaicosGeographyProvider`. 6 districts.
+- `french-southern-territories-address-areas.csv` — used by `FrenchSouthernTerritoriesGeographyProvider`. 5 districts; uninhabited.
+- `tonga-address-areas.csv` — used by `TongaGeographyProvider`. 5 divisions.
+- `trinidad-and-tobago-address-areas.csv` — used by `TrinidadAndTobagoGeographyProvider`. 10 regions + 3 boroughs + Port of Spain + Tobago (Mayaro-Rio Claro renamed; ETO/WTO dropped).
+- `tuvalu-address-areas.csv` — used by `TuvaluGeographyProvider`. 7 island + 1 town council.
+- `us-minor-outlying-islands-address-areas.csv` — used by `USMinorOutlyingIslandsGeographyProvider`. 9 islands; uninhabited.
+- `uruguay-address-areas.csv` — used by `UruguayGeographyProvider`. 19 departments.
+- `saint-vincent-and-the-grenadines-address-areas.csv` — used by `SaintVincentAndTheGrenadinesGeographyProvider`. 6 parishes.
+- `venezuela-address-areas.csv` — used by `VenezuelaGeographyProvider`. 23 states + Caracas + federal dependencies.
+- `us-virgin-islands-address-areas.csv` — used by `USVirginIslandsGeographyProvider`. 3 districts.
+- `vanuatu-address-areas.csv` — used by `VanuatuGeographyProvider`. 6 provinces.
+- `wallis-and-futuna-address-areas.csv` — used by `WallisAndFutunaGeographyProvider`. 3 administrative precincts.
+- `samoa-address-areas.csv` — used by `SamoaGeographyProvider`. 11 districts.
+- `mayotte-address-areas.csv` — used by `MayotteGeographyProvider`. 17 communes.

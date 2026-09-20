@@ -1,0 +1,13 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+je:parish:grouville,JE,parish,Grouville,,01,,1,,
+je:parish:st-brelade,JE,parish,St Brelade,,02,,1,,
+je:parish:st-clement,JE,parish,St Clement,,03,,1,,
+je:parish:st-helier,JE,parish,St Helier,,04,,1,,
+je:parish:st-john,JE,parish,St John,,05,,1,,
+je:parish:st-lawrence,JE,parish,St Lawrence,,06,,1,,
+je:parish:st-martin,JE,parish,St Martin,,07,,1,,
+je:parish:st-mary,JE,parish,St Mary,,08,,1,,
+je:parish:st-ouen,JE,parish,St Ouen,,09,,1,,
+je:parish:st-peter,JE,parish,St Peter,,10,,1,,
+je:parish:st-saviour,JE,parish,St Saviour,,11,,1,,
+je:parish:trinity,JE,parish,Trinity,,12,,1,,

@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+im:sheadings:ayre,IM,sheadings,Ayre,,01,,1,,
+im:sheadings:garff,IM,sheadings,Garff,,02,,1,,
+im:sheadings:glenfaba,IM,sheadings,Glenfaba,,03,,1,,
+im:sheadings:michael,IM,sheadings,Michael,,04,,1,,
+im:sheadings:middle,IM,sheadings,Middle,,05,,1,,
+im:sheadings:rushen,IM,sheadings,Rushen,,06,,1,,

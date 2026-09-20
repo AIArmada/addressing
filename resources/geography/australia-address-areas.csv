@@ -1,0 +1,9 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+au:territory:australian-capital-territory,AU,territory,Australian Capital Territory,,ACT,,1,,
+au:state:new-south-wales,AU,state,New South Wales,,NSW,,1,,
+au:territory:northern-territory,AU,territory,Northern Territory,,NT,,1,,
+au:state:queensland,AU,state,Queensland,,QLD,,1,,
+au:state:south-australia,AU,state,South Australia,,SA,,1,,
+au:state:tasmania,AU,state,Tasmania,,TAS,,1,,
+au:state:victoria,AU,state,Victoria,,VIC,,1,,
+au:state:western-australia,AU,state,Western Australia,,WA,,1,,

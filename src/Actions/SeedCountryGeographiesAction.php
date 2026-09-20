@@ -226,7 +226,7 @@ final class SeedCountryGeographiesAction
             foreach ($mappings as $stateCode => $mapping) {
                 $state = $stateClass::query()
                     ->where('country_id', $country->getKey())
-                    ->where('code', $stateCode)
+                    ->where('code', (string) $stateCode)
                     ->firstOrFail();
 
                 $area = AddressArea::query()

@@ -1,0 +1,9 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+qa:municipality:doha,QA,municipality,Doha,,DA,,1,,
+qa:municipality:al-khor,QA,municipality,Al Khor,,KH,,1,,
+qa:municipality:al-shamal,QA,municipality,Al Shamal,,MS,,1,,
+qa:municipality:al-rayyan,QA,municipality,Al Rayyan,,RA,,1,,
+qa:municipality:al-sheehaniya,QA,municipality,Al Sheehaniya,,SH,,1,,
+qa:municipality:umm-salal,QA,municipality,Umm Salal,,US,,1,,
+qa:municipality:al-wakrah,QA,municipality,Al Wakrah,,WA,,1,,
+qa:municipality:al-daayen,QA,municipality,Al Daayen,,ZA,,1,,

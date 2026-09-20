@@ -1,0 +1,6 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+tj:capital_territory:dushanbe,TJ,capital_territory,Dushanbe,,DU,,1,,
+tj:autonomous_region:gorno-badakhshan,TJ,autonomous_region,Gorno-Badakhshan,,GB,,1,,
+tj:region:khatlon,TJ,region,Khatlon,,KT,,1,,
+tj:districts_under_republic_administration:nohiyahoi-tobei-jumhuri,TJ,districts_under_republic_administration,Nohiyahoi Tobei Jumhurí,,RA,,1,,
+tj:region:sughd,TJ,region,Sughd,,SU,,1,,

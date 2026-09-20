@@ -1,0 +1,8 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ad:parish:andorra-la-vella,AD,parish,Andorra la Vella,,07,,1,,
+ad:parish:canillo,AD,parish,Canillo,,02,,1,,
+ad:parish:encamp,AD,parish,Encamp,,03,,1,,
+ad:parish:escaldes-engordany,AD,parish,Escaldes-Engordany,,08,,1,,
+ad:parish:la-massana,AD,parish,La Massana,,04,,1,,
+ad:parish:ordino,AD,parish,Ordino,,05,,1,,
+ad:parish:sant-julia-de-loria,AD,parish,Sant Julià de Lòria,,06,,1,,

@@ -1,0 +1,9 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ne:region:agadez,NE,region,Agadez,,1,,1,,
+ne:region:diffa,NE,region,Diffa,,2,,1,,
+ne:region:dosso,NE,region,Dosso,,3,,1,,
+ne:region:maradi,NE,region,Maradi,,4,,1,,
+ne:urban_community:niamey,NE,urban_community,Niamey,,8,,1,,
+ne:region:tahoua,NE,region,Tahoua,,5,,1,,
+ne:region:tillaberi,NE,region,Tillabéri,,6,,1,,
+ne:region:zinder,NE,region,Zinder,,7,,1,,

@@ -1,0 +1,5 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+re:district:saint-benoit,RE,district,Saint-Benoît,,01,,1,,
+re:district:saint-denis,RE,district,Saint-Denis,,02,,1,,
+re:district:saint-paul,RE,district,Saint-Paul,,03,,1,,
+re:district:saint-pierre,RE,district,Saint-Pierre,,04,,1,,

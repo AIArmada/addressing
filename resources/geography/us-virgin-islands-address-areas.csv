@@ -1,0 +1,4 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+vi:district:saint-croix,VI,district,Saint Croix,,SC,,1,,
+vi:district:saint-john,VI,district,Saint John,,SJ,,1,,
+vi:district:saint-thomas,VI,district,Saint Thomas,,ST,,1,,

@@ -7,11 +7,13 @@ namespace AIArmada\Addressing\Models;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 /**
  * @property string $id
@@ -181,5 +183,54 @@ class AddressArea extends Model
             'metadata' => 'array',
             'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * Constrain areas to those under a live ancestor relationship link.
+     *
+     * Queries the pivot table directly: whereHas('ancestors') targets a
+     * self-referencing BelongsToMany whose existence query joins the
+     * outer table instead of the aliased inner table, so it never
+     * matches. Never filter ancestors through relation existence.
+     */
+    public function scopeWhereAncestorLink(
+        Builder $query,
+        ?string $parentId = null,
+        ?string $hierarchyType = null,
+        string $relationshipType = 'contains',
+    ): Builder {
+        $pivot = AddressingTableResolver::resolve('area_relationships');
+
+        return $query->whereExists(function (QueryBuilder $exists) use ($query, $pivot, $parentId, $hierarchyType, $relationshipType): void {
+            $exists->selectRaw('1')
+                ->from($pivot)
+                ->whereColumn($pivot . '.child_address_area_id', $query->getModel()->getQualifiedKeyName())
+                ->where($pivot . '.relationship_type', $relationshipType)
+                ->when($parentId !== null, static fn (QueryBuilder $link): QueryBuilder => $link->where($pivot . '.parent_address_area_id', $parentId))
+                ->when($hierarchyType !== null, static fn (QueryBuilder $link): QueryBuilder => $link->where($pivot . '.hierarchy_type', $hierarchyType))
+                ->where(static function (QueryBuilder $valid) use ($pivot): void {
+                    $valid->whereNull($pivot . '.valid_from')->orWhereDate($pivot . '.valid_from', '<=', CarbonImmutable::now());
+                })
+                ->where(static function (QueryBuilder $valid) use ($pivot): void {
+                    $valid->whereNull($pivot . '.valid_until')->orWhereDate($pivot . '.valid_until', '>=', CarbonImmutable::now());
+                });
+        });
+    }
+
+    /**
+     * Constrain areas to those without any ancestor relationship row.
+     *
+     * Pairs with scopeWhereAncestorLink for hierarchy filters that must
+     * still match root areas.
+     */
+    public function scopeWhereAncestorLinkMissing(Builder $query): Builder
+    {
+        $pivot = AddressingTableResolver::resolve('area_relationships');
+
+        return $query->whereNotExists(function (QueryBuilder $exists) use ($query, $pivot): void {
+            $exists->selectRaw('1')
+                ->from($pivot)
+                ->whereColumn($pivot . '.child_address_area_id', $query->getModel()->getQualifiedKeyName());
+        });
     }
 }

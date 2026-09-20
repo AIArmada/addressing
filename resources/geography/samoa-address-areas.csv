@@ -1,0 +1,12 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ws:district:aana,WS,district,A'ana,,AA,,1,,
+ws:district:aiga-i-le-tai,WS,district,Aiga-i-le-Tai,,AL,,1,,
+ws:district:atua,WS,district,Atua,,AT,,1,,
+ws:district:faasaleleaga,WS,district,Fa'asaleleaga,,FA,,1,,
+ws:district:gagaemauga,WS,district,Gaga'emauga,,GE,,1,,
+ws:district:gagaifomauga,WS,district,Gaga'ifomauga,,GI,,1,,
+ws:district:palauli,WS,district,Palauli,,PA,,1,,
+ws:district:satupaitea,WS,district,Satupa'itea,,SA,,1,,
+ws:district:tuamasaga,WS,district,Tuamasaga,,TU,,1,,
+ws:district:vaa-o-fonoti,WS,district,Va'a-o-Fonoti,,VF,,1,,
+ws:district:vaisigano,WS,district,Vaisigano,,VS,,1,,

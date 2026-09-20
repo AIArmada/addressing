@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+tm:region:ahal,TM,region,Ahal,,A,,1,,
+tm:city:ashgabat,TM,city,Ashgabat,,S,,1,,
+tm:region:balkan,TM,region,Balkan,,B,,1,,
+tm:region:dasoguz,TM,region,Daşoguz,,D,,1,,
+tm:region:lebap,TM,region,Lebap,,L,,1,,
+tm:region:mary,TM,region,Mary,,M,,1,,

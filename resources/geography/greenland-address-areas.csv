@@ -1,0 +1,6 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+gl:municipality:avannaata,GL,municipality,Avannaata,,AV,,1,,
+gl:municipality:kujalleq,GL,municipality,Kujalleq,,KU,,1,,
+gl:municipality:qeqertalik,GL,municipality,Qeqertalik,,QT,,1,,
+gl:municipality:qeqqata,GL,municipality,Qeqqata,,QE,,1,,
+gl:municipality:sermersooq,GL,municipality,Sermersooq,,SM,,1,,

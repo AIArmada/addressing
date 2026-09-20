@@ -1,0 +1,10 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+bm:municipality:devonshire,BM,municipality,Devonshire,,DEV,,1,,
+bm:municipality:hamilton,BM,municipality,Hamilton,,HA,,1,,
+bm:municipality:paget,BM,municipality,Paget,,PAG,,1,,
+bm:municipality:pembroke,BM,municipality,Pembroke,,PEM,,1,,
+bm:municipality:saint-georges,BM,municipality,Saint George's,,SGE,,1,,
+bm:municipality:sandys,BM,municipality,Sandys,,SAN,,1,,
+bm:municipality:smiths,BM,municipality,Smith's,,SMI,,1,,
+bm:municipality:southampton,BM,municipality,Southampton,,SOU,,1,,
+bm:municipality:warwick,BM,municipality,Warwick,,WAR,,1,,

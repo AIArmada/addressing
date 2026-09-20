@@ -1,0 +1,6 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+to:division:haapai,TO,division,Haʻapai,,02,,1,,
+to:division:eua,TO,division,ʻEua,,01,,1,,
+to:division:niuas,TO,division,Niuas,,03,,1,,
+to:division:tongatapu,TO,division,Tongatapu,,04,,1,,
+to:division:vavau,TO,division,Vavaʻu,,05,,1,,

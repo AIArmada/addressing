@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+vc:parish:charlotte,VC,parish,Charlotte,,01,,1,,
+vc:parish:grenadines,VC,parish,Grenadines,,06,,1,,
+vc:parish:saint-andrew,VC,parish,Saint Andrew,,02,,1,,
+vc:parish:saint-david,VC,parish,Saint David,,03,,1,,
+vc:parish:saint-george,VC,parish,Saint George,,04,,1,,
+vc:parish:saint-patrick,VC,parish,Saint Patrick,,05,,1,,

@@ -1,0 +1,11 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ht:department:artibonite,HT,department,Artibonite,,AR,,1,,
+ht:department:centre,HT,department,Centre,,CE,,1,,
+ht:department:grandanse,HT,department,Grand'Anse,,GA,,1,,
+ht:department:nippes,HT,department,Nippes,,NI,,1,,
+ht:department:nord,HT,department,Nord,,ND,,1,,
+ht:department:nord-est,HT,department,Nord-Est,,NE,,1,,
+ht:department:nord-ouest,HT,department,Nord-Ouest,,NO,,1,,
+ht:department:ouest,HT,department,Ouest,,OU,,1,,
+ht:department:sud,HT,department,Sud,,SD,,1,,
+ht:department:sud-est,HT,department,Sud-Est,,SE,,1,,

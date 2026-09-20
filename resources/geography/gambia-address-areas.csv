@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+gm:city:banjul,GM,city,Banjul,,B,,1,,
+gm:division:central-river,GM,division,Central River,,M,,1,,
+gm:division:lower-river,GM,division,Lower River,,L,,1,,
+gm:division:north-bank,GM,division,North Bank,,N,,1,,
+gm:division:upper-river,GM,division,Upper River,,U,,1,,
+gm:division:west-coast,GM,division,West Coast,,W,,1,,

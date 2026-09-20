@@ -1,0 +1,5 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+fm:state:chuuk,FM,state,Chuuk,,TRK,,1,,
+fm:state:kosrae,FM,state,Kosrae,,KSA,,1,,
+fm:state:pohnpei,FM,state,Pohnpei,,PNI,,1,,
+fm:state:yap,FM,state,Yap,,YAP,,1,,

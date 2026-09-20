@@ -1,0 +1,12 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+bb:parish:christ-church,BB,parish,Christ Church,,01,,1,,
+bb:parish:saint-andrew,BB,parish,Saint Andrew,,02,,1,,
+bb:parish:saint-george,BB,parish,Saint George,,03,,1,,
+bb:parish:saint-james,BB,parish,Saint James,,04,,1,,
+bb:parish:saint-john,BB,parish,Saint John,,05,,1,,
+bb:parish:saint-joseph,BB,parish,Saint Joseph,,06,,1,,
+bb:parish:saint-lucy,BB,parish,Saint Lucy,,07,,1,,
+bb:parish:saint-michael,BB,parish,Saint Michael,,08,,1,,
+bb:parish:saint-peter,BB,parish,Saint Peter,,09,,1,,
+bb:parish:saint-philip,BB,parish,Saint Philip,,10,,1,,
+bb:parish:saint-thomas,BB,parish,Saint Thomas,,11,,1,,

@@ -1,0 +1,13 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+gg:parish:alderney,GG,parish,Alderney,,04,,1,,
+gg:parish:castel,GG,parish,Castel,,01,,1,,
+gg:parish:forest,GG,parish,Forest,,02,,1,,
+gg:parish:sark,GG,parish,Sark,,07,,1,,
+gg:parish:st-andrew,GG,parish,St Andrew,,03,,1,,
+gg:parish:st-martin,GG,parish,St Martin,,05,,1,,
+gg:parish:st-peter-port,GG,parish,St Peter Port,,06,,1,,
+gg:parish:st-pierre-du-bois,GG,parish,St Pierre du Bois,,08,,1,,
+gg:parish:st-sampson,GG,parish,St Sampson,,09,,1,,
+gg:parish:st-saviour,GG,parish,St Saviour,,10,,1,,
+gg:parish:torteval,GG,parish,Torteval,,11,,1,,
+gg:parish:vale,GG,parish,Vale,,12,,1,,

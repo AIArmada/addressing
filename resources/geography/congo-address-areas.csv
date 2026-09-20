@@ -1,0 +1,13 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+cg:department:bouenza,CG,department,Bouenza,,11,,1,,
+cg:department:brazzaville,CG,department,Brazzaville,,BZV,,1,,
+cg:department:cuvette,CG,department,Cuvette,,8,,1,,
+cg:department:cuvette-ouest,CG,department,Cuvette-Ouest,,15,,1,,
+cg:department:kouilou,CG,department,Kouilou,,5,,1,,
+cg:department:lekoumou,CG,department,Lékoumou,,2,,1,,
+cg:department:likouala,CG,department,Likouala,,7,,1,,
+cg:department:niari,CG,department,Niari,,9,,1,,
+cg:department:plateaux,CG,department,Plateaux,,14,,1,,
+cg:department:pointe-noire,CG,department,Pointe-Noire,,16,,1,,
+cg:department:pool,CG,department,Pool,,12,,1,,
+cg:department:sangha,CG,department,Sangha,,13,,1,,

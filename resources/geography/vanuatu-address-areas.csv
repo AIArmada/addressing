@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+vu:province:malampa,VU,province,Malampa,,MAP,,1,,
+vu:province:penama,VU,province,Penama,,PAM,,1,,
+vu:province:sanma,VU,province,Sanma,,SAM,,1,,
+vu:province:shefa,VU,province,Shefa,,SEE,,1,,
+vu:province:tafea,VU,province,Tafea,,TAE,,1,,
+vu:province:torba,VU,province,Torba,,TOB,,1,,

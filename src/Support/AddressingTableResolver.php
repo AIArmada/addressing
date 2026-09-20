@@ -31,6 +31,7 @@ final class AddressingTableResolver
             'postal_codes' => 'postal_codes',
             'area_postal_codes' => 'address_area_postal_codes',
             'address_area_assignments' => 'address_area_assignments',
+            'resolution_gaps' => 'address_resolution_gaps',
         ];
     }
 

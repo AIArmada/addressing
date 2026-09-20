@@ -1,0 +1,4 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+bq:special_municipality:bonaire,BQ,special_municipality,Bonaire,,BO,,1,,
+bq:special_municipality:saba,BQ,special_municipality,Saba,,SA,,1,,
+bq:special_municipality:sint-eustatius,BQ,special_municipality,Sint Eustatius,,SE,,1,,

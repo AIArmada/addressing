@@ -1,0 +1,13 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+bj:department:alibori,BJ,department,Alibori,,AL,,1,,
+bj:department:atakora,BJ,department,Atakora,,AK,,1,,
+bj:department:atlantique,BJ,department,Atlantique,,AQ,,1,,
+bj:department:borgou,BJ,department,Borgou,,BO,,1,,
+bj:department:collines,BJ,department,Collines,,CO,,1,,
+bj:department:donga,BJ,department,Donga,,DO,,1,,
+bj:department:kouffo,BJ,department,Kouffo,,KO,,1,,
+bj:department:littoral,BJ,department,Littoral,,LI,,1,,
+bj:department:mono,BJ,department,Mono,,MO,,1,,
+bj:department:oueme,BJ,department,Ouémé,,OU,,1,,
+bj:department:plateau,BJ,department,Plateau,,PL,,1,,
+bj:department:zou,BJ,department,Zou,,ZO,,1,,

@@ -1,0 +1,6 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+pf:division:austral-islands,PF,division,Austral Islands,,01,,1,,
+pf:division:leeward-islands,PF,division,Leeward Islands,,02,,1,,
+pf:division:marquesas-islands,PF,division,Marquesas Islands,,03,,1,,
+pf:division:tuamotu-gambier,PF,division,Tuamotu-Gambier,,04,,1,,
+pf:division:windward-islands,PF,division,Windward Islands,,05,,1,,

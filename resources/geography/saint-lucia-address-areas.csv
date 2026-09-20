@@ -1,0 +1,11 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+lc:district:anse-la-raye,LC,district,Anse la Raye,,01,,1,,
+lc:district:canaries,LC,district,Canaries,,12,,1,,
+lc:district:castries,LC,district,Castries,,02,,1,,
+lc:district:choiseul,LC,district,Choiseul,,03,,1,,
+lc:district:dennery,LC,district,Dennery,,05,,1,,
+lc:district:gros-islet,LC,district,Gros Islet,,06,,1,,
+lc:district:laborie,LC,district,Laborie,,07,,1,,
+lc:district:micoud,LC,district,Micoud,,08,,1,,
+lc:district:soufriere,LC,district,Soufrière,,10,,1,,
+lc:district:vieux-fort,LC,district,Vieux Fort,,11,,1,,

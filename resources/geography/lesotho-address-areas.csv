@@ -1,0 +1,11 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ls:district:berea,LS,district,Berea,,D,,1,,
+ls:district:butha-buthe,LS,district,Butha-Buthe,,B,,1,,
+ls:district:leribe,LS,district,Leribe,,C,,1,,
+ls:district:mafeteng,LS,district,Mafeteng,,E,,1,,
+ls:district:maseru,LS,district,Maseru,,A,,1,,
+ls:district:mohales-hoek,LS,district,Mohale's Hoek,,F,,1,,
+ls:district:mokhotlong,LS,district,Mokhotlong,,J,,1,,
+ls:district:qachas-nek,LS,district,Qacha's Nek,,H,,1,,
+ls:district:quthing,LS,district,Quthing,,G,,1,,
+ls:district:thaba-tseka,LS,district,Thaba-Tseka,,K,,1,,

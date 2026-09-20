@@ -1,0 +1,11 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+zw:province:bulawayo,ZW,province,Bulawayo,,BU,,1,,
+zw:province:harare,ZW,province,Harare,,HA,,1,,
+zw:province:manicaland,ZW,province,Manicaland,,MA,,1,,
+zw:province:mashonaland-central,ZW,province,Mashonaland Central,,MC,,1,,
+zw:province:mashonaland-east,ZW,province,Mashonaland East,,ME,,1,,
+zw:province:mashonaland-west,ZW,province,Mashonaland West,,MW,,1,,
+zw:province:masvingo,ZW,province,Masvingo,,MV,,1,,
+zw:province:matabeleland-north,ZW,province,Matabeleland North,,MN,,1,,
+zw:province:matabeleland-south,ZW,province,Matabeleland South,,MS,,1,,
+zw:province:midlands,ZW,province,Midlands,,MI,,1,,

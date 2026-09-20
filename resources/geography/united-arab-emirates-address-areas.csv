@@ -1,0 +1,8 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ae:emirate:ajman,AE,emirate,Ajman,,AJ,,1,,
+ae:emirate:abu-dhabi,AE,emirate,Abu Dhabi,,AZ,,1,,
+ae:emirate:dubai,AE,emirate,Dubai,,DU,,1,,
+ae:emirate:fujairah,AE,emirate,Fujairah,,FU,,1,,
+ae:emirate:ras-al-khaimah,AE,emirate,Ras Al Khaimah,,RK,,1,,
+ae:emirate:sharjah,AE,emirate,Sharjah,,SH,,1,,
+ae:emirate:umm-al-quwain,AE,emirate,Umm Al Quwain,,UQ,,1,,

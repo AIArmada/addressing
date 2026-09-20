@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Models\AddressArea;
-use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\CommerceSupport\Support\LikeSearch;
-use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -48,35 +46,16 @@ final class SearchAddressAreasAction
             ->when($countryCode !== null, fn (Builder $builder): Builder => $builder->where('country_code', mb_strtoupper($countryCode)))
             ->when($type !== null, fn (Builder $builder): Builder => $builder->where('type', $type))
             ->when($parentId !== null && $hierarchyType === null, fn (Builder $builder): Builder => $builder->where('parent_id', $parentId))
-            ->when($parentId !== null && $hierarchyType !== null, function (Builder $builder) use ($parentId, $hierarchyType): Builder {
-                return $builder->whereHas('ancestors', function (Builder $relationshipQuery) use ($parentId, $hierarchyType): void {
-                    $relationshipQuery
-                        ->whereKey($parentId)
-                        ->where(AddressingTableResolver::resolve('area_relationships') . '.hierarchy_type', $hierarchyType)
-                        ->where(AddressingTableResolver::resolve('area_relationships') . '.relationship_type', 'contains')
-                        ->where(function (Builder $query): void {
-                            $query->whereNull('valid_from')->orWhereDate('valid_from', '<=', CarbonImmutable::now());
-                        })
-                        ->where(function (Builder $query): void {
-                            $query->whereNull('valid_until')->orWhereDate('valid_until', '>=', CarbonImmutable::now());
-                        });
-                });
+            ->when($parentId !== null && $hierarchyType !== null, /** @param Builder<AddressArea> $builder */ function (Builder $builder) use ($parentId, $hierarchyType): Builder {
+                return $builder->whereAncestorLink($parentId, $hierarchyType);
             })
-            ->when($hierarchyType !== null && $parentId === null, function (Builder $builder) use ($hierarchyType): Builder {
-                return $builder->where(function (Builder $hierarchyQuery) use ($hierarchyType): void {
+            ->when($hierarchyType !== null && $parentId === null, /** @param Builder<AddressArea> $builder */ function (Builder $builder) use ($hierarchyType): Builder {
+                return $builder->where(/** @param Builder<AddressArea> $hierarchyQuery */ function (Builder $hierarchyQuery) use ($hierarchyType): void {
                     $hierarchyQuery
-                        ->whereHas('ancestors', function (Builder $query) use ($hierarchyType): void {
-                            $query
-                                ->where(AddressingTableResolver::resolve('area_relationships') . '.hierarchy_type', $hierarchyType)
-                                ->where(AddressingTableResolver::resolve('area_relationships') . '.relationship_type', 'contains')
-                                ->where(function (Builder $relationshipQuery): void {
-                                    $relationshipQuery->whereNull('valid_from')->orWhereDate('valid_from', '<=', CarbonImmutable::now());
-                                })
-                                ->where(function (Builder $relationshipQuery): void {
-                                    $relationshipQuery->whereNull('valid_until')->orWhereDate('valid_until', '>=', CarbonImmutable::now());
-                                });
-                        })
-                        ->orWhereDoesntHave('ancestors');
+                        ->whereAncestorLink(null, $hierarchyType)
+                        ->orWhere(/** @param Builder<AddressArea> $roots */ static function (Builder $roots): void {
+                            $roots->whereAncestorLinkMissing();
+                        });
                 });
             })
             ->when($postalCode !== null, fn (Builder $builder): Builder => $builder->whereHas('postalCodes', fn (Builder $codes): Builder => $codes->where('code', mb_trim($postalCode))))

@@ -1,0 +1,8 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+xk:district:ferizaj,XK,district,Ferizaj,,XUF,,1,,
+xk:district:gjakove,XK,district,Gjakove,,XDG,,1,,
+xk:district:gjilan,XK,district,Gjilan,,XGJ,,1,,
+xk:district:mitrovica,XK,district,Mitrovica,,XKM,,1,,
+xk:district:peja,XK,district,Peja,,PEJ,,1,,
+xk:district:pristina,XK,district,Pristina,,XPI,,1,,
+xk:district:prizren,XK,district,Prizren,,PRI,,1,,

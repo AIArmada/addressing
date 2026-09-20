@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+il:district:central,IL,district,Central,,M,,1,,
+il:district:haifa,IL,district,Haifa,,HA,,1,,
+il:district:jerusalem,IL,district,Jerusalem,,JM,,1,,
+il:district:northern,IL,district,Northern,,Z,,1,,
+il:district:southern,IL,district,Southern,,D,,1,,
+il:district:tel-aviv,IL,district,Tel Aviv,,TA,,1,,

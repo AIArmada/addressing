@@ -1,0 +1,13 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+al:county:berat,AL,county,Berat,,01,,1,,
+al:county:diber,AL,county,Dibër,,09,,1,,
+al:county:durres,AL,county,Durrës,,02,,1,,
+al:county:elbasan,AL,county,Elbasan,,03,,1,,
+al:county:fier,AL,county,Fier,,04,,1,,
+al:county:gjirokaster,AL,county,Gjirokastër,,05,,1,,
+al:county:korce,AL,county,Korçë,,06,,1,,
+al:county:kukes,AL,county,Kukës,,07,,1,,
+al:county:lezhe,AL,county,Lezhë,,08,,1,,
+al:county:shkoder,AL,county,Shkodër,,10,,1,,
+al:county:tirana,AL,county,Tirana,,11,,1,,
+al:county:vlore,AL,county,Vlorë,,12,,1,,

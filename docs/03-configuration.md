@@ -49,6 +49,7 @@ inherits from the package/shared default when set.
         'postal_codes' => 'postal_codes',
         'area_postal_codes' => 'address_area_postal_codes',
         'address_area_assignments' => 'address_area_assignments',
+        'resolution_gaps' => 'address_resolution_gaps',
     ],
 ],
 ```
@@ -99,6 +100,10 @@ geography tables remain global and are not owner-scoped.
 'geography' => [
     'providers' => [
         AIArmada\Addressing\Geography\Malaysia\MalaysiaGeographyProvider::class,
+        AIArmada\Addressing\Geography\Singapore\SingaporeGeographyProvider::class,
+        AIArmada\Addressing\Geography\Indonesia\IndonesiaGeographyProvider::class,
+        AIArmada\Addressing\Geography\Brunei\BruneiGeographyProvider::class,
+        // ... remaining bundled providers; see 05-country-data.md for the full set.
     ],
 ],
 ```
@@ -114,10 +119,33 @@ Country-specific formatters are configured separately from geography providers:
 ```php
 'formatters' => [
     AIArmada\Addressing\Geography\Malaysia\MalaysiaAddressFormatter::class,
+    AIArmada\Addressing\Geography\Singapore\SingaporeAddressFormatter::class,
+    AIArmada\Addressing\Geography\Indonesia\IndonesiaAddressFormatter::class,
+    AIArmada\Addressing\Geography\Brunei\BruneiAddressFormatter::class,
+    // ... remaining bundled formatters; see 05-country-data.md for the full set.
 ],
 ```
 
 `FormatAddressAction` resolves a formatter by `AddressData::countryCode` and falls back to the generic formatter when no country formatter is registered. This keeps formatting independent from geography seeding.
+
+### Provider registration
+
+Shipping a provider class is not enough to use it: a provider takes effect only when its class is listed in `addressing.geography.providers` (and its formatter in `addressing.formatters`). To enable a country, add both classes to the consuming app's published `config/addressing.php`:
+
+```php
+'geography' => [
+    'providers' => [
+        // ...
+        AIArmada\Addressing\Geography\Vietnam\VietnamGeographyProvider::class,
+    ],
+],
+'formatters' => [
+    // ...
+    AIArmada\Addressing\Geography\Vietnam\VietnamAddressFormatter::class,
+],
+```
+
+Registration gates everything. Seeding iterates registered providers only, so `SeedCountryGeographiesAction::execute('VN')` silently seeds nothing when Vietnam is absent. `CountryAddressProfileResolver` likewise resolves registered providers only: for an unregistered country it returns no profile, `hierarchies()` is empty, and `definitionForRole()` returns null for every role — which makes `SyncAddressAreaAssignmentsAction` reject any non-empty assignment map with "The selected address area role is not defined by the country address profile." Only the empty map (delete-all) succeeds without a profile. Boot validation rejects configured entries that do not exist or do not implement `CountryGeographyProvider`, so a typo fails fast instead of seeding silently.
 
 ## Navigation Links
 
@@ -159,3 +187,22 @@ applied consistently.
 ```
 
 Register your `AddressAreaSource` implementations here. They become available to the `address:import-areas` command.
+
+## OneMap Postcodes
+
+```php
+'onemap' => [
+    'base_url' => env('ONEMAP_BASE_URL', 'https://www.onemap.gov.sg/api'),
+    'email' => env('ONEMAP_EMAIL'),
+    'password' => env('ONEMAP_PASSWORD'),
+    'timeout' => 10,
+    'retries' => 2,
+],
+```
+
+Singapore postcodes are resolved on demand through SLA's OneMap API instead
+of being bundled. Register for a OneMap account, then set `ONEMAP_EMAIL` and
+`ONEMAP_PASSWORD`. The client caches the access token until shortly before
+its reported expiry, refreshes it once on a 401, and retries 429/5xx
+responses with backoff. OneMap usage requires attribution; see
+`05-country-data.md`.

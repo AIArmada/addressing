@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+tc:district:grand-turk,TC,district,Grand Turk,,05,,1,,
+tc:district:middle-caicos,TC,district,Middle Caicos,,03,,1,,
+tc:district:north-caicos,TC,district,North Caicos,,02,,1,,
+tc:district:providenciales,TC,district,Providenciales,,01,,1,,
+tc:district:salt-cay,TC,district,Salt Cay,,06,,1,,
+tc:district:south-caicos,TC,district,South Caicos,,04,,1,,

@@ -1,0 +1,9 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ag:dependency:barbuda,AG,dependency,Barbuda,,10,,1,,
+ag:dependency:redonda,AG,dependency,Redonda,,11,,1,,
+ag:parish:saint-george,AG,parish,Saint George,,03,,1,,
+ag:parish:saint-john,AG,parish,Saint John,,04,,1,,
+ag:parish:saint-mary,AG,parish,Saint Mary,,05,,1,,
+ag:parish:saint-paul,AG,parish,Saint Paul,,06,,1,,
+ag:parish:saint-peter,AG,parish,Saint Peter,,07,,1,,
+ag:parish:saint-philip,AG,parish,Saint Philip,,08,,1,,

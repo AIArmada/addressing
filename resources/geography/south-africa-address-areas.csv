@@ -1,0 +1,10 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+za:province:eastern-cape,ZA,province,Eastern Cape,,EC,,1,,
+za:province:free-state,ZA,province,Free State,,FS,,1,,
+za:province:gauteng,ZA,province,Gauteng,,GP,,1,,
+za:province:kwazulu-natal,ZA,province,KwaZulu-Natal,,KZN,,1,,
+za:province:limpopo,ZA,province,Limpopo,,LP,,1,,
+za:province:mpumalanga,ZA,province,Mpumalanga,,MP,,1,,
+za:province:northern-cape,ZA,province,Northern Cape,,NC,,1,,
+za:province:north-west,ZA,province,North West,,NW,,1,,
+za:province:western-cape,ZA,province,Western Cape,,WC,,1,,

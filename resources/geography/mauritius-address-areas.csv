@@ -1,0 +1,13 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+mu:dependency:agalega-islands,MU,dependency,Agalega Islands,,AG,,1,,
+mu:district:black-river,MU,district,Black River,,BL,,1,,
+mu:district:flacq,MU,district,Flacq,,FL,,1,,
+mu:district:grand-port,MU,district,Grand Port,,GP,,1,,
+mu:district:moka,MU,district,Moka,,MO,,1,,
+mu:district:pamplemousses,MU,district,Pamplemousses,,PA,,1,,
+mu:district:plaines-wilhems,MU,district,Plaines Wilhems,,PW,,1,,
+mu:district:port-louis,MU,district,Port Louis,,PL,,1,,
+mu:district:riviere-du-rempart,MU,district,Rivière du Rempart,,RR,,1,,
+mu:dependency:rodrigues-island,MU,dependency,Rodrigues Island,,RO,,1,,
+mu:dependency:saint-brandon-islands,MU,dependency,Saint Brandon Islands,,CC,,1,,
+mu:district:savanne,MU,district,Savanne,,SA,,1,,

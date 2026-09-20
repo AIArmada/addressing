@@ -1,0 +1,11 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+zm:province:central,ZM,province,Central,,02,,1,,
+zm:province:copperbelt,ZM,province,Copperbelt,,08,,1,,
+zm:province:eastern,ZM,province,Eastern,,03,,1,,
+zm:province:luapula,ZM,province,Luapula,,04,,1,,
+zm:province:lusaka,ZM,province,Lusaka,,09,,1,,
+zm:province:muchinga,ZM,province,Muchinga,,10,,1,,
+zm:province:northern,ZM,province,Northern,,05,,1,,
+zm:province:northwestern,ZM,province,Northwestern,,06,,1,,
+zm:province:southern,ZM,province,Southern,,07,,1,,
+zm:province:western,ZM,province,Western,,01,,1,,

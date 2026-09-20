@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+er:region:anseba,ER,region,Anseba,,AN,,1,,
+er:region:debub,ER,region,Debub,,DU,,1,,
+er:region:gash-barka,ER,region,Gash-Barka,,GB,,1,,
+er:region:maekel,ER,region,Maekel,,MA,,1,,
+er:region:northern-red-sea,ER,region,Northern Red Sea,,SK,,1,,
+er:region:southern-red-sea,ER,region,Southern Red Sea,,DK,,1,,

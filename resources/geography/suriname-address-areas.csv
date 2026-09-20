@@ -1,0 +1,11 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+sr:district:brokopondo,SR,district,Brokopondo,,BR,,1,,
+sr:district:commewijne,SR,district,Commewijne,,CM,,1,,
+sr:district:coronie,SR,district,Coronie,,CR,,1,,
+sr:district:marowijne,SR,district,Marowijne,,MA,,1,,
+sr:district:nickerie,SR,district,Nickerie,,NI,,1,,
+sr:district:para,SR,district,Para,,PR,,1,,
+sr:district:paramaribo,SR,district,Paramaribo,,PM,,1,,
+sr:district:saramacca,SR,district,Saramacca,,SA,,1,,
+sr:district:sipaliwini,SR,district,Sipaliwini,,SI,,1,,
+sr:district:wanica,SR,district,Wanica,,WA,,1,,

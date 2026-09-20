@@ -1,0 +1,6 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+dk:region:central-denmark,DK,region,Central Denmark,,82,,1,,
+dk:region:denmark,DK,region,Denmark,,84,,1,,
+dk:region:north-denmark,DK,region,North Denmark,,81,,1,,
+dk:region:southern-denmark,DK,region,Southern Denmark,,83,,1,,
+dk:region:zealand,DK,region,Zealand,,85,,1,,

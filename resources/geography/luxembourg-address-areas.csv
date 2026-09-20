@@ -1,0 +1,13 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+lu:canton:capellen,LU,canton,Capellen,,CA,,1,,
+lu:canton:clervaux,LU,canton,Clervaux,,CL,,1,,
+lu:canton:diekirch,LU,canton,Diekirch,,DI,,1,,
+lu:canton:echternach,LU,canton,Echternach,,EC,,1,,
+lu:canton:esch-sur-alzette,LU,canton,Esch-sur-Alzette,,ES,,1,,
+lu:canton:grevenmacher,LU,canton,Grevenmacher,,GR,,1,,
+lu:canton:luxembourg,LU,canton,Luxembourg,,LU,,1,,
+lu:canton:mersch,LU,canton,Mersch,,ME,,1,,
+lu:canton:redange,LU,canton,Redange,,RD,,1,,
+lu:canton:remich,LU,canton,Remich,,RM,,1,,
+lu:canton:vianden,LU,canton,Vianden,,VD,,1,,
+lu:canton:wiltz,LU,canton,Wiltz,,WI,,1,,

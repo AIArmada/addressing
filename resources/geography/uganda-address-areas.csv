@@ -1,0 +1,5 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ug:region:central,UG,region,Central,,C,,1,,
+ug:region:eastern,UG,region,Eastern,,E,,1,,
+ug:region:northern,UG,region,Northern,,N,,1,,
+ug:region:western,UG,region,Western,,W,,1,,

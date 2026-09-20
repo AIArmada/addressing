@@ -1,0 +1,11 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+cm:region:adamawa,CM,region,Adamawa,,AD,,1,,
+cm:region:centre,CM,region,Centre,,CE,,1,,
+cm:region:far-north,CM,region,Far North,,EN,,1,,
+cm:region:east,CM,region,East,,ES,,1,,
+cm:region:littoral,CM,region,Littoral,,LT,,1,,
+cm:region:north,CM,region,North,,NO,,1,,
+cm:region:northwest,CM,region,Northwest,,NW,,1,,
+cm:region:west,CM,region,West,,OU,,1,,
+cm:region:south,CM,region,South,,SU,,1,,
+cm:region:southwest,CM,region,Southwest,,SW,,1,,

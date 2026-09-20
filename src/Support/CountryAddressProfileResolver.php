@@ -84,10 +84,52 @@ final class CountryAddressProfileResolver
      */
     public function stateLevel(mixed $country): ?AddressLevelDefinition
     {
+        return $this->stateDefinition($country)['level'] ?? null;
+    }
+
+    /**
+     * Resolve an assignment role to its hierarchy and level definition.
+     *
+     * The 'state_id' pseudo-role resolves to the first state-kind level,
+     * since those levels carry no assignment role. Unknown countries and
+     * unknown roles return null.
+     *
+     * @return array{hierarchy: AddressHierarchyDefinition, level: AddressLevelDefinition}|null
+     */
+    public function definitionForRole(mixed $country, string $role): ?array
+    {
+        if ($role === 'state_id') {
+            return $this->stateDefinition($country);
+        }
+
+        foreach ($this->hierarchies($country) as $hierarchy) {
+            foreach ($hierarchy->levels as $level) {
+                if ($level->kind !== 'state' && self::roleForLevel($hierarchy, $level) === $role) {
+                    return ['hierarchy' => $hierarchy, 'level' => $level];
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public function levelForRole(mixed $country, string $role): ?AddressLevelDefinition
+    {
+        return $this->definitionForRole($country, $role)['level'] ?? null;
+    }
+
+    public static function roleForLevel(AddressHierarchyDefinition $hierarchy, AddressLevelDefinition $level): string
+    {
+        return $level->assignmentRole ?? "{$hierarchy->key}_{$level->key}";
+    }
+
+    /** @return array{hierarchy: AddressHierarchyDefinition, level: AddressLevelDefinition}|null */
+    private function stateDefinition(mixed $country): ?array
+    {
         foreach ($this->hierarchies($country) as $hierarchy) {
             foreach ($hierarchy->levels as $level) {
                 if ($level->kind === 'state') {
-                    return $level;
+                    return ['hierarchy' => $hierarchy, 'level' => $level];
                 }
             }
         }

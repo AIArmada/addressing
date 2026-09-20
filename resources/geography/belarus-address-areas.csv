@@ -1,0 +1,8 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+by:oblast:brest,BY,oblast,Brest,,BR,,1,,
+by:oblast:gomel,BY,oblast,Gomel,,HO,,1,,
+by:oblast:grodno,BY,oblast,Grodno,,HR,,1,,
+by:oblast:minsk,BY,oblast,Minsk,,MI,,1,,
+by:city:minsk,BY,city,Minsk,,HM,,1,,
+by:oblast:mogilev,BY,oblast,Mogilev,,MA,,1,,
+by:oblast:vitebsk,BY,oblast,Vitebsk,,VI,,1,,

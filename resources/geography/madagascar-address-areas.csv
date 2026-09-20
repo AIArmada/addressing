@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+mg:province:toamasina,MG,province,Toamasina,,A,,1,,
+mg:province:antsiranana,MG,province,Antsiranana,,D,,1,,
+mg:province:fianarantsoa,MG,province,Fianarantsoa,,F,,1,,
+mg:province:mahajanga,MG,province,Mahajanga,,M,,1,,
+mg:province:antananarivo,MG,province,Antananarivo,,T,,1,,
+mg:province:toliara,MG,province,Toliara,,U,,1,,

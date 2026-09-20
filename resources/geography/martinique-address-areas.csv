@@ -1,0 +1,5 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+mq:district:fort-de-france,MQ,district,Fort-de-France,,01,,1,,
+mq:district:la-trinite,MQ,district,La Trinité,,02,,1,,
+mq:district:le-marin,MQ,district,Le Marin,,03,,1,,
+mq:district:saint-pierre,MQ,district,Saint-Pierre,,04,,1,,

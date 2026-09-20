@@ -1,0 +1,10 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+sm:municipality:acquaviva,SM,municipality,Acquaviva,,01,,1,,
+sm:municipality:borgo-maggiore,SM,municipality,Borgo Maggiore,,06,,1,,
+sm:municipality:chiesanuova,SM,municipality,Chiesanuova,,02,,1,,
+sm:municipality:domagnano,SM,municipality,Domagnano,,03,,1,,
+sm:municipality:faetano,SM,municipality,Faetano,,04,,1,,
+sm:municipality:fiorentino,SM,municipality,Fiorentino,,05,,1,,
+sm:municipality:montegiardino,SM,municipality,Montegiardino,,08,,1,,
+sm:municipality:san-marino,SM,municipality,San Marino,,07,,1,,
+sm:municipality:serravalle,SM,municipality,Serravalle,,09,,1,,

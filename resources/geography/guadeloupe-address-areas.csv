@@ -1,0 +1,3 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+gp:district:basse-terre,GP,district,Basse-Terre,,01,,1,,
+gp:district:pointe-a-pitre,GP,district,Pointe-à-Pitre,,02,,1,,

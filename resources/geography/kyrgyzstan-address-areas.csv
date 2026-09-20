@@ -1,0 +1,10 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+kg:region:batken,KG,region,Batken,,B,,1,,
+kg:city:bishkek,KG,city,Bishkek,,GB,,1,,
+kg:region:chuy,KG,region,Chuy,,C,,1,,
+kg:region:issyk-kul,KG,region,Issyk-Kul,,Y,,1,,
+kg:region:jalal-abad,KG,region,Jalal-Abad,,J,,1,,
+kg:region:naryn,KG,region,Naryn,,N,,1,,
+kg:city:osh,KG,city,Osh,,GO,,1,,
+kg:region:osh,KG,region,Osh,,O,,1,,
+kg:region:talas,KG,region,Talas,,T,,1,,

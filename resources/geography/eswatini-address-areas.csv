@@ -1,0 +1,5 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+sz:region:hhohho,SZ,region,Hhohho,,HH,,1,,
+sz:region:lubombo,SZ,region,Lubombo,,LU,,1,,
+sz:region:manzini,SZ,region,Manzini,,MA,,1,,
+sz:region:shiselweni,SZ,region,Shiselweni,,SH,,1,,

@@ -1,0 +1,12 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+li:commune:balzers,LI,commune,Balzers,,01,,1,,
+li:commune:eschen,LI,commune,Eschen,,02,,1,,
+li:commune:gamprin,LI,commune,Gamprin,,03,,1,,
+li:commune:mauren,LI,commune,Mauren,,04,,1,,
+li:commune:planken,LI,commune,Planken,,05,,1,,
+li:commune:ruggell,LI,commune,Ruggell,,06,,1,,
+li:commune:schaan,LI,commune,Schaan,,07,,1,,
+li:commune:schellenberg,LI,commune,Schellenberg,,08,,1,,
+li:commune:triesen,LI,commune,Triesen,,09,,1,,
+li:commune:triesenberg,LI,commune,Triesenberg,,10,,1,,
+li:commune:vaduz,LI,commune,Vaduz,,11,,1,,

@@ -8,6 +8,24 @@ This pack documents how other `aiarmada/*` and `majlisilmu/*` packages should ad
 
 It is intentionally separate from the core addressing implementation instruction. The core package explains how to build `aiarmada/addressing`; this pack explains how the rest of the monorepo should consume it.
 
+## Quickstart
+
+```bash
+composer require aiarmada/addressing
+php artisan vendor:publish --tag=addressing-config
+php artisan migrate
+```
+
+```php
+use AIArmada\Addressing\Actions\SeedAddressCountriesAction;
+use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
+
+app(SeedAddressCountriesAction::class)->execute();
+app(SeedCountryGeographiesAction::class)->execute('MY');
+```
+
+Then read `docs/02-installation.md` and `docs/04-usage.md`. Country coverage lives in `docs/05-country-data.md`; adding a country is covered in `docs/13-provider-authoring.md`.
+
 ## Files
 
 - `ADDRESSING_CONSUMER_ADOPTION_IMPLEMENTATION.md` — master instruction for AI agents implementing adoption across packages.

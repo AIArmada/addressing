@@ -1,0 +1,13 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+jo:governorate:ajloun,JO,governorate,Ajloun,,AJ,,1,,
+jo:governorate:amman,JO,governorate,Amman,,AM,,1,,
+jo:governorate:aqaba,JO,governorate,Aqaba,,AQ,,1,,
+jo:governorate:tafilah,JO,governorate,Tafilah,,AT,,1,,
+jo:governorate:zarqa,JO,governorate,Zarqa,,AZ,,1,,
+jo:governorate:balqa,JO,governorate,Balqa,,BA,,1,,
+jo:governorate:irbid,JO,governorate,Irbid,,IR,,1,,
+jo:governorate:jerash,JO,governorate,Jerash,,JA,,1,,
+jo:governorate:karak,JO,governorate,Karak,,KA,,1,,
+jo:governorate:mafraq,JO,governorate,Mafraq,,MA,,1,,
+jo:governorate:madaba,JO,governorate,Madaba,,MD,,1,,
+jo:governorate:ma-an,JO,governorate,Ma'an,,MN,,1,,

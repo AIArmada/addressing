@@ -1,0 +1,4 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+km:island:anjouan,KM,island,Anjouan,,A,,1,,
+km:island:grande-comore,KM,island,Grande Comore,,G,,1,,
+km:island:moheli,KM,island,Mohéli,,M,,1,,

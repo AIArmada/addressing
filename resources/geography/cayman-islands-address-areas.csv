@@ -1,0 +1,4 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ky:island:cayman-brac,KY,island,Cayman Brac,,02,,1,,
+ky:island:grand-cayman,KY,island,Grand Cayman,,01,,1,,
+ky:island:little-cayman,KY,island,Little Cayman,,03,,1,,

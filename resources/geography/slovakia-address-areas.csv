@@ -1,0 +1,9 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+sk:region:banska-bystrica,SK,region,Banská Bystrica,,BC,,1,,
+sk:region:bratislava,SK,region,Bratislava,,BL,,1,,
+sk:region:kosice,SK,region,Košice,,KI,,1,,
+sk:region:nitra,SK,region,Nitra,,NI,,1,,
+sk:region:presov,SK,region,Prešov,,PV,,1,,
+sk:region:trencin,SK,region,Trenčín,,TC,,1,,
+sk:region:trnava,SK,region,Trnava,,TA,,1,,
+sk:region:zilina,SK,region,Žilina,,ZI,,1,,

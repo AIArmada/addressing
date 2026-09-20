@@ -1,0 +1,4 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ki:island:gilbert,KI,island,Gilbert,,G,,1,,
+ki:island:line,KI,island,Line,,L,,1,,
+ki:island:phoenix,KI,island,Phoenix,,P,,1,,

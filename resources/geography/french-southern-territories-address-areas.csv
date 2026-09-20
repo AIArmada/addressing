@@ -1,0 +1,6 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+tf:district:adelie-land,TF,district,Adélie Land,,01,,1,,
+tf:district:crozet-islands,TF,district,Crozet Islands,,02,,1,,
+tf:district:kerguelen-islands,TF,district,Kerguelen Islands,,03,,1,,
+tf:district:saint-paul-and-amsterdam-islands,TF,district,Saint-Paul and Amsterdam Islands,,04,,1,,
+tf:district:scattered-islands,TF,district,Scattered Islands,,05,,1,,

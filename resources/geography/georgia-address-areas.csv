@@ -1,0 +1,13 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+ge:autonomous_republic:abkhazia,GE,autonomous_republic,Abkhazia,,AB,,1,,
+ge:autonomous_republic:adjara,GE,autonomous_republic,Adjara,,AJ,,1,,
+ge:region:guria,GE,region,Guria,,GU,,1,,
+ge:region:imereti,GE,region,Imereti,,IM,,1,,
+ge:region:kakheti,GE,region,Kakheti,,KA,,1,,
+ge:region:kvemo-kartli,GE,region,Kvemo Kartli,,KK,,1,,
+ge:region:mtskheta-mtianeti,GE,region,Mtskheta-Mtianeti,,MM,,1,,
+ge:region:racha-lechkhumi-and-kvemo-svaneti,GE,region,Racha-Lechkhumi and Kvemo Svaneti,,RL,,1,,
+ge:region:samegrelo-zemo-svaneti,GE,region,Samegrelo-Zemo Svaneti,,SZ,,1,,
+ge:region:samtskhe-javakheti,GE,region,Samtskhe-Javakheti,,SJ,,1,,
+ge:region:shida-kartli,GE,region,Shida Kartli,,SK,,1,,
+ge:city:tbilisi,GE,city,Tbilisi,,TB,,1,,

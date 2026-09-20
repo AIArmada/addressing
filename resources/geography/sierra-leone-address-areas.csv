@@ -1,0 +1,6 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+sl:province:eastern,SL,province,Eastern,,E,,1,,
+sl:province:north-western,SL,province,North Western,,NW,,1,,
+sl:province:northern,SL,province,Northern,,N,,1,,
+sl:province:southern,SL,province,Southern,,S,,1,,
+sl:area:western,SL,area,Western,,W,,1,,

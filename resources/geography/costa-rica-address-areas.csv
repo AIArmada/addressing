@@ -1,0 +1,8 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+cr:province:alajuela,CR,province,Alajuela,,A,,1,,
+cr:province:cartago,CR,province,Cartago,,C,,1,,
+cr:province:guanacaste,CR,province,Guanacaste,,G,,1,,
+cr:province:heredia,CR,province,Heredia,,H,,1,,
+cr:province:limon,CR,province,Limón,,L,,1,,
+cr:province:puntarenas,CR,province,Puntarenas,,P,,1,,
+cr:province:san-jose,CR,province,San José,,SJ,,1,,

@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+bz:district:belize,BZ,district,Belize,,BZ,,1,,
+bz:district:cayo,BZ,district,Cayo,,CY,,1,,
+bz:district:corozal,BZ,district,Corozal,,CZL,,1,,
+bz:district:orange-walk,BZ,district,Orange Walk,,OW,,1,,
+bz:district:stann-creek,BZ,district,Stann Creek,,SC,,1,,
+bz:district:toledo,BZ,district,Toledo,,TOL,,1,,

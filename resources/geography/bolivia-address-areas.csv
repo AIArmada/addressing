@@ -1,0 +1,10 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+bo:department:beni,BO,department,Beni,,B,,1,,
+bo:department:chuquisaca,BO,department,Chuquisaca,,H,,1,,
+bo:department:cochabamba,BO,department,Cochabamba,,C,,1,,
+bo:department:la-paz,BO,department,La Paz,,L,,1,,
+bo:department:oruro,BO,department,Oruro,,O,,1,,
+bo:department:pando,BO,department,Pando,,N,,1,,
+bo:department:potosi,BO,department,Potosí,,P,,1,,
+bo:department:santa-cruz,BO,department,Santa Cruz,,S,,1,,
+bo:department:tarija,BO,department,Tarija,,T,,1,,

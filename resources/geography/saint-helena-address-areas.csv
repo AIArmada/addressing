@@ -1,0 +1,9 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+sh:district:alarm-forest,SH,district,Alarm Forest,,01,,1,,
+sh:district:blue-hill,SH,district,Blue Hill,,02,,1,,
+sh:district:half-tree-hollow,SH,district,Half Tree Hollow,,03,,1,,
+sh:district:jamestown,SH,district,Jamestown,,04,,1,,
+sh:district:levelwood,SH,district,Levelwood,,05,,1,,
+sh:district:longwood,SH,district,Longwood,,06,,1,,
+sh:district:saint-pauls,SH,district,Saint Paul's,,08,,1,,
+sh:district:sandy-bay,SH,district,Sandy Bay,,07,,1,,

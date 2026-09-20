@@ -1,0 +1,10 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+um:island:baker-island,UM,island,Baker Island,,81,,1,,
+um:island:howland-island,UM,island,Howland Island,,84,,1,,
+um:island:jarvis-island,UM,island,Jarvis Island,,86,,1,,
+um:island:johnston-atoll,UM,island,Johnston Atoll,,67,,1,,
+um:island:kingman-reef,UM,island,Kingman Reef,,89,,1,,
+um:island:midway-islands,UM,island,Midway Islands,,71,,1,,
+um:island:navassa-island,UM,island,Navassa Island,,76,,1,,
+um:island:palmyra-atoll,UM,island,Palmyra Atoll,,95,,1,,
+um:island:wake-island,UM,island,Wake Island,,79,,1,,

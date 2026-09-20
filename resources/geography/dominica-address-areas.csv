@@ -1,0 +1,11 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+dm:parish:saint-andrew,DM,parish,Saint Andrew,,02,,1,,
+dm:parish:saint-david,DM,parish,Saint David,,03,,1,,
+dm:parish:saint-george,DM,parish,Saint George,,04,,1,,
+dm:parish:saint-john,DM,parish,Saint John,,05,,1,,
+dm:parish:saint-joseph,DM,parish,Saint Joseph,,06,,1,,
+dm:parish:saint-luke,DM,parish,Saint Luke,,07,,1,,
+dm:parish:saint-mark,DM,parish,Saint Mark,,08,,1,,
+dm:parish:saint-patrick,DM,parish,Saint Patrick,,09,,1,,
+dm:parish:saint-paul,DM,parish,Saint Paul,,10,,1,,
+dm:parish:saint-peter,DM,parish,Saint Peter,,11,,1,,

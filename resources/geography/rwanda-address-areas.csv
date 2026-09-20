@@ -1,0 +1,6 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+rw:province:eastern,RW,province,Eastern,,02,,1,,
+rw:city:kigali,RW,city,Kigali,,01,,1,,
+rw:province:northern,RW,province,Northern,,03,,1,,
+rw:province:southern,RW,province,Southern,,05,,1,,
+rw:province:western,RW,province,Western,,04,,1,,

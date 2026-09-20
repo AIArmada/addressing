@@ -1,0 +1,11 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+gy:region:barima-waini,GY,region,Barima-Waini,,BA,,1,,
+gy:region:cuyuni-mazaruni,GY,region,Cuyuni-Mazaruni,,CU,,1,,
+gy:region:demerara-mahaica,GY,region,Demerara-Mahaica,,DE,,1,,
+gy:region:east-berbice-corentyne,GY,region,East Berbice-Corentyne,,EB,,1,,
+gy:region:essequibo-islands-west-demerara,GY,region,Essequibo Islands-West Demerara,,ES,,1,,
+gy:region:mahaica-berbice,GY,region,Mahaica-Berbice,,MA,,1,,
+gy:region:pomeroon-supenaam,GY,region,Pomeroon-Supenaam,,PM,,1,,
+gy:region:potaro-siparuni,GY,region,Potaro-Siparuni,,PT,,1,,
+gy:region:upper-demerara-berbice,GY,region,Upper Demerara-Berbice,,UD,,1,,
+gy:region:upper-takutu-upper-essequibo,GY,region,Upper Takutu-Upper Essequibo,,UT,,1,,

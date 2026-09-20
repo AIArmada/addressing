@@ -1,0 +1,12 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+am:region:aragatsotn,AM,region,Aragatsotn,,AG,,1,,
+am:region:ararat,AM,region,Ararat,,AR,,1,,
+am:region:armavir,AM,region,Armavir,,AV,,1,,
+am:region:gegharkunik,AM,region,Gegharkunik,,GR,,1,,
+am:region:kotayk,AM,region,Kotayk,,KT,,1,,
+am:region:lori,AM,region,Lori,,LO,,1,,
+am:region:shirak,AM,region,Shirak,,SH,,1,,
+am:region:syunik,AM,region,Syunik,,SU,,1,,
+am:region:tavush,AM,region,Tavush,,TV,,1,,
+am:region:vayots-dzor,AM,region,Vayots Dzor,,VD,,1,,
+am:city:yerevan,AM,city,Yerevan,,ER,,1,,

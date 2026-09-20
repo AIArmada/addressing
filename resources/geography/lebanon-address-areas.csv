@@ -1,0 +1,9 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+lb:governorate:akkar,LB,governorate,Akkar,,AK,,1,,
+lb:governorate:baalbek-hermel,LB,governorate,Baalbek-Hermel,,BH,,1,,
+lb:governorate:beirut,LB,governorate,Beirut,,BA,,1,,
+lb:governorate:beqaa,LB,governorate,Beqaa,,BI,,1,,
+lb:governorate:mount-lebanon,LB,governorate,Mount Lebanon,,JL,,1,,
+lb:governorate:nabatieh,LB,governorate,Nabatieh,,NA,,1,,
+lb:governorate:north,LB,governorate,North,,AS,,1,,
+lb:governorate:south,LB,governorate,South,,JA,,1,,

@@ -8,6 +8,7 @@ use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Contracts\AddressNormalizer;
 use AIArmada\Addressing\Data\AddressData;
 use AIArmada\Addressing\Support\CountryAddressFormatterResolver;
+use AIArmada\Addressing\Support\ModelResolver;
 
 class FormatAddressAction implements AddressFormatter
 {
@@ -56,9 +57,20 @@ class FormatAddressAction implements AddressFormatter
         if ($address->country !== null && $address->country !== '') {
             $lines[] = $address->country;
         } elseif ($address->countryCode !== null && $address->countryCode !== '') {
-            $lines[] = $address->countryCode;
+            $lines[] = $this->countryNameForCode($address->countryCode) ?? $address->countryCode;
         }
 
         return implode("\n", $lines);
+    }
+
+    private function countryNameForCode(string $code): ?string
+    {
+        $countryClass = ModelResolver::countryClass();
+
+        $name = $countryClass::query()
+            ->where('iso2', mb_strtoupper(mb_trim($code)))
+            ->value('name');
+
+        return is_string($name) && mb_trim($name) !== '' ? $name : null;
     }
 }

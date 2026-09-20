@@ -1,0 +1,8 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+gd:dependency:carriacou,GD,dependency,Carriacou,,10,,1,,
+gd:parish:saint-andrew,GD,parish,Saint Andrew,,01,,1,,
+gd:parish:saint-david,GD,parish,Saint David,,02,,1,,
+gd:parish:saint-george,GD,parish,Saint George,,03,,1,,
+gd:parish:saint-john,GD,parish,Saint John,,04,,1,,
+gd:parish:saint-mark,GD,parish,Saint Mark,,05,,1,,
+gd:parish:saint-patrick,GD,parish,Saint Patrick,,06,,1,,

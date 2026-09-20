@@ -1,0 +1,10 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+at:state:burgenland,AT,state,Burgenland,,1,,1,,
+at:state:carinthia,AT,state,Carinthia,,2,,1,,
+at:state:lower-austria,AT,state,Lower Austria,,3,,1,,
+at:state:salzburg,AT,state,Salzburg,,5,,1,,
+at:state:styria,AT,state,Styria,,6,,1,,
+at:state:tyrol,AT,state,Tyrol,,7,,1,,
+at:state:upper-austria,AT,state,Upper Austria,,4,,1,,
+at:state:vienna,AT,state,Vienna,,9,,1,,
+at:state:vorarlberg,AT,state,Vorarlberg,,8,,1,,

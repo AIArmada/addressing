@@ -65,11 +65,17 @@ final class SyncAddressAreaAssignmentsAction
 
         foreach ($selectedAssignments as $role => $areaId) {
             $area = $areas->get($areaId);
-            $definition = is_string($role) ? $this->definitionForRole($address, $role) : null;
+            $definition = is_string($role) ? $this->profiles->definitionForRole($address->country_code, $role) : null;
 
             if (! $area instanceof AddressArea || $definition === null) {
                 throw ValidationException::withMessages([
                     is_string($role) ? $role : 'address_areas' => 'The selected address area role is not defined by the country address profile.',
+                ]);
+            }
+
+            if ($definition['level']->kind !== 'area') {
+                throw ValidationException::withMessages([
+                    $role => 'The selected role is not an assignable area role.',
                 ]);
             }
 
@@ -97,22 +103,6 @@ final class SyncAddressAreaAssignmentsAction
                 ]);
             }
         });
-    }
-
-    /** @return array{hierarchy: AddressHierarchyDefinition, level: AddressLevelDefinition}|null */
-    private function definitionForRole(Address $address, string $role): ?array
-    {
-        foreach ($this->profiles->hierarchies($address->country_code) as $hierarchy) {
-            foreach ($hierarchy->levels as $level) {
-                $assignmentRole = $level->assignmentRole ?? "{$hierarchy->key}_{$level->key}";
-
-                if ($level->kind !== 'state' && $assignmentRole === $role) {
-                    return ['hierarchy' => $hierarchy, 'level' => $level];
-                }
-            }
-        }
-
-        return null;
     }
 
     private function areaMatchesDefinition(AddressArea $area, AddressLevelDefinition $definition): bool
@@ -143,7 +133,7 @@ final class SyncAddressAreaAssignmentsAction
         $definitions = [];
 
         foreach (array_keys($selectedAssignments) as $role) {
-            $definition = $this->definitionForRole($address, $role);
+            $definition = $this->profiles->definitionForRole($address->country_code, $role);
 
             if ($definition !== null) {
                 $definitions[$role] = $definition;
@@ -196,7 +186,7 @@ final class SyncAddressAreaAssignmentsAction
                 continue;
             }
 
-            $parentRole = $this->roleForLevel($definition['hierarchy'], $parentDefinition);
+            $parentRole = CountryAddressProfileResolver::roleForLevel($definition['hierarchy'], $parentDefinition);
             $parentAreaId = $selectedAssignments[$parentRole] ?? null;
 
             if (! is_string($parentAreaId)) {
@@ -226,11 +216,6 @@ final class SyncAddressAreaAssignmentsAction
     private function hierarchyType(array $definition): string
     {
         return $definition['level']->hierarchyType ?? $definition['hierarchy']->key;
-    }
-
-    private function roleForLevel(AddressHierarchyDefinition $hierarchy, AddressLevelDefinition $level): string
-    {
-        return $level->assignmentRole ?? "{$hierarchy->key}_{$level->key}";
     }
 
     /**

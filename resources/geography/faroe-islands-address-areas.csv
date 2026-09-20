@@ -1,0 +1,7 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+fo:region:eysturoy,FO,region,Eysturoy,,EY,,1,,
+fo:region:northern-isles,FO,region,Northern Isles,,NO,,1,,
+fo:region:sandoy,FO,region,Sandoy,,SA,,1,,
+fo:region:streymoy,FO,region,Streymoy,,ST,,1,,
+fo:region:suuroy,FO,region,Suðuroy,,SU,,1,,
+fo:region:vagar,FO,region,Vágar,,VA,,1,,

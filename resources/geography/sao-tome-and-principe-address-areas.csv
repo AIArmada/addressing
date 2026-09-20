@@ -1,0 +1,8 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+st:district:agua-grande,ST,district,Água Grande,,01,,1,,
+st:district:cantagalo,ST,district,Cantagalo,,02,,1,,
+st:district:caue,ST,district,Caué,,03,,1,,
+st:district:lemba,ST,district,Lemba,,04,,1,,
+st:district:lobata,ST,district,Lobata,,05,,1,,
+st:district:me-zochi,ST,district,Mé-Zóchi,,06,,1,,
+st:autonomous_region:principe,ST,autonomous_region,Príncipe,,P,,1,,

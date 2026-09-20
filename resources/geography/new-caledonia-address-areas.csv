@@ -1,0 +1,4 @@
+source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
+nc:province:loyalty-islands-province,NC,province,Loyalty Islands Province,,03,,1,,
+nc:province:north-province,NC,province,North Province,,02,,1,,
+nc:province:south-province,NC,province,South Province,,01,,1,,
