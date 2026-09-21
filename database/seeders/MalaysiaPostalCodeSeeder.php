@@ -7,6 +7,7 @@ namespace AIArmada\Addressing\Database\Seeders;
 use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Models\AddressAreaPostalCode;
 use AIArmada\Addressing\Models\PostalCode;
+use AIArmada\Addressing\Support\ConsoleSeedProgress;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
@@ -50,8 +51,17 @@ class MalaysiaPostalCodeSeeder extends Seeder
 
         $created = 0;
         $updated = 0;
+        $done = 0;
+        $total = $this->countCsvRows($path);
+        $report = ConsoleSeedProgress::for($this->command?->getOutput());
 
         while (($row = fgetcsv($handle, escape: '\\')) !== false) {
+            $done++;
+
+            if ($report !== null) {
+                $report('postal codes', $done, $total);
+            }
+
             $countryCode = mb_strtoupper(mb_trim((string) ($row[0] ?? '')));
             $code = mb_trim((string) ($row[1] ?? ''));
 
@@ -91,8 +101,17 @@ class MalaysiaPostalCodeSeeder extends Seeder
 
         $linked = 0;
         $skipped = 0;
+        $done = 0;
+        $total = $this->countCsvRows($path);
+        $report = ConsoleSeedProgress::for($this->command?->getOutput());
 
         while (($row = fgetcsv($handle, escape: '\\')) !== false) {
+            $done++;
+
+            if ($report !== null) {
+                $report('area links', $done, $total);
+            }
+
             $postcode = mb_trim((string) ($row[0] ?? ''));
             $areaSourceId = mb_trim((string) ($row[1] ?? ''));
             $relationshipType = mb_trim((string) ($row[2] ?? '')) ?: 'served_by';
@@ -150,5 +169,16 @@ class MalaysiaPostalCodeSeeder extends Seeder
         }
 
         return $fullPath;
+    }
+
+    private function countCsvRows(string $path): int
+    {
+        $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+        if ($lines === false) {
+            throw new RuntimeException("Unable to read CSV: {$path}");
+        }
+
+        return max(count($lines) - 1, 0);
     }
 }

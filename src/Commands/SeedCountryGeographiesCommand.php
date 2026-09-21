@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Commands;
 
 use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
+use AIArmada\Addressing\Support\ConsoleSeedProgress;
 use Illuminate\Console\Command;
 
 class SeedCountryGeographiesCommand extends Command
@@ -16,7 +17,7 @@ class SeedCountryGeographiesCommand extends Command
 
     public function handle(SeedCountryGeographiesAction $action): int
     {
-        $result = $action->execute($this->argument('country'));
+        $result = $action->execute($this->argument('country'), ConsoleSeedProgress::for($this->output));
 
         if ($result['seeded'] === []) {
             $this->warn('No providers matched.');

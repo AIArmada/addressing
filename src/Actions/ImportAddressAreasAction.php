@@ -24,6 +24,7 @@ class ImportAddressAreasAction
         bool $dryRun = false,
         ?string $providerKey = null,
         bool $reactivate = false,
+        ?callable $progress = null,
     ): ImportAddressAreasResultData {
         $providerKey = $providerKey !== null ? mb_trim($providerKey) : null;
 
@@ -31,7 +32,7 @@ class ImportAddressAreasAction
             throw new InvalidArgumentException('Address-area provider keys cannot be empty.');
         }
 
-        return DB::transaction(function () use ($source, $dryRun, $providerKey, $reactivate): ImportAddressAreasResultData {
+        return DB::transaction(function () use ($source, $dryRun, $providerKey, $reactivate, $progress): ImportAddressAreasResultData {
             $created = 0;
             $updated = 0;
             $skipped = 0;
@@ -40,7 +41,17 @@ class ImportAddressAreasAction
             $countryIds = AddressCountry::query()->pluck('id', 'iso2')->all();
             $areasByKey = [];
 
-            foreach ($source->areas() as $areaData) {
+            $rows = $progress !== null ? $source->areas()->all() : $source->areas();
+            $total = $progress !== null ? count($rows) : 0;
+            $done = 0;
+
+            foreach ($rows as $areaData) {
+                $done++;
+
+                if ($progress !== null) {
+                    $progress('areas', $done, $total);
+                }
+
                 $failure = $this->validateFields($areaData);
 
                 if ($failure !== null) {

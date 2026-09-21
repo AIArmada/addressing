@@ -26,9 +26,10 @@ final class SeedCountryGeographiesAction
     ) {}
 
     /**
+     * @param  ?callable(string, int, int, ?string=): void  $progress
      * @return array{seeded: list<string>, skipped: list<string>, areas: array}
      */
-    public function execute(?string $countryCode = null): array
+    public function execute(?string $countryCode = null, ?callable $progress = null): array
     {
         $seeded = [];
         $skipped = [];
@@ -67,7 +68,13 @@ final class SeedCountryGeographiesAction
                 ));
             }
 
-            $areaSummary = DB::transaction(function () use ($provider, $country, $providerCode): ?array {
+            $report = $progress === null
+                ? null
+                : function (string $phase, int $done, int $total) use ($progress, $providerCode): void {
+                    $progress($phase, $done, $total, "{$providerCode} {$phase}");
+                };
+
+            $areaSummary = DB::transaction(function () use ($provider, $country, $providerCode, $report): ?array {
                 $provider->seed($country);
 
                 if (! $provider instanceof CountryHierarchyProvider) {
@@ -85,7 +92,7 @@ final class SeedCountryGeographiesAction
                     ->where('country_id', $country->getKey())
                     ->where('metadata->provider', $providerKey)
                     ->update(['is_active' => false]);
-                $areaResult = $this->importAddressAreas->execute($areaSource, providerKey: $providerKey, reactivate: true);
+                $areaResult = $this->importAddressAreas->execute($areaSource, providerKey: $providerKey, reactivate: true, progress: $report);
 
                 if ($areaResult->hasFailures()) {
                     throw new InvalidArgumentException(sprintf(
@@ -95,10 +102,10 @@ final class SeedCountryGeographiesAction
                     ));
                 }
 
-                $this->linkStateAreas($country, $provider->stateAreaMappings(), $providerKey);
+                $this->linkStateAreas($country, $provider->stateAreaMappings(), $providerKey, $report);
 
                 if ($provider instanceof CountryAddressAreaMetadataProvider) {
-                    $this->syncAreaMetadata($country, $provider, $providerKey);
+                    $this->syncAreaMetadata($country, $provider, $providerKey, $report);
                 }
 
                 return [
@@ -122,9 +129,9 @@ final class SeedCountryGeographiesAction
         ];
     }
 
-    private function syncAreaMetadata(AddressCountry $country, CountryAddressAreaMetadataProvider $provider, string $providerKey): void
+    private function syncAreaMetadata(AddressCountry $country, CountryAddressAreaMetadataProvider $provider, string $providerKey, ?callable $progress = null): void
     {
-        DB::transaction(function () use ($country, $provider, $providerKey): void {
+        DB::transaction(function () use ($country, $provider, $providerKey, $progress): void {
             $providerAreas = AddressArea::query()
                 ->where('country_id', $country->getKey())
                 ->where('metadata->provider', $providerKey)
@@ -148,7 +155,17 @@ final class SeedCountryGeographiesAction
                 ->where('source', $providerKey)
                 ->delete();
 
-            foreach ($provider->areaRoles($country) as $sourceId => $roles) {
+            $rolesBySource = $provider->areaRoles($country);
+            $rolesTotal = count($rolesBySource);
+            $rolesDone = 0;
+
+            foreach ($rolesBySource as $sourceId => $roles) {
+                $rolesDone++;
+
+                if ($progress !== null) {
+                    $progress('roles', $rolesDone, $rolesTotal);
+                }
+
                 $area = $areas->get($sourceId);
 
                 if (! $area instanceof AddressArea) {
@@ -166,7 +183,17 @@ final class SeedCountryGeographiesAction
                 }
             }
 
-            foreach ($provider->areaNames($country) as $sourceId => $names) {
+            $namesBySource = $provider->areaNames($country);
+            $namesTotal = count($namesBySource);
+            $namesDone = 0;
+
+            foreach ($namesBySource as $sourceId => $names) {
+                $namesDone++;
+
+                if ($progress !== null) {
+                    $progress('names', $namesDone, $namesTotal);
+                }
+
                 $area = $areas->get($sourceId);
 
                 if (! $area instanceof AddressArea) {
@@ -184,7 +211,17 @@ final class SeedCountryGeographiesAction
                 }
             }
 
-            foreach ($provider->areaRelationships($country) as $childSourceId => $relationships) {
+            $relationshipsBySource = $provider->areaRelationships($country);
+            $relationshipsTotal = count($relationshipsBySource);
+            $relationshipsDone = 0;
+
+            foreach ($relationshipsBySource as $childSourceId => $relationships) {
+                $relationshipsDone++;
+
+                if ($progress !== null) {
+                    $progress('relationships', $relationshipsDone, $relationshipsTotal);
+                }
+
                 $child = $areas->get($childSourceId);
 
                 if (! $child instanceof AddressArea) {
@@ -213,17 +250,26 @@ final class SeedCountryGeographiesAction
     /**
      * @param  array<string, array{area_code: string, source: string, area_level: int, hierarchy_types?: list<string>}>  $mappings
      */
-    private function linkStateAreas(AddressCountry $country, array $mappings, string $providerKey): void
+    private function linkStateAreas(AddressCountry $country, array $mappings, string $providerKey, ?callable $progress = null): void
     {
         $stateClass = ModelResolver::stateClass();
 
-        DB::transaction(function () use ($country, $mappings, $providerKey, $stateClass): void {
+        DB::transaction(function () use ($country, $mappings, $providerKey, $stateClass, $progress): void {
             AddressAreaStateLink::query()
                 ->where('metadata->provider', $providerKey)
                 ->whereHas('addressArea', fn ($query) => $query->where('country_id', $country->getKey()))
                 ->delete();
 
+            $mappingsTotal = count($mappings);
+            $mappingsDone = 0;
+
             foreach ($mappings as $stateCode => $mapping) {
+                $mappingsDone++;
+
+                if ($progress !== null) {
+                    $progress('states', $mappingsDone, $mappingsTotal);
+                }
+
                 $state = $stateClass::query()
                     ->where('country_id', $country->getKey())
                     ->where('code', (string) $stateCode)

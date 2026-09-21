@@ -11,6 +11,15 @@ class AddressCountrySeeder extends Seeder
 {
     public function run(SeedAddressCountriesAction $action): void
     {
-        $action->execute();
+        $result = $action->execute();
+
+        if ($this->command !== null) {
+            $this->command->info(sprintf(
+                'Countries: %d created, %d updated, %d skipped.',
+                $result['created'],
+                $result['updated'],
+                $result['skipped'],
+            ));
+        }
     }
 }

@@ -47,4 +47,20 @@ use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 app(SeedCountryGeographiesAction::class)->execute('MY');
 ```
 
+To show progress bars while seeding (for example from your app's
+`DatabaseSeeder` during `migrate:fresh --seed`), pass the console adapter:
+
+```php
+use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
+use AIArmada\Addressing\Support\ConsoleSeedProgress;
+
+app(SeedCountryGeographiesAction::class)->execute(
+    'MY',
+    ConsoleSeedProgress::for($this->command?->getOutput()),
+);
+```
+
+Without a callback the action runs silently, which is what queued jobs and
+tests want. The `address:seed-geographies` command always shows progress.
+
 The bundled Malaysia provider populates State/Federal Territory rows, imports its AddressArea hierarchy, and creates explicit State↔AddressArea links. Its address model exposes separate postal/address and administrative/land hierarchies. The bundled Singapore provider works the same way with `execute('SG')`: five CDC-district states, the URA planning tree, and the postal district/sector tree. The bundled Indonesia provider works the same way with `execute('ID')`: 38 province states and the province → regency/city → district tree. The bundled Brunei provider works the same way with `execute('BN')`: four district states and the district → mukim tree. Every other bundled provider works the same way with its own ISO2 code — see [05-country-data](05-country-data.md) for the full per-country list. Add another provider class to `addressing.geography.providers` for another country; the core tables do not change.
