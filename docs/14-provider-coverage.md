@@ -10,8 +10,8 @@ counts, or changes scope. See [Country Data](./05-country-data.md)
 for per-country narrative and [Provider Authoring](./13-provider-authoring.md)
 for how to add a level.
 
-Current shape: 229 providers — 2 dual-hierarchy, 1 depth-3, 22 depth-2,
-204 depth-1.
+Current shape: 229 providers — 2 dual-hierarchy, 1 depth-3, 26 depth-2,
+200 depth-1.
 All 229 providers ship a formatter: 181 print a postcode (←99 →39 US →8 above6 below28 after country1), 48 codeless.
 
 ## Legend
@@ -129,7 +129,7 @@ All 229 providers ship a formatter: 181 print a postcode (←99 →39 US →8 ab
 | Hong Kong | HK | 18 | 18 | 18 | 1 | administrative: district | — | none | L1 — 18 districts |
 | Hungary | HU | 43 | 43 | 43 | 1 | administrative: county | — | ← | L1 — 20 counties + 22 county-rights cities + Budapest |
 | Iceland | IS | 72 | 72 | 72 | 1 | administrative: region | — | ← | L1 — 8 regions + 64 municipalities flat |
-| India | IN | 36 | 36 | 36 | 1 | administrative: state | — | below | L1 — 28 states + 8 UTs; districts (~780) candidate |
+| India | IN | 36 | 36 | 822 | 2 | administrative: state > district | district | below | Complete — 28 states + 8 UTs + 786 districts (LGD 31 May 2026 + Mahe/Yanam legacy codes); post-2011 splits/renames with aliases; Ladakh 5 + Kalyan Singh Nagar excluded (no LGD codes) |
 | Indonesia | ID | 38 | 38 | 7837 | 4 | administrative: province > regency > district > village | district, regency | → | Complete to kecamatan; desa/kelurahan (83,762) opt-in via `geography.indonesia.villages` |
 | Iran | IR | 31 | 31 | 31 | 1 | administrative: province | — | below | L1 — 31 ostans; counties out of scope |
 | Iraq | IQ | 19 | 19 | 19 | 1 | administrative: governorate | — | below | L1 incl. Halabja; KR region removed; qada (~120) candidate |
@@ -141,7 +141,7 @@ All 229 providers ship a formatter: 181 print a postcode (←99 →39 US →8 ab
 | Jamaica | JM | 14 | 14 | 14 | 1 | administrative: parish | — | none | L1 |
 | Japan | JP | 47 | 47 | 1794 | 2 | administrative: prefecture > municipality | municipality | below | Complete — 47 prefectures + 1,747 municipalities (792 cities + 743 towns + 183 villages + 23 Tokyo special wards + 6 Northern-Territories paper villages); designated-city wards out of scope |
 | Jersey | JE | 12 | 12 | 12 | 1 | administrative: parish | — | below | L1 — 12 parishes |
-| Jordan | JO | 12 | 12 | 12 | 1 | administrative: governorate | — | → | L1; liwa (~50) candidate |
+| Jordan | JO | 12 | 12 | 63 | 2 | administrative: governorate > liwa | liwa | → | Complete — 12 governorates + 51 liwa per DOS Yearbook 2024; qada out of scope |
 | Kazakhstan | KZ | 20 | 20 | 20 | 1 | administrative: region | — | ← | L1 — 17 regions + 3 cities |
 | Kenya | KE | 47 | 47 | 47 | 1 | administrative: county | — | below | L1 |
 | Kiribati | KI | 3 | 3 | 3 | 1 | administrative: island | — | → | L1 — 3 island groups |
@@ -159,7 +159,7 @@ All 229 providers ship a formatter: 181 print a postcode (←99 →39 US →8 ab
 | Luxembourg | LU | 12 | 12 | 12 | 1 | administrative: canton | — | ← | L1 |
 | Madagascar | MG | 6 | 6 | 6 | 1 | administrative: province | — | ← | L1; codeless 23 regions omitted |
 | Malawi | MW | 3 | 3 | 31 | 2 | administrative: region > district | district | ← | Complete — 3 regions + 28 districts |
-| Malaysia | MY | 16 | 16 | 1842 | dual 2+4 | postal: region > locality; administrative: region > division > district > subdivision | administrative_district, administrative_division, administrative_subdivision, postal_locality | ← | Complete; postal CSVs bundled |
+| Malaysia | MY | 16 | 16 | 1782 | dual 2+4 | postal: region > locality; administrative: region > division > district > subdivision | administrative_district, administrative_division, administrative_subdivision, postal_locality | ← | Complete; postal CSVs bundled; KL + Selangor + Pahang + Johor + Perlis + Melaka + Penang + Terengganu + Perak + Kedah + Kelantan per JUPEM UPI + N.Sembilan per PLANMalaysia/gazettes + Sabah + Sarawak per gazettes/SPR/DOSM |
 | Maldives | MV | 21 | 21 | 21 | 1 | administrative: atoll | — | → | L1 — 20 atolls + Addu City |
 | Mali | ML | 11 | 11 | 11 | 1 | administrative: region | — | none | L1 — 10 regions + Bamako |
 | Malta | MT | 68 | 68 | 68 | 1 | administrative: local_council | — | below | L1 — 68 local councils |
@@ -203,7 +203,7 @@ All 229 providers ship a formatter: 181 print a postcode (←99 →39 US →8 ab
 | Poland | PL | 16 | 16 | 16 | 1 | administrative: voivodeship | — | ← | L1 |
 | Portugal | PT | 20 | 20 | 20 | 1 | administrative: district | — | ← | L1 — 18 districts + Azores/Madeira |
 | Puerto Rico | PR | 78 | 78 | 78 | 1 | administrative: municipality | — | US → | L1 — 78 municipios (10 typed region in source) |
-| Qatar | QA | 8 | 8 | 8 | 1 | administrative: municipality | — | none | L1; zones (~98) candidate |
+| Qatar | QA | 8 | 8 | 98 | 2 | administrative: municipality > zone | zone | none | Complete — 8 municipalities + 90 zones; PSA 2020 names; numbers 8–11, 59, 87–89 unassigned |
 | Reunion | RE | 4 | 4 | 4 | 1 | administrative: district | — | ← | L1 — 4 districts |
 | Romania | RO | 42 | 42 | 42 | 1 | administrative: department | — | ← | L1 — 41 departments + Bucharest |
 | Russia | RU | 83 | 83 | 83 | 1 | administrative: subject | — | below | L1 |
@@ -259,7 +259,7 @@ All 229 providers ship a formatter: 181 print a postcode (←99 →39 US →8 ab
 | US Minor Outlying Islands | UM | 9 | 9 | 9 | 1 | administrative: island | — | none | L1 — 9 islands; uninhabited |
 | US Virgin Islands | VI | 3 | 3 | 3 | 1 | administrative: district | — | US → | L1 — 3 districts |
 | Uruguay | UY | 19 | 19 | 19 | 1 | administrative: department | — | ← | L1 |
-| Uzbekistan | UZ | 14 | 14 | 14 | 1 | administrative: region | — | ← | L1; tuman (~175) candidate |
+| Uzbekistan | UZ | 14 | 14 | 220 | 2 | administrative: region > tuman | tuman | ← | Complete — 12 regions + republic + city; 175 tumanlar + 31 regional-subordination cities; ASCII apostrophes; Namangan city districts excluded (L3) |
 | Vanuatu | VU | 6 | 6 | 6 | 1 | administrative: province | — | none | L1 |
 | Venezuela | VE | 25 | 25 | 25 | 1 | administrative: state | — | → | L1 — 23 states + Caracas + dependencies |
 | Vietnam | VN | 34 | 34 | 34 | 1 | administrative: province | — | → | L1 post-merger 34; communes candidate |

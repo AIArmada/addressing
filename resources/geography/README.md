@@ -8,9 +8,9 @@ Country-specific `AddressArea` trees imported by the bundled geography providers
 - `indonesia-villages.csv` — opt-in L4 set for `IndonesiaGeographyProvider` (83,762 desa/kelurahan from the same region-id v1.0.1 release). Seeded only when `addressing.geography.indonesia.villages` is true.
 - `brunei-address-areas.csv` — used by `BruneiGeographyProvider`. Districts per ISO 3166-2:BN; 39 mukims per the government-cited mukim list (18/8/8/5 split). Mukim spelling `Pengkalan Batu` follows Brunei government sources.
 - `bahrain-address-areas.csv` — used by `BahrainGeographyProvider`. 4 governorates per ISO 3166-2:BH.
-- `qatar-address-areas.csv` — used by `QatarGeographyProvider`. 8 municipalities; official English spellings with ISO names aliased.
+- `qatar-address-areas.csv` — used by `QatarGeographyProvider`. 8 municipalities + 90 numbered census zones (57 Doha, 10 Al Rayyan, 7 Al Wakrah, 7 Al Sheehaniya, 3 Al Khor, 3 Al Shamal, 2 Al Daayen, 1 Umm Salal); numbers 8–11, 59, 87–89 unassigned; PSA 2020 district names as official aliases.
 - `kuwait-address-areas.csv` — used by `KuwaitGeographyProvider`. 6 governorates per ISO 3166-2:KW with 134 areas at L2 (31/29/24/20/17/13); uninhabited islands excluded.
-- `jordan-address-areas.csv` — used by `JordanGeographyProvider`. 12 governorates per ISO 3166-2:JO.
+- `jordan-address-areas.csv` — used by `JordanGeographyProvider`. 12 governorates per ISO 3166-2:JO, plus 51 liwa per DOS Statistical Yearbook 2024 Table 2.4 (Amman 9, Irbid 9, Karak 7, Balqa 5, Mafraq 4, Ma'an 4, Zarqa 3, Tafilah 3, Ajloun 2, Aqaba 2, Madaba 2, Jerash 1); DOS forms as `official` aliases, English-Wikipedia/citypopulation/PCGN spellings as `alternative` aliases; no liwa codes published; qada out of scope.
 - `oman-address-areas.csv` — used by `OmanGeographyProvider`. 11 governorates per ISO 3166-2:OM plus 63 wilayats.
 - `united-arab-emirates-address-areas.csv` — used by `UnitedArabEmiratesGeographyProvider`. 7 emirates.
 - `saudi-arabia-address-areas.csv` — used by `SaudiArabiaGeographyProvider`. 13 regions per ISO 3166-2:SA.
@@ -18,7 +18,7 @@ Country-specific `AddressArea` trees imported by the bundled geography providers
 - `south-africa-address-areas.csv` — used by `SouthAfricaGeographyProvider`. 9 provinces per ISO 3166-2:ZA.
 - `turkiye-address-areas.csv` — used by `TurkiyeGeographyProvider`. 81 provinces per ISO 3166-2:TR plus 973 districts (51 bare `Merkez`; `Ereğli` twins Konya/Zonguldak; newest Derecik 2018; no district codes).
 - `pakistan-address-areas.csv` — used by `PakistanGeographyProvider`. 4 provinces + 3 federal territories per ISO 3166-2:PK plus 174 districts (late-2025 reorganization state; contradictory 2026 Balochistan batch excluded).
-- `india-address-areas.csv` — used by `IndiaGeographyProvider`. 28 states + 8 union territories per ISO 3166-2:IN.
+- `india-address-areas.csv` — used by `IndiaGeographyProvider`. 28 states + 8 union territories per ISO 3166-2:IN plus 786 districts keyed by LGD code (31 May 2026 snapshot + Mahe/Yanam legacy codes); post-2011 splits/renames with aliases; three cross-state twins (Bilaspur, Hamirpur, Pratapgarh); Ladakh 5 + Kalyan Singh Nagar excluded (no LGD codes); L3 out of scope.
 - `united-kingdom-address-areas.csv` — used by `UnitedKingdomGeographyProvider`. 4 nations only; the 221 subdivisions stay global states.
 - `bangladesh-address-areas.csv` — used by `BangladeshGeographyProvider`. 8 divisions + 64 districts per ISO 3166-2:BD with post-2018 spellings; parents verified against the division/district table.
 - `morocco-address-areas.csv` — used by `MoroccoGeographyProvider`. 12 regions + 62 provinces + 13 prefectures per the post-2015 division; parents verified against the prefecture/province table.
@@ -60,7 +60,7 @@ Country-specific `AddressArea` trees imported by the bundled geography providers
 - `madagascar-address-areas.csv` — used by `MadagascarGeographyProvider`. 6 provinces per ISO; codeless 23 regions excluded.
 - `afghanistan-address-areas.csv` — used by `AfghanistanGeographyProvider`. 34 provinces; Ghor/Kunduz spellings fixed.
 - `mozambique-address-areas.csv` — used by `MozambiqueGeographyProvider`. 10 provinces + Maputo City, disambiguated.
-- `uzbekistan-address-areas.csv` — used by `UzbekistanGeographyProvider`. 12 regions + Karakalpakstan + Tashkent City, disambiguated.
+- `uzbekistan-address-areas.csv` — used by `UzbekistanGeographyProvider`. 12 regions + Karakalpakstan + Tashkent City, plus 175 tumanlar and 31 regional-subordination cities sharing the L2 `tuman` role; official Uzbek Latin endonyms with ASCII apostrophes; 17 tuman/city twins (filter by type + parent); Namangan city districts excluded (L3).
 - `myanmar-address-areas.csv` — used by `MyanmarGeographyProvider`. 7 regions + 7 states + Naypyidaw; Mon normalized.
 - `cambodia-address-areas.csv` — used by `CambodiaGeographyProvider`. 24 provinces + Phnom Penh; official `Preah Sihanouk` with `Sihanoukville` aliased.
 - `laos-address-areas.csv` — used by `LaosGeographyProvider`. 17 provinces + Vientiane Prefecture; Vientiane province/prefecture share a name.

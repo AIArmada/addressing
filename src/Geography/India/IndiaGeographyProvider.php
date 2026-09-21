@@ -69,6 +69,16 @@ class IndiaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                         areaTypes: ['state', 'union_territory'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'state',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -83,6 +93,7 @@ class IndiaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
             $areaRoles = match ($area->type) {
                 'state' => ['state'],
                 'union_territory' => ['state'],
+                'district' => ['district'],
                 default => [],
             };
 
@@ -98,7 +109,217 @@ class IndiaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            'in:district:9' => [
+                ['name' => 'Leh Ladakh', 'name_type' => 'alternative'],
+            ],
+            'in:district:21' => [
+                ['name' => 'Lahaul And Spiti', 'name_type' => 'alternative'],
+            ],
+            'in:district:62' => [
+                ['name' => 'Gurgaon', 'name_type' => 'historic'],
+            ],
+            'in:district:100' => [
+                ['name' => 'Ganganagar', 'name_type' => 'alternative'],
+            ],
+            'in:district:120' => [
+                ['name' => 'Allahabad', 'name_type' => 'historic'],
+            ],
+            'in:district:129' => [
+                ['name' => 'Bara Banki', 'name_type' => 'alternative'],
+            ],
+            'in:district:140' => [
+                ['name' => 'Faizabad', 'name_type' => 'historic'],
+            ],
+            'in:district:154' => [
+                ['name' => 'Jyotiba Phule Nagar', 'name_type' => 'historic'],
+                ['name' => 'J.P. Nagar', 'name_type' => 'abbreviation'],
+            ],
+            'in:district:163' => [
+                ['name' => 'Mahamaya Nagar', 'name_type' => 'historic'],
+            ],
+            'in:district:164' => [
+                ['name' => 'Mahrajganj', 'name_type' => 'alternative'],
+            ],
+            'in:district:179' => [
+                ['name' => 'Sant Ravidas Nagar', 'name_type' => 'historic'],
+            ],
+            'in:district:225' => [
+                ['name' => 'East Sikkim', 'name_type' => 'historic'],
+            ],
+            'in:district:226' => [
+                ['name' => 'North Sikkim', 'name_type' => 'historic'],
+            ],
+            'in:district:227' => [
+                ['name' => 'South Sikkim', 'name_type' => 'historic'],
+            ],
+            'in:district:228' => [
+                ['name' => 'West Sikkim', 'name_type' => 'historic'],
+            ],
+            'in:district:293' => [
+                ['name' => 'Karimganj', 'name_type' => 'historic'],
+            ],
+            'in:district:296' => [
+                ['name' => 'Marigaon', 'name_type' => 'alternative'],
+            ],
+            'in:district:316' => [
+                ['name' => 'Maldah', 'name_type' => 'alternative'],
+            ],
+            'in:district:327' => [
+                ['name' => 'East Singhbum', 'name_type' => 'alternative'],
+            ],
+            'in:district:355' => [
+                ['name' => 'Jagatsinghapur', 'name_type' => 'alternative'],
+            ],
+            'in:district:372' => [
+                ['name' => 'Sonepur', 'name_type' => 'alternative'],
+            ],
+            'in:district:376' => [
+                ['name' => 'Dantewada', 'name_type' => 'common'],
+            ],
+            'in:district:381' => [
+                ['name' => 'Kanker', 'name_type' => 'common'],
+            ],
+            'in:district:382' => [
+                ['name' => 'Kabeerdham', 'name_type' => 'alternative'],
+            ],
+            'in:district:405' => [
+                ['name' => 'East Nimar', 'name_type' => 'historic'],
+                ['name' => 'Khandwa (East Nimar)', 'name_type' => 'alternative'],
+            ],
+            'in:district:409' => [
+                ['name' => 'Hoshangabad', 'name_type' => 'historic'],
+            ],
+            'in:district:414' => [
+                ['name' => 'West Nimar', 'name_type' => 'historic'],
+                ['name' => 'Khargone (West Nimar)', 'name_type' => 'alternative'],
+            ],
+            'in:district:418' => [
+                ['name' => 'Narsimhapur', 'name_type' => 'alternative'],
+            ],
+            'in:district:441' => [
+                ['name' => 'Banas Kantha', 'name_type' => 'alternative'],
+            ],
+            'in:district:444' => [
+                ['name' => 'Dangs', 'name_type' => 'alternative'],
+            ],
+            'in:district:449' => [
+                ['name' => 'Kutch', 'name_type' => 'common'],
+            ],
+            'in:district:451' => [
+                ['name' => 'Mahesana', 'name_type' => 'alternative'],
+            ],
+            'in:district:454' => [
+                ['name' => 'Panch Mahals', 'name_type' => 'alternative'],
+            ],
+            'in:district:458' => [
+                ['name' => 'Sabar Kantha', 'name_type' => 'alternative'],
+            ],
+            'in:district:466' => [
+                ['name' => 'Ahmednagar', 'name_type' => 'historic'],
+            ],
+            'in:district:469' => [
+                ['name' => 'Aurangabad', 'name_type' => 'historic'],
+            ],
+            'in:district:482' => [
+                ['name' => 'Mumbai', 'name_type' => 'alternative'],
+            ],
+            'in:district:488' => [
+                ['name' => 'Osmanabad', 'name_type' => 'historic'],
+            ],
+            'in:district:504' => [
+                ['name' => 'Y.S.R. Kadapa', 'name_type' => 'alternative'],
+            ],
+            'in:district:515' => [
+                ['name' => 'Nellore', 'name_type' => 'common'],
+            ],
+            'in:district:553' => [
+                ['name' => 'Lakshadweep District', 'name_type' => 'alternative'],
+            ],
+            'in:district:599' => [
+                ['name' => 'Mahé', 'name_type' => 'alternative'],
+            ],
+            'in:district:600' => [
+                ['name' => 'Pondicherry', 'name_type' => 'historic'],
+            ],
+            'in:district:602' => [
+                ['name' => 'South Andamans', 'name_type' => 'alternative'],
+            ],
+            'in:district:603' => [
+                ['name' => 'Nicobars', 'name_type' => 'alternative'],
+            ],
+            'in:district:604' => [
+                ['name' => 'Mewat', 'name_type' => 'historic'],
+            ],
+            'in:district:608' => [
+                ['name' => 'Sahibzada Ajit Singh Nagar', 'name_type' => 'official'],
+            ],
+            'in:district:618' => [
+                ['name' => 'Kamrup Metro', 'name_type' => 'alternative'],
+            ],
+            'in:district:631' => [
+                ['name' => 'Ramanagara', 'name_type' => 'historic'],
+            ],
+            'in:district:632' => [
+                ['name' => 'North And Middle Andaman', 'name_type' => 'alternative'],
+            ],
+            'in:district:633' => [
+                ['name' => 'Kanshiram Nagar', 'name_type' => 'historic'],
+            ],
+            'in:district:640' => [
+                ['name' => 'Chhatrapati Shahuji Maharaj Nagar', 'name_type' => 'historic'],
+                ['name' => 'CSM Nagar', 'name_type' => 'abbreviation'],
+            ],
+            'in:district:645' => [
+                ['name' => 'Gariyaband', 'name_type' => 'alternative'],
+            ],
+            'in:district:659' => [
+                ['name' => 'Bheem Nagar', 'name_type' => 'historic'],
+            ],
+            'in:district:660' => [
+                ['name' => 'Prabuddha Nagar', 'name_type' => 'historic'],
+            ],
+            'in:district:661' => [
+                ['name' => 'Panchsheel Nagar', 'name_type' => 'historic'],
+            ],
+            'in:district:686' => [
+                ['name' => 'Warangal Urban', 'name_type' => 'historic'],
+            ],
+            'in:district:687' => [
+                ['name' => 'Jayashankar Bhupalapally', 'name_type' => 'alternative'],
+            ],
+            'in:district:689' => [
+                ['name' => 'Jangoan', 'name_type' => 'alternative'],
+            ],
+            'in:district:707' => [
+                ['name' => 'South Salmara Mancachar', 'name_type' => 'alternative'],
+            ],
+            'in:district:723' => [
+                ['name' => 'Pakke Kessang', 'name_type' => 'alternative'],
+            ],
+            'in:district:724' => [
+                ['name' => 'Leparada', 'name_type' => 'alternative'],
+            ],
+            'in:district:725' => [
+                ['name' => 'Shi Yomi', 'name_type' => 'alternative'],
+            ],
+            'in:district:747' => [
+                ['name' => 'Konaseema', 'name_type' => 'common'],
+            ],
+            'in:district:749' => [
+                ['name' => 'NTR District', 'name_type' => 'common'],
+            ],
+            'in:district:757' => [
+                ['name' => 'Tseminyü', 'name_type' => 'alternative'],
+            ],
+            'in:district:758' => [
+                ['name' => 'Chumoukedima', 'name_type' => 'alternative'],
+                ['name' => 'Chumukedima', 'name_type' => 'common'],
+            ],
+            'in:district:761' => [
+                ['name' => 'Mohla-Manpur-Ambagarh Chouki', 'name_type' => 'alternative'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */

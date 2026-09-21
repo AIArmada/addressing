@@ -59,6 +59,395 @@ precincts and settlements are address subdivisions.
 - administrative_subdivision: mukim and subdistricts
 - region: states and Federal Territories
 
+## Malaysia cross-boundary mukims
+
+Several mukim names appear on both sides of a district or state boundary.
+Every case was verified against gazettes, the JUPEM UPI boundary book, and
+titled-land evidence (Sept 2026). The verdict in all four cases: distinct
+same-named mukims, each with exactly one parent — never one mukim spanning
+two parents. DOSM's "Sebahagian Mukim X (Peralihan ...)" phrasing describes
+the 1974 Gombak-formation transfers, not current dual parentage.
+
+| Mukim | Verdict |
+|---|---|
+| Setapak | Two mukims: Gombak-side (Selangor gazette) and KL-side (Federal Gazette 2024, UPI 140007). A 1974-split remnant, administered separately ever since. |
+| Ampang | Two mukims: Hulu Langat-side (MPAJ: "smallest county in the district of Hulu Langat") and KL-side (UPI 140001). The straddling *town*/MPAJ area is not a third mukim. |
+| Batu | Two mukims: Gombak-side ("Mukim Batu bagi Daerah Gombak") and KL-side ("MUKIM BATU, DAERAH KUALA LUMPUR", UPI 140002). A third Mukim Batu sits in Kuala Langat. |
+| Cheras | Two mukims: Hulu Langat-side and KL-side ("Mukim Cheras, Daerah Kuala Lumpur", UPI 140003). KL's P123 Cheras parliamentary constituency is a separate concept. |
+
+## Kuala Lumpur mukims
+
+WPKL has exactly seven gazetted mukims and no district (`TIADA DAERAH`), so
+each hangs directly under the Federal Territory at level 2. Mukim rows use a
+`mukim-` source-id prefix because the parliamentary localities already occupy
+the bare names.
+
+| Mukim | UPI / PLANMalaysia | DOSM census |
+|---|---|---|
+| Ampang | 140001 | 140101 |
+| Batu | 140002 | 140102 |
+| Cheras | 140003 | 140103 |
+| Hulu Klang | 140004 | 140104 |
+| Kuala Lumpur | 140005 | 140105 |
+| Petaling | 140006 | 140106 |
+| Setapak | 140007 | 140107 |
+
+Notes:
+
+- Bandar Kuala Lumpur is a gazetted bandar (UPI 140044), not a mukim, so it
+  has no mukim row despite "Mukim Bandar Kuala Lumpur" title phrasing.
+- The rows use the gazette/KWP "Hulu Klang" spelling; the JUPEM UPI
+  "Hulu Kelang" form is stored as an alternative name.
+- The duplicate Gombak "Ulu Kelang" mukim row was removed: Gombak has one
+  Hulu Klang mukim, and "Ulu Kelang" is a gazetted town name there.
+
+Evidence: JUPEM/MyGDI UPI book for WPKL (2nd ed. 2023), PLANMalaysia mukim
+code list (state 14), DOSM census geography, Selangor State Gazette notices,
+Federal Gazette P.U.(B) notices, ST licensee lists, and Bursa land
+disclosures.
+
+## Selangor mukim audit
+
+Every Selangor subdivision row was diffed against the JUPEM UPI boundary book
+for Selangor (Sept 2026). All gazetted Selangor mukims were already bundled;
+the fixes below correct mistyped towns, wrong districts, renames, and
+non-gazetted rows. Bandar and pekan are distinct row types sharing the
+`administrative_subdivision` role; renamed rows keep their common names as
+alternative or preferred names so searches keep resolving.
+
+Retyped to bandar (gazetted): Banting, Bandar Baru Bangi, Kuang, Kundang,
+Selayang, Petaling Jaya, Saujana, Subang Jaya, Cyberjaya, Shah Alam, Kuala
+Kubu Bharu. Retyped to pekan (gazetted): Meru, Sekinchan, Sungai Besar,
+Puchong, Sungai Pelek.
+
+| Row | Fix | Evidence |
+|---|---|---|
+| Port Klang | Renamed Port Swettenham, bandar | UPI Bandar Port Swettenham 01/41; "Port Klang" kept as preferred common name |
+| Gombak | Renamed Gombak Setia, bandar | UPI Bandar Gombak Setia 09/43; bare "Gombak" not gazetted |
+| Salak Tinggi | Renamed Baru Salak Tinggi, bandar | UPI Bandar Baru Salak Tinggi 10/42; bare name not gazetted |
+| Tanjung Sepat | Renamed Tanjong Sepat, bandar | UPI Bandar Tanjong Sepat 02/43 |
+| Jenjarum (Klang) | Moved to Kuala Langat as Jenjarom, bandar | UPI Bandar Jenjarom 02/41; town is in Kuala Langat |
+| Batu Arang (Sepang) | Moved to Gombak, bandar | UPI Bandar Batu Arang 09/40; town is in Gombak |
+| Bukit Rotan (Hulu Selangor) | Moved to Kuala Selangor, pekan | UPI Pekan Bukit Rotan 04/72; town is in Kuala Selangor |
+| Jenjarum Barat / Utama | Removed | No such place or entity in UPI, gazettes, or SPR records |
+| Johan Setia, Paya Jaras | Removed | Kampung/locality inside a mukim, not a UPI entity |
+| Setia Alam, Denai Alam, USJ / UEP Subang Jaya, Taman Melawati | Removed | Developer townships inside a mukim, not UPI entities |
+| Batu Caves | Removed | Town inside Mukim Batu, not gazetted at any level |
+| Sabak Bernam, Hulu Selangor | Removed | District-name rows; the districts and their mukims already exist |
+| Teluk Panglima Garang (Klang) | Removed | Wrong-district duplicate of Kuala Langat's Mukim Telok Panglima Garang |
+
+Spelling follows the gazetted UPI form for renamed rows (Jenjarom, Tanjong,
+Swettenham); rows that keep common spellings (Hulu Langat, Telok Panglima
+Garang, Kuala Kubu Bharu) carry the UPI variant as an alternative name.
+Postal links were repointed to the surviving rows; no postcode lost its
+primary link.
+
+Two-hierarchy relocation: 3 removed towns returned as postal `locality`
+rows — Batu Caves, Teluk Panglima Garang (corrected to Kuala Langat, town
+distinct from Mukim Telok Panglima Garang), and Sabak Bernam (town distinct
+from Mukim Sabak; 45100 Sungai Ayer Tawar stays district-linked). Stay
+deleted: the Denai Alam, USJ, Setia Alam, and Taman Melawati townships (all
+share Shah Alam, Subang Jaya, or Kuala Lumpur codes) and the Johan Setia and
+Paya Jaras kampungs (no own postcode).
+
+## Genting Highlands
+
+Genting Highlands is not a mukim of Bentong. Bentong has exactly three
+mukims (Bentong, Sabai, Pelangai); the gazetted Genting unit is Bandar
+Genting under Daerah Kecil Genting, excised from Mukim Bentong in November
+2019 (Pahang Gazette Notifications 2497/2501, UPI 06/12/40). The dataset
+models the minor district and the bandar; "Genting Highlands" is stored as
+the preferred common name. Karak in the same pass was corrected from mukim
+to bandar (UPI Bandar Karak).
+
+The resort genuinely spans the Pahang–Selangor border: the Selangor
+footprint (Highlands/RW Hotel, Skyway assets, Gohtong Jaya) sits in Hulu
+Selangor district, Mukim Batang Kali, under MPHS planning authority — while
+mailing with the Pahang postcode 69000. There is no gazetted Selangor-side
+Genting entity, so no second row exists; never key state off the postcode.
+
+Evidence: JUPEM UPI book for Pahang, Pahang Gazette 2019 declarations,
+Genting Berhad annual-report land schedules (Selangor vs Bentong), the
+Genting Highlands–Hulu Selangor RKK plan, and titled-land records on both
+sides.
+
+## Pahang mukim audit
+
+Every Pahang subdivision row was diffed against the JUPEM UPI boundary book
+for Pahang (Sept 2026). Pahang has 11 districts plus 4 minor districts
+(Genting, Gebeng, Jelai, Muadzam Shah — the last three created 2019–2021).
+Retyped to bandar: Jerantut, Kuantan, Temerloh, Maran, Raub. Retyped to
+pekan: Brinchang, Lanchang, Bukit Fraser, Kuala Rompin (UPI-listed, still
+ungazetted).
+
+| Row | Fix | Evidence |
+|---|---|---|
+| Gebeng (Kuantan) | Moved under new Daerah Kecil Gebeng, bandar | UPI Bandar Gebeng 13/40 |
+| Batu Yon, Hulu Jelai (Lipis) | Moved under new Daerah Kecil Jelai, mukim | UPI Jelai 14/01–02; Hulu Jelai respelled Ulu Jelai |
+| Telang | Kept under Lipis and added under Jelai | Two distinct mukims: Lipis 10 (Phg.733/2021) and Jelai 03 (Phg.520/2021) |
+| Keratong (Rompin) | Moved under new Daerah Kecil Muadzam Shah, mukim | UPI Muadzam 15/01 |
+| Bebar | Kept under Pekan and added under Muadzam Shah | Two distinct mukims: Pekan 01 (Phg.845/1992) and Muadzam 02 (Phg.732/2021) |
+| Muadzam Shah (Rompin) | Removed; town is two bandars now modelled | UPI Muadzam Shah I/II (15/40–41) added under the minor district |
+| Kuala Krau (Jerantut) | Moved to Temerloh as Kuala Kerau, pekan | UPI Pekan Kuala Kerau 08/72; common spelling kept preferred |
+| Teras (Raub) | Renamed Tras, mukim | UPI Mukim Tras 07/07; "Teras" is an upstream typo with zero gazette hits |
+| Bandar Kuantan, Bandar Bera | Removed | Duplicates of the Kuantan bandar and Bera mukim rows |
+| Dong, Sega (Lipis) | Removed | Wrong-district duplicates of Raub's mukims |
+| Balok, Bukit Goh, Bukit Kuin, Sungai Lembing | Removed | Non-gazetted Kuantan towns/schemes inside a mukim |
+| Damak, Sungai Koyan, Chini, Kemayan | Removed | Non-gazetted kampung/FELDA localities |
+| Bandar Pusat Jengka, Bandar Tun Abdul Razak, Lurah Bilut | Removed | Non-gazetted towns (Jengka rows duplicated one renamed town) |
+
+Postal links were repointed to the surviving mukim, pekan, or district rows;
+no postcode lost its primary link.
+
+Two-hierarchy relocation: 12 removed towns returned as postal `locality`
+rows — Balok (26080/26190 only; 26100/26150 are Kuantan city codes), Bukit
+Goh, Sungai Lembing, Bandar Tun Abdul Razak (corrected to the Muadzam Shah
+minor district), Lurah Bilut (corrected to Bentong), Chini, Bandar Bera,
+Kemayan, Bandar Pusat Jengka (corrected to Maran; 27080 stays Jerantut),
+Damak, Kuala Krau (corrected to Temerloh), and Sungai Koyan. Stay deleted:
+Bukit Kuin (sub-locality), Muadzam Shah (duplicate of the I/II bandars), and
+Hulu Jelai (admin entity, no postcode).
+
+## Johor mukim audit
+
+Every Johor subdivision row was diffed against the JUPEM UPI boundary book
+for Johor (Sept 2026). Retyped to bandar: Ayer Hitam, Bandar Penggaram,
+Rengit, Senggarang, Yong Peng, Johor Bahru, Bandar Kluang, Bandar Kota
+Tinggi, Bandar Mersing, Bandar Maharani, Batu Anam, Segamat, Bandar Kulai,
+Bandar Tangkak. Retyped to pekan: Bukit Pasir, Pekan Nenas.
+
+| Row | Fix | Evidence |
+|---|---|---|
+| Muar (Muar) | Renamed Bandar, kept mukim | UPI Mukim Bandar 06/02; town row is Bandar Maharani |
+| Bandar Pontian | Renamed Pontian Kechil, bandar | UPI Bandar Pontian Kechil 07/41; Pontian Kechil is the town |
+| Sungai Mati (Muar) | Moved to Tangkak, bandar | UPI Bandar Sungai Mati 22/43 |
+| Bandar Johor Bahru, Bandar Segamat, Renggam, Gerisek, Seri Medan | Removed | Duplicates of the Johor Bahru bandar, Segamat bandar, Rengam, Grisek, and Sri Medan rows |
+| Chaah (Kluang) | Removed | Wrong district; Chaah belongs to Segamat |
+| Batu Pahat, Parit Raja, Parit Sulong, Semerah | Removed | Non-gazetted towns (town core is Bandar Penggaram) |
+| Bandar Tiram, Gelang Patah, Iskandar Puteri, Masai, Pasir Gudang, Ulu Choh, Ulu Tiram | Removed | Non-gazetted JB towns/corridors inside a mukim |
+| Divisyen Bandaraya | Removed | Not a place at all; an MBJB assessment-division label |
+| Simpang Renggam, Bandar Penawar | Removed | Non-gazetted towns inside a mukim |
+| Ayer Tawar 2, Pulau Satu | Removed | Wrong-district camp/island locality, non-gazetted |
+| Endau (Mersing) | Removed | Non-gazetted town; the only gazetted Endau is Pahang's Mukim Endau |
+| Bukit Gambir, Pagoh, Kukup | Removed | Non-gazetted towns/villages (Bukit Gambir is in Tangkak) |
+| Bandar Tenggara, Gugusan Taib Andak | Removed | Non-gazetted FELDA schemes (Bandar Tenggara is in Kota Tinggi) |
+
+UPI spelling variants are stored as alternative names (Nyior, Ulu Sungei
+Sedili Besar, Sungei Pinggan, Renggam, Gerisek, Bandar Pontian). Postal
+links were repointed to the surviving mukim, bandar, pekan, or district
+rows; duplicate same-area links created by the merges were collapsed.
+
+Two-hierarchy relocation pilot: 21 of the removed towns were reinstated as
+postal `locality` rows under the two-hierarchy rule (postcode + official
+recognition required; relocate, don't delete). Reinstated: Gelang Patah,
+Iskandar Puteri, Masai, Pasir Gudang, Ulu Tiram, Ulu Choh (corrected to
+Kulai), Gugusan Taib Andak, Bandar Tenggara and Ayer Tawar 2 (both corrected
+to Kota Tinggi), Bandar Penawar, Kukup, Endau, Parit Raja, Parit Sulong,
+Semerah, Renggam and Simpang Rengam (towns distinct from Mukim Rengam),
+Pekan Chaah (corrected to Segamat), Pagoh, Bukit Gambir (corrected to
+Tangkak), and Gerisek (town within Mukim Grisek). Bandar Tiram (quarter of
+Ulu Tiram), Divisyen Bandaraya (non-place label), Bandar Pontian (alias of
+Pontian Kechil), and Pulau Satu (Forest City island, no own postcode) stay
+deleted. Each town's postcodes link it as primary with the covering admin
+areas kept as secondary links.
+
+## Perlis
+
+Perlis has no districts (`TIADA DAERAH`) and exactly 22 mukims, all already
+bundled with exact names. Verified clean against the JUPEM UPI book; no
+changes. Bandar Arau, Bandar Kangar, Pekan Kuala Perlis, and Pekan Kaki
+Bukit exist but have no rows (missing entities are not added).
+
+## Melaka mukim audit
+
+Every Melaka subdivision row was diffed against the JUPEM UPI boundary book
+for Melaka (Sept 2026). Retyped to bandar: Melaka, Bandar Jasin, Bandar Alor
+Gajah. Retyped to pekan: Asahan, Bemban. Same-name mukim/town duals keep
+the mukim row and the town entity stays unlisted (missing entities are not
+added): Merlimau, Kuala Sungai Baru, Sungai Rambai, Ayer Molek, Batu
+Berendam, and the other Melaka Tengah duals. Removed: the
+Bandaraya Melaka city-status label, both Ayer Keroh town rows (non-gazetted;
+postcode 75450 spans Bukit Katil and Bukit Baru, so it links the district),
+the Alor Gajah town duplicate, and the wrong-district Alor Gajah Asahan row
+(Asahan town is Jasin's Pekan Asahan — the error came from its Alor Gajah
+parliamentary seat). Kept on gazette evidence despite UPI naming quirks:
+Ayer Pa'abas (UPI 03/01) and Sungai Baru Tengah (2004/2006 gazettes; UPI
+shortens it to plain Sungei Baru).
+
+Two-hierarchy relocation: Ayer Keroh town (75450) returned as a postal
+`locality` row under Melaka Tengah; the Jasin Ayer Keroh row stays deleted
+as a misfile.
+
+## Penang mukim audit
+
+Every Penang subdivision row was diffed against the JUPEM UPI boundary book
+for Pulau Pinang (Sept 2026), cross-checked against PLANMalaysia kod-mukim,
+DOSM census divisions, state gazettes, and land-title records. Retyped to
+bandar (14): Bukit Mertajam, Perai, Butterworth, Kepala Batas, Nibong Tebal,
+Air Itam, Bandar George Town, Batu Ferringhi, Gelugor, Jelutong, Tanjong
+Bungah, Bukit Bendera (renamed from Penang Hill; gazetted Bandar Bukit
+Bendera), Balik Pulau, Bayan Lepas. The island shares one mukim sequence:
+Barat Daya is Mukim 1-12 plus Mukim A-J, Timur Laut is Mukim 13-18; Seberang
+Perai Utara genuinely skips Mukim 15, so that row was removed. Removed 14
+rows: non-gazetted town/area names (Permatang Pauh, Seberang Jaya, Kubang
+Semang, Penaga, Tasek Gelugor, Simpang Ampat, Sungai Jawi, Batu Maung, Teluk
+Kumbar), the state-name Pulau Pinang row (its George Town city postcodes move
+to Bandar George Town), the USM institution row (11800 moves to Gelugor), the
+SPU Mukim 15 gap row, and the Bandar Bukit Mertajam / Bandar Butterworth
+duplicates. Postcodes remap to the true numbered mukim (Kubang Semang is SPT
+Mukim 5, a district correction); Sungai Jawi straddles SPS Mukim 6+7 so 14200
+links the district.
+
+Two-hierarchy relocation: 8 removed towns returned as postal `locality`
+rows — Permatang Pauh, Kubang Semang (corrected to SPT), Penaga, Tasek
+Gelugor, Batu Maung, Teluk Kumbar (11920 only; 11950 is Bayan Lepas),
+Simpang Ampat, and Sungai Jawi. Stay deleted: Penang Hill (11300 is George
+Town), USM (11800 is Gelugor, plus a facility), Seberang Jaya (13700 is
+Perai), and SPU Mukim 15 (no gazette evidence; genuinely skipped).
+
+## Terengganu mukim audit
+
+Every Terengganu subdivision row was diffed against the JUPEM UPI boundary
+book for Terengganu (Sept 2026), cross-checked against PLANMalaysia kod-mukim,
+DOSM census divisions, state gazettes, and land-title records. Retyped to
+bandar: Kuala Terengganu, Dungun, Cukai (renamed from Chukai). Retyped to
+pekan: Marang, Jertih (renamed from Jerteh). Renamed to gazetted forms with
+common names kept as alternatives: Hulu Cukai, Kemasik, Kertih, Mercang,
+Pengkalan Nangka. Kept against a narrow UPI read on wider evidence: Kuala
+Abang (UPI truncates it to Abang; PLANMalaysia, DOSM, and gazettes agree on
+Kuala Abang) and Caluk (canonical over the Chalok duplicate, which was
+removed). Removed 12 rows: non-gazetted towns Paka, Bukit Besi, Bandar
+Al-Muktafi Billah Shah, Ceneh, Ajil, Permaisuri, Bandar Permaisuri, Penarik;
+wrong-district Ketengah Jaya (Dungun's Mukim Rasau), Sungai Tong (Setiu's
+Mukim Hulu Nerus), and Bukit Payong (Marang's Mukim Bukit Payung, spelling
+corrected in the move); and the Chalok duplicate of Caluk. Postcodes remap to
+the gazetted mukim each town falls in.
+
+Two-hierarchy relocation: 11 removed towns returned as postal `locality`
+rows — Bukit Payong (corrected to Marang), Ceneh (24060 only; 24050 is Air
+Putih), Kerteh, Ketengah Jaya (corrected to Dungun), Al-Muktafi Billah
+Shah, Bukit Besi, Paka, Ajil, Sungai Tong (corrected to Setiu), Permaisuri
+(the Bandar Permaisuri pair merged into one row), and Chalok (postal
+spelling, distinct from Mukim Caluk). Stay deleted: Chukai (duplicate of
+Bandar Cukai) and Penarik (no own postcode).
+
+## Perak mukim audit
+
+Every Perak subdivision row was diffed against the JUPEM UPI boundary book
+for Perak (Sept 2026; 13 districts), cross-checked against PLANMalaysia
+kod-mukim, DOSM census divisions, state gazettes, and land-title records.
+Structural fixes: the combined Larut-Matang-dan-Selama district row was split
+into Larut Matang (15 rows) and Selama (3 rows); Sungai Sumun moved from
+Hilir Perak to Bagan Datuk; Trolak moved from Batang Padang to Muallim as
+Pekan Terolak. Ipoh town split into Bandar Ipoh (N) and Bandar Ipoh (S) with
+all 112 town postcodes linking the Kinta district (Muadzam precedent; the
+N/S line runs east-west across the town centre per plan PW 5296). Retyped 17
+rows to bandar and 12 to pekan (Langkap and Malim Nawar kept as pekan on
+gazette evidence). Renamed to gazetted forms: Kelian Intan, Simpang Empat,
+Terung (Terong/Trong are the same place), Hulu Ijok, Hulu Selama, Jaya Baru,
+Pasir Panjang Hulu, Sayung, Sungai Raya, Hulu Bernam Barat. Removed 23 rows:
+7 non-gazetted towns (Behrang Stesen, Seri Manjung, Kampung Kepayang, Jeram,
+Sauk, Enggor, Ulu Bernam), the TLDM Lumut base row (32100 to Lumut), 9
+wrong-district rows (Changkat Jering, Slim, Slim River, Belanja, Kampar, Teja,
+Tronoh, Rantau Panjang, Batu Kurau), 5 spelling duplicates (Bruas, Bagan
+Datoh, Ulu Kinta, Bandar Seri Iskandar, Trong of Terung), and Ipoh town
+(split into N/S bandars). Uncertain
+postcodes link the district: 36500 (Ladang Ulu Bernam estate) to Hilir Perak,
+31750 to Kinta, 34140 to Selama, 34850 to Larut Matang.
+
+Two-hierarchy relocation: 11 removed towns returned as postal `locality`
+rows — Kampung Kepayang, Trong, Seri Manjung, Behrang Stesen (corrected to
+Muallim), Changkat Jering (corrected to Larut-Matang), Enggor, Jeram
+(corrected to Kinta), Sauk, Tronoh (corrected to Kampar; 31750 moves off
+Kinta district), Rantau Panjang (corrected to Selama), and Ulu Kinta
+(postal spelling, distinct from Mukim Hulu Kinta). Stay deleted: Sungai
+Raia (shares 31300), Terong (variant), the TLDM Lumut base (facility),
+Simpang Ampat Semanggol and Trolak (duplicates of Pekan Simpang Empat and
+Pekan Terolak), Saiong (mukim variant), Intan (Kelian Intan short form),
+and Ulu Bernam (split/shared codes).
+
+## Kedah mukim audit
+
+Every Kedah subdivision row was diffed against the JUPEM UPI boundary book
+for Kedah (Sept 2026), cross-checked against PLANMalaysia kod-mukim, DOSM
+census divisions, state gazettes, and land-title records. Retyped 17 rows to
+bandar and 5 to pekan. Renamed to gazetted forms: Gunung, Changlun, Hosba,
+Kurung Hitam, Guar Cempedak. Moved 3 rows to the correct district: Kepala
+Batas and Kodiang from Kota Setar to Kubang Pasu (both bandar), Jeniang from
+Sik to Kuala Muda as Pekan Jeniang (gazetted 2009 from Mukim Gurun; 08700
+follows the move while 08320 links Sik's Mukim Jeneri). Removed 5 rows: the
+Kota Setar and Langkawi district-name rows (Langkawi town postcodes move to
+Kuah), the UUM institution row, Yan Kechil locality (06910 secondary moves
+to Sungai Daun), and Bukit Paya (a PLANMalaysia typo for Mukim Bukit Raya).
+
+## Kelantan mukim audit
+
+Every Kelantan subdivision row was diffed against the JUPEM UPI boundary book
+for Kelantan (Sept 2026), cross-checked against PLANMalaysia kod-mukim, DOSM
+census divisions, state gazettes, and land-title records. Retyped to bandar:
+Kota Bharu, Baru Kubang Kerian (renamed from Kubang Kerian), Pasir Mas, Tanah
+Merah. Retyped Mulong to pekan. Moved Melor from Bachok to Kota Bharu.
+Removed 14 rows: the Bandar Kota Bharu duplicate (93 town postcodes move to
+Kota Bharu), non-gazetted Daerah/penghulu names (Chiku, Dabong x2, Galas, Olak
+Jeram, Ayer Lanas, Bandar Baru Tunjong, Ketereh, Panji), the Kem Desa Pahlawan
+camp row (16500 to the district; 16450 spans mukims so it links the district
+too), the false Bandar Jeli row (Jeli has no gazetted bandar; 17600/17700 go
+to Mukim Jeli), the Bachok Cherang Ruku duplicate, and the Betis duplicate of
+Kuala Betis. 18200 Dabong links Mukim Kuala Stong on land-title evidence.
+
+Two-hierarchy relocation: 3 removed towns returned as postal `locality`
+rows — Ketereh (16450), Dabong (18200, Kuala Krai; the Gua Musang row stays
+deleted as a misfile), and Ayer Lanas (17700). Stay deleted: Bandar Baru
+Tunjong (township sharing Kota Bharu codes), the Kem Desa Pahlawan camp
+(facility), Panji, Olak Jeram, Chiku, and Galas (no own postcode), and
+Bandar Jeli (the town's name is exactly Mukim Jeli's, so it is covered).
+
+## Negeri Sembilan mukim audit
+
+No JUPEM UPI book is published for Negeri Sembilan, so every subdivision row
+was diffed against the PLANMalaysia kod-mukim inventory (2021) with each
+verdict corroborated by state gazettes, DOSM-coded lists, or land titles.
+Retyped 5 rows to bandar and 10 to pekan. Moved Tanjong Ipoh from Jelebu to
+Kuala Pilah as a pekan. Renamed to gazetted forms: Baru Enstek, Serting Hulu,
+Sepri. Removed Seremban 2 (housing scheme in Mukim Rasah) and Pusat Bandar
+Palong (FELDA cluster centre; postcodes move to Mukim Rompin). Kept on
+gazette evidence against PLANMalaysia typos: Titian Bintangor (not Bintagor),
+Keru (not Kebu), Tebong of Tampin (not Tenong; distinct from Melaka's Tebong).
+
+Two-hierarchy relocation: Pusat Bandar Palong (73430-73470, own post
+office) returned as a postal `locality` row; Seremban 2 stays deleted (70300
+is Seremban).
+
+## Sabah audit
+
+Sabah has no gazetted mukim tier, so every subdivision row was verified
+against Sabah state gazettes, the SPR polling-district gazette, DOSM census
+divisions, district-office mukim lists, and council records. Added the Paitan
+and Sook districts (gazetted 2024). Moved Jambongan from Beluran to Paitan,
+Nangoh from Beluran to Telupid, and Dalit from Keningau to Sook. Removed 8
+rows: stale pre-split district duplicates (Paitan, Tongod, Nabawan, Sook,
+Tambunan), the Libaran parliament/island ambiguity, the Wallace Bay water
+feature, and the Cenderawasih FELDA postal town (91150 moves to Lahad Datu
+district). Renamed to official forms: Gum-Gum, Bum-Bum, Sepulot.
+
+Two-hierarchy relocation: Cenderawasih (91150, own post office) returned as
+a level-4 postal `locality` row; the remaining removals stay deleted as
+duplicates or non-places.
+
+## Sarawak audit
+
+Sarawak has no mukim tier; the daerah kecil is the formal subdistrict tier,
+so every row was verified against the Administrative Areas Order 2022
+gazette, the 2018 admin table plus 2021/22 upgrade notices, the SPR
+polling-district gazette, and DOSM townships. Moved 9 rows: Tapah to Siburan,
+Moyan and Tambirat to Asajaya, Triso to Pusa, Roban to Kabong, Nanga Medamit
+to Limbang, Belawai to Tanjung Manis, Paloh to Daro, and Niah to Subis.
+Removed 13 rows: stale post-split duplicates (Balingian, Bekenu, Long Lama,
+Lingga, Kabong, Sebauh, Tatau, Entabai), the Kuala Balingian duplicate, the
+Pusat Mel Miri mail centre (98070 moves to Miri), the Baram region name
+(Marudi postcodes move to Marudi), the Poyut/Nibong conflated name, and the
+Sebelak river name. Renamed Budu to the official Nanga Budu form.
+
 ## Singapore
 
 The bundled `SingaporeGeographyProvider` supplies the five ISO 3166-2 CDC
@@ -156,9 +545,18 @@ Bahraini addresses are formatted per the UPU layout: street lines,
 ## Qatar
 
 The bundled `QatarGeographyProvider` supplies the eight municipalities
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows with 90 census zones as level-2 areas (57 Doha, 10 Al
+Rayyan, 7 Al Wakrah, 7 Al Sheehaniya, 3 Al Khor, 3 Al Shamal, 2 Al
+Daayen, 1 Umm Salal) in a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('QA')` after
-countries are seeded.
+countries are seeded. Zone numbers run 1–98 with 8, 9, 10, 11, 59, 87,
+88, 89 unassigned; zones 50/57/58 sit in Doha, 69 in Al Daayen, and
+96/97 in Al Rayyan, so filter by parent rather than assuming
+contiguous ranges. Official PSA district names are kept as `official`
+aliases; repeated district names across zones (Al Thumama ×3, Nuaija
+×3, Al Bidda, Mushaireb, Old Al Ghanim, Fereej Bin Mahmoud, Onaiza,
+Doha International Airport ×2 each) share names by design; filter by
+code.
 
 Municipality names use official English spellings (`Al Sheehaniya`,
 `Al Shamal`, `Doha`); the ISO names `Ad Dawhah` and `Madinat ash
@@ -185,9 +583,21 @@ and country.
 ## Jordan
 
 The bundled `JordanGeographyProvider` supplies the twelve ISO 3166-2
-governorates as `State` rows and a single-level administrative
-hierarchy. It is selected with
+governorates as `State` rows and a two-level administrative hierarchy
+(`governorate` > `liwa`). It is selected with
 `SeedCountryGeographiesAction::execute('JO')` after countries are seeded.
+
+Level 2 carries the 51 districts (liwa) from DOS Statistical Yearbook
+2024 Table 2.4: Amman 9, Irbid 9, Karak 7, Balqa 5, Mafraq 4, Ma'an 4,
+Zarqa 3, Tafilah 3, Ajloun 2, Aqaba 2, Madaba 2, Jerash 1. Canonical
+names follow DOS romanization except where the shipped L1 spellings
+already differ (Ajloun, Tafilah, Jerash, Deir Alla, Naour, Mahis and
+Fuhais); DOS forms are kept as `official` aliases and
+English-Wikipedia/citypopulation/PCGN spellings (Al-Quwairah, Shoubak,
+Husseiniya, Kufrinjah, Wadi Al Seer, Aii, Faqou', Ruwayshid,
+Quwaysimah, Jizeh, Mowaqqar, Hashimiyya) as `alternative` aliases.
+DOS publishes no liwa codes, so L2 rows carry no `code`. Qada
+(sub-districts) are out of scope and do not ship.
 
 Jordanian addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with a 5-digit postcode, and country.
@@ -303,14 +713,30 @@ country.
 The bundled `IndiaGeographyProvider` supplies the 36 ISO 3166-2 states
 and union territories as `State` rows (28 states, 8 union territories
 including Ladakh and the merged Dadra and Nagar Haveli and Daman and
-Diu) and a single-level administrative hierarchy. It is selected with
-`SeedCountryGeographiesAction::execute('IN')` after countries are seeded.
-State codes follow the 23 November 2023 ISO amendment (`CG`, `OD`, `TS`, `UK`).
+Diu) and a two-level administrative hierarchy (`state` > `district`).
+It is selected with `SeedCountryGeographiesAction::execute('IN')` after
+countries are seeded. State codes follow the 23 November 2023 ISO
+amendment (`CG`, `OD`, `TS`, `UK`).
+
+Level 2 carries 786 districts keyed by official LGD code
+(`in:district:<lgd-code>`, LGD snapshot 31 May 2026): all 784 LGD rows
+plus Mahe (599) and Yanam (601), which LGD dropped in 2024–25 but which
+remain official Puducherry districts with Census 2011 codes 636/634.
+Names follow current official spellings, including the January 2026
+Delhi reorganisation (Shahdara dissolved; Old Delhi, Central North,
+Outer North added), Kushavati, Hansi, Markapuram, Polavaram, Vav-Tharad,
+Meluri, Sribhumi, Ahilyanagar, Chhatrapati Sambhajinagar, Dharashiv,
+Bengaluru South and Narmadapuram, with former and LGD-variant names kept
+as aliases. Three cross-state twins exist (Bilaspur, Hamirpur,
+Pratapgarh) — filter by `type` and parent, never by name alone.
+Excluded for lack of LGD codes: the five Ladakh districts notified 27
+April 2026, the announced-but-unnotified Kalyan Singh Nagar (UP), and
+West Bengal's unimplemented announced seven. Tehsils/blocks (L3) are out
+of scope.
 
 Indian addresses are formatted per the UPU layout: street lines,
 locality, state, a 6-digit postcode on its own line, and country.
-Districts (700+) and secondary postcodes (`834001-34` style) are
-intentionally not bundled.
+Secondary postcodes (`834001-34` style) are intentionally not bundled.
 
 ## United Kingdom
 
@@ -952,13 +1378,29 @@ own line, and country.
 
 The bundled `UzbekistanGeographyProvider` supplies the 12 regions
 plus Karakalpakstan and Tashkent City as `State` rows and a
-single-level administrative hierarchy. It is selected with
-`SeedCountryGeographiesAction::execute('UZ')` after countries are seeded.
+two-level administrative hierarchy (`region` > `tuman`). It is
+selected with `SeedCountryGeographiesAction::execute('UZ')` after
+countries are seeded.
+
+Level 2 carries 175 tumanlar plus the 31 cities of regional
+subordination (typed `city`, sharing the `tuman` role — the
+Indonesia regency+city precedent). L1 names keep their established
+forms while L2 names use official Uzbek Latin endonyms (`Buxoro`,
+`Farg'ona`, `Kattaqo'rg'on`, `Toshkent`); O'/G' use the ASCII
+apostrophe. Seventeen tuman/city twins share a parent (Andijon,
+Buxoro, Farg'ona, Kogon, Namangan, Nukus, Qarshi, Shahrisabz,
+Samarqand, Kattaqo'rg'on, Guliston, Termiz, Bekobod, Ohangaron,
+Yangiyo'l, Urganch, Xiva) — filter by `type` and parent, never by
+name alone. `city` spans both levels (L1 Tashkent City vs L2
+regional cities), disambiguated by level. Verified `alternative`
+aliases: `Shayxontohur`, `Sergeli`, `Xazorasp`. Namangan city's
+Davlatobod and Yangi Namangan districts are excluded: their parent
+is Namangan city (L2), making them L3, which this provider does
+not ship.
 
 Region names use official Uzbek Latin forms (`Qashqadaryo`,
 `Samarqand`, `Sirdaryo`, `Surxondaryo`, `Navoiy`, `Xorazm`).
 `Tashkent Region` and `Tashkent City` are disambiguated at seed.
-Districts are intentionally not bundled.
 
 Uzbek addresses are formatted per the UPU layout: street lines,
 `{postcode}, {locality}` with a 6-digit postcode, the region on its

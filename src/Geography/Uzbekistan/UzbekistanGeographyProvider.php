@@ -62,6 +62,16 @@ class UzbekistanGeographyProvider implements CountryAddressAreaMetadataProvider,
                         areaTypes: ['region', 'republic', 'city'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'tuman',
+                        label: 'Tuman',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['tuman', 'city'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'tuman',
+                    ),
                 ],
             ),
         ];
@@ -73,10 +83,12 @@ class UzbekistanGeographyProvider implements CountryAddressAreaMetadataProvider,
         $roles = [];
 
         foreach ($this->addressAreaSource()->areas() as $area) {
-            $areaRoles = match ($area->type) {
-                'region' => ['region'],
-                'republic' => ['region'],
-                'city' => ['region'],
+            // `city` spans two levels: Tashkent City (L1) vs regional-subordination cities (L2).
+            $areaRoles = match (true) {
+                $area->type === 'region' || $area->type === 'republic' => ['region'],
+                $area->type === 'city' && $area->level === 1 => ['region'],
+                $area->type === 'tuman' => ['tuman'],
+                $area->type === 'city' => ['tuman'],
                 default => [],
             };
 
@@ -92,7 +104,17 @@ class UzbekistanGeographyProvider implements CountryAddressAreaMetadataProvider,
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            'uz:tuman:tashkent-city:shayxontoxur' => [
+                ['name' => 'Shayxontohur', 'name_type' => 'alternative'],
+            ],
+            'uz:tuman:tashkent-city:sirgali' => [
+                ['name' => 'Sergeli', 'name_type' => 'alternative'],
+            ],
+            'uz:tuman:xorazm:hazorasp' => [
+                ['name' => 'Xazorasp', 'name_type' => 'alternative'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
