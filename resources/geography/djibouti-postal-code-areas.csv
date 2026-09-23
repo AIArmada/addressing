@@ -1,0 +1,11 @@
+postcode,area_source_id,relationship_type,is_primary
+77101,dj:subprefecture:djibouti,served_by,true
+77102,dj:subprefecture:djibouti,served_by,true
+77103,dj:subprefecture:djibouti,served_by,true
+77104,dj:subprefecture:djibouti,served_by,true
+77105,dj:subprefecture:djibouti,served_by,true
+77201,dj:subprefecture:arta,served_by,true
+77301,dj:subprefecture:ali-sabieh,served_by,true
+77401,dj:subprefecture:dikhil,served_by,true
+77501,dj:subprefecture:obock,served_by,true
+77601,dj:subprefecture:tadjoura,served_by,true

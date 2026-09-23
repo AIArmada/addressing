@@ -1978,8 +1978,11 @@ own line when it differs, and country.
 
 The bundled `CyprusGeographyProvider` supplies the 6 districts with
 bilingual names as `State` rows and a single-level administrative
-hierarchy. It is selected with
-`SeedCountryGeographiesAction::execute('CY')` after countries are seeded.
+hierarchy plus 752 postal localities in a postal hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('CY')` after
+countries are seeded. Localities follow the GeoNames postal dump
+place names (quarters keep their `Town (Quarter)` labels); the
+dump covers all six districts including Keryneia.
 
 Cypriot addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, and country.
@@ -3308,9 +3311,14 @@ Romanian addresses are formatted per the UPU layout: street lines,
 
 The bundled `SaintKittsAndNevisGeographyProvider` supplies the 2
 islands as `State` rows with the 14 parishes as level-2 areas (9
-Saint Kitts, 5 Nevis) in a two-level administrative hierarchy. It is
-selected with `SeedCountryGeographiesAction::execute('KN')` after
-countries are seeded.
+Saint Kitts, 5 Nevis) and 92 villages as level-3 areas in a
+three-level administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('KN')` after countries are
+seeded. Village→parish membership follows the parish articles;
+Lodge (claimed by both neighbours) sits in Christ Church Nichola
+Town, New Road in Saint Peter Basseterre, and Keys in Saint Mary
+Cayon. Postcodes link at parish level because delivery districts
+run below village granularity.
 
 Kittitian and Nevisian addresses are formatted per the UPU layout:
 street lines, the locality, the island, the `KN`-prefixed postcode
@@ -4079,6 +4087,18 @@ districts, 12 cities, Auckland and Chatham Islands councils).
 Seven authorities straddle regional boundaries; each is
 parented to its largest-share region. All three types share
 the `district` assignment role.
+
+1201 postal localities (suburbs, towns, rural-delivery names)
+ship as level-3 `locality` areas under their district, with a
+`postal` hierarchy (region > locality, refined by district)
+and the `postal_locality` role. The 1737-code overlay links
+each code to its locality (0110–9893; 1081 shared by Ostend
+and Surfdale, Ostend primary). 58 places needed manual
+resolution: GeoNames rows with empty admin2 (Tararua and
+Waitaki Valley clusters, Petone, Turangi), name variants
+(Puk-kura = Pukekura, Weheka = Fox Glacier), and Waioruarangi
+7300 assigned to Kaikōura on NZ Post delivery rather than its
+Waiau-side dump coordinate.
 
 New Zealand postcodes print left of the locality
 (`6011 Wellington`).

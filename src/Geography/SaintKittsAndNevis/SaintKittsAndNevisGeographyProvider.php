@@ -72,6 +72,16 @@ class SaintKittsAndNevisGeographyProvider implements CountryAddressAreaMetadataP
                         parentKey: 'island',
                         assignmentRole: 'parish',
                     ),
+                    new AddressLevelDefinition(
+                        key: 'village',
+                        label: 'Village',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['village'],
+                        areaLevels: [3],
+                        parentKey: 'parish',
+                        assignmentRole: 'village',
+                    ),
                 ],
             ),
         ];
@@ -86,6 +96,7 @@ class SaintKittsAndNevisGeographyProvider implements CountryAddressAreaMetadataP
             $areaRoles = match ($area->type) {
                 'state' => ['state'],
                 'parish' => ['parish'],
+                'village' => ['village'],
                 default => [],
             };
 

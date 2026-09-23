@@ -64,6 +64,30 @@ class CyprusGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                     ),
                 ],
             ),
+            new AddressHierarchyDefinition(
+                key: 'postal',
+                label: 'Postal / Address Geography',
+                levels: [
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'state',
+                        hierarchyType: 'postal',
+                        areaTypes: ['district'],
+                        areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'locality',
+                        label: 'Locality',
+                        kind: 'area',
+                        hierarchyType: 'postal',
+                        areaTypes: ['locality'],
+                        areaLevels: [2],
+                        parentKey: 'district',
+                        assignmentRole: 'postal_locality',
+                    ),
+                ],
+            ),
         ];
     }
 
@@ -75,6 +99,7 @@ class CyprusGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'district' => ['district'],
+                'locality' => ['postal_locality'],
                 default => [],
             };
 

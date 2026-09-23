@@ -74,6 +74,31 @@ class NewZealandGeographyProvider implements CountryAddressAreaMetadataProvider,
                     ),
                 ],
             ),
+            new AddressHierarchyDefinition(
+                key: 'postal',
+                label: 'Postal / Address Geography',
+                levels: [
+                    new AddressLevelDefinition(
+                        key: 'region',
+                        label: 'Region / Special Island Authority',
+                        kind: 'state',
+                        hierarchyType: 'postal',
+                        areaTypes: ['region', 'special_island_authority'],
+                        areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'locality',
+                        label: 'Locality / Suburb / Town',
+                        kind: 'area',
+                        hierarchyType: 'postal',
+                        areaTypes: ['locality'],
+                        areaLevels: [3],
+                        parentKey: 'region',
+                        assignmentRole: 'postal_locality',
+                        refinedBy: 'district',
+                    ),
+                ],
+            ),
         ];
     }
 
@@ -89,6 +114,7 @@ class NewZealandGeographyProvider implements CountryAddressAreaMetadataProvider,
                 'district' => ['district'],
                 'city' => ['district'],
                 'council' => ['district'],
+                'locality' => ['postal_locality'],
                 default => [],
             };
 

@@ -89,7 +89,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Costa Rica | CR | 7 | 7 | 91 | 2 | administrative: province > canton | canton | below | Complete — 7 provinces + 84 cantons (Cantons of Costa Rica) |
 | Croatia | HR | 21 | 21 | 577 | 2 | administrative: county > municipality / town | municipality | ← | Complete — 21 counties + 428 municipalities + 128 towns (Municipalities/List of cities and towns in Croatia; fixed meimurje L1 typo) |
 | Cuba | CU | 16 | 16 | 184 | 2 | administrative: province / special_municipality > municipality | municipality | ← | Complete — 16 provinces + 168 municipalities (Source: Wikipedia Municipalities of Cuba (MediaWiki API, Sep 2026). Havana city rows parented to La Habana province row.) |
-| Cyprus | CY | 6 | 6 | 6 | 1 | administrative: district | — | ← | L1 — tier-2 blocked; northern municipalities/communities unreliable |
+| Cyprus | CY | 6 | 6 | 758 | 2 | administrative: district + postal: district > locality | postal_locality | ← | Complete — 6 districts + 752 localities (GeoNames postal dump; Keryneia 57 codes included) |
 | Czech Republic | CZ | 14 | 14 | 90 | 2 | administrative: region > district | district | ← | Complete — 13 regions + Praha + 76 districts; Praha childless |
 | Denmark | DK | 5 | 5 | 103 | 2 | administrative: region > municipality | municipality | ← | Complete — 5 regions + 98 municipalities (List of municipalities of Denmark; LAU codes) |
 | Djibouti | DJ | 6 | 6 | 26 | 2 | administrative: region > subprefecture | subprefecture | ← | Complete — 5 regions + Djibouti City + 20 sub-prefectures (3/2/4/1/4/6; town-article parenting; Adailou spelling) |
@@ -184,7 +184,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Nepal | NP | 7 | 7 | 84 | 2 | administrative: province > district | district | → | Complete — 7 provinces + 77 districts (7 per-province tables) |
 | Netherlands | NL | 12 | 12 | 354 | 2 | administrative: province > municipality | municipality | ← | Complete — 12 provinces + 342 municipalities (Municipalities of the Netherlands; CBS codes; 3 specials under BQ) |
 | New Caledonia | NC | 3 | 3 | 36 | 2 | administrative: province > commune | commune | ← | Complete — 3 provinces + 33 communes (Administrative divisions of New Caledonia; Poya spans N/S, parented South) |
-| New Zealand | NZ | 17 | 17 | 84 | 2 | administrative: region > district / city / council | district | ← | Complete — 17 regions + 67 territorial authorities (7 cross-boundary parented by largest share) |
+| New Zealand | NZ | 17 | 17 | 1285 | 3 | administrative: region > district / city / council; postal: region > locality (refined by district) | district | ← | Complete — 17 regions + 67 territorial authorities (7 cross-boundary parented by largest share) + 1201 postal localities (1737 codes) |
 | Nicaragua | NI | 17 | 17 | 170 | 2 | administrative: department / autonomous_region > municipality | municipality | above | Complete — 17 departments + 153 municipalities (Source: es.wikipedia Anexo:Municipios de Nicaragua (MediaWiki API, Sep 2026); en.wiki table has only 151.) |
 | Niger | NE | 8 | 8 | 79 | 2 | administrative: region / urban_community > department / commune | department | ← | Complete — 7 regions + Niamey + 66 departments + 5 Niamey communes (per-region bullets + Niamey article) |
 | Nigeria | NG | 37 | 37 | 811 | 2 | administrative: state > lga | lga | → | Complete — 37 states + 768 LGAs + 6 FCT area councils; post-2023 names; LCDAs excluded |
@@ -211,7 +211,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Rwanda | RW | 5 | 5 | 35 | 2 | administrative: province / city > district | district | none | Complete — 5 provinces/city + 30 districts (Districts of Rwanda) |
 | Saint Barthelemy | BL | 1 | 1 | 1 | 1 | administrative: overseas_collectivity | — | ← | L1 — single collectivity; no tier-2|
 | Saint Helena | SH | 10 | 10 | 10 | 1 | administrative: district / island | — | → | L1 — 8 districts + Ascension/Tristan da Cunha (added, provisional states); all terminal |
-| Saint Kitts and Nevis | KN | 2 | 2 | 16 | 2 | administrative: island > parish | parish | below | Complete — 2 islands + 14 parishes |
+| Saint Kitts and Nevis | KN | 2 | 2 | 108 | 3 | administrative: island > parish > village | village | below | Complete — 2 islands + 14 parishes + 92 villages |
 | Saint Lucia | LC | 10 | 10 | 10 | 1 | administrative: district | — | → | L1 — no admin tier-2; districts terminal|
 | Saint Martin | MF | 1 | 1 | 1 | 1 | administrative: overseas_collectivity | — | ← | L1 — single collectivity; no tier-2|
 | Saint Pierre and Miquelon | PM | 1 | 1 | 1 | 1 | administrative: overseas_collectivity | — | ← | L1 — single collectivity; no tier-2|

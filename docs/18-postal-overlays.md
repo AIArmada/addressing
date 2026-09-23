@@ -104,6 +104,16 @@ countries use it and why the rest do not.
     is ModSecurity-blocked; the GeoNames HN postal export covers
     only 38 major towns (not the 298 municipalities). Needs
     HONDUCOR data.
+  - Palestine: PalCode assigns building-level P+7 codes and the
+    town-zone endpoint returns empty, so no town↔sector table is
+    published; reverse-geocoding 833 GeoNames points surfaced 435
+    localities but 56 span up to 7 sectors with no dominant
+    prefix, making any sampled town table provably incomplete.
+    Gaza Strip has no PalCode coverage at all. Needs a PalCode
+    town list or a working town-zone endpoint.
+  - Trinidad and Tobago: 6-digit street/community codes exist but
+    TTPost publishes no allocation list; lookup is a manual query
+    form only. Needs a TTPost code list.
 
 ## Built datasets
 
@@ -120,12 +130,14 @@ countries use it and why the rest do not.
 | Bosnia and Herzegovina | BA | 517 | 570 | BiH routing manual 2013 (7,363 settlements; 70101–89247; 55 cross-boundary codes dual-linked; 71335 Pržidi omitted) |
 | Brunei | BN | 394 | 394 | post.gov.bn finder scrape (kampong→mukim; 23 Peti Surat PO-box + 87 ministry large-user rows excluded; Kampong Amo A/B/C unfetched; finder spells Burong Pinggai Ayer, Kampong Peramu = Peramu) |
 | Denmark | DK | 1159 | 1159 | GeoNames dump joined on municipal codes (0800–9990) |
+| Djibouti | DJ | 10 | 10 | UPU DJI profile code table (77101–77601; city districts 77102–77105 + 5 region capitals at subprefecture level) |
 | Eswatini | SZ | 80 | 80 | Eswatini Post postcode page, region-grouped (H100–L317; H103 shared Eveni/Swazi Plaza, Swazi Plaza primary) |
 | Faroe Islands | FO | 118 | 119 | Posta code tables via da/fo wiki (FO-100–FO-970; 12 postsmoga excluded; FO-485 dual-linked) |
 | French Guiana | GF | 25 | 25 | La Poste Hexasmal (Sep 2026) |
 | French Polynesia | PF | 83 | 93 | La Poste Hexasmal (Sep 2026); shared: 98732 Huahine, 98735 Uturoa, 98790 Rangiroa, 98796 Nuku-Hiva |
 | Greenland | GL | 27 | 27 | Post Greenland + postcode lists (town→municipality mapping) |
 | Croatia | HR | 1094 | 1094 | Hrvatska pošta live finder scrape (10000–53534; customs-only 10004 + 36 retired codes excluded) |
+| Cyprus | CY | 1125 | 1127 | GeoNames postal dump at locality level (1000–9999; 1036 Nicosia quarters + 4528 Akti Kyverniti/Pentakomo dual-linked, first-listed primary) |
 | Guadeloupe | GP | 33 | 33 | La Poste Hexasmal (Sep 2026) |
 | Guam | GU | 21 | 21 | USPS village ZIPs (Chalan Pago-Ordot has no asserted code) |
 | Guatemala | GT | 548 | 548 | GeoNames dump at department level (01001–22220) |
@@ -151,6 +163,7 @@ countries use it and why the rest do not.
 | Montserrat | MS | 8 | 8 | Government of Montserrat postcode pamphlet |
 | Nauru | NR | 1 | 0 | UPU single-code list (NRU68) |
 | New Caledonia | NC | 50 | 50 | La Poste Hexasmal (Sep 2026) |
+| New Zealand | NZ | 1737 | 1738 | GeoNames postal dump at locality level (0110–9893; 1081 Ostend/Surfdale dual-linked, Ostend primary; 58 places resolved via coords + council/NZ Post maps, Waioruarangi to Kaikōura on 7300 delivery) |
 | North Macedonia | MK | 326 | 326 | Makedonska Pošta 2016 unit list + settlement directory (1000–7550; 1137 uncertain commune + retired/stale codes excluded) |
 | Norway | NO | 5136 | 5136 | GeoNames dump joined on municipal codes + Posten.no Svalbard/Jan Mayen codes (0001–9991; PO-only status per code unverified) |
 | Niue | NU | 1 | 0 | UPU single-code list (9974) |
@@ -160,6 +173,7 @@ countries use it and why the rest do not.
 | Réunion | RE | 37 | 37 | La Poste Hexasmal (Sep 2026) |
 | Romania | RO | 37914 | 37914 | GeoNames dump at department level (010011–927250; street codes linked to county) |
 | Saint Helena | SH | 3 | 10 | UPU single-code list (STHL/ASCN/TDCU 1ZZ; Jamestown primary for STHL) |
+| Saint Kitts and Nevis | KN | 32 | 39 | post.kn zone/district PDF (KN0101–KN1202 + KN7000 SEP; 7 cross-parish codes dual-linked; Nevis 08–12 named by parish; village→parish per parish articles, Lodge to Christ Church) |
 | Saint Lucia | LC | 47 | 48 | Government of Saint Lucia postcode table (LC01 101–LC18 101; 7 private-box codes excluded; Marisule dual-linked) |
 | Saint Pierre and Miquelon | PM | 1 | 1 | UPU addressing (97500 both communes) |
 | Saint Vincent and the Grenadines | VC | 56 | 56 | SVG Postal Corp official list (VC0110–VC0472; VC0100 box-only + VC0292 disputed Mesopotamia omitted) |
@@ -230,7 +244,7 @@ $result = app(ImportPostalCodesAction::class)->execute($source);
 | Canada | CA | expansion | L2: indigenous_reserve,municipality,unorganized (5028) |
 | Cape Verde | CV | admin-ready | L2: parish (32) |
 | Caribbean Netherlands | BQ | none | L1: special_municipality (3) |
-| Cayman Islands | KY | expansion | L2: district (7) |
+| Cayman Islands | KY | none | box-only system (UPU: street address alone undeliverable, PO boxes only); codes pass through, nothing to import |
 | Central African Republic | CF | none | L2: subprefecture (80) |
 | Chad | TD | none | L2: department (63) |
 | Chile | CL | expansion | L2: province (56) |
@@ -241,11 +255,11 @@ $result = app(ImportPostalCodesAction::class)->execute($source);
 | Costa Rica | CR | expansion | L2: canton (84) |
 | Croatia | HR | complete | L1: county (21) |
 | Cuba | CU | admin-ready | L2: municipality (168) |
-| Cyprus | CY | expansion | L1: district (6) |
+| Cyprus | CY | complete | L2: locality (752) |
 | Czech Republic | CZ | expansion | L2: district (76) |
 | DR Congo | CD | expansion | L2: territory (145) |
 | Denmark | DK | complete | L2: municipality (98) |
-| Djibouti | DJ | expansion | L2: subprefecture (20) |
+| Djibouti | DJ | complete | L2: subprefecture (20) |
 | Dominica | DM | none | L1: parish (10) |
 | Dominican Republic | DO | expansion | L2: district,province (32) |
 | Ecuador | EC | expansion | L2: canton (222) |
@@ -336,7 +350,7 @@ $result = app(ImportPostalCodesAction::class)->execute($source);
 | Nepal | NP | expansion | L2: district (77) |
 | Netherlands | NL | expansion | L2: municipality (342) |
 | New Caledonia | NC | complete | L2: commune (33) |
-| New Zealand | NZ | expansion | L2: city,council,district (67) |
+| New Zealand | NZ | complete | L2: city,council,district (67) + L3: locality (1201) |
 | Nicaragua | NI | admin-ready | L2: municipality (153) |
 | Niger | NE | none | box-only system (UPU: deliveries to P.O. Boxes only); codes pass through, nothing to import |
 | Nigeria | NG | expansion | L2: area_council,lga (774) |
@@ -363,7 +377,7 @@ $result = app(ImportPostalCodesAction::class)->execute($source);
 | Rwanda | RW | none | L2: district (30) |
 | Saint Barthelemy | BL | complete | L1: overseas_collectivity (1) |
 | Saint Helena | SH | complete | L1: district,island (10) |
-| Saint Kitts and Nevis | KN | expansion | L2: parish (14) |
+| Saint Kitts and Nevis | KN | complete | L2: parish (14) + L3: village (92) |
 | Saint Lucia | LC | complete | L1: district (10) |
 | Saint Martin | MF | complete | L1: overseas_collectivity (1) |
 | Saint Pierre and Miquelon | PM | complete | L1: overseas_collectivity (1) |
@@ -430,21 +444,20 @@ Rico, Moldova, Philippines, Maldives, Albania, Denmark, Guatemala,
 Slovenia, Croatia, Mauritius, Norway, Luxembourg, Lithuania,
 Latvia, Azerbaijan, Romania, Montenegro, North Macedonia, Bosnia
 and Herzegovina, Eswatini, Brunei, Bhutan, Mongolia, Greece,
-Vietnam.
+Vietnam, Saint Kitts and Nevis, Cyprus, Djibouti.
 Still queued: the parked countries (see rules) and the
 remaining `admin-ready` verdicts above.
 
 `expansion` countries need doc-15 locality rows first. Street-level
 systems additionally need sub-locality data or licensed files:
 Guernsey/Jersey/Isle of Man (Royal Mail PAF, licensed), Malta
-(MaltaPost full list), Cayman Islands, Trinidad and Tobago,
+(MaltaPost full list),
 Brazil (CEP), Argentina (CPA), Mexico (colonias), Colombia
 (6-digit), Netherlands (4+2), Sweden (PostNord), Canada
 (full codes; FSA-level possible), United States (USPS licensed,
 GeoNames fallback), Japan (Japan Post open data), South Korea
-(Juso open API), Australia (PAF licensed), New Zealand, Taiwan
-(6-digit), Portugal (street suffix), Saint Kitts and Nevis
-(town codes, no parish mapping yet), Cyprus, Palestine, Russia
+(Juso open API), Australia (PAF licensed), Taiwan
+(6-digit), Portugal (street suffix), Palestine, Russia
 (pending a GAR extract — see the Russia section in
 [country data](05-country-data.md)). France can join Hexasmal
 once its 35k communes are bundled; Great Britain via CodePoint
