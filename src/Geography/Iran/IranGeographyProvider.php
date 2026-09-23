@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Iran;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class IranGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class IranGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_iran_v1';
 
@@ -62,9 +63,35 @@ class IranGeographyProvider implements CountryAddressAreaMetadataProvider, Count
                         areaTypes: ['province'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'county',
+                        label: 'County (Shahrestan)',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['county'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'county',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Persian administrative terms.
+        return [
+            'province' => 'Ostan',
+            'county' => 'Shahrestan',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +102,7 @@ class IranGeographyProvider implements CountryAddressAreaMetadataProvider, Count
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
+                'county' => ['county'],
                 default => [],
             };
 
@@ -206,7 +234,7 @@ class IranGeographyProvider implements CountryAddressAreaMetadataProvider, Count
             ['name' => 'Sistan and Baluchestan', 'code' => '11'],
             ['name' => 'South Khorasan', 'code' => '29'],
             ['name' => 'Tehran', 'code' => '23'],
-            ['name' => 'West Azarbaijan', 'code' => '04'],
+            ['name' => 'West Azerbaijan', 'code' => '04'],
             ['name' => 'Yazd', 'code' => '21'],
             ['name' => 'Zanjan', 'code' => '19'],
         ];

@@ -131,6 +131,7 @@ class MontserratGeographyProvider implements CountryAddressAreaMetadataProvider,
             '03' => '03',
             '02' => '02',
             '01' => '01',
+            '04' => '04',
         ];
 
         return array_map(
@@ -153,6 +154,7 @@ class MontserratGeographyProvider implements CountryAddressAreaMetadataProvider,
             ['name' => 'Saint Anthony', 'code' => '03'],
             ['name' => 'Saint Georges', 'code' => '02'],
             ['name' => 'Saint Peter', 'code' => '01'],
+            ['name' => 'Saint Patrick', 'code' => '04'],
         ];
     }
 }

@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Denmark;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class DenmarkGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class DenmarkGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_denmark_v1';
 
@@ -62,9 +63,35 @@ class DenmarkGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Danish administrative terms.
+        return [
+            'region' => 'Region',
+            'municipality' => 'Kommune',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +102,7 @@ class DenmarkGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
+                'municipality' => ['municipality'],
                 default => [],
             };
 
@@ -90,7 +118,11 @@ class DenmarkGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            'dk:region:capital-region' => [
+                ['name' => 'Hovedstaden', 'name_type' => 'official'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
@@ -153,7 +185,7 @@ class DenmarkGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     {
         return [
             ['name' => 'Central Denmark', 'code' => '82'],
-            ['name' => 'Denmark', 'code' => '84'],
+            ['name' => 'Capital Region', 'code' => '84'],
             ['name' => 'North Denmark', 'code' => '81'],
             ['name' => 'Southern Denmark', 'code' => '83'],
             ['name' => 'Zealand', 'code' => '85'],

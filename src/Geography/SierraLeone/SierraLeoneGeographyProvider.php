@@ -62,6 +62,16 @@ class SierraLeoneGeographyProvider implements CountryAddressAreaMetadataProvider
                         areaTypes: ['province', 'area'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -76,6 +86,7 @@ class SierraLeoneGeographyProvider implements CountryAddressAreaMetadataProvider
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
                 'area' => ['area'],
+                'district' => ['district'],
                 default => [],
             };
 

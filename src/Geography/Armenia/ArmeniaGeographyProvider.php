@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Armenia;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class ArmeniaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class ArmeniaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_armenia_v1';
 
@@ -62,9 +63,35 @@ class ArmeniaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['region', 'city'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality / District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality', 'district'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Marz and hamaynk are the standard terms even in English discourse; Yerevan city and its districts keep English headlines.
+        return [
+            'region' => 'Marz',
+            'municipality' => 'Hamaynk',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -76,6 +103,8 @@ class ArmeniaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
                 'city' => ['city'],
+                'municipality' => ['municipality'],
+                'district' => ['municipality'],
                 default => [],
             };
 

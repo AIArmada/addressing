@@ -4,7 +4,7 @@ title: Provider Authoring
 
 # Provider Authoring
 
-This guide covers adding a new country geography provider to `aiarmada/addressing`. Follow it top to bottom; you should not need to read provider source for conventions. Copy `BrazilGeographyProvider` for a state-only country or `IndonesiaGeographyProvider` for a deep tree, then adapt. Copy `LaosAddressFormatter` for the UPU formatter.
+This guide covers adding a new country geography provider to `aiarmada/addressing`. Follow it top to bottom; you should not need to read provider source for conventions. Copy `MonacoGeographyProvider` for a state-only country or `IndonesiaGeographyProvider` for a deep tree, then adapt. Copy `LaosAddressFormatter` for the UPU formatter.
 
 The full pipeline is: **CSV → provider class → consumer registration → docs**. Each stage is required: data without a provider never seeds, a provider without registration is invisible (see [Provider registration](03-configuration.md)), and a provider without docs is a silent gap — see [05-country-data](05-country-data.md) and `resources/geography/README.md`.
 
@@ -43,6 +43,10 @@ class BrazilGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
 ## Designing addressHierarchies()
 
 Return one `AddressHierarchyDefinition` per address structure the country needs. Every bundled provider uses the `administrative` hierarchy key with label `Administrative / Territorial Geography`; only Malaysia and Singapore add a second `postal` hierarchy, so a new provider should start with `administrative` alone.
+
+List the primary hierarchy first: hierarchy order is the canonical cascade order (`CountryAddressProfileResolver::assignmentRoles()`), and first-wins lookups such as `stateLevel()` resolve ties by it. Malaysia lists `administrative` before `postal` because the land cascade (state → district → mukim) is primary and postal localities are the secondary delivery overlay.
+
+When a state's proper term for an area type differs from the headline rendering, implement `CountryAreaTypeLabelProvider`: `areaTypeLabels()` for country-wide terms, `stateAreaTypeLabels()` for per-state overrides keyed by state code (Malaysia maps Kelantan `district` to `Jajahan`). `levelLabel()` resolves state override, then country base, then headline, so only genuine proper-term differences need declaring.
 
 ```php
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -176,15 +180,15 @@ br:state:alagoas,BR,state,Alagoas,,AL,,1,,
 
 Duplicate names are normal and must never be "fixed" by renaming: Bangladesh ships 8 division/district twins, Laos ships two Vientianes (`VI` province, `VT` prefecture), and Kazakhstan, Kyrgyzstan, Azerbaijan, Belarus, Estonia, and Latvia all carry city/region or municipality twins. Filter by `type` (or `code`), never by name alone, and call the twins out in the country's [05-country-data](05-country-data.md) section and `resources/geography/README.md` line.
 
-When two rows share both name *and* type, the slug alone cannot disambiguate them. Suffix every colliding slug with its lowercased code (`lt:district_municipality:alytus-02`, `lt:district_municipality:alytus-03`) and document the suffix in the same two places. Never invent a distinguishing type to dodge the collision.
+When two rows share both name *and* type, the slug alone cannot disambiguate them. Resolve the collision properly first: Lithuania's city/district twins now differ by real type (`city_municipality` vs `district_municipality`) and name (`Vilniaus miestas` vs `Vilnius`), leaving the district slugs (`vilnius-58`) suffixed only as stability ballast. Only suffix both slugs with the lowercased code when the collision is genuine and unresolvable, and document the suffix in the same two places. Never invent a distinguishing type to dodge the collision.
 
 ## Level keys for mixed flat tiers
 
-A single-level tier may legitimately carry two administrative tiers flat (Sri Lanka's provinces + districts, Burkina Faso's regions + provinces, Lithuania's counties + municipalities). Name the level `key` after the top tier (`province`, `region`, `county`), list every carried type in `areaTypes` top-tier-first, and join the labels with ` / `. Record the country as a depth-2 candidate in the [provider coverage registry](14-provider-coverage.md) so a future split has a starting point.
+A single-level tier may legitimately carry two administrative tiers flat (Azerbaijan's districts + municipalities + autonomous republic). Name the level `key` after the top tier (`province`, `region`, `county`), list every carried type in `areaTypes` top-tier-first, and join the labels with ` / `. Record the country as a depth-2 candidate in the [provider coverage registry](14-provider-coverage.md) so a future split has a starting point.
 
 ## State-only versus deep trees
 
-Ship state-only (one `state` level, one CSV level, identity mappings) unless consumer addressing genuinely needs sub-state granularity. Most bundled providers are state-only. Deep trees exist where addressing or hierarchy selection requires them: dual-hierarchy Malaysia and Singapore, depth-3 Indonesia, and depth-2 Algeria, Bangladesh, Brunei, India, Japan, Jordan, Morocco, Nigeria, Oman, Pakistan, Qatar, Spain, Türkiye, and Uzbekistan. When in doubt, start state-only — depth can be added later without breaking the state level, while shipping wrong depth forces consumers to carry it.
+Ship state-only (one `state` level, one CSV level, identity mappings) unless consumer addressing genuinely needs sub-state granularity. Deep trees exist where addressing or hierarchy selection requires them: dual-hierarchy Malaysia and Singapore, depth-4 Indonesia, and the depth-2 providers listed in the [provider coverage registry](14-provider-coverage.md). When in doubt, start state-only — depth can be added later without breaking the state level, while shipping wrong depth forces consumers to carry it.
 
 ## The numeric-key gotcha
 
@@ -204,6 +208,23 @@ Pick the closest layout pattern and note the UPU source in a one-line comment:
 - **None**: Hong Kong, North Korea, most of Africa. Print any supplied code on its own line; never drop user data.
 
 Pass-through rules: formatters print postcodes exactly as supplied — they never add, strip, or validate prefixes and spacing. City/state twins that compare equal print once (`sameText` guard). The country line uses the short display name from `resources/data/countries.json` (`Iran`, not `IRAN (ISLAMIC REP.)`), except where the database spelling is unusable on mail (Isle of Man prints `Isle of Man`, not `Man (Isle of)`). When the model cannot represent part of the UPU line (Serbia's street-level PAK, Gabon's trailing office code), document the gap in the formatter comment and the country's [05-country-data](05-country-data.md) section instead of fabricating it.
+
+## Bundling postcodes
+
+When the verdict in [postal overlays](18-postal-overlays.md) is
+`complete`, ship the file pair
+`{slug}-postal-codes.csv` (`country_code,code`) and
+`{slug}-postal-code-areas.csv`
+(`postcode,area_source_id,relationship_type,is_primary`) next to the
+areas CSV. Import with the generic source — no per-country seeder:
+
+```php
+$source = new CsvPostalCodeSource('SM', $codesPath, $linksPath, $areaSource);
+app(ImportPostalCodesAction::class)->execute($source);
+```
+
+`PostalCodeCsvImportTest` picks up every pair automatically and
+enforces zero failures plus exactly one primary link per postcode.
 
 ## Testing a provider
 
@@ -260,7 +281,7 @@ Every assignment role and area type in use across the bundled providers, extract
 
 Level 1 is always state-kind (one level per country, `areaLevel: 1`), except Singapore, which has no states: its level-1 `postal_district` and `region` are `kind: 'area'`.
 
-State-level (kind `state`, level 1): administrative_region, arctic_region, area, atoll, autonomous_city, autonomous_community, autonomous_district, autonomous_oblast, autonomous_region, autonomous_republic, autonomous_sector, autonomous_territorial_unit, canton, capital_city, capital_district, capital_territory, city, city_municipality, city_with_county_rights, commune, county, department, dependency, district, district_municipality, districts_under_republic_administration, division, economic_prefecture, emirate, entity, federal_city, federal_district, geographical_region, governorate, island, krai, local_council, metropolitan_administration, metropolitan_city, municipality, nation, oblast, okrug, parish, popularate, prefecture, province, quarter, region, regional_unit, republic, rural_municipality, sheadings, special_administrative_region, special_city, special_municipality, special_self_governing_city, special_self_governing_province, state, state_city, territorial_unit, territory, town, union_territory, urban_community, urban_municipality, voivodeship, wilaya, wilayah_persekutuan.
+State-level (kind `state`, level 1): administrative_region, arctic_region, area, atoll, autonomous_city, autonomous_community, autonomous_district, autonomous_oblast, autonomous_region, autonomous_republic, autonomous_sector, autonomous_territorial_unit, canton, capital_city, capital_district, capital_territory, city, city_municipality, city_with_county_rights, commune, county, department, dependency, district, district_municipality, districts_under_republic_administration, division, economic_prefecture, emirate, entity, federal_city, federal_district, geographical_region, governorate, island, krai, local_council, metropolitan_administration, metropolitan_city, municipality, nation, oblast, okrug, parish, popularate, prefecture, province, quarter, region, regional_unit, republic, rural_municipality, sheading, special_administrative_region, special_city, special_municipality, special_self_governing_city, special_self_governing_province, state, state_city, territorial_unit, territory, town, union_territory, urban_community, urban_municipality, voivodeship, wilaya, wilayah_persekutuan.
 
 Sub-state (kind `area`, level 2+, plus SG level 1): area_council, city, daira, district, division, lga, liwa, locality, minor_district, mukim, municipality, planning_area, postal_district, postal_sector, precinct, prefecture, province, regency, region, subdistrict, tuman, wilayat, zone.
 

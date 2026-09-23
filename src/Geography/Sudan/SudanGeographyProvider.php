@@ -62,6 +62,16 @@ class SudanGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                         areaTypes: ['state'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'state',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class SudanGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'state' => ['state'],
+                'district' => ['district'],
                 default => [],
             };
 

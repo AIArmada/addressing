@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Greece;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class GreeceGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class GreeceGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_greece_v1';
 
@@ -63,15 +64,41 @@ class GreeceGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                 levels: [
                     new AddressLevelDefinition(
                         key: 'administrative_region',
-                        label: 'Administrative Region / Regional Unit',
+                        label: 'Administrative Region',
                         kind: 'state',
                         hierarchyType: 'administrative',
-                        areaTypes: ['administrative_region', 'regional_unit'],
+                        areaTypes: ['administrative_region'],
                         areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality'],
+                        areaLevels: [2],
+                        parentKey: 'administrative_region',
+                        assignmentRole: 'municipality',
                     ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Greek administrative terms (ELOT transliteration).
+        return [
+            'administrative_region' => 'Periféreia',
+            'municipality' => 'Dímos',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -82,7 +109,7 @@ class GreeceGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'administrative_region' => ['administrative_region'],
-                'regional_unit' => ['regional_unit'],
+                'municipality' => ['municipality'],
                 default => [],
             };
 

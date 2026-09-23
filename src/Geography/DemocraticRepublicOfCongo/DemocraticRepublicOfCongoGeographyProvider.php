@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\DemocraticRepublicOfCongo;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class DemocraticRepublicOfCongoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class DemocraticRepublicOfCongoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_democratic_republic_of_congo_v1';
 
@@ -62,9 +63,35 @@ class DemocraticRepublicOfCongoGeographyProvider implements CountryAddressAreaMe
                         areaTypes: ['province'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'territory',
+                        label: 'Territory',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['territory'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'territory',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // French administrative terms.
+        return [
+            'province' => 'Province',
+            'territory' => 'Territoire',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +102,7 @@ class DemocraticRepublicOfCongoGeographyProvider implements CountryAddressAreaMe
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
+                'territory' => ['territory'],
                 default => [],
             };
 

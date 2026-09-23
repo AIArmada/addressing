@@ -62,6 +62,16 @@ class SlovakiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                         areaTypes: ['region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class SlovakiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
+                'district' => ['district'],
                 default => [],
             };
 

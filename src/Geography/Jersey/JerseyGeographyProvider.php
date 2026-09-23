@@ -62,6 +62,16 @@ class JerseyGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['parish'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'vingtaine',
+                        label: 'Vingtaine / Canton / Cueillette',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['vingtaine', 'canton', 'cueillette'],
+                        areaLevels: [2],
+                        parentKey: 'parish',
+                        assignmentRole: 'vingtaine',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,9 @@ class JerseyGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'parish' => ['parish'],
+                'vingtaine' => ['vingtaine'],
+                'canton' => ['vingtaine'],
+                'cueillette' => ['vingtaine'],
                 default => [],
             };
 

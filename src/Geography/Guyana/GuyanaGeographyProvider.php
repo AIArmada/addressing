@@ -62,6 +62,16 @@ class GuyanaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'town',
+                        label: 'Town / Neighbourhood Council',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['town', 'neighbourhood_democratic_council'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'town',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,8 @@ class GuyanaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
+                'town' => ['town'],
+                'neighbourhood_democratic_council' => ['town'],
                 default => [],
             };
 

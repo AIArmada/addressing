@@ -62,6 +62,16 @@ class GhanaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                         areaTypes: ['region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'Metropolitan / Municipal / District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['metropolitan_city', 'municipality', 'district'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,9 @@ class GhanaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
+                'metropolitan_city' => ['district'],
+                'municipality' => ['district'],
+                'district' => ['district'],
                 default => [],
             };
 

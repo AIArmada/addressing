@@ -62,6 +62,16 @@ class CaymanIslandsGeographyProvider implements CountryAddressAreaMetadataProvid
                         areaTypes: ['island'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'island',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class CaymanIslandsGeographyProvider implements CountryAddressAreaMetadataProvid
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'island' => ['island'],
+                'district' => ['district'],
                 default => [],
             };
 

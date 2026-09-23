@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Hungary;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class HungaryGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class HungaryGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_hungary_v1';
 
@@ -62,9 +63,37 @@ class HungaryGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['county', 'city_with_county_rights', 'capital_city'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'county',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Hungarian administrative terms.
+        return [
+            'county' => 'Vármegye',
+            'city_with_county_rights' => 'Megyei Jogú Város',
+            'capital_city' => 'Főváros',
+            'district' => 'Járás',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -77,6 +106,7 @@ class HungaryGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                 'county' => ['county'],
                 'city_with_county_rights' => ['city_with_county_rights'],
                 'capital_city' => ['capital_city'],
+                'district' => ['district'],
                 default => [],
             };
 
@@ -92,7 +122,11 @@ class HungaryGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            'hu:county:csongrad-csanad-county' => [
+                ['name' => 'Csongrád County', 'name_type' => 'historic'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
@@ -198,7 +232,7 @@ class HungaryGeographyProvider implements CountryAddressAreaMetadataProvider, Co
             ['name' => 'Békéscsaba', 'code' => 'BC'],
             ['name' => 'Borsod-Abaúj-Zemplén', 'code' => 'BZ'],
             ['name' => 'Budapest', 'code' => 'BU'],
-            ['name' => 'Csongrád County', 'code' => 'CS'],
+            ['name' => 'Csongrád-Csanád County', 'code' => 'CS'],
             ['name' => 'Debrecen', 'code' => 'DE'],
             ['name' => 'Dunaújváros', 'code' => 'DU'],
             ['name' => 'Eger', 'code' => 'EG'],

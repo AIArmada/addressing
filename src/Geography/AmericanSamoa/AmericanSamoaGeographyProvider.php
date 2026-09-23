@@ -62,6 +62,16 @@ class AmericanSamoaGeographyProvider implements CountryAddressAreaMetadataProvid
                         areaTypes: ['district', 'atoll'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'county',
+                        label: 'County',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['county'],
+                        areaLevels: [2],
+                        parentKey: 'district',
+                        assignmentRole: 'county',
+                    ),
                 ],
             ),
         ];
@@ -76,6 +86,7 @@ class AmericanSamoaGeographyProvider implements CountryAddressAreaMetadataProvid
             $areaRoles = match ($area->type) {
                 'district' => ['district'],
                 'atoll' => ['atoll'],
+                'county' => ['county'],
                 default => [],
             };
 

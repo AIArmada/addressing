@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Honduras;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class HondurasGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class HondurasGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_honduras_v1';
 
@@ -62,9 +63,35 @@ class HondurasGeographyProvider implements CountryAddressAreaMetadataProvider, C
                         areaTypes: ['department'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality'],
+                        areaLevels: [2],
+                        parentKey: 'department',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Spanish administrative terms.
+        return [
+            'department' => 'Departamento',
+            'municipality' => 'Municipio',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +102,7 @@ class HondurasGeographyProvider implements CountryAddressAreaMetadataProvider, C
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'department' => ['department'],
+                'municipality' => ['municipality'],
                 default => [],
             };
 
@@ -90,7 +118,11 @@ class HondurasGeographyProvider implements CountryAddressAreaMetadataProvider, C
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            'hn:department:islas-de-la-bahia' => [
+                ['name' => 'Bay Islands', 'name_type' => 'alternative'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
@@ -166,7 +198,7 @@ class HondurasGeographyProvider implements CountryAddressAreaMetadataProvider, C
     {
         return [
             ['name' => 'Atlántida', 'code' => 'AT'],
-            ['name' => 'Bay Islands', 'code' => 'IB'],
+            ['name' => 'Islas de la Bahía', 'code' => 'IB'],
             ['name' => 'Choluteca', 'code' => 'CH'],
             ['name' => 'Colón', 'code' => 'CL'],
             ['name' => 'Comayagua', 'code' => 'CM'],

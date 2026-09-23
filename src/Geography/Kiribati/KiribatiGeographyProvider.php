@@ -62,6 +62,16 @@ class KiribatiGeographyProvider implements CountryAddressAreaMetadataProvider, C
                         areaTypes: ['island'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'council',
+                        label: 'Council',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['council'],
+                        areaLevels: [2],
+                        parentKey: 'island',
+                        assignmentRole: 'council',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class KiribatiGeographyProvider implements CountryAddressAreaMetadataProvider, C
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'island' => ['island'],
+                'council' => ['council'],
                 default => [],
             };
 

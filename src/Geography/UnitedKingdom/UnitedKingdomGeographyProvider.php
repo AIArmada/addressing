@@ -62,6 +62,16 @@ class UnitedKingdomGeographyProvider implements CountryAddressAreaMetadataProvid
                         areaTypes: ['nation'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'county',
+                        label: 'County / Council area / County borough / District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['county', 'council_area', 'county_borough', 'district'],
+                        areaLevels: [2],
+                        parentKey: 'nation',
+                        assignmentRole: 'county',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,10 @@ class UnitedKingdomGeographyProvider implements CountryAddressAreaMetadataProvid
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'nation' => ['nation'],
+                'county' => ['county'],
+                'council_area' => ['county'],
+                'county_borough' => ['county'],
+                'district' => ['county'],
                 default => [],
             };
 

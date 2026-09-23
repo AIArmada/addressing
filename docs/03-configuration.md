@@ -86,6 +86,22 @@ Use `OwnerContext::withOwner($owner, ...)` for tenant work and
 `OwnerContext::withOwner(null, ...)` for deliberate global work. Reference
 geography tables remain global and are not owner-scoped.
 
+## Field grouping
+
+Co-level subdivision + locality roles share one grouped control by default,
+wherever both roles resolve and gate on the same parent level. Apps opting
+out get one control per role.
+
+```php
+'fields' => [
+    'group_subdivision_locality' => true,
+],
+```
+
+Consumers ask `shouldGroupSubdivisionLocality($countryId, $stateId)`; the
+package returns false when the config is off, when either role is missing,
+or when the two gates differ for the selected state.
+
 ## Models and Geography Providers
 
 ```php
@@ -177,6 +193,19 @@ uppercase during package boot. Invalid or blank values are treated as unset.
 The configured model classes must extend the corresponding core model. Core
 relations and normalization use `ModelResolver`, so host subclasses are
 applied consistently.
+
+## Seed
+
+```php
+'seed' => [
+    'full_city_countries' => ['MY'],
+],
+```
+
+Outside production, `address:seed` (and the bundled `AddressingSeeder`) only
+seeds cities for these ISO2 codes, keeping local databases small. Production
+always seeds the full city dataset. Empty (the default) seeds everything
+everywhere.
 
 ## Area Sources
 

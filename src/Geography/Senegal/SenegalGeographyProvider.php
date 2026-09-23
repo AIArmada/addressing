@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Senegal;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class SenegalGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class SenegalGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_senegal_v1';
 
@@ -62,9 +63,35 @@ class SenegalGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'department',
+                        label: 'Department',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['department'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'department',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // French administrative terms.
+        return [
+            'region' => 'Région',
+            'department' => 'Département',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +102,7 @@ class SenegalGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
+                'department' => ['department'],
                 default => [],
             };
 
@@ -162,7 +190,7 @@ class SenegalGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     {
         return [
             ['name' => 'Dakar', 'code' => 'DK'],
-            ['name' => 'Diourbel Region', 'code' => 'DB'],
+            ['name' => 'Diourbel', 'code' => 'DB'],
             ['name' => 'Fatick', 'code' => 'FK'],
             ['name' => 'Kaffrine', 'code' => 'KA'],
             ['name' => 'Kaolack', 'code' => 'KL'],
@@ -172,8 +200,8 @@ class SenegalGeographyProvider implements CountryAddressAreaMetadataProvider, Co
             ['name' => 'Matam', 'code' => 'MT'],
             ['name' => 'Saint-Louis', 'code' => 'SL'],
             ['name' => 'Sédhiou', 'code' => 'SE'],
-            ['name' => 'Tambacounda Region', 'code' => 'TC'],
-            ['name' => 'Thiès Region', 'code' => 'TH'],
+            ['name' => 'Tambacounda', 'code' => 'TC'],
+            ['name' => 'Thiès', 'code' => 'TH'],
             ['name' => 'Ziguinchor', 'code' => 'ZG'],
         ];
     }

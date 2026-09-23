@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Comoros;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class ComorosGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class ComorosGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_comoros_v1';
 
@@ -62,9 +63,35 @@ class ComorosGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['island'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'prefecture',
+                        label: 'Prefecture',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['prefecture'],
+                        areaLevels: [2],
+                        parentKey: 'island',
+                        assignmentRole: 'prefecture',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // French administrative terms.
+        return [
+            'island' => 'Île',
+            'prefecture' => 'Préfecture',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +102,7 @@ class ComorosGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'island' => ['island'],
+                'prefecture' => ['prefecture'],
                 default => [],
             };
 

@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Serbia;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class SerbiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class SerbiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_serbia_v1';
 
@@ -62,9 +63,38 @@ class SerbiaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['district', 'province', 'city'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality / City',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality', 'city', 'city_municipality'],
+                        areaLevels: [2],
+                        parentKey: 'district',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Serbian administrative terms in Latin script (`city` spans Belgrade at L1 and county cities at L2).
+        return [
+            'district' => 'Okrug',
+            'province' => 'Pokrajina',
+            'city' => 'Grad',
+            'municipality' => 'Opština',
+            'city_municipality' => 'Gradska opština',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -73,10 +103,14 @@ class SerbiaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         $roles = [];
 
         foreach ($this->addressAreaSource()->areas() as $area) {
-            $areaRoles = match ($area->type) {
-                'district' => ['district'],
-                'province' => ['province'],
-                'city' => ['city'],
+            // `city` spans two levels: Belgrade (L1) vs county cities (L2).
+            $areaRoles = match (true) {
+                $area->type === 'district' => ['district'],
+                $area->type === 'province' => ['province'],
+                $area->type === 'city' && $area->level === 1 => ['city'],
+                $area->type === 'city' => ['municipality'],
+                $area->type === 'municipality' => ['municipality'],
+                $area->type === 'city_municipality' => ['municipality'],
                 default => [],
             };
 

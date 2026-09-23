@@ -62,6 +62,16 @@ class TaiwanGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['special_municipality', 'county', 'city'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District / Township / City',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district', 'mountain_indigenous_district', 'county_administered_city', 'urban_township', 'rural_township', 'mountain_indigenous_township'],
+                        areaLevels: [2],
+                        parentKey: 'division',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -77,6 +87,12 @@ class TaiwanGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                 'special_municipality' => ['division'],
                 'county' => ['division'],
                 'city' => ['division'],
+                'district' => ['district'],
+                'mountain_indigenous_district' => ['district'],
+                'county_administered_city' => ['district'],
+                'urban_township' => ['district'],
+                'rural_township' => ['district'],
+                'mountain_indigenous_township' => ['district'],
                 default => [],
             };
 

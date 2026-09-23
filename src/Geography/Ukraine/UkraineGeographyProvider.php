@@ -62,6 +62,16 @@ class UkraineGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['oblast', 'city', 'republic'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'raion',
+                        label: 'Raion',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['raion'],
+                        areaLevels: [2],
+                        parentKey: 'oblast',
+                        assignmentRole: 'raion',
+                    ),
                 ],
             ),
         ];
@@ -77,6 +87,7 @@ class UkraineGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                 'oblast' => ['oblast'],
                 'city' => ['oblast'],
                 'republic' => ['oblast'],
+                'raion' => ['raion'],
                 default => [],
             };
 

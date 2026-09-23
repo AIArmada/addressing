@@ -69,6 +69,16 @@ class LuxembourgGeographyProvider implements CountryAddressAreaMetadataProvider,
                         areaTypes: ['canton'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'commune',
+                        label: 'Commune',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['commune'],
+                        areaLevels: [2],
+                        parentKey: 'canton',
+                        assignmentRole: 'commune',
+                    ),
                 ],
             ),
         ];
@@ -82,6 +92,7 @@ class LuxembourgGeographyProvider implements CountryAddressAreaMetadataProvider,
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'canton' => ['canton'],
+                'commune' => ['commune'],
                 default => [],
             };
 

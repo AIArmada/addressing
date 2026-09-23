@@ -1,0 +1,9 @@
+postcode,area_source_id,relationship_type,is_primary
+MSR1110,ms:parish:saint-peter,served_by,true
+MSR1120,ms:parish:saint-peter,served_by,true
+MSR1210,ms:parish:saint-peter,served_by,true
+MSR1230,ms:parish:saint-peter,served_by,true
+MSR1250,ms:parish:saint-peter,served_by,true
+MSR1310,ms:parish:saint-anthony,served_by,true
+MSR1330,ms:parish:saint-peter,served_by,true
+MSR1350,ms:parish:saint-peter,served_by,true

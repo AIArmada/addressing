@@ -67,7 +67,7 @@ class JapanGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                         label: 'Municipality',
                         kind: 'area',
                         hierarchyType: 'administrative',
-                        areaTypes: ['municipality'],
+                        areaTypes: ['city', 'town', 'village', 'ward'],
                         areaLevels: [2],
                         parentKey: 'prefecture',
                         assignmentRole: 'municipality',
@@ -85,7 +85,7 @@ class JapanGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'prefecture' => ['prefecture'],
-                'municipality' => ['municipality'],
+                'city', 'town', 'village', 'ward' => ['municipality'],
                 default => [],
             };
 

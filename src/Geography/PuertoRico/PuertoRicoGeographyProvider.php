@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\PuertoRico;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_puerto_rico_v1';
 
@@ -44,6 +45,14 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
                 ],
             );
         }
+
+        // Ten municipios were mistyped as regions with invented 2-letter
+        // codes. Delete stragglers seeded before the FIPS fix so reseeds
+        // converge on the 78 FIPS-coded municipios.
+        $stateClass::query()
+            ->where('country_id', $country->id)
+            ->whereIn('code', ['AR', 'BY', 'CG', 'CL', 'GN', 'MG', 'PO', 'SJ', 'TB', 'TA'])
+            ->delete();
     }
 
     /** @return list<AddressHierarchyDefinition> */
@@ -56,15 +65,42 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
                 levels: [
                     new AddressLevelDefinition(
                         key: 'municipality',
-                        label: 'Municipality / Region',
+                        label: 'Municipality',
                         kind: 'state',
                         hierarchyType: 'administrative',
-                        areaTypes: ['municipality', 'region'],
+                        areaTypes: ['municipality'],
                         areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'barrio',
+                        label: 'Barrio / Barrio-pueblo',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['barrio', 'barrio_pueblo'],
+                        areaLevels: [2],
+                        parentKey: 'municipality',
+                        assignmentRole: 'barrio',
                     ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Spanish administrative terms.
+        return [
+            'municipality' => 'Municipio',
+            'barrio_pueblo' => 'Barrio-Pueblo',
+            'barrio' => 'Barrio',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,7 +111,8 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'municipality' => ['municipality'],
-                'region' => ['region'],
+                'barrio' => ['barrio'],
+                'barrio_pueblo' => ['barrio'],
                 default => [],
             };
 
@@ -135,16 +172,16 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
             '007' => '007',
             '009' => '009',
             '011' => '011',
-            'AR' => 'AR',
+            '013' => '013',
             '015' => '015',
             '017' => '017',
             '019' => '019',
-            'BY' => 'BY',
+            '021' => '021',
             '023' => '023',
-            'CG' => 'CG',
+            '025' => '025',
             '027' => '027',
             '029' => '029',
-            'CL' => 'CL',
+            '031' => '031',
             '033' => '033',
             '035' => '035',
             '037' => '037',
@@ -160,7 +197,7 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
             '055' => '055',
             '057' => '057',
             '059' => '059',
-            'GN' => 'GN',
+            '061' => '061',
             '063' => '063',
             '065' => '065',
             '067' => '067',
@@ -178,7 +215,7 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
             '091' => '091',
             '093' => '093',
             '095' => '095',
-            'MG' => 'MG',
+            '097' => '097',
             '099' => '099',
             '101' => '101',
             '103' => '103',
@@ -186,20 +223,20 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
             '107' => '107',
             '109' => '109',
             '111' => '111',
-            'PO' => 'PO',
+            '113' => '113',
             '115' => '115',
             '117' => '117',
             '119' => '119',
             '121' => '121',
             '123' => '123',
             '125' => '125',
-            'SJ' => 'SJ',
+            '127' => '127',
             '129' => '129',
             '131' => '131',
             '133' => '133',
             '135' => '135',
-            'TB' => 'TB',
-            'TA' => 'TA',
+            '137' => '137',
+            '139' => '139',
             '141' => '141',
             '143' => '143',
             '145' => '145',
@@ -232,16 +269,16 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
             ['name' => 'Aguas Buenas', 'code' => '007'],
             ['name' => 'Aibonito', 'code' => '009'],
             ['name' => 'Añasco', 'code' => '011'],
-            ['name' => 'Arecibo', 'code' => 'AR'],
+            ['name' => 'Arecibo', 'code' => '013'],
             ['name' => 'Arroyo', 'code' => '015'],
             ['name' => 'Barceloneta', 'code' => '017'],
             ['name' => 'Barranquitas', 'code' => '019'],
-            ['name' => 'Bayamon', 'code' => 'BY'],
+            ['name' => 'Bayamón', 'code' => '021'],
             ['name' => 'Cabo Rojo', 'code' => '023'],
-            ['name' => 'Caguas', 'code' => 'CG'],
+            ['name' => 'Caguas', 'code' => '025'],
             ['name' => 'Camuy', 'code' => '027'],
             ['name' => 'Canóvanas', 'code' => '029'],
-            ['name' => 'Carolina', 'code' => 'CL'],
+            ['name' => 'Carolina', 'code' => '031'],
             ['name' => 'Cataño', 'code' => '033'],
             ['name' => 'Cayey', 'code' => '035'],
             ['name' => 'Ceiba', 'code' => '037'],
@@ -257,7 +294,7 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
             ['name' => 'Guánica', 'code' => '055'],
             ['name' => 'Guayama', 'code' => '057'],
             ['name' => 'Guayanilla', 'code' => '059'],
-            ['name' => 'Guaynabo', 'code' => 'GN'],
+            ['name' => 'Guaynabo', 'code' => '061'],
             ['name' => 'Gurabo', 'code' => '063'],
             ['name' => 'Hatillo', 'code' => '065'],
             ['name' => 'Hormigueros', 'code' => '067'],
@@ -275,7 +312,7 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
             ['name' => 'Manatí', 'code' => '091'],
             ['name' => 'Maricao', 'code' => '093'],
             ['name' => 'Maunabo', 'code' => '095'],
-            ['name' => 'Mayagüez', 'code' => 'MG'],
+            ['name' => 'Mayagüez', 'code' => '097'],
             ['name' => 'Moca', 'code' => '099'],
             ['name' => 'Morovis', 'code' => '101'],
             ['name' => 'Naguabo', 'code' => '103'],
@@ -283,20 +320,20 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
             ['name' => 'Orocovis', 'code' => '107'],
             ['name' => 'Patillas', 'code' => '109'],
             ['name' => 'Peñuelas', 'code' => '111'],
-            ['name' => 'Ponce', 'code' => 'PO'],
+            ['name' => 'Ponce', 'code' => '113'],
             ['name' => 'Quebradillas', 'code' => '115'],
             ['name' => 'Rincón', 'code' => '117'],
             ['name' => 'Río Grande', 'code' => '119'],
             ['name' => 'Sabana Grande', 'code' => '121'],
             ['name' => 'Salinas', 'code' => '123'],
             ['name' => 'San Germán', 'code' => '125'],
-            ['name' => 'San Juan', 'code' => 'SJ'],
+            ['name' => 'San Juan', 'code' => '127'],
             ['name' => 'San Lorenzo', 'code' => '129'],
             ['name' => 'San Sebastián', 'code' => '131'],
             ['name' => 'Santa Isabel', 'code' => '133'],
             ['name' => 'Toa Alta', 'code' => '135'],
-            ['name' => 'Toa Baja', 'code' => 'TB'],
-            ['name' => 'Trujillo Alto', 'code' => 'TA'],
+            ['name' => 'Toa Baja', 'code' => '137'],
+            ['name' => 'Trujillo Alto', 'code' => '139'],
             ['name' => 'Utuado', 'code' => '141'],
             ['name' => 'Vega Alta', 'code' => '143'],
             ['name' => 'Vega Baja', 'code' => '145'],

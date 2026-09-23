@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Latvia;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_latvia_v1';
 
@@ -44,6 +45,13 @@ class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                 ],
             );
         }
+
+        // Varakļāni Municipality merged into Madona on 1 July 2025.
+        // Delete stragglers seeded before that fix.
+        $stateClass::query()
+            ->where('country_id', $country->id)
+            ->where('code', '102')
+            ->delete();
     }
 
     /** @return list<AddressHierarchyDefinition> */
@@ -62,9 +70,38 @@ class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['municipality', 'state_city'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'parish',
+                        label: 'Parish / Town / City',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['parish', 'town', 'city'],
+                        areaLevels: [2],
+                        parentKey: 'municipality',
+                        assignmentRole: 'parish',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Latvian administrative terms.
+        return [
+            'municipality' => 'Novads',
+            'state_city' => 'Valstspilsēta',
+            'parish' => 'Pagasts',
+            'town' => 'Pilsēta',
+            'city' => 'Pilsēta',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -76,6 +113,9 @@ class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             $areaRoles = match ($area->type) {
                 'municipality' => ['municipality'],
                 'state_city' => ['state_city'],
+                'parish' => ['parish'],
+                'town' => ['parish'],
+                'city' => ['parish'],
                 default => [],
             };
 
@@ -169,7 +209,6 @@ class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             '099' => '099',
             '101' => '101',
             '113' => '113',
-            '102' => '102',
             'VEN' => 'VEN',
             '106' => '106',
         ];
@@ -231,7 +270,6 @@ class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             ['name' => 'Tukums', 'code' => '099'],
             ['name' => 'Valka', 'code' => '101'],
             ['name' => 'Valmiera', 'code' => '113'],
-            ['name' => 'Varakļāni', 'code' => '102'],
             ['name' => 'Ventspils', 'code' => 'VEN'],
             ['name' => 'Ventspils', 'code' => '106'],
         ];

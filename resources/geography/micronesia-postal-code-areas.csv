@@ -1,0 +1,5 @@
+postcode,area_source_id,relationship_type,is_primary
+96941,fm:state:pohnpei,served_by,true
+96942,fm:state:chuuk,served_by,true
+96943,fm:state:yap,served_by,true
+96944,fm:state:kosrae,served_by,true

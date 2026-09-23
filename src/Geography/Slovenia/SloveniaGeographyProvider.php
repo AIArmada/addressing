@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Slovenia;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_slovenia_v1';
 
@@ -67,15 +68,32 @@ class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, C
         ];
     }
 
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Slovenian administrative terms.
+        return [
+            'municipality' => 'Občina',
+            'urban_municipality' => 'Mestna občina',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
+    }
+
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
     public function areaRoles(AddressCountry $country): array
     {
         $roles = [];
 
         foreach ($this->addressAreaSource()->areas() as $area) {
+            // Urban municipalities are municipalities with city status and share the selector.
             $areaRoles = match ($area->type) {
                 'municipality' => ['municipality'],
-                'urban_municipality' => ['urban_municipality'],
+                'urban_municipality' => ['municipality'],
                 default => [],
             };
 
@@ -390,7 +408,7 @@ class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Dobje', 'code' => '154'],
             ['name' => 'Dobrepolje', 'code' => '020'],
             ['name' => 'Dobrna', 'code' => '155'],
-            ['name' => 'Dobrova–Polhov Gradec', 'code' => '021'],
+            ['name' => 'Dobrova-Polhov Gradec', 'code' => '021'],
             ['name' => 'Dobrovnik', 'code' => '156'],
             ['name' => 'Dol pri Ljubljani', 'code' => '022'],
             ['name' => 'Dolenjske Toplice', 'code' => '157'],
@@ -398,7 +416,7 @@ class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Dornava', 'code' => '024'],
             ['name' => 'Dravograd', 'code' => '025'],
             ['name' => 'Duplek', 'code' => '026'],
-            ['name' => 'Gorenja Vas–Poljane', 'code' => '027'],
+            ['name' => 'Gorenja vas-Poljane', 'code' => '027'],
             ['name' => 'Gorišnica', 'code' => '028'],
             ['name' => 'Gorje', 'code' => '207'],
             ['name' => 'Gornja Radgona', 'code' => '029'],
@@ -407,11 +425,11 @@ class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Grad', 'code' => '158'],
             ['name' => 'Grosuplje', 'code' => '032'],
             ['name' => 'Hajdina', 'code' => '159'],
-            ['name' => 'Hoče–Slivnica', 'code' => '160'],
+            ['name' => 'Hoče-Slivnica', 'code' => '160'],
             ['name' => 'Hodoš', 'code' => '161'],
             ['name' => 'Horjul', 'code' => '162'],
             ['name' => 'Hrastnik', 'code' => '034'],
-            ['name' => 'Hrpelje–Kozina', 'code' => '035'],
+            ['name' => 'Hrpelje-Kozina', 'code' => '035'],
             ['name' => 'Idrija', 'code' => '036'],
             ['name' => 'Ig', 'code' => '037'],
             ['name' => 'Ilirska Bistrica', 'code' => '038'],
@@ -445,9 +463,9 @@ class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Ljubljana', 'code' => '061'],
             ['name' => 'Ljubno', 'code' => '062'],
             ['name' => 'Ljutomer', 'code' => '063'],
-            ['name' => 'Log–Dragomer', 'code' => '208'],
+            ['name' => 'Log-Dragomer', 'code' => '208'],
             ['name' => 'Logatec', 'code' => '064'],
-            ['name' => 'Loška Dolina', 'code' => '065'],
+            ['name' => 'Loška dolina', 'code' => '065'],
             ['name' => 'Loški Potok', 'code' => '066'],
             ['name' => 'Lovrenc na Pohorju', 'code' => '167'],
             ['name' => 'Luče', 'code' => '067'],
@@ -460,12 +478,12 @@ class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Mengeš', 'code' => '072'],
             ['name' => 'Metlika', 'code' => '073'],
             ['name' => 'Mežica', 'code' => '074'],
-            ['name' => 'Miklavž na Dravskem Polju', 'code' => '169'],
-            ['name' => 'Miren–Kostanjevica', 'code' => '075'],
+            ['name' => 'Miklavž na Dravskem polju', 'code' => '169'],
+            ['name' => 'Miren-Kostanjevica', 'code' => '075'],
             ['name' => 'Mirna', 'code' => '212'],
             ['name' => 'Mirna Peč', 'code' => '170'],
             ['name' => 'Mislinja', 'code' => '076'],
-            ['name' => 'Mokronog–Trebelno', 'code' => '199'],
+            ['name' => 'Mokronog-Trebelno', 'code' => '199'],
             ['name' => 'Moravče', 'code' => '077'],
             ['name' => 'Moravske Toplice', 'code' => '078'],
             ['name' => 'Mozirje', 'code' => '079'],
@@ -493,7 +511,7 @@ class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Prevalje', 'code' => '175'],
             ['name' => 'Ptuj', 'code' => '096'],
             ['name' => 'Puconci', 'code' => '097'],
-            ['name' => 'Rače–Fram', 'code' => '098'],
+            ['name' => 'Rače-Fram', 'code' => '098'],
             ['name' => 'Radeče', 'code' => '099'],
             ['name' => 'Radenci', 'code' => '100'],
             ['name' => 'Radlje ob Dravi', 'code' => '101'],
@@ -501,7 +519,7 @@ class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Ravne na Koroškem', 'code' => '103'],
             ['name' => 'Razkrižje', 'code' => '176'],
             ['name' => 'Rečica ob Savinji', 'code' => '209'],
-            ['name' => 'Renče–Vogrsko', 'code' => '201'],
+            ['name' => 'Renče-Vogrsko', 'code' => '201'],
             ['name' => 'Ribnica', 'code' => '104'],
             ['name' => 'Ribnica na Pohorju', 'code' => '177'],
             ['name' => 'Rogaška Slatina', 'code' => '106'],
@@ -511,7 +529,7 @@ class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Šalovci', 'code' => '033'],
             ['name' => 'Selnica ob Dravi', 'code' => '178'],
             ['name' => 'Semič', 'code' => '109'],
-            ['name' => 'Šempeter–Vrtojba', 'code' => '183'],
+            ['name' => 'Šempeter-Vrtojba', 'code' => '183'],
             ['name' => 'Šenčur', 'code' => '117'],
             ['name' => 'Šentilj', 'code' => '118'],
             ['name' => 'Šentjernej', 'code' => '119'],
@@ -537,10 +555,10 @@ class SloveniaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Štore', 'code' => '127'],
             ['name' => 'Straža', 'code' => '203'],
             ['name' => 'Sveta Ana', 'code' => '181'],
-            ['name' => 'Sveta Trojica v Slovenskih Goricah', 'code' => '204'],
-            ['name' => 'Sveti Andraž v Slovenskih Goricah', 'code' => '182'],
+            ['name' => 'Sveta Trojica v Slovenskih goricah', 'code' => '204'],
+            ['name' => 'Sveti Andraž v Slovenskih goricah', 'code' => '182'],
             ['name' => 'Sveti Jurij ob Ščavnici', 'code' => '116'],
-            ['name' => 'Sveti Jurij v Slovenskih Goricah', 'code' => '210'],
+            ['name' => 'Sveti Jurij v Slovenskih goricah', 'code' => '210'],
             ['name' => 'Sveti Tomaž', 'code' => '205'],
             ['name' => 'Tabor', 'code' => '184'],
             ['name' => 'Tišina', 'code' => '010'],

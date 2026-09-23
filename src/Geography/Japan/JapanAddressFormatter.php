@@ -22,7 +22,9 @@ final class JapanAddressFormatter implements CountryAddressFormatter
             $address->line3,
         ]);
 
-        // UPU western layout: city and prefecture, then NNN-NNNN postcode below.
+        // UPU western layout: locality and prefecture share one line and
+        // the NNN-NNNN postcode shares the last line with the country
+        // (`231-0012 JAPAN` in all three detailed UPU examples).
         $city = self::textOrNull($address->city);
         $state = self::textOrNull($address->state);
         $postcode = self::textOrNull($address->postcode);
@@ -35,14 +37,20 @@ final class JapanAddressFormatter implements CountryAddressFormatter
             $lines[] = $state;
         }
 
-        if ($postcode !== null) {
-            $lines[] = $postcode;
+        if ($address->country !== null && $address->country !== '') {
+            $country = $address->country;
+        } elseif ($address->countryCode !== null && $address->countryCode !== '') {
+            $country = mb_strtoupper($address->countryCode) === 'JP' ? 'Japan' : $address->countryCode;
+        } else {
+            $country = null;
         }
 
-        if ($address->country !== null && $address->country !== '') {
-            $lines[] = $address->country;
-        } elseif ($address->countryCode !== null && $address->countryCode !== '') {
-            $lines[] = mb_strtoupper($address->countryCode) === 'JP' ? 'Japan' : $address->countryCode;
+        if ($postcode !== null && $country !== null) {
+            $lines[] = $postcode . ' ' . $country;
+        } elseif ($postcode !== null) {
+            $lines[] = $postcode;
+        } elseif ($country !== null) {
+            $lines[] = $country;
         }
 
         return implode("\n", $lines);

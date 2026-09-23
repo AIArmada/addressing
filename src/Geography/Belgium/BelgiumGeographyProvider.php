@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Belgium;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class BelgiumGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class BelgiumGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_belgium_v1';
 
@@ -74,6 +75,23 @@ class BelgiumGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                     ),
                 ],
             ),
+        ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // No country-wide override: the regions share no single language.
+        return [];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        // Flanders uses Dutch terms, Wallonia French terms; bilingual Brussels keeps the English headlines.
+        return [
+            ['state_code' => 'VLG', 'type_labels' => ['region' => 'Gewest', 'province' => 'Provincie']],
+            ['state_code' => 'WAL', 'type_labels' => ['region' => 'Région', 'province' => 'Province']],
         ];
     }
 

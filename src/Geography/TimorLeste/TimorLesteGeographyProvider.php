@@ -62,6 +62,16 @@ class TimorLesteGeographyProvider implements CountryAddressAreaMetadataProvider,
                         areaTypes: ['municipality', 'special_administrative_region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'administrative_post',
+                        label: 'Administrative Post',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['administrative_post'],
+                        areaLevels: [2],
+                        parentKey: 'municipality',
+                        assignmentRole: 'administrative_post',
+                    ),
                 ],
             ),
         ];
@@ -76,6 +86,7 @@ class TimorLesteGeographyProvider implements CountryAddressAreaMetadataProvider,
             $areaRoles = match ($area->type) {
                 'municipality' => ['municipality'],
                 'special_administrative_region' => ['municipality'],
+                'administrative_post' => ['administrative_post'],
                 default => [],
             };
 

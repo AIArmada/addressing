@@ -62,6 +62,16 @@ class SamoaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                         areaTypes: ['district'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'village',
+                        label: 'Village',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['village'],
+                        areaLevels: [2],
+                        parentKey: 'district',
+                        assignmentRole: 'village',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class SamoaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'district' => ['district'],
+                'village' => ['village'],
                 default => [],
             };
 
@@ -158,16 +169,16 @@ class SamoaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
     private function stateDefinitions(): array
     {
         return [
-            ['name' => 'A\'ana', 'code' => 'AA'],
+            ['name' => 'Aʻana', 'code' => 'AA'],
             ['name' => 'Aiga-i-le-Tai', 'code' => 'AL'],
             ['name' => 'Atua', 'code' => 'AT'],
-            ['name' => 'Fa\'asaleleaga', 'code' => 'FA'],
-            ['name' => 'Gaga\'emauga', 'code' => 'GE'],
-            ['name' => 'Gaga\'ifomauga', 'code' => 'GI'],
+            ['name' => 'Faʻasaleleaga', 'code' => 'FA'],
+            ['name' => 'Gagaʻemauga', 'code' => 'GE'],
+            ['name' => 'Gagaʻifomauga', 'code' => 'GI'],
             ['name' => 'Palauli', 'code' => 'PA'],
-            ['name' => 'Satupa\'itea', 'code' => 'SA'],
+            ['name' => 'Satupaʻitea', 'code' => 'SA'],
             ['name' => 'Tuamasaga', 'code' => 'TU'],
-            ['name' => 'Va\'a-o-Fonoti', 'code' => 'VF'],
+            ['name' => 'Vaʻa-o-Fonoti', 'code' => 'VF'],
             ['name' => 'Vaisigano', 'code' => 'VS'],
         ];
     }

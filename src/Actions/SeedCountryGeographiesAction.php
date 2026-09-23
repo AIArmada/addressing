@@ -138,22 +138,26 @@ final class SeedCountryGeographiesAction
                 ->get();
             $areaIds = $providerAreas->modelKeys();
 
-            AddressAreaRole::query()
-                ->whereIn('address_area_id', $areaIds)
-                ->where('source', $providerKey)
-                ->delete();
+            foreach (array_chunk($areaIds, 500) as $idChunk) {
+                AddressAreaRole::query()
+                    ->whereIn('address_area_id', $idChunk)
+                    ->where('source', $providerKey)
+                    ->delete();
+            }
 
             $areas = $providerAreas
                 ->where('is_active', true)
                 ->keyBy('source_id');
-            AddressAreaName::query()
-                ->whereIn('address_area_id', $areaIds)
-                ->where('source', $providerKey)
-                ->delete();
-            AddressAreaRelationship::query()
-                ->whereIn('child_address_area_id', $areaIds)
-                ->where('source', $providerKey)
-                ->delete();
+            foreach (array_chunk($areaIds, 500) as $idChunk) {
+                AddressAreaName::query()
+                    ->whereIn('address_area_id', $idChunk)
+                    ->where('source', $providerKey)
+                    ->delete();
+                AddressAreaRelationship::query()
+                    ->whereIn('child_address_area_id', $idChunk)
+                    ->where('source', $providerKey)
+                    ->delete();
+            }
 
             $rolesBySource = $provider->areaRoles($country);
             $rolesTotal = count($rolesBySource);

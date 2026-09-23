@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Panama;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class PanamaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class PanamaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_panama_v1';
 
@@ -62,9 +63,36 @@ class PanamaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['province', 'indigenous_region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Spanish administrative terms.
+        return [
+            'province' => 'Provincia',
+            'indigenous_region' => 'Comarca Indígena',
+            'district' => 'Distrito',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -76,6 +104,7 @@ class PanamaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
                 'indigenous_region' => ['indigenous_region'],
+                'district' => ['district'],
                 default => [],
             };
 
@@ -168,11 +197,11 @@ class PanamaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             ['name' => 'Colón', 'code' => '3'],
             ['name' => 'Darién', 'code' => '5'],
             ['name' => 'Emberá-Wounaan Comarca', 'code' => 'EM'],
-            ['name' => 'Guna', 'code' => 'KY'],
+            ['name' => 'Guna Yala', 'code' => 'KY'],
             ['name' => 'Herrera', 'code' => '6'],
             ['name' => 'Los Santos', 'code' => '7'],
             ['name' => 'Naso Tjër Di', 'code' => 'NT'],
-            ['name' => 'Ngöbe-Buglé Comarca', 'code' => 'NB'],
+            ['name' => 'Ngäbe-Buglé Comarca', 'code' => 'NB'],
             ['name' => 'Panamá', 'code' => '8'],
             ['name' => 'Panamá Oeste', 'code' => '10'],
             ['name' => 'Veraguas', 'code' => '9'],

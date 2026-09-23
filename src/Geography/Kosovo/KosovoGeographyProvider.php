@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Kosovo;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class KosovoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class KosovoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_kosovo_v1';
 
@@ -62,9 +63,35 @@ class KosovoGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['district'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality'],
+                        areaLevels: [2],
+                        parentKey: 'district',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Albanian administrative terms (data uses Albanian forms).
+        return [
+            'district' => 'Rajoni',
+            'municipality' => 'Komuna',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +102,7 @@ class KosovoGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'district' => ['district'],
+                'municipality' => ['municipality'],
                 default => [],
             };
 
@@ -155,7 +183,7 @@ class KosovoGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
     {
         return [
             ['name' => 'Ferizaj', 'code' => 'XUF'],
-            ['name' => 'Gjakove', 'code' => 'XDG'],
+            ['name' => 'Gjakova', 'code' => 'XDG'],
             ['name' => 'Gjilan', 'code' => 'XGJ'],
             ['name' => 'Mitrovica', 'code' => 'XKM'],
             ['name' => 'Peja', 'code' => 'PEJ'],

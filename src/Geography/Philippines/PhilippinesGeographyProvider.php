@@ -56,11 +56,31 @@ class PhilippinesGeographyProvider implements CountryAddressAreaMetadataProvider
                 levels: [
                     new AddressLevelDefinition(
                         key: 'province',
-                        label: 'Province',
+                        label: 'Province / National Capital Region',
                         kind: 'state',
                         hierarchyType: 'administrative',
-                        areaTypes: ['province'],
+                        areaTypes: ['province', 'region'],
                         areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'City / Municipality / Sub-municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['city', 'municipality', 'sub_municipality'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'municipality',
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'barangay',
+                        label: 'Barangay',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['barangay'],
+                        areaLevels: [3],
+                        parentKey: 'municipality',
+                        assignmentRole: 'barangay',
                     ),
                 ],
             ),
@@ -75,6 +95,11 @@ class PhilippinesGeographyProvider implements CountryAddressAreaMetadataProvider
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
+                'region' => ['province'],
+                'city' => ['municipality'],
+                'municipality' => ['municipality'],
+                'sub_municipality' => ['municipality'],
+                'barangay' => ['barangay'],
                 default => [],
             };
 
@@ -214,6 +239,7 @@ class PhilippinesGeographyProvider implements CountryAddressAreaMetadataProvider
             'ZAS' => 'ZAS',
             'ZMB' => 'ZMB',
             'ZSI' => 'ZSI',
+            '00' => '00',
         ];
 
         return array_map(

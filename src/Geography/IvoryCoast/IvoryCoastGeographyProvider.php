@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\IvoryCoast;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class IvoryCoastGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class IvoryCoastGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_ivory_coast_v1';
 
@@ -62,9 +63,36 @@ class IvoryCoastGeographyProvider implements CountryAddressAreaMetadataProvider,
                         areaTypes: ['district', 'autonomous_district'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'region',
+                        label: 'Region',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['region'],
+                        areaLevels: [2],
+                        parentKey: 'district',
+                        assignmentRole: 'region',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // French administrative terms.
+        return [
+            'autonomous_district' => 'District Autonome',
+            'district' => 'District',
+            'region' => 'Région',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -76,6 +104,7 @@ class IvoryCoastGeographyProvider implements CountryAddressAreaMetadataProvider,
             $areaRoles = match ($area->type) {
                 'district' => ['district'],
                 'autonomous_district' => ['autonomous_district'],
+                'region' => ['region'],
                 default => [],
             };
 

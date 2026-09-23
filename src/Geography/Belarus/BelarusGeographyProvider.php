@@ -62,6 +62,16 @@ class BelarusGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['oblast', 'city'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'oblast',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -76,6 +86,7 @@ class BelarusGeographyProvider implements CountryAddressAreaMetadataProvider, Co
             $areaRoles = match ($area->type) {
                 'oblast' => ['oblast'],
                 'city' => ['city'],
+                'district' => ['district'],
                 default => [],
             };
 

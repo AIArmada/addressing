@@ -1,0 +1,11 @@
+postcode,area_source_id,relationship_type,is_primary
+STHL 1ZZ,sh:district:jamestown,served_by,true
+STHL 1ZZ,sh:district:alarm-forest,served_by,false
+STHL 1ZZ,sh:district:blue-hill,served_by,false
+STHL 1ZZ,sh:district:half-tree-hollow,served_by,false
+STHL 1ZZ,sh:district:levelwood,served_by,false
+STHL 1ZZ,sh:district:longwood,served_by,false
+STHL 1ZZ,sh:district:saint-pauls,served_by,false
+STHL 1ZZ,sh:district:sandy-bay,served_by,false
+ASCN 1ZZ,sh:island:ascension,served_by,true
+TDCU 1ZZ,sh:island:tristan-da-cunha,served_by,true

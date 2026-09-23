@@ -2,7 +2,7 @@ source_id,country_code,type,name,native_name,code,parent_source_id,level,latitud
 tv:town_council:funafuti,TV,town_council,Funafuti,,FUN,,1,,
 tv:island_council:nanumanga,TV,island_council,Nanumanga,,NMG,,1,,
 tv:island_council:nanumea,TV,island_council,Nanumea,,NMA,,1,,
-tv:island_council:niutao-island-council,TV,island_council,Niutao Island Council,,NIT,,1,,
+tv:island_council:niutao,TV,island_council,Niutao,,NIT,,1,,
 tv:island_council:nui,TV,island_council,Nui,,NUI,,1,,
 tv:island_council:nukufetau,TV,island_council,Nukufetau,,NKF,,1,,
 tv:island_council:nukulaelae,TV,island_council,Nukulaelae,,NKL,,1,,

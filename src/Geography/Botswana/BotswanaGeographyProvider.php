@@ -62,6 +62,16 @@ class BotswanaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                         areaTypes: ['district', 'city', 'town'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'subdistrict',
+                        label: 'Subdistrict',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['subdistrict'],
+                        areaLevels: [2],
+                        parentKey: 'district',
+                        assignmentRole: 'subdistrict',
+                    ),
                 ],
             ),
         ];
@@ -77,6 +87,7 @@ class BotswanaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                 'district' => ['district'],
                 'city' => ['city'],
                 'town' => ['town'],
+                'subdistrict' => ['subdistrict'],
                 default => [],
             };
 
@@ -142,6 +153,7 @@ class BotswanaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             'LO' => 'LO',
             'NE' => 'NE',
             'NW' => 'NW',
+            'OR' => 'OR',
             'SP' => 'SP',
             'SE' => 'SE',
             'SO' => 'SO',
@@ -177,6 +189,7 @@ class BotswanaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Lobatse', 'code' => 'LO'],
             ['name' => 'North-East', 'code' => 'NE'],
             ['name' => 'North-West', 'code' => 'NW'],
+            ['name' => 'Orapa', 'code' => 'OR'],
             ['name' => 'Selibe Phikwe', 'code' => 'SP'],
             ['name' => 'South-East', 'code' => 'SE'],
             ['name' => 'Southern', 'code' => 'SO'],

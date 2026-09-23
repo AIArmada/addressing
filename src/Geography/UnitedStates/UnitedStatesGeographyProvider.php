@@ -62,6 +62,16 @@ class UnitedStatesGeographyProvider implements CountryAddressAreaMetadataProvide
                         areaTypes: ['state', 'district', 'territory'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'county',
+                        label: 'County / County Equivalent',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['county', 'parish', 'borough', 'census_area', 'city', 'municipality', 'planning_region'],
+                        areaLevels: [2],
+                        parentKey: 'state',
+                        assignmentRole: 'county',
+                    ),
                 ],
             ),
         ];
@@ -77,6 +87,13 @@ class UnitedStatesGeographyProvider implements CountryAddressAreaMetadataProvide
                 'state' => ['state'],
                 'district' => ['state'],
                 'territory' => ['state'],
+                'county' => ['county'],
+                'parish' => ['county'],
+                'borough' => ['county'],
+                'census_area' => ['county'],
+                'city' => ['county'],
+                'municipality' => ['county'],
+                'planning_region' => ['county'],
                 default => [],
             };
 
@@ -92,7 +109,178 @@ class UnitedStatesGeographyProvider implements CountryAddressAreaMetadataProvide
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        // USPS Publication 28 abbreviations, mirroring the formatter map
+        // (military AA/AE/AP intentionally excluded: not areas).
+        return [
+            'us:district:district-of-columbia' => [
+                ['name' => 'DC', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:alabama' => [
+                ['name' => 'AL', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:alaska' => [
+                ['name' => 'AK', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:arizona' => [
+                ['name' => 'AZ', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:arkansas' => [
+                ['name' => 'AR', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:california' => [
+                ['name' => 'CA', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:colorado' => [
+                ['name' => 'CO', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:connecticut' => [
+                ['name' => 'CT', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:delaware' => [
+                ['name' => 'DE', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:florida' => [
+                ['name' => 'FL', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:georgia' => [
+                ['name' => 'GA', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:hawaii' => [
+                ['name' => 'HI', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:idaho' => [
+                ['name' => 'ID', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:illinois' => [
+                ['name' => 'IL', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:indiana' => [
+                ['name' => 'IN', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:iowa' => [
+                ['name' => 'IA', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:kansas' => [
+                ['name' => 'KS', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:kentucky' => [
+                ['name' => 'KY', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:louisiana' => [
+                ['name' => 'LA', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:maine' => [
+                ['name' => 'ME', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:maryland' => [
+                ['name' => 'MD', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:massachusetts' => [
+                ['name' => 'MA', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:michigan' => [
+                ['name' => 'MI', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:minnesota' => [
+                ['name' => 'MN', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:mississippi' => [
+                ['name' => 'MS', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:missouri' => [
+                ['name' => 'MO', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:montana' => [
+                ['name' => 'MT', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:nebraska' => [
+                ['name' => 'NE', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:nevada' => [
+                ['name' => 'NV', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:new-hampshire' => [
+                ['name' => 'NH', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:new-jersey' => [
+                ['name' => 'NJ', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:new-mexico' => [
+                ['name' => 'NM', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:new-york' => [
+                ['name' => 'NY', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:north-carolina' => [
+                ['name' => 'NC', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:north-dakota' => [
+                ['name' => 'ND', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:ohio' => [
+                ['name' => 'OH', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:oklahoma' => [
+                ['name' => 'OK', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:oregon' => [
+                ['name' => 'OR', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:pennsylvania' => [
+                ['name' => 'PA', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:rhode-island' => [
+                ['name' => 'RI', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:south-carolina' => [
+                ['name' => 'SC', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:south-dakota' => [
+                ['name' => 'SD', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:tennessee' => [
+                ['name' => 'TN', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:texas' => [
+                ['name' => 'TX', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:utah' => [
+                ['name' => 'UT', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:vermont' => [
+                ['name' => 'VT', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:virginia' => [
+                ['name' => 'VA', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:washington' => [
+                ['name' => 'WA', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:west-virginia' => [
+                ['name' => 'WV', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:wisconsin' => [
+                ['name' => 'WI', 'name_type' => 'abbreviation'],
+            ],
+            'us:state:wyoming' => [
+                ['name' => 'WY', 'name_type' => 'abbreviation'],
+            ],
+            'us:territory:american-samoa' => [
+                ['name' => 'AS', 'name_type' => 'abbreviation'],
+            ],
+            'us:territory:guam' => [
+                ['name' => 'GU', 'name_type' => 'abbreviation'],
+            ],
+            'us:territory:northern-mariana-islands' => [
+                ['name' => 'MP', 'name_type' => 'abbreviation'],
+            ],
+            'us:territory:puerto-rico' => [
+                ['name' => 'PR', 'name_type' => 'abbreviation'],
+            ],
+            'us:territory:united-states-virgin-islands' => [
+                ['name' => 'VI', 'name_type' => 'abbreviation'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */

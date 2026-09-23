@@ -62,6 +62,16 @@ class LibyaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                         areaTypes: ['popularate'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'baladiya',
+                        label: 'Baladiya',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['baladiya'],
+                        areaLevels: [2],
+                        parentKey: 'popularate',
+                        assignmentRole: 'baladiya',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class LibyaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'popularate' => ['popularate'],
+                'baladiya' => ['baladiya'],
                 default => [],
             };
 

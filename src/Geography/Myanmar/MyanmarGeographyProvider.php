@@ -62,6 +62,16 @@ class MyanmarGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['region', 'state', 'union_territory'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -77,6 +87,7 @@ class MyanmarGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                 'region' => ['region'],
                 'state' => ['region'],
                 'union_territory' => ['region'],
+                'district' => ['district'],
                 default => [],
             };
 

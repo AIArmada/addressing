@@ -62,6 +62,16 @@ class SouthSudanGeographyProvider implements CountryAddressAreaMetadataProvider,
                         areaTypes: ['state'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'county',
+                        label: 'County',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['county'],
+                        areaLevels: [2],
+                        parentKey: 'state',
+                        assignmentRole: 'county',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class SouthSudanGeographyProvider implements CountryAddressAreaMetadataProvider,
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'state' => ['state'],
+                'county' => ['county'],
                 default => [],
             };
 
@@ -159,7 +170,7 @@ class SouthSudanGeographyProvider implements CountryAddressAreaMetadataProvider,
         return [
             ['name' => 'Central Equatoria', 'code' => 'EC'],
             ['name' => 'Eastern Equatoria', 'code' => 'EE'],
-            ['name' => 'Jonglei State', 'code' => 'JG'],
+            ['name' => 'Jonglei', 'code' => 'JG'],
             ['name' => 'Lakes', 'code' => 'LK'],
             ['name' => 'Northern Bahr el Ghazal', 'code' => 'BN'],
             ['name' => 'Unity', 'code' => 'UY'],

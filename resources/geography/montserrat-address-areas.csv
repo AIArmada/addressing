@@ -2,3 +2,4 @@ source_id,country_code,type,name,native_name,code,parent_source_id,level,latitud
 ms:parish:saint-anthony,MS,parish,Saint Anthony,,03,,1,,
 ms:parish:saint-georges,MS,parish,Saint Georges,,02,,1,,
 ms:parish:saint-peter,MS,parish,Saint Peter,,01,,1,,
+ms:parish:saint-patrick,MS,parish,Saint Patrick,,04,,1,,

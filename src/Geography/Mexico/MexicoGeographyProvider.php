@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Mexico;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class MexicoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class MexicoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_mexico_v1';
 
@@ -62,9 +63,38 @@ class MexicoGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['state'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality', 'borough'],
+                        areaLevels: [2],
+                        parentKey: 'state',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Area names use Spanish official forms, so the type labels use the
+        // Spanish administrative terms (the capital's 16 boroughs are
+        // alcaldías since the 2016 city constitution).
+        return [
+            'state' => 'Estado',
+            'municipality' => 'Municipio',
+            'borough' => 'Alcaldía',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +105,10 @@ class MexicoGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'state' => ['state'],
+                'municipality' => ['municipality'],
+                // Alcaldias function as municipalities; the borough type
+                // stays distinct for precision (PY/CO precedent).
+                'borough' => ['municipality'],
                 default => [],
             };
 
@@ -90,7 +124,105 @@ class MexicoGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        // UPU-list state abbreviations, mirroring the formatter map.
+        return [
+            'mx:state:aguascalientes' => [
+                ['name' => 'AGS', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:baja-california' => [
+                ['name' => 'BC', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:baja-california-sur' => [
+                ['name' => 'BCS', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:campeche' => [
+                ['name' => 'CAMP', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:chiapas' => [
+                ['name' => 'CHIS', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:chihuahua' => [
+                ['name' => 'CHIH', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:ciudad-de-mexico' => [
+                ['name' => 'CDMX', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:coahuila-de-zaragoza' => [
+                ['name' => 'COAH', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:colima' => [
+                ['name' => 'COL', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:durango' => [
+                ['name' => 'DGO', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:estado-de-mexico' => [
+                ['name' => 'EDOMEX', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:guanajuato' => [
+                ['name' => 'GTO', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:guerrero' => [
+                ['name' => 'GRO', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:hidalgo' => [
+                ['name' => 'HGO', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:jalisco' => [
+                ['name' => 'JAL', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:michoacan-de-ocampo' => [
+                ['name' => 'MICH', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:morelos' => [
+                ['name' => 'MOR', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:nayarit' => [
+                ['name' => 'NAY', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:nuevo-leon' => [
+                ['name' => 'NL', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:oaxaca' => [
+                ['name' => 'OAX', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:puebla' => [
+                ['name' => 'PUE', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:queretaro' => [
+                ['name' => 'QRO', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:quintana-roo' => [
+                ['name' => 'Q. ROO', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:san-luis-potosi' => [
+                ['name' => 'SLP', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:sinaloa' => [
+                ['name' => 'SIN', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:sonora' => [
+                ['name' => 'SON', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:tabasco' => [
+                ['name' => 'TAB', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:tamaulipas' => [
+                ['name' => 'TAMPS', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:tlaxcala' => [
+                ['name' => 'TLAX', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:veracruz-de-ignacio-de-la-llave' => [
+                ['name' => 'VER', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:yucatan' => [
+                ['name' => 'YUC', 'name_type' => 'abbreviation'],
+            ],
+            'mx:state:zacatecas' => [
+                ['name' => 'ZAC', 'name_type' => 'abbreviation'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */

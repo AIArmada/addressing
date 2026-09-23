@@ -2,3 +2,6 @@ source_id,country_code,type,name,native_name,code,parent_source_id,level,latitud
 wf:administrative_precinct:alo,WF,administrative_precinct,Alo,,AL,,1,,
 wf:administrative_precinct:sigave,WF,administrative_precinct,Sigave,,SG,,1,,
 wf:administrative_precinct:uvea,WF,administrative_precinct,Uvea,,UV,,1,,
+wf:district:hihifo,WF,district,Hihifo,,,wf:administrative_precinct:uvea,2,,
+wf:district:hahake,WF,district,Hahake,,,wf:administrative_precinct:uvea,2,,
+wf:district:mu-a,WF,district,Mu'a,,,wf:administrative_precinct:uvea,2,,

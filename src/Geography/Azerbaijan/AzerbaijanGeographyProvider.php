@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Azerbaijan;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class AzerbaijanGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class AzerbaijanGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_azerbaijan_v1';
 
@@ -62,9 +63,37 @@ class AzerbaijanGeographyProvider implements CountryAddressAreaMetadataProvider,
                         areaTypes: ['district', 'municipality', 'autonomous_republic'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'local_municipality',
+                        label: 'Local Municipality (Bələdiyyə)',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['local_municipality'],
+                        areaLevels: [2],
+                        parentKey: 'district',
+                        assignmentRole: 'local_municipality',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Azerbaijani administrative terms (the 11 L1 cities are şəhər, district-level).
+        return [
+            'district' => 'Rayon',
+            'municipality' => 'Şəhər',
+            'autonomous_republic' => 'Muxtar Respublika',
+            'local_municipality' => 'Bələdiyyə',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -73,10 +102,12 @@ class AzerbaijanGeographyProvider implements CountryAddressAreaMetadataProvider,
         $roles = [];
 
         foreach ($this->addressAreaSource()->areas() as $area) {
+            // First-level cities share the district selector; Nakhchivan stays distinct.
             $areaRoles = match ($area->type) {
                 'district' => ['district'],
-                'municipality' => ['municipality'],
+                'municipality' => ['district'],
                 'autonomous_republic' => ['autonomous_republic'],
+                'local_municipality' => ['local_municipality'],
                 default => [],
             };
 
@@ -92,7 +123,11 @@ class AzerbaijanGeographyProvider implements CountryAddressAreaMetadataProvider,
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            'az:district:khojavend' => [
+                ['name' => 'Martuni', 'name_type' => 'alternative'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
@@ -165,8 +200,8 @@ class AzerbaijanGeographyProvider implements CountryAddressAreaMetadataProvider,
             'XCI' => 'XCI',
             'KUR' => 'KUR',
             'LAC' => 'LAC',
-            'LAN' => 'LAN',
             'LA' => 'LA',
+            'LAN' => 'LAN',
             'LER' => 'LER',
             'XVD' => 'XVD',
             'MAS' => 'MAS',
@@ -241,16 +276,16 @@ class AzerbaijanGeographyProvider implements CountryAddressAreaMetadataProvider,
             ['name' => 'Beylagan', 'code' => 'BEY'],
             ['name' => 'Bilasuvar', 'code' => 'BIL'],
             ['name' => 'Dashkasan', 'code' => 'DAS'],
-            ['name' => 'Fizuli', 'code' => 'FUZ'],
+            ['name' => 'Fuzuli', 'code' => 'FUZ'],
             ['name' => 'Ganja', 'code' => 'GA'],
-            ['name' => 'Gədəbəy', 'code' => 'GAD'],
+            ['name' => 'Gadabay', 'code' => 'GAD'],
             ['name' => 'Gobustan', 'code' => 'QOB'],
             ['name' => 'Goranboy', 'code' => 'GOR'],
             ['name' => 'Goychay', 'code' => 'GOY'],
             ['name' => 'Goygol', 'code' => 'GYG'],
             ['name' => 'Hajigabul', 'code' => 'HAC'],
             ['name' => 'Imishli', 'code' => 'IMI'],
-            ['name' => 'Ismailli', 'code' => 'ISM'],
+            ['name' => 'Ismayilli', 'code' => 'ISM'],
             ['name' => 'Jabrayil', 'code' => 'CAB'],
             ['name' => 'Jalilabad', 'code' => 'CAL'],
             ['name' => 'Julfa', 'code' => 'CUL'],
@@ -259,13 +294,13 @@ class AzerbaijanGeographyProvider implements CountryAddressAreaMetadataProvider,
             ['name' => 'Khachmaz', 'code' => 'XAC'],
             ['name' => 'Khankendi', 'code' => 'XA'],
             ['name' => 'Khizi', 'code' => 'XIZ'],
-            ['name' => 'Khojali', 'code' => 'XCI'],
+            ['name' => 'Khojaly', 'code' => 'XCI'],
             ['name' => 'Kurdamir', 'code' => 'KUR'],
             ['name' => 'Lachin', 'code' => 'LAC'],
-            ['name' => 'Lankaran', 'code' => 'LAN'],
             ['name' => 'Lankaran', 'code' => 'LA'],
+            ['name' => 'Lankaran', 'code' => 'LAN'],
             ['name' => 'Lerik', 'code' => 'LER'],
-            ['name' => 'Martuni', 'code' => 'XVD'],
+            ['name' => 'Khojavend', 'code' => 'XVD'],
             ['name' => 'Masally', 'code' => 'MAS'],
             ['name' => 'Mingachevir', 'code' => 'MI'],
             ['name' => 'Naftalan', 'code' => 'NA'],

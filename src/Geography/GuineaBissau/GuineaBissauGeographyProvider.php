@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\GuineaBissau;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class GuineaBissauGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class GuineaBissauGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_guinea_bissau_v1';
 
@@ -44,6 +45,13 @@ class GuineaBissauGeographyProvider implements CountryAddressAreaMetadataProvide
                 ],
             );
         }
+
+        // Leste/Norte/Sul are statistical groupings, not administrative
+        // states. Delete stragglers seeded before that fix.
+        $stateClass::query()
+            ->where('country_id', $country->id)
+            ->whereIn('code', ['L', 'N', 'S'])
+            ->delete();
     }
 
     /** @return list<AddressHierarchyDefinition> */
@@ -55,16 +63,43 @@ class GuineaBissauGeographyProvider implements CountryAddressAreaMetadataProvide
                 label: 'Administrative / Territorial Geography',
                 levels: [
                     new AddressLevelDefinition(
-                        key: 'province',
-                        label: 'Province / Region / Autonomous Sector',
+                        key: 'region',
+                        label: 'Region / Autonomous Sector',
                         kind: 'state',
                         hierarchyType: 'administrative',
-                        areaTypes: ['province', 'region', 'autonomous_sector'],
+                        areaTypes: ['region', 'autonomous_sector'],
                         areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'sector',
+                        label: 'Sector',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['sector'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'sector',
                     ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Portuguese administrative terms.
+        return [
+            'region' => 'Região',
+            'autonomous_sector' => 'Sector Autónomo',
+            'sector' => 'Sector',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -74,9 +109,9 @@ class GuineaBissauGeographyProvider implements CountryAddressAreaMetadataProvide
 
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
-                'province' => ['province'],
                 'region' => ['region'],
                 'autonomous_sector' => ['autonomous_sector'],
+                'sector' => ['sector'],
                 default => [],
             };
 
@@ -136,11 +171,8 @@ class GuineaBissauGeographyProvider implements CountryAddressAreaMetadataProvide
             'BL' => 'BL',
             'CA' => 'CA',
             'GA' => 'GA',
-            'L' => 'L',
-            'N' => 'N',
             'OI' => 'OI',
             'QU' => 'QU',
-            'S' => 'S',
             'TO' => 'TO',
         ];
 
@@ -167,11 +199,8 @@ class GuineaBissauGeographyProvider implements CountryAddressAreaMetadataProvide
             ['name' => 'Bolama', 'code' => 'BL'],
             ['name' => 'Cacheu', 'code' => 'CA'],
             ['name' => 'Gabú', 'code' => 'GA'],
-            ['name' => 'Leste', 'code' => 'L'],
-            ['name' => 'Norte', 'code' => 'N'],
             ['name' => 'Oio', 'code' => 'OI'],
             ['name' => 'Quinara', 'code' => 'QU'],
-            ['name' => 'Sul', 'code' => 'S'],
             ['name' => 'Tombali', 'code' => 'TO'],
         ];
     }

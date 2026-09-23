@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Lebanon;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class LebanonGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class LebanonGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_lebanon_v1';
 
@@ -62,9 +63,34 @@ class LebanonGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['governorate'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'caza',
+                        label: 'Caza',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['caza'],
+                        areaLevels: [2],
+                        parentKey: 'governorate',
+                        assignmentRole: 'caza',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Governorates are muhafazas; cazas keep the headline.
+        return [
+            'governorate' => 'Muhafaza',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +101,7 @@ class LebanonGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'governorate' => ['governorate'],
+                'caza' => ['caza'],
                 default => [],
             };
 
@@ -132,6 +159,7 @@ class LebanonGeographyProvider implements CountryAddressAreaMetadataProvider, Co
             'BH' => 'BH',
             'BA' => 'BA',
             'BI' => 'BI',
+            'KJ' => 'KJ',
             'JL' => 'JL',
             'NA' => 'NA',
             'AS' => 'AS',
@@ -159,6 +187,7 @@ class LebanonGeographyProvider implements CountryAddressAreaMetadataProvider, Co
             ['name' => 'Baalbek-Hermel', 'code' => 'BH'],
             ['name' => 'Beirut', 'code' => 'BA'],
             ['name' => 'Beqaa', 'code' => 'BI'],
+            ['name' => 'Keserwan-Jbeil', 'code' => 'KJ'],
             ['name' => 'Mount Lebanon', 'code' => 'JL'],
             ['name' => 'Nabatieh', 'code' => 'NA'],
             ['name' => 'North', 'code' => 'AS'],

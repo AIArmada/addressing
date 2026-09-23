@@ -1,0 +1,17 @@
+postcode,area_source_id,relationship_type,is_primary
+96939,pw:state:melekeok,served_by,true
+96940,pw:state:koror,served_by,true
+96940,pw:state:aimeliik,served_by,false
+96940,pw:state:airai,served_by,false
+96940,pw:state:angaur,served_by,false
+96940,pw:state:hatohobei,served_by,false
+96940,pw:state:kayangel,served_by,false
+96940,pw:state:ngaraard,served_by,false
+96940,pw:state:ngarchelong,served_by,false
+96940,pw:state:ngardmau,served_by,false
+96940,pw:state:ngatpang,served_by,false
+96940,pw:state:ngchesar,served_by,false
+96940,pw:state:ngeremlengui,served_by,false
+96940,pw:state:ngiwal,served_by,false
+96940,pw:state:peleliu,served_by,false
+96940,pw:state:sonsorol,served_by,false

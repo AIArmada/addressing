@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\BurkinaFaso;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class BurkinaFasoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class BurkinaFasoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_burkina_faso_v1';
 
@@ -56,15 +57,41 @@ class BurkinaFasoGeographyProvider implements CountryAddressAreaMetadataProvider
                 levels: [
                     new AddressLevelDefinition(
                         key: 'region',
-                        label: 'Region / Province',
+                        label: 'Region',
                         kind: 'state',
                         hierarchyType: 'administrative',
-                        areaTypes: ['region', 'province'],
+                        areaTypes: ['region'],
                         areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'province',
+                        label: 'Province',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['province'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'province',
                     ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // French is the administrative language; the reform tiers are régions and provinces.
+        return [
+            'region' => 'Région',
+            'province' => 'Province',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -195,11 +222,13 @@ class BurkinaFasoGeographyProvider implements CountryAddressAreaMetadataProvider
             'ZOU' => 'ZOU',
         ];
 
+        $regionCodes = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17'];
+
         return array_map(
             static fn (string $areaCode): array => [
                 'area_code' => $areaCode,
                 'source' => self::AREA_SOURCE,
-                'area_level' => 1,
+                'area_level' => in_array($areaCode, $regionCodes, true) ? 1 : 2,
                 'hierarchy_types' => ['administrative'],
             ],
             $areaCodes,

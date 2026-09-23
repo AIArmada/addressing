@@ -1,0 +1,4 @@
+postcode,area_source_id,relationship_type,is_primary
+98600,wf:administrative_precinct:uvea,served_by,true
+98610,wf:administrative_precinct:alo,served_by,true
+98620,wf:administrative_precinct:sigave,served_by,true

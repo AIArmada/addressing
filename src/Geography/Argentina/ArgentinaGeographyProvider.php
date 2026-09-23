@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Argentina;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class ArgentinaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class ArgentinaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_argentina_v1';
 
@@ -62,9 +63,37 @@ class ArgentinaGeographyProvider implements CountryAddressAreaMetadataProvider, 
                         areaTypes: ['province', 'city'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'department',
+                        label: 'Department / Partido / Commune',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['department', 'partido', 'commune'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'department',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Area names use Spanish official forms (partido already renders correctly).
+        return [
+            'province' => 'Provincia',
+            'city' => 'Ciudad',
+            'commune' => 'Comuna',
+            'department' => 'Departamento',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -76,6 +105,9 @@ class ArgentinaGeographyProvider implements CountryAddressAreaMetadataProvider, 
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
                 'city' => ['province'],
+                'department' => ['department'],
+                'partido' => ['department'],
+                'commune' => ['department'],
                 default => [],
             };
 
@@ -91,7 +123,11 @@ class ArgentinaGeographyProvider implements CountryAddressAreaMetadataProvider, 
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            'ar:city:autonomous-city-of-buenos-aires' => [
+                ['name' => 'Autonomous City of Buenos Aires', 'name_type' => 'alternative'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
@@ -174,7 +210,7 @@ class ArgentinaGeographyProvider implements CountryAddressAreaMetadataProvider, 
         return [
             ['name' => 'Salta', 'code' => 'A'],
             ['name' => 'Buenos Aires', 'code' => 'B'],
-            ['name' => 'Autonomous City of Buenos Aires', 'code' => 'C'],
+            ['name' => 'Ciudad Autónoma de Buenos Aires', 'code' => 'C'],
             ['name' => 'San Luis', 'code' => 'D'],
             ['name' => 'Entre Ríos', 'code' => 'E'],
             ['name' => 'La Rioja', 'code' => 'F'],

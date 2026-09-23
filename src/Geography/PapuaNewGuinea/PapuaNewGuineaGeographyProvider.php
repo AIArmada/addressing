@@ -62,6 +62,16 @@ class PapuaNewGuineaGeographyProvider implements CountryAddressAreaMetadataProvi
                         areaTypes: ['province', 'autonomous_region', 'district'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];

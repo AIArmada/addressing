@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Cambodia;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class CambodiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class CambodiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_cambodia_v1';
 
@@ -62,9 +63,37 @@ class CambodiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                         areaTypes: ['province', 'municipality'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District / Municipality / Section',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district', 'municipality', 'section'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Khmer administrative terms (Phnom Penh's reach-thani status is a documented exception to Krong).
+        return [
+            'province' => 'Khet',
+            'municipality' => 'Krong',
+            'district' => 'Srok',
+            'section' => 'Khan',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -73,9 +102,13 @@ class CambodiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
         $roles = [];
 
         foreach ($this->addressAreaSource()->areas() as $area) {
-            $areaRoles = match ($area->type) {
-                'province' => ['province'],
-                'municipality' => ['province'],
+            // Municipalities span both tiers: Phnom Penh is level 1, krong cities are level 2.
+            $areaRoles = match (true) {
+                $area->type === 'province' => ['province'],
+                $area->type === 'municipality' && $area->level === 1 => ['province'],
+                $area->type === 'district' => ['district'],
+                $area->type === 'municipality' => ['district'],
+                $area->type === 'section' => ['district'],
                 default => [],
             };
 

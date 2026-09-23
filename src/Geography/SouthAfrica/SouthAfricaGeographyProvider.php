@@ -62,6 +62,16 @@ class SouthAfricaGeographyProvider implements CountryAddressAreaMetadataProvider
                         areaTypes: ['province'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'District / City Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district_municipality', 'city_municipality'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,8 @@ class SouthAfricaGeographyProvider implements CountryAddressAreaMetadataProvider
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
+                'district_municipality' => ['municipality'],
+                'city_municipality' => ['municipality'],
                 default => [],
             };
 

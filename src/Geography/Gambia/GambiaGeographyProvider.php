@@ -55,12 +55,22 @@ class GambiaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                 label: 'Administrative / Territorial Geography',
                 levels: [
                     new AddressLevelDefinition(
-                        key: 'division',
-                        label: 'Division / City',
+                        key: 'region',
+                        label: 'Region / City',
                         kind: 'state',
                         hierarchyType: 'administrative',
-                        areaTypes: ['division', 'city'],
+                        areaTypes: ['region', 'city'],
                         areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'district',
                     ),
                 ],
             ),
@@ -74,8 +84,9 @@ class GambiaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
 
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
-                'division' => ['division'],
+                'region' => ['region'],
                 'city' => ['city'],
+                'district' => ['district'],
                 default => [],
             };
 
@@ -130,6 +141,7 @@ class GambiaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         /** @var array<string, string> */
         $areaCodes = [
             'B' => 'B',
+            'K' => 'K',
             'M' => 'M',
             'L' => 'L',
             'N' => 'N',
@@ -155,6 +167,7 @@ class GambiaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
     {
         return [
             ['name' => 'Banjul', 'code' => 'B'],
+            ['name' => 'Kanifing', 'code' => 'K'],
             ['name' => 'Central River', 'code' => 'M'],
             ['name' => 'Lower River', 'code' => 'L'],
             ['name' => 'North Bank', 'code' => 'N'],

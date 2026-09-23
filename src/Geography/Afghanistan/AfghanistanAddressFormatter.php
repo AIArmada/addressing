@@ -22,31 +22,23 @@ final class AfghanistanAddressFormatter implements CountryAddressFormatter
             $address->line3,
         ]);
 
-        // UPU: 6-digit postcode left of locality, province on its own line.
+        // UPU: locality on its own line, then the 6-digit postcode left
+        // of the province (`100208 KABUL` in every example; new system
+        // from 1 October 2024, province-encoded).
         $city = self::textOrNull($address->city);
         $state = self::textOrNull($address->state);
         $postcode = self::textOrNull($address->postcode);
 
-        if ($postcode !== null) {
-            if ($city !== null) {
-                $lines[] = $postcode . ' ' . $city;
+        if ($city !== null) {
+            $lines[] = $city;
+        }
 
-                if ($state !== null) {
-                    $lines[] = $state;
-                }
-            } elseif ($state !== null) {
-                $lines[] = $postcode . ' ' . $state;
-            } else {
-                $lines[] = $postcode;
-            }
-        } else {
-            if ($city !== null) {
-                $lines[] = $city;
-            }
-
-            if ($state !== null) {
-                $lines[] = $state;
-            }
+        if ($postcode !== null && $state !== null) {
+            $lines[] = $postcode . ' ' . $state;
+        } elseif ($state !== null) {
+            $lines[] = $state;
+        } elseif ($postcode !== null) {
+            $lines[] = $postcode;
         }
 
         if ($address->country !== null && $address->country !== '') {

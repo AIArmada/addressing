@@ -62,6 +62,16 @@ class ChinaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                         areaTypes: ['province', 'autonomous_region', 'municipality', 'special_administrative_region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'prefecture',
+                        label: 'Prefecture-level City / Prefecture / League',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['prefecture_city', 'prefecture', 'autonomous_prefecture', 'league'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'prefecture',
+                    ),
                 ],
             ),
         ];
@@ -78,6 +88,10 @@ class ChinaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                 'autonomous_region' => ['province'],
                 'municipality' => ['province'],
                 'special_administrative_region' => ['province'],
+                'prefecture_city' => ['prefecture'],
+                'prefecture' => ['prefecture'],
+                'autonomous_prefecture' => ['prefecture'],
+                'league' => ['prefecture'],
                 default => [],
             };
 

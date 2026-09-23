@@ -62,6 +62,16 @@ class EswatiniGeographyProvider implements CountryAddressAreaMetadataProvider, C
                         areaTypes: ['region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'inkhundla',
+                        label: 'Inkhundla',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['inkhundla'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'inkhundla',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class EswatiniGeographyProvider implements CountryAddressAreaMetadataProvider, C
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
+                'inkhundla' => ['inkhundla'],
                 default => [],
             };
 

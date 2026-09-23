@@ -196,8 +196,6 @@ use AIArmada\Addressing\Geography\Ireland\IrelandAddressFormatter;
 use AIArmada\Addressing\Geography\Ireland\IrelandGeographyProvider;
 use AIArmada\Addressing\Geography\IsleOfMan\IsleOfManAddressFormatter;
 use AIArmada\Addressing\Geography\IsleOfMan\IsleOfManGeographyProvider;
-use AIArmada\Addressing\Geography\Israel\IsraelAddressFormatter;
-use AIArmada\Addressing\Geography\Israel\IsraelGeographyProvider;
 use AIArmada\Addressing\Geography\Italy\ItalyAddressFormatter;
 use AIArmada\Addressing\Geography\Italy\ItalyGeographyProvider;
 use AIArmada\Addressing\Geography\IvoryCoast\IvoryCoastAddressFormatter;
@@ -491,6 +489,12 @@ return [
         ],
     ],
 
+    'fields' => [
+        // Present co-level subdivision + locality roles as one grouped
+        // control by default. Apps opting out get one control per role.
+        'group_subdivision_locality' => env('ADDRESSING_GROUP_SUBDIVISION_LOCALITY', true),
+    ],
+
     'geography' => [
         // Add country providers here; the core package remains country-neutral.
         'providers' => [
@@ -563,7 +567,6 @@ return [
             GeorgiaGeographyProvider::class,
             HongKongGeographyProvider::class,
             IranGeographyProvider::class,
-            IsraelGeographyProvider::class,
             KazakhstanGeographyProvider::class,
             KyrgyzstanGeographyProvider::class,
             LebanonGeographyProvider::class,
@@ -800,7 +803,6 @@ return [
         GeorgiaAddressFormatter::class,
         HongKongAddressFormatter::class,
         IranAddressFormatter::class,
-        IsraelAddressFormatter::class,
         KazakhstanAddressFormatter::class,
         KyrgyzstanAddressFormatter::class,
         LebanonAddressFormatter::class,
@@ -965,6 +967,11 @@ return [
     'defaults' => [
         'country_code' => env('ADDRESS_DEFAULT_COUNTRY_CODE'),
         'locale' => env('ADDRESS_DEFAULT_LOCALE'),
+    ],
+
+    'seed' => [
+        // ISO2 codes fully seeded outside production; empty keeps the full city dataset.
+        'full_city_countries' => [],
     ],
 
     'area_sources' => [

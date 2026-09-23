@@ -1,0 +1,17 @@
+postcode,area_source_id,relationship_type,is_primary
+00801,vi:district:saint-thomas,served_by,true
+00802,vi:district:saint-thomas,served_by,true
+00803,vi:district:saint-thomas,served_by,true
+00804,vi:district:saint-thomas,served_by,true
+00805,vi:district:saint-thomas,served_by,true
+00820,vi:district:saint-croix,served_by,true
+00821,vi:district:saint-croix,served_by,true
+00822,vi:district:saint-croix,served_by,true
+00823,vi:district:saint-croix,served_by,true
+00824,vi:district:saint-croix,served_by,true
+00830,vi:district:saint-john,served_by,true
+00831,vi:district:saint-john,served_by,true
+00840,vi:district:saint-croix,served_by,true
+00841,vi:district:saint-croix,served_by,true
+00850,vi:district:saint-croix,served_by,true
+00851,vi:district:saint-croix,served_by,true

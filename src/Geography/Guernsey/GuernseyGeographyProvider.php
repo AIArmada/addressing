@@ -56,10 +56,10 @@ class GuernseyGeographyProvider implements CountryAddressAreaMetadataProvider, C
                 levels: [
                     new AddressLevelDefinition(
                         key: 'parish',
-                        label: 'Parish',
+                        label: 'Parish / Dependency',
                         kind: 'state',
                         hierarchyType: 'administrative',
-                        areaTypes: ['parish'],
+                        areaTypes: ['parish', 'dependency'],
                         areaLevel: 1,
                     ),
                 ],
@@ -75,6 +75,7 @@ class GuernseyGeographyProvider implements CountryAddressAreaMetadataProvider, C
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'parish' => ['parish'],
+                'dependency' => ['dependency'],
                 default => [],
             };
 

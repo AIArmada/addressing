@@ -62,6 +62,16 @@ class RwandaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['province', 'city'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -76,6 +86,7 @@ class RwandaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
                 'city' => ['city'],
+                'district' => ['district'],
                 default => [],
             };
 

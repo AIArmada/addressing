@@ -1,8 +1,8 @@
 source_id,country_code,type,name,native_name,code,parent_source_id,level,latitude,longitude
-gg:parish:alderney,GG,parish,Alderney,,04,,1,,
+gg:dependency:alderney,GG,dependency,Alderney,,04,,1,,
 gg:parish:castel,GG,parish,Castel,,01,,1,,
 gg:parish:forest,GG,parish,Forest,,02,,1,,
-gg:parish:sark,GG,parish,Sark,,07,,1,,
+gg:dependency:sark,GG,dependency,Sark,,07,,1,,
 gg:parish:st-andrew,GG,parish,St Andrew,,03,,1,,
 gg:parish:st-martin,GG,parish,St Martin,,05,,1,,
 gg:parish:st-peter-port,GG,parish,St Peter Port,,06,,1,,

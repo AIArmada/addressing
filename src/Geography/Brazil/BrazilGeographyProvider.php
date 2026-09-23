@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Brazil;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class BrazilGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class BrazilGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_brazil_v1';
 
@@ -62,9 +63,38 @@ class BrazilGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['state', 'federal_district'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality', 'district'],
+                        areaLevels: [2],
+                        parentKey: 'state',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Area names use Portuguese official forms, so the type labels use
+        // the Portuguese administrative terms.
+        return [
+            'state' => 'Estado',
+            'federal_district' => 'Distrito Federal',
+            'municipality' => 'Município',
+            'district' => 'Distrito',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -76,6 +106,8 @@ class BrazilGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             $areaRoles = match ($area->type) {
                 'state' => ['state'],
                 'federal_district' => ['state'],
+                'municipality' => ['municipality'],
+                'district' => ['municipality'],
                 default => [],
             };
 
@@ -91,7 +123,90 @@ class BrazilGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        // Correios UF abbreviations, mirroring the formatter map.
+        return [
+            'br:federal_district:distrito-federal' => [
+                ['name' => 'DF', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:acre' => [
+                ['name' => 'AC', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:alagoas' => [
+                ['name' => 'AL', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:amapa' => [
+                ['name' => 'AP', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:amazonas' => [
+                ['name' => 'AM', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:bahia' => [
+                ['name' => 'BA', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:ceara' => [
+                ['name' => 'CE', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:espirito-santo' => [
+                ['name' => 'ES', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:goias' => [
+                ['name' => 'GO', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:maranhao' => [
+                ['name' => 'MA', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:mato-grosso' => [
+                ['name' => 'MT', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:mato-grosso-do-sul' => [
+                ['name' => 'MS', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:minas-gerais' => [
+                ['name' => 'MG', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:para' => [
+                ['name' => 'PA', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:paraiba' => [
+                ['name' => 'PB', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:parana' => [
+                ['name' => 'PR', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:pernambuco' => [
+                ['name' => 'PE', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:piaui' => [
+                ['name' => 'PI', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:rio-de-janeiro' => [
+                ['name' => 'RJ', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:rio-grande-do-norte' => [
+                ['name' => 'RN', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:rio-grande-do-sul' => [
+                ['name' => 'RS', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:rondonia' => [
+                ['name' => 'RO', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:roraima' => [
+                ['name' => 'RR', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:santa-catarina' => [
+                ['name' => 'SC', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:sao-paulo' => [
+                ['name' => 'SP', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:sergipe' => [
+                ['name' => 'SE', 'name_type' => 'abbreviation'],
+            ],
+            'br:state:tocantins' => [
+                ['name' => 'TO', 'name_type' => 'abbreviation'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */

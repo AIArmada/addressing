@@ -56,10 +56,10 @@ class SaintHelenaGeographyProvider implements CountryAddressAreaMetadataProvider
                 levels: [
                     new AddressLevelDefinition(
                         key: 'district',
-                        label: 'District',
+                        label: 'District / Island',
                         kind: 'state',
                         hierarchyType: 'administrative',
-                        areaTypes: ['district'],
+                        areaTypes: ['district', 'island'],
                         areaLevel: 1,
                     ),
                 ],
@@ -75,6 +75,7 @@ class SaintHelenaGeographyProvider implements CountryAddressAreaMetadataProvider
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'district' => ['district'],
+                'island' => ['island'],
                 default => [],
             };
 
@@ -136,6 +137,8 @@ class SaintHelenaGeographyProvider implements CountryAddressAreaMetadataProvider
             '06' => '06',
             '08' => '08',
             '07' => '07',
+            'AC' => 'AC',
+            'TA' => 'TA',
         ];
 
         return array_map(
@@ -163,6 +166,8 @@ class SaintHelenaGeographyProvider implements CountryAddressAreaMetadataProvider
             ['name' => 'Longwood', 'code' => '06'],
             ['name' => 'Saint Paul\'s', 'code' => '08'],
             ['name' => 'Sandy Bay', 'code' => '07'],
+            ['name' => 'Ascension', 'code' => 'AC'],
+            ['name' => 'Tristan da Cunha', 'code' => 'TA'],
         ];
     }
 }

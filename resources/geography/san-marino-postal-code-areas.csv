@@ -1,0 +1,11 @@
+postcode,area_source_id,relationship_type,is_primary
+47890,sm:municipality:san-marino,served_by,true
+47891,sm:municipality:serravalle,served_by,true
+47892,sm:municipality:acquaviva,served_by,true
+47893,sm:municipality:borgo-maggiore,served_by,true
+47894,sm:municipality:chiesanuova,served_by,true
+47895,sm:municipality:domagnano,served_by,true
+47896,sm:municipality:faetano,served_by,true
+47897,sm:municipality:fiorentino,served_by,true
+47898,sm:municipality:montegiardino,served_by,true
+47899,sm:municipality:serravalle,served_by,true

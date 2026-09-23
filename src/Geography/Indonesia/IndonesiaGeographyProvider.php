@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Indonesia;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -15,7 +16,7 @@ use AIArmada\Addressing\Support\CompositeAddressAreaSource;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_indonesia_v1';
 
@@ -83,7 +84,7 @@ class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, 
                     ),
                     new AddressLevelDefinition(
                         key: 'district',
-                        label: 'District',
+                        label: 'Kecamatan',
                         kind: 'area',
                         hierarchyType: 'administrative',
                         areaTypes: ['district'],
@@ -93,7 +94,7 @@ class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, 
                     ),
                     new AddressLevelDefinition(
                         key: 'village',
-                        label: 'Village / Urban Village',
+                        label: 'Desa / Kelurahan',
                         kind: 'area',
                         hierarchyType: 'administrative',
                         areaTypes: ['village', 'urban_village'],
@@ -103,6 +104,49 @@ class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, 
                     ),
                 ],
             ),
+        ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Kota is the proper term; the bare headline City would collide
+        // with other countries' city translations downstream. Kecamatan,
+        // Desa, and Kelurahan are the national administrative terms (the
+        // formatter already addresses them by these names); states with
+        // special-autonomy terms override below.
+        return [
+            'city' => 'Kota',
+            'district' => 'Kecamatan',
+            'village' => 'Desa',
+            'urban_village' => 'Kelurahan',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        // State codes are the ISO-like State codes (AC, SB, ...), matching
+        // what CountryAddressProfileResolver::stateCode() resolves.
+        return [
+            // Aceh: Law 11/2006 (UUPA) art. 115 — gampong in regencies
+            // and cities alike (BPS Kota Banda Aceh Dalam Angka).
+            ['state_code' => 'AC', 'type_labels' => ['village' => 'Gampong', 'urban_village' => 'Gampong']],
+            // West Sumatra: nagari restored province-wide in 2001; only
+            // villages inside municipalities stay kelurahan.
+            ['state_code' => 'SB', 'type_labels' => ['village' => 'Nagari']],
+            // Yogyakarta: Perda DIY — kapanewon in regencies, kemantren
+            // in the city (combined: the contract keys state+type only),
+            // kalurahan for rural villages; urban stays kelurahan.
+            ['state_code' => 'YO', 'type_labels' => ['district' => 'Kapanewon / Kemantren', 'village' => 'Kalurahan']],
+            // Papua region: Otsus Law 21/2001 — kecamatan becomes
+            // distrik, desa becomes kampung.
+            ['state_code' => 'PA', 'type_labels' => ['district' => 'Distrik', 'village' => 'Kampung']],
+            ['state_code' => 'PB', 'type_labels' => ['district' => 'Distrik', 'village' => 'Kampung']],
+            ['state_code' => 'PS', 'type_labels' => ['district' => 'Distrik', 'village' => 'Kampung']],
+            ['state_code' => 'PT', 'type_labels' => ['district' => 'Distrik', 'village' => 'Kampung']],
+            ['state_code' => 'PE', 'type_labels' => ['district' => 'Distrik', 'village' => 'Kampung']],
+            ['state_code' => 'PD', 'type_labels' => ['district' => 'Distrik', 'village' => 'Kampung']],
         ];
     }
 
@@ -117,6 +161,8 @@ class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, 
                 'regency' => ['regency'],
                 'city' => ['regency'],
                 'district' => ['district'],
+                'village' => ['village'],
+                'urban_village' => ['village'],
                 default => [],
             };
 
@@ -154,8 +200,14 @@ class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, 
     public function areaRelationships(AddressCountry $country): array
     {
         $relationships = [];
+        $areas = $this->addressAreaSource()->areas()->all();
+        $parentSourceIds = [];
 
-        foreach ($this->addressAreaSource()->areas() as $area) {
+        foreach ($areas as $area) {
+            $parentSourceIds[$area->sourceId] = $area->parentSourceId;
+        }
+
+        foreach ($areas as $area) {
             if ($area->parentSourceId === null) {
                 continue;
             }
@@ -165,9 +217,45 @@ class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, 
                 'relationship_type' => 'contains',
                 'hierarchy_type' => 'administrative',
             ];
+
+            $stateSourceId = $this->stateAncestorSourceId($area->sourceId, $parentSourceIds);
+
+            if ($stateSourceId !== null && $stateSourceId !== $area->parentSourceId) {
+                $relationships[$area->sourceId][] = [
+                    'parent_source_id' => $stateSourceId,
+                    'relationship_type' => 'contains',
+                    'hierarchy_type' => 'administrative',
+                ];
+            }
         }
 
         return $relationships;
+    }
+
+    /**
+     * @param  array<string, string|null>  $parentSourceIds
+     */
+    private function stateAncestorSourceId(string $sourceId, array $parentSourceIds): ?string
+    {
+        $visited = [];
+        $currentSourceId = $sourceId;
+
+        while (isset($parentSourceIds[$currentSourceId])) {
+            $parentSourceId = $parentSourceIds[$currentSourceId];
+
+            if (isset($visited[$parentSourceId])) {
+                return null;
+            }
+
+            if (str_starts_with($parentSourceId, 'id:province:')) {
+                return $parentSourceId;
+            }
+
+            $visited[$parentSourceId] = true;
+            $currentSourceId = $parentSourceId;
+        }
+
+        return null;
     }
 
     public function addressAreaSource(): AddressAreaSource

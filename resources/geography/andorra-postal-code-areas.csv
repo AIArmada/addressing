@@ -1,0 +1,8 @@
+postcode,area_source_id,relationship_type,is_primary
+AD100,ad:parish:canillo,served_by,true
+AD200,ad:parish:encamp,served_by,true
+AD300,ad:parish:ordino,served_by,true
+AD400,ad:parish:la-massana,served_by,true
+AD500,ad:parish:andorra-la-vella,served_by,true
+AD600,ad:parish:sant-julia-de-loria,served_by,true
+AD700,ad:parish:escaldes-engordany,served_by,true

@@ -62,6 +62,16 @@ class KenyaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                         areaTypes: ['county'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'constituency',
+                        label: 'Constituency',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['constituency'],
+                        areaLevels: [2],
+                        parentKey: 'county',
+                        assignmentRole: 'constituency',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class KenyaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'county' => ['county'],
+                'constituency' => ['constituency'],
                 default => [],
             };
 

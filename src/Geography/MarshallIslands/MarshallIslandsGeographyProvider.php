@@ -55,12 +55,22 @@ class MarshallIslandsGeographyProvider implements CountryAddressAreaMetadataProv
                 label: 'Administrative / Territorial Geography',
                 levels: [
                     new AddressLevelDefinition(
-                        key: 'municipality',
-                        label: 'Municipality / Chain',
+                        key: 'chain',
+                        label: 'Chain',
                         kind: 'state',
                         hierarchyType: 'administrative',
-                        areaTypes: ['municipality', 'chain'],
+                        areaTypes: ['chain'],
                         areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality'],
+                        areaLevels: [2],
+                        parentKey: 'chain',
+                        assignmentRole: 'municipality',
                     ),
                 ],
             ),
@@ -129,32 +139,8 @@ class MarshallIslandsGeographyProvider implements CountryAddressAreaMetadataProv
     {
         /** @var array<string, string> */
         $areaCodes = [
-            'ALL' => 'ALL',
-            'ALK' => 'ALK',
-            'ARN' => 'ARN',
-            'AUR' => 'AUR',
-            'KIL' => 'KIL',
-            'EBO' => 'EBO',
-            'ENI' => 'ENI',
-            'JAB' => 'JAB',
-            'JAL' => 'JAL',
-            'KWA' => 'KWA',
-            'LAE' => 'LAE',
-            'LIB' => 'LIB',
-            'LIK' => 'LIK',
-            'MAJ' => 'MAJ',
-            'MAL' => 'MAL',
-            'MEJ' => 'MEJ',
-            'MIL' => 'MIL',
-            'NMK' => 'NMK',
-            'NMU' => 'NMU',
             'L' => 'L',
             'T' => 'T',
-            'RON' => 'RON',
-            'UJA' => 'UJA',
-            'UTI' => 'UTI',
-            'WTH' => 'WTH',
-            'WTJ' => 'WTJ',
         ];
 
         return array_map(

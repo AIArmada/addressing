@@ -62,6 +62,16 @@ class SwitzerlandGeographyProvider implements CountryAddressAreaMetadataProvider
                         areaTypes: ['canton'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'canton',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class SwitzerlandGeographyProvider implements CountryAddressAreaMetadataProvider
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'canton' => ['canton'],
+                'district' => ['district'],
                 default => [],
             };
 

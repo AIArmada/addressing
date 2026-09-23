@@ -62,6 +62,16 @@ class CanadaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['province', 'territory'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Census Subdivision',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality', 'indigenous_reserve', 'unorganized'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
@@ -76,6 +86,9 @@ class CanadaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
                 'territory' => ['province'],
+                'municipality' => ['municipality'],
+                'indigenous_reserve' => ['municipality'],
+                'unorganized' => ['municipality'],
                 default => [],
             };
 
@@ -91,7 +104,49 @@ class CanadaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        // Canada Post abbreviations, mirroring the formatter map.
+        return [
+            'ca:province:alberta' => [
+                ['name' => 'AB', 'name_type' => 'abbreviation'],
+            ],
+            'ca:province:british-columbia' => [
+                ['name' => 'BC', 'name_type' => 'abbreviation'],
+            ],
+            'ca:province:manitoba' => [
+                ['name' => 'MB', 'name_type' => 'abbreviation'],
+            ],
+            'ca:province:new-brunswick' => [
+                ['name' => 'NB', 'name_type' => 'abbreviation'],
+            ],
+            'ca:province:newfoundland-and-labrador' => [
+                ['name' => 'NL', 'name_type' => 'abbreviation'],
+            ],
+            'ca:province:nova-scotia' => [
+                ['name' => 'NS', 'name_type' => 'abbreviation'],
+            ],
+            'ca:province:ontario' => [
+                ['name' => 'ON', 'name_type' => 'abbreviation'],
+            ],
+            'ca:province:prince-edward-island' => [
+                ['name' => 'PE', 'name_type' => 'abbreviation'],
+            ],
+            'ca:province:quebec' => [
+                ['name' => 'QC', 'name_type' => 'abbreviation'],
+                ['name' => 'Québec', 'name_type' => 'alternative'],
+            ],
+            'ca:province:saskatchewan' => [
+                ['name' => 'SK', 'name_type' => 'abbreviation'],
+            ],
+            'ca:territory:northwest-territories' => [
+                ['name' => 'NT', 'name_type' => 'abbreviation'],
+            ],
+            'ca:territory:nunavut' => [
+                ['name' => 'NU', 'name_type' => 'abbreviation'],
+            ],
+            'ca:territory:yukon' => [
+                ['name' => 'YT', 'name_type' => 'abbreviation'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */

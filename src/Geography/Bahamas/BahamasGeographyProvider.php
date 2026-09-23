@@ -91,7 +91,17 @@ class BahamasGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            'bs:district:crooked-island-and-long-cay' => [
+                ['name' => 'Crooked Island', 'name_type' => 'alternative'],
+            ],
+            'bs:district:city-of-freeport' => [
+                ['name' => 'Freeport', 'name_type' => 'alternative'],
+            ],
+            'bs:district:san-salvador' => [
+                ['name' => 'San Salvador Island', 'name_type' => 'alternative'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
@@ -188,10 +198,10 @@ class BahamasGeographyProvider implements CountryAddressAreaMetadataProvider, Co
             ['name' => 'Central Abaco', 'code' => 'CO'],
             ['name' => 'Central Andros', 'code' => 'CS'],
             ['name' => 'Central Eleuthera', 'code' => 'CE'],
-            ['name' => 'Crooked Island', 'code' => 'CK'],
+            ['name' => 'Crooked Island and Long Cay', 'code' => 'CK'],
             ['name' => 'East Grand Bahama', 'code' => 'EG'],
             ['name' => 'Exuma', 'code' => 'EX'],
-            ['name' => 'Freeport', 'code' => 'FP'],
+            ['name' => 'City of Freeport', 'code' => 'FP'],
             ['name' => 'Grand Cay', 'code' => 'GC'],
             ['name' => 'Harbour Island', 'code' => 'HI'],
             ['name' => 'Hope Town', 'code' => 'HT'],
@@ -206,7 +216,7 @@ class BahamasGeographyProvider implements CountryAddressAreaMetadataProvider, Co
             ['name' => 'North Eleuthera', 'code' => 'NE'],
             ['name' => 'Ragged Island', 'code' => 'RI'],
             ['name' => 'Rum Cay', 'code' => 'RC'],
-            ['name' => 'San Salvador Island', 'code' => 'SS'],
+            ['name' => 'San Salvador', 'code' => 'SS'],
             ['name' => 'South Abaco', 'code' => 'SO'],
             ['name' => 'South Andros', 'code' => 'SA'],
             ['name' => 'South Eleuthera', 'code' => 'SE'],

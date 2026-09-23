@@ -62,6 +62,16 @@ class VanuatuGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['province'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'area_council',
+                        label: 'Area Council / Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['area_council', 'municipality'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'area_council',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,8 @@ class VanuatuGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
+                'area_council' => ['area_council'],
+                'municipality' => ['area_council'],
                 default => [],
             };
 

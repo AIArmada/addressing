@@ -13,7 +13,7 @@ The package always bundles ISO 3166-1 country/territory data.
 
 File location: `resources/data/countries.json`
 
-The bundled `MalaysiaGeographyProvider` supplies Malaysia's State/Federal Territory catalog, two explicit address hierarchies, the AddressArea hierarchy, and State↔AddressArea mappings. The postal/address hierarchy is `region → locality / precinct / kampung`; the administrative/land hierarchy is `region → district / division / jajahan → mukim / subdistrict / bandar / pekan`. It is selected with `SeedCountryGeographiesAction::execute('MY')` after countries are seeded.
+The bundled `MalaysiaGeographyProvider` supplies Malaysia's State/Federal Territory catalog, two explicit address hierarchies, the AddressArea hierarchy, and State↔AddressArea mappings. The primary administrative/land hierarchy is `region → district / division / jajahan → mukim / subdistrict / bandar / pekan`; the secondary postal/address hierarchy is `region → locality / precinct / kampung`. It is selected with `SeedCountryGeographiesAction::execute('MY')` after countries are seeded.
 
 The dataset contains **250 records** — these are ISO 3166-1 address entities, not 250 sovereign countries. Records include:
 
@@ -251,6 +251,110 @@ Pontian Kechil), and Pulau Satu (Forest City island, no own postcode) stay
 deleted. Each town's postcodes link it as primary with the covering admin
 areas kept as secondary links.
 
+Scope expansion: Tongkang Pechah and Parit Yaani were added as Batu Pahat
+postal `locality` rows (external town lists name both, and addresses place
+them under 83010). They share 83010 with the town core, so they link it as
+secondary with Bandar Penggaram staying primary — the same pattern as Ulu
+Choh sharing 81550 with Gelang Patah. (Renggam town is the opposite case:
+86300 is its own code, so the town is primary there.)
+
+Johor sweep (shared-postcode secondaries, primaries untouched): Skudai
+(JB, 81300), Saleng (Kulai, 81400 shared with Senai), Kelapa Sawit (Kulai,
+81000/81030 shared with Bandar Kulai), Chamek (Kluang, 86600 shared with
+Paloh). Skipped for weak evidence: Sedili and Teluk Sengat (no distinct
+town postcode), Seelong/Sengkang/Ayer Bemban (no postcode evidence),
+Kangkar Pulai (ambiguous district), Taman Universiti and Mengkibol
+(sub-localities of Skudai/Kluang).
+
+Johor sweep, batch 2: Tanjung Agas (Tangkak, 84000 shared cross-district
+with Muar town core). Muar, Segamat, Pontian, and Mersing needed no
+additions — every listed town already has a row. Skipped: Bukit Naning and
+Bukit Siput (suburbs), Kampung Tengah (85000 suburb), Jagoh, Sungai Karas,
+Kayu Ara Pasong, Sanglang, Teluk Sengat, Sagil (village-level, no town
+postcode evidence), Gemas Baharu (weak evidence), Pontian Besar (covered by
+Mukim Pontian), Pekan Air Panas (likely Labis alias), Air Papan (village),
+Segamat Baru (township), Permas (unreliable listing; Permas Jaya is JB).
+
+Melaka sweep: Lubok China (Alor Gajah) added as a postal `locality` —
+own post office and postcode 78100, so it takes primary with the district
+placeholder demoted to secondary. All other Melaka towns already have rows.
+
+Negeri Sembilan sweep: Telok Kemang (Port Dickson, federal constituency,
+71050 shared with Si Rusa) added as a secondary-link `locality`. Gemas
+town stays covered by Mukim Gemas. Seremban suburbs without rows (Sikamat,
+Mambau, Paroi, Lobak, Rahang) deliberately skipped as sub-localities of
+the town core.
+
+Kedah sweep: Tikam Batu (Kuala Muda, federal-gazette post office, 08700
+shared with Jeniang) added as a secondary-link `locality`. Guar Chempedak
+already covered as Bandar Guar Cempedak (gazette spelling). Skipped:
+Simpang Kuala (Alor Setar suburb), Tanjung Dawai (fishing village, no
+town postcode evidence), Sungai Lalang / Sintok / Napoh (no verified
+postcode evidence yet), Naka (village-level).
+
+Perlis sweep: Kangar (01000), Padang Besar (02100), Kaki Bukit (02200),
+and Simpang Empat (02700) added as state-parented `locality` rows, each
+taking primary on its own code with the covering mukim demoted to
+secondary. Arau and Kuala Perlis stay covered by their mukim rows.
+
+Penang sweep: Teluk Bahang (Barat Daya, DUN, 11050 shared cross-district
+with Bandar George Town), Batu Kawan (SPS, 14100 shared with Simpang
+Ampat), and Bertam (SPU, DUN, 13200 shared with Kepala Batas) added as
+secondary-link `locality` rows. Skipped: Bukit Minyak, Juru, Seberang
+Jaya, Mak Mandin, Sungai Dua, Tanjung Bungah, Paya Terubong, and Sungai
+Bakap (suburbs/sub-localities).
+
+Kelantan sweep: Kok Lanas (Kota Bharu, 16450 shared with Ketereh) added
+as a secondary-link `locality`. Skipped for lack of verified postcode
+evidence: Pengkalan Kubor, Gual Ipoh, Bukit Bunga (in Jeli district, not
+Tanah Merah).
+
+Terengganu sweep: no additions — Chukai and Jerteh are already covered
+as Bandar Cukai and Jertih (UPI spellings) with primaries on 24000 and
+22000. All other listed towns have rows. Skipped: Seberang Takir (no
+verified postcode evidence), Gong Badak (KT suburb), Penarik (fishing
+village).
+
+Pahang sweep: Bukit Tinggi (Bentong, 28750 shared with Bentong) and
+Mengkarak (Bera, 28200 shared with Bandar Bera) added as secondary-link
+`locality` rows. Genting Highlands already covered as Bandar Genting with
+the 69000 primary. Skipped: Kampung Raja and Tanjung Gemok (no verified
+postcode evidence); Janda Baik, Tekek, Tringkap, Kuala Semantan, Teriang,
+Kerayong, Nenasi, Merchong (village-level).
+
+Perak sweep: Simpang Lima (Kerian, 34200 shared with Parit Buntar) added
+as a secondary-link `locality`. Trolak already covered as Terolak (UPI
+spelling) with the 35700 primary; Tanjung Piandang already covered as
+Mukim Tanjong Piandang. Skipped: Ayer Kuning, Bukit Merah, Lubuk Merbau,
+Salak (no verified postcode evidence); Ampang and Tanjung Rambutan
+(Ipoh suburbs).
+
+Selangor sweep: Seri Kembangan (43300) and Serdang (43400) added as
+Petaling `locality` rows taking primaries from district placeholders;
+Balakong (Hulu Langat, 43300 shared cross-district) added secondary.
+Tanjung Sepat already covered as Tanjong Sepat (UPI spelling).
+Skipped: Sijangkang and Sungai Air Tawar (no clean postcode evidence —
+conflicting codes for the latter); Batang Berjuntai (Bestari Jaya
+alias); Setia Alam (township); Klang Valley suburbs and townships as a
+class (USJ, Sunway, Puchong Jaya, Kinrara, and the like).
+
+Sabah sweep: no additions — towns live as level-4 `subdistrict` rows and
+every checked town (Kundasang, Tamparuli, Kiulu, Donggongon, Kinarut,
+Benoni, Kimanis, Bongawan, Menumbok, Melalap, Kemabong, Sindumin,
+Apin-Apin, Bingkor, Tungku, Sukau, Bukit Garam, Matunggong, Tandek) has
+one. Skipped: Lok Kawi, Sikuati, Kanibongan (no verified postcode
+evidence).
+
+Sarawak sweep: no additions — same level-4 `subdistrict` pattern covers
+every checked town (Sematan, Engkilili, Debak, Spaoh, Roban, Bintangor,
+Niah, Batu Niah, Bekenu, Oya, Balingian, Sundar, Trusan, Sadong Jaya).
+Skipped: Bako (fishing village).
+
+WP sweep: no additions — KL's 11 parliamentary `locality` rows plus 7
+mukims, Putrajaya's precincts, and Labuan's 28 kampung `locality` rows
+already model each territory. KL neighborhoods (Bangsar, Mont Kiara,
+and the like) deliberately skipped as sub-localities.
+
 ## Perlis
 
 Perlis has no districts (`TIADA DAERAH`) and exactly 22 mukims, all already
@@ -460,7 +564,19 @@ with `SeedCountryGeographiesAction::execute('SG')` after countries are seeded.
 CDC districts, URA regions, and postal districts are three independent
 first-level partitions: a CDC district is never the parent of a planning area
 or a postal sector. `State` rows link to matching district areas without a
-hierarchy type so the bridge resolves them for any hierarchy.
+hierarchy type so the bridge resolves them for any hierarchy. The
+independence is structural, not a gap: CDC boundaries follow electoral
+divisions (GRCs/SMCs), which cut across planning areas and regions — four of
+the five CDCs overlap the Central Region alone — so no CDC nesting is
+modeled and no `refinedBy` is declared.
+
+Revisit record: the postal tree was verified link by link (all 81 sector →
+district links, sector `74` unallocated, no sector `83`) and the planning
+tree name by name (all 55 areas with region parents: 22 Central, 6 East, 8
+North, 7 North-East, 12 West). Singapore intentionally has no postal
+`locality` level: postcodes are building-level, so towns have no single
+postcode, and HDB towns already coincide with planning areas. The pins live
+in `SingaporeGeographyProviderTest`.
 
 Individual six-digit postcodes are intentionally not bundled. Every building
 in Singapore has its own postcode, so the dataset is SingPost-scale. Resolve
@@ -495,7 +611,16 @@ Villages and urban villages (83,762 desa/kelurahan, level 4) ship as an
 opt-in dataset in `indonesia-villages.csv`, from the same upstream release.
 Set `addressing.geography.indonesia.villages` to `true`
 (`ADDRESSING_INDONESIA_VILLAGES`) to seed them; the default seed stops at
-districts.
+districts. Seeded villages carry the `village` role, matching the level's
+assignment role.
+
+Cascade labels use the national terms (`Kecamatan`, `Desa`,
+`Kelurahan`, `Kota`) with special-autonomy overrides: `Gampong` in
+Aceh (Law 11/2006, regencies and cities), `Nagari` in West Sumatra
+(rural only — municipalities stay kelurahan), `Kapanewon` /
+`Kemantren` + `Kalurahan` in Yogyakarta (Perda DIY), and `Distrik` /
+`Kampung` in the six Papua provinces (Otsus Law 21/2001). Deep areas
+link their province ancestor directly, like the Malaysia provider.
 
 ISO 3166-2 defines seven Indonesian geographical units (island groups such
 as `ID-JW` Jawa) alongside the 38 provinces. Those units are not provinces
@@ -504,9 +629,19 @@ stragglers from databases seeded before that fix, so `Papua` always resolves
 to the province. Nusantara/IKN is a separate capital authority, not a 39th
 province.
 
-Villages (83,762) and individual five-digit postcodes are intentionally not
-bundled. Import operational villages through `AddressAreaSource` and
-postcodes through `ImportPostalCodesAction`.
+Individual five-digit postcodes are intentionally not bundled; import
+operational postcodes through `ImportPostalCodesAction`. There is no postal
+hierarchy and no `refinedBy`: the single administrative chain
+province → regency/city → district → village already scopes every level,
+and villages are administrative rows rather than postal localities.
+
+Revisit record: all 38 province codes verified against ISO 3166-2:ID, every
+province's regency/city split reconciled (416 + 98), and all 91,599 rows
+checked for dangling parents and Kemendagri code shape with zero violations.
+Known lag: BPS counts 7,288 districts (2025) and 84,048 villages (2024)
+against the bundled 7,285 and 83,762 — upstream `lokabisa-oss/region-id`
+has no release newer than v1.0.1, so refresh when it does rather than
+hand-patching rows.
 
 Indonesian addresses are formatted as street lines, `kelurahan`/`desa` and
 `kecamatan` components, `{kota} {postcode}`, province, and country, per the
@@ -529,7 +664,7 @@ Import operational villages and postcodes through `AddressAreaSource` and
 
 Brunei addresses are formatted per the UPU layout: street lines, kampung
 component, `{town or district} {postcode}` with the town preferred, and
-country.
+country. Types are labelled `Daerah` and `Mukim`.
 
 ## Bahrain
 
@@ -567,8 +702,8 @@ city, and country with no postcode line.
 ## Kuwait
 
 The bundled `KuwaitGeographyProvider` supplies the six ISO 3166-2
-governorates as `State` rows with 134 postal areas as level-2 areas
-(31 Capital, 29 Ahmadi, 24 Jahra, 20 Farwaniya, 17 Hawalli, 13 Mubarak
+governorates as `State` rows with 135 postal areas as level-2 areas
+(32 Capital, 29 Ahmadi, 24 Jahra, 20 Farwaniya, 17 Hawalli, 13 Mubarak
 Al-Kabeer) in a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('KW')` after countries are seeded.
 Uninhabited islands (Miskan, Umm an Namil, Bubiyan, Warbah) are excluded;
@@ -578,7 +713,7 @@ names by design; filter by type.
 
 Kuwaiti addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode left of the locality,
-and country.
+and country. The `governorate` type is labelled `Muhafaza`.
 
 ## Jordan
 
@@ -601,6 +736,7 @@ DOS publishes no liwa codes, so L2 rows carry no `code`. Qada
 
 Jordanian addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with a 5-digit postcode, and country.
+Types are labelled `Muhafaza` and `Liwa`.
 
 ## Oman
 
@@ -611,6 +747,7 @@ governorates as `State` rows and a two-level administrative hierarchy
 
 Omani addresses are formatted per the UPU layout: street lines, a
 3-digit postcode on its own line above the locality, and country.
+The `governorate` type is labelled `Muhafaza`.
 
 ## United Arab Emirates
 
@@ -627,31 +764,57 @@ line.
 
 The bundled `SaudiArabiaGeographyProvider` supplies the thirteen ISO
 3166-2 regions as `State` rows (codes `01`–`12` and `14`; there is no
-region `13`) and a single-level administrative hierarchy. It is
+region `13`) and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('SA')` after
 countries are seeded.
+The 139 governorates ship as level-2 areas under their regions.
 
 Saudi addresses are formatted per the UPU home-delivery layout:
 street lines, a 5-digit postcode on its own line above the locality,
 and country. Short addresses (`RAGI2929` style) and the separate P.O.
 Box layout are not generated.
 
+## Ecuador
+
+The bundled `EcuadorGeographyProvider` supplies the 24 provinces
+as `State` rows and a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('EC')` after
+countries are seeded.
+The 222 cantons ship as level-2 areas under their provinces.
+
+Ecuadorian addresses are formatted per the UPU layout: street
+lines, `{postcode} - {locality}` with a 6-digit postcode, and
+country. Types are labelled `Provincia` and `Cantón`.
+
 ## Egypt
 
 The bundled `EgyptGeographyProvider` supplies the 27 ISO 3166-2
-governorates as `State` rows and a single-level administrative
+governorates as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('EG')` after countries are seeded.
+The 365 districts ship as level-2 areas from the OCHA Common
+Operational Dataset on Administrative Boundaries (CAPMAS
+census geography, valid 21 April 2017), which carries a
+p-code (`EG0401`-style) and an explicit governorate parent
+per district. Rows mix urban qisms and rural marakiz (plus a
+few police-administered units such as `Port Suez Police
+Department`); same-named qism/markaz pairs (e.g. the two
+`Luxor` rows) ship as separate parent-scoped rows. Names use
+COD transliteration (`Suhag`, `Sharkia`, `Qina`).
 
 Egyptian addresses are formatted per the UPU layout: street lines,
 locality, governorate, a 7-digit postcode on its own line, and country.
+Governorate and the generic district (mixed qism/markaz rows) need no
+type labels; qism/markaz cannot split further because the COD table
+carries no kind column.
 
 ## South Africa
 
 The bundled `SouthAfricaGeographyProvider` supplies the nine ISO
-3166-2 provinces as `State` rows and a single-level administrative
+3166-2 provinces as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('ZA')` after countries are seeded.
+The 44 district and 8 metropolitan municipalities ship as level-2 areas under their provinces.
 
 South African addresses are formatted per the UPU layout: street
 lines, locality, a 4-digit postcode below it, and country. The
@@ -684,24 +847,76 @@ Turkish addresses are formatted per the UPU layout: street lines,
 country. Sub-locality postcode suffixes (`06050-01` style) are not
 generated.
 
+## Panama
+
+The bundled `PanamaGeographyProvider` supplies the 10 provinces plus the
+3 province-level comarcas (Guna Yala, Emberá, Ngäbe-Buglé) as `State`
+rows and a two-level administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('PA')` after countries are seeded.
+The 81 districts ship as level-2 areas under provinces and comarcas.
+
+Panama has no postcode system: addresses are formatted per the UPU layout
+with street lines, locality, and country. Rural PO-box style addresses
+(`Zona 4, Apartado 0819-...)` keep the zone box in the street line.
+
+## Paraguay
+
+The bundled `ParaguayGeographyProvider` supplies the 17 departments plus
+Asunción as `State` rows and a two-level administrative hierarchy
+(department → 263 districts). It is selected with
+`SeedCountryGeographiesAction::execute('PY')` after countries are seeded.
+Asunción is typed `capital_district` sharing the L1 level and `department`
+assignment role, so it sits in the state tier with department grouping
+rather than a standalone label.
+
+Paraguayan addresses are formatted per the UPU layout: street lines,
+`{postcode} {locality}` with a 4-digit postcode, and country.
+
+## Uruguay
+
+The bundled `UruguayGeographyProvider` supplies the 19 departments
+as `State` rows and a two-level administrative hierarchy
+(department → 125 municipalities). It is selected with
+`SeedCountryGeographiesAction::execute('UY')` after countries are seeded.
+
+Uruguayan addresses are formatted per the UPU layout: street lines,
+`{postcode} – {locality}` with a 5-digit postcode and en dash, the
+department on its own line, and country.
+
+## Venezuela
+
+The bundled `VenezuelaGeographyProvider` supplies the 23 states
+plus the Capital District and the Federal Dependencies (ISO code
+`W`) as `State` rows and a two-level administrative hierarchy
+(state → 335 municipalities). It is selected with
+`SeedCountryGeographiesAction::execute('VE')` after countries are seeded.
+The capital district shares the `state` assignment role; the
+childless federal dependency keeps its own role. Libertador ships
+under the capital district.
+
+Venezuelan addresses are formatted per the UPU layout: street lines,
+`{locality} {postcode}` with a 4-digit postcode (extended
+`3028-A` style codes pass through), the state on its own line,
+and country.
+
 ## Pakistan
 
 The bundled `PakistanGeographyProvider` supplies the seven ISO 3166-2
 subdivisions as `State` rows — four provinces plus the Islamabad
 Capital Territory, Gilgit-Baltistan, and Azad Jammu and Kashmir
 (`Azad Kashmir` is aliased) — and a two-level administrative hierarchy
-(province/territory → 174 districts). It is selected with
+(province/territory → 178 districts). It is selected with
 `SeedCountryGeographiesAction::execute('PK')` after countries are seeded.
 
-Districts follow the late-2025 reorganization state: Punjab counts 42
-(`Jampur` and `Taunsa` included), Khyber Pakhtunkhwa counts 40
+Districts follow the mid-2026 reorganization state: Punjab counts 41
+(`Taunsa` included; `Jampur` was announced in December 2022 but never
+notified and stays excluded), Khyber Pakhtunkhwa counts 40
 (Chitral split into Lower/Upper plus `Central Dir`, `Paharpur`, and
-`Upper Swat` from the October 2025 batch), and Balochistan includes
-`Hub`, `Karezat`, and `Surab`. The January/May 2026 Balochistan batch
-(`Tump`, Upper Dera Bugti, `Taftan`, `Wadh`, `Barshor`, Quetta
-East/West) is intentionally excluded: unlike the clean October 2025
-Khyber Pakhtunkhwa adds, its January Quetta City/Saddar and May Quetta
-East/West notifications contradict each other. Tehsils are
+`Upper Swat`), and Balochistan counts 42. The May 2026 Balochistan
+batch (`Barshore`, `Tump`, Upper Dera Bugti, `Taftan`, `Wadh`, Quetta
+East/West) supersedes the January Quetta City/Saddar notification and
+is included; whole `Quetta` is retired by the East/West split and
+`Karezat` stays removed (abolished 29 November 2022). Tehsils are
 intentionally not bundled.
 
 Pakistani addresses are formatted per the UPU layout: street lines,
@@ -742,14 +957,18 @@ Secondary postcodes (`834001-34` style) are intentionally not bundled.
 
 The bundled `UnitedKingdomGeographyProvider` supplies the four nations
 (England, Scotland, Wales, Northern Ireland) as areas in a
-single-level administrative hierarchy. The 221 ISO 3166-2 subdivisions
+two-level administrative hierarchy. The 221 ISO 3166-2 subdivisions
 remain global `State` rows only; they are not imported as areas. It is
 selected with `SeedCountryGeographiesAction::execute('GB')` after
 countries are seeded.
+The 48 English ceremonial counties, 32 Scottish council areas, 22 Welsh principal areas and 11 Northern Ireland districts ship as level-2 areas under their nations.
 
 British addresses are formatted per the UPU layout: street lines, post
 town, the uppercased postcode on its own line, and country. The county
-line is omitted when a postcode is present, per the UPU rule.
+line is omitted when a postcode is present, per the UPU rule. Nation,
+county, council area, county borough, and district need no type labels;
+historic counties are intentionally not aliased (they map ambiguously
+onto the current areas).
 
 ## Bangladesh
 
@@ -787,19 +1006,24 @@ with their region selected first.
 
 Moroccan addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode left of the locality,
-and country.
+and country. Types are labelled `Région`, `Préfecture`, and
+`Province`.
 
 ## China
 
 The bundled `ChinaGeographyProvider` supplies 33 provincial-level
 divisions as `State` rows (22 provinces, 5 autonomous regions, 4
-municipalities, plus Hong Kong and Macao) and a single-level
-administrative hierarchy. It is selected with
+municipalities, plus Hong Kong and Macao) and 333 prefecture-level
+divisions (293 prefecture-level cities, 30 autonomous prefectures,
+7 prefectures, 3 leagues) as `AddressArea` rows under a
+province → prefecture hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('CN')` after countries are seeded.
 
 Taiwan carries its own country code (`TW`) with its own postal
-system, so it is intentionally not a CN area. Prefecture-level cities,
-counties, and districts are intentionally not bundled.
+system, so it is intentionally not a CN area. Counties and districts
+(level 3) are intentionally not bundled. The two Suzhou and two Fuzhou
+prefecture-level cities carry province-disambiguated names
+("Suzhou, Anhui" vs "Suzhou, Jiangsu").
 
 Chinese addresses are formatted per the UPU layout: street lines, an
 optional city/district line, `{postcode} {province}` with a 6-digit
@@ -817,7 +1041,14 @@ seeded.
 Crimea, Sevastopol, and the territories claimed in 2022 are not
 ISO-recognized subdivisions and are intentionally absent. Nenets is
 typed as an okrug (the global snapshot mistypes it), and krai/okrug
-names carry their suffixes per the UPU province list.
+names carry their suffixes per the UPU province list. Districts
+(raions) are intentionally not bundled: the second tier spans
+parallel administrative and municipal systems with no
+consolidated per-subject source. The tier is parked pending
+the GAR extract, not cancelled — see the
+[Russia tier-2 research log](17-russia-tier2-research.md) for
+the usage evidence, the rejected options, and the resume
+checklist.
 
 Russian addresses are formatted as street lines, locality, subject,
 a 6-digit postcode, and country — country last, per the UPU IB
@@ -827,9 +1058,17 @@ the country instead; the formatter deliberately deviates.
 ## Germany
 
 The bundled `GermanyGeographyProvider` supplies the 16 Länder as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('DE')` after
 countries are seeded.
+The 401 districts ship as level-2 areas under their states, typed
+`rural_district` (294) and `urban_district` (107) from the source
+table's Form column and grouped under the shared `district` level
+and role. Aachen, Hanover, and Saarbrücken ride with rural: they
+hold a different statute (Kommunalverband besonderer Art) but are
+Rural-form and district-level. Row keys keep the historical
+`de:district:*` shape (twin cities take parent-scoped keys:
+`de:district:bayern:munich` is the kreisfreie Stadt).
 
 State names use German official forms (`Bayern`, `Sachsen`); the
 seven common English exonyms (`Bavaria`, `Lower Saxony`, `North
@@ -838,30 +1077,34 @@ Rhine-Westphalia`, `Rhineland-Palatinate`, `Saxony`, `Saxony-Anhalt`,
 
 German addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, and country. No `D-`
-prefix is ever added.
+prefix is ever added. Types are labelled with the German terms
+(`state` → `Land`, `rural_district` → `Landkreis`, `urban_district` →
+`Kreisfreie Stadt`); none ever prints on mail, and the Stadtstaaten
+need no per-state override.
 
 ## France
 
 The bundled `FranceGeographyProvider` supplies the 18 regions (13
-metropolitan, 5 overseas) as `State` rows in a single-level
+metropolitan, 5 overseas) as `State` rows in a two-level
 administrative hierarchy. The 101 departments and overseas
 collectivities remain global `State` rows only; they are not imported
 as areas. It is selected with
 `SeedCountryGeographiesAction::execute('FR')` after countries are seeded.
+The 101 departments plus the Lyon Metropolis ship as level-2 areas under their regions.
 
 French addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, and country. CEDEX
-suffixes are not generated.
+suffixes are not generated. Types are labelled `Région` and
+`Département`; the 973 region row is the endonym `Guyane` (matching
+the department row and the corrected states.json entry) with the
+English `French Guiana` kept as an alias.
 
 ## Italy
 
 The bundled `ItalyGeographyProvider` supplies the 20 regions as
-`State` rows and a single-level administrative hierarchy. Provinces
-are intentionally not bundled: Friuli-Venezia Giulia replaced its
-provinces with regional entities, Sardinia restructured twice in a
-decade, and Sicily uses consortia, so no stable province layer exists
-to ship. It is selected with
+`State` rows and a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('IT')` after countries are seeded.
+The 82 provinces, 15 metropolitan cities, 6 free consortiums, 4 decentralization entities and 2 autonomous provinces ship as level-2 areas under their regions.
 
 Region names use Italian official forms (`Toscana`, `Sicilia`); the
 eight common English exonyms (`Piedmont`, `Aosta Valley`, `Lombardy`,
@@ -871,7 +1114,9 @@ are kept as aliases.
 Italian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality} {province}` with a 5-digit postcode, and
 country. The two-letter province abbreviation comes from the optional
-`province_code` address component and is omitted when absent.
+`province_code` address component and is omitted when absent. The
+`region` type is labelled `Regione`; second-level sigla stay in the
+code column (search aliases ship for state-level abbreviations only).
 
 ## Japan
 
@@ -886,26 +1131,45 @@ in as municipalities), and the 6 Northern-Territories paper villages
 (Shikotan, Tomari, Ruyobetsu, Rubetsu, Shana, Shibetoro — Japanese
 claimed/notional rows under Hokkaido). Names use bare unmacroned
 romanization (`Sapporo`, `Chiyoda`, `Naha`) with kanji in `native_name`;
-municipality kind (city/town/village/ward) is carried by the kanji
-suffix only. Thirteen same-prefecture name twins exist (Tomari ×2 in
+rows are typed `city`/`town`/`village`/`ward` (792/743/189/23) from the
+kanji suffix (市/町/村/区) and grouped under the shared `municipality`
+level and role; row keys keep the historical `jp:municipality:*` shape.
+Thirteen same-prefecture name twins exist (Tomari ×2 in
 Hokkaido, Fuchu city/town in Hiroshima, Toshima ward/village in Tokyo,
 and ten more) plus ~100 cross-prefecture twins (Date, Fuchu) — filter
 by `code` and parent, never by name alone. Ordinance-designated-city
 wards (e.g. Osaka's 24 ku) are sub-municipal and intentionally not
-bundled.
+bundled. Level-2 names are validated mechanically against the MIC
+table (code↔parent consistency, kind totals, twin coverage);
+row-by-row external name verification of all 1,747 rows remains
+future work.
 
 Japanese addresses are formatted per the UPU western layout: street
-lines, `{city}, {prefecture}`, the `NNN-NNNN` postcode on its own
-line, and country.
+lines, `{city}, {prefecture}`, and `{postcode} {country}` on the last
+line — all three detailed UPU examples join code and country
+(`231-0012 JAPAN`); the schematic's split lines are the outlier.
+Prefecture, city, town, village, and ward need no type labels (the
+accepted collective and kind terms).
 
 ## United States
 
 The bundled `UnitedStatesGeographyProvider` supplies 56 states,
 districts, and territories as `State` rows (50 states, the District
 of Columbia, American Samoa, Guam, the Northern Mariana Islands,
-Puerto Rico, and the U.S. Virgin Islands) and a single-level
-administrative hierarchy. It is selected with
+Puerto Rico, and the U.S. Virgin Islands) with 3,143 counties and
+county equivalents as level-2 areas in a two-level administrative
+hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('US')` after countries are seeded.
+
+Counties carry 5-digit FIPS GEOIDs and parent their state row, typed
+by Census flavor (`county`, `parish`, `borough`, `census_area`,
+`city` for the 38 Virginian plus Baltimore, St. Louis, and Carson
+City independents, `municipality` for Anchorage and Skagway, and
+`planning_region` for Connecticut's 9 post-2022 regions). Puerto
+Rico's municipios stay owned by the Puerto Rico provider and the
+District of Columbia has no county child (it is its own
+county-equivalent); both are intentionally absent here. County rows
+come from the 2025 Census Gazetteer (public domain).
 
 The military postal regions (`AA`, `AE`, `AP`) and the Minor Outlying
 Islands (`UM`) are postal constructs, not addressable geography, and
@@ -914,7 +1178,11 @@ are intentionally not areas.
 American addresses are formatted per USPS Publication 28: street
 lines, `{locality} {ST} {ZIP}` with the state abbreviation resolved
 from a full-name map (already-abbreviated values pass through
-uppercased), and country.
+uppercased), and country. All 56 states, territories, and DC carry
+their USPS abbreviation as a searchable alias (the formatter map is
+the source; military AA/AE/AP excluded with the areas). County
+flavors need no type labels (parish, borough, and census_area render
+correctly as distinct types).
 
 ## Spain
 
@@ -932,14 +1200,17 @@ through the `province` role with their community selected first.
 
 Spanish addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, the province on its
-own line, and country.
+own line, and country. Community, city, and province need no type
+labels (the community names are English exonyms by documented
+convention, mirroring states.json).
 
 ## Poland
 
 The bundled `PolandGeographyProvider` supplies the 16 voivodeships as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('PL')` after
 countries are seeded.
+The 314 land counties and 66 city counties ship as level-2 areas under their voivodeships.
 
 Voivodeship names use standard English exonyms (`Mazovia`, `Lesser
 Poland`) since the official Polish forms are adjectives, not
@@ -952,17 +1223,18 @@ Polish addresses are formatted per the UPU layout: street lines,
 ## Netherlands
 
 The bundled `NetherlandsGeographyProvider` supplies the 12 provinces
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('NL')` after
 countries are seeded.
+The 342 municipalities ship as level-2 areas under their provinces.
 
 Province names use Dutch official forms (`Noord-Brabant`,
-`Noord-Holland`, `Zuid-Holland`). Municipalities are intentionally
-not bundled.
+`Noord-Holland`, `Zuid-Holland`).
 
 Dutch addresses are formatted per the UPU layout: street lines,
 `{postcode}  {locality}` with an uppercased `NNNN LL` postcode and
-two spaces before the locality, and country.
+two spaces before the locality, and country. Types are labelled
+`Provincie` and `Gemeente`.
 
 ## Nigeria
 
@@ -985,14 +1257,15 @@ state/LGA-creation talks are excluded: only gazetted LGAs ship.
 
 Nigerian addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with a 6-digit postcode, the state on its own
-line, and country.
+line, and country. The `lga` type is labelled `LGA`.
 
 ## Ethiopia
 
 The bundled `EthiopiaGeographyProvider` supplies 14 regions and city
-administrations as `State` rows and a single-level administrative
+administrations as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('ET')` after countries are seeded.
+The 118 zones and 9 Harari woredas ship as level-2 areas under their regions.
 
 The Southern Nations, Nationalities, and Peoples' Region was dissolved
 in August 2023 (split into Sidama, Southwest, South, and Central
@@ -1002,25 +1275,33 @@ Ethiopia (`CE`) have no ISO codes yet; those codes are provisional
 and will be updated when ISO assigns them.
 
 Ethiopian addresses are formatted per the UPU layout: street lines,
-`{postcode} {locality}` with a 4-digit postcode, and country.
+`{postcode} {locality}` with a 4-digit postcode, and country. The
+`region` type is labelled `Kilil`.
 
 ## Democratic Republic of the Congo
 
 The bundled `DemocraticRepublicOfCongoGeographyProvider` supplies the
-26 provinces as `State` rows and a single-level administrative
+26 provinces as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('CD')` after countries are seeded.
+The 145 territories ship as level-2 areas under their provinces
+(post-2015 découpage mapping; Kinshasa is terminal).
 
 Congolese addresses are formatted per the UPU layout: street lines,
 an optional commune line, `{postcode} {province}` with a 7-digit
-postcode, and country.
+postcode, and country. Types are labelled `Province` and
+`Territoire`.
 
 ## Tanzania
 
 The bundled `TanzaniaGeographyProvider` supplies the 31 regions
 (including Songwe, split from Mbeya in 2016) as `State` rows and a
-single-level administrative hierarchy. It is selected with
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('TZ')` after countries are seeded.
+The 193 districts ship as level-2 areas under their regions,
+reflecting post-2021 splits (Busokelo, Madaba, Bumbuli, Chalinze,
+Mpimbwe, Itigi) verified against government council registers.
+"Nanyumbu Urban" ships under its official town name Nanyamba Town.
 
 Tanzanian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, the region on its
@@ -1030,9 +1311,13 @@ bundled.
 ## Kenya
 
 The bundled `KenyaGeographyProvider` supplies the 47 counties as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('KE')` after
 countries are seeded.
+The 290 constituencies ship as level-2 areas under their counties
+(IEBC numbering 1–290 verified complete). Sub-counties are not
+bundled: no single reliable county-by-county list exists, and they
+coincide with constituencies outside the urban splits.
 
 Kenyan addresses are formatted per the UPU postal layout: street or
 P.O. Box lines, the 5-digit postcode on its own line, then the town,
@@ -1041,20 +1326,39 @@ and country. The county line is omitted when a postcode is present.
 ## Sudan
 
 The bundled `SudanGeographyProvider` supplies the 18 states as `State`
-rows and a single-level administrative hierarchy. It is selected with
+rows and a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('SD')` after countries are seeded.
+The 188 districts ship as level-2 areas under their states (UN OCHA
+table; "Aj Jazirah" typo and "Gedaref" spelling mapped; the Abyei
+PCA row excluded as disputed while the West Kordofan-parented Abyei
+district row ships).
 
 Sudanese addresses are formatted per the UPU layout: street lines, a
 5-digit postcode on its own line above the locality, and country.
 
+## Suriname
+
+The bundled `SurinameGeographyProvider` supplies the 10 districts
+as `State` rows and a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('SR')` after
+countries are seeded.
+The 63 ressorten ship as level-2 areas under their districts.
+
+Suriname has no postcode system. Addresses are formatted per the UPU
+layout: street lines, the locality, and country; any supplied code
+prints on its own line.
+
 ## Uganda
 
 The bundled `UgandaGeographyProvider` supplies the four regions as
-`State` rows in a single-level administrative hierarchy. The 130+
-districts change almost yearly (new ones are split off regularly), so
-they are intentionally not bundled — any snapshot would be stale on
-arrival. It is selected with
+`State` rows in a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('UG')` after countries are seeded.
+The 135 districts and 11 cities ship as level-2 areas under their
+regions, anchored to the UBOS 2024 census (no new districts since
+July 2020, superseding the earlier volatility exclusion). Only the
+10 operational regional cities plus Kampala ship; the 5 approved-but-
+unfunded cities (Kabale, Moroto, Wakiso, Nakasongola, Entebbe) are
+excluded.
 
 Ugandan addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, and country.
@@ -1086,90 +1390,140 @@ Algerian addresses are formatted per the UPU layout: street lines,
 ## Brazil
 
 The bundled `BrazilGeographyProvider` supplies the 26 states plus the
-Distrito Federal as `State` rows and a single-level administrative
-hierarchy. It is selected with
-`SeedCountryGeographiesAction::execute('BR')` after countries are seeded.
+Distrito Federal as `State` rows with 5,571 municipalities as
+level-2 areas in a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('BR')` after
+countries are seeded.
 
-Municipalities (5,500+) are intentionally not bundled.
+Municipalities carry 7-digit IBGE codes (2-digit UF prefix) and
+parent their state row, sourced from the IBGE Localidades API.
+Fernando de Noronha is typed `district` (a Pernambuco state
+district, not a municipality); Brasília parents the Distrito
+Federal row. The set includes Boa Esperança do Norte, Mato Grosso
+(5101837, effective January 2025).
 
 Brazilian addresses are formatted per the UPU layout: street lines,
 `{locality} - {ST}` with the two-letter state abbreviation resolved
 from a full-name map, the `NNNNN-NNN` postcode on its own line, and
-country.
+country. All 27 states and the federal district carry their UF
+abbreviation as a searchable alias. Types are labelled `Estado`,
+`Distrito Federal`, `Município`, and `Distrito`.
 
 ## Mexico
 
 The bundled `MexicoGeographyProvider` supplies the 32 federal
 entities as `State` rows (all typed `state`, including Ciudad de
-México, which has been state-equivalent since 2016) and a
-single-level administrative hierarchy. It is selected with
+México, which has been state-equivalent since 2016) with 2,479
+municipalities as level-2 areas in a two-level administrative
+hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('MX')` after countries are seeded.
 
-Municipalities are intentionally not bundled.
+Municipalities carry 5-digit INEGI CVEGEO codes (state prefix plus
+municipio number) and parent their state row. The 16 Ciudad de
+México alcaldías are typed `borough`, everything else `municipality`.
+Recent adds included: Villa Juárez, Aguascalientes (01012, created
+August 2026); Villa de Pozos, San Luis Potosí (24059); Eldorado
+(25019) and Juan José Ríos (25020), Sinaloa. Municipio names and
+codes were sourced from Wikidata P3801 claims (CC0), verified
+against the Spanish Wikipedia state annexes (CC-BY-SA) and the INEGI
+2024 national count of 2,478 (plus Villa Juárez).
 
 Mexican addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}, {abbrev}` with the state abbreviation from
-the UPU list (`CDMX`, `EDOMEX`, `Q. ROO`, `TAMPS`), and country.
+the UPU list (`CDMX`, `EDOMEX`, `Q. ROO`, `TAMPS`), and country. All
+32 states carry their UPU abbreviation as a searchable alias. Types
+are labelled `Estado`, `Municipio`, and `Alcaldía` (the capital's 16
+boroughs).
 
 ## Canada
 
 The bundled `CanadaGeographyProvider` supplies the 10 provinces plus
-the 3 territories as `State` rows and a single-level administrative
-hierarchy. It is selected with
-`SeedCountryGeographiesAction::execute('CA')` after countries are seeded.
+the 3 territories as `State` rows with 5,028 census subdivisions as
+level-2 areas in a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('CA')` after
+countries are seeded.
+
+Subdivisions carry 7-digit SGC codes (province plus division plus
+subdivision) and parent their province row, sourced from the 2024
+StatCan boundary file DBF. Types collapse the 60 CSDTYPE codes to
+three: `municipality` for municipal governments, `indigenous_reserve`
+for Indian reserves, and `unorganized` for unorganized areas. Names
+follow StatCan recognition, including reserve spellings; filter by
+code and parent, never by name alone, since 152 names repeat across
+provinces.
 
 Canadian addresses are formatted per the UPU layout: street lines,
 `{locality} {PR} {postcode}` with the two-letter province abbreviation
-and uppercased `ANA NAN` postcode, and country.
+and uppercased `ANA NAN` postcode, and country. All 13 provinces and
+territories carry their postal abbreviation as a searchable alias
+(plus accented `Québec`); province, territory, municipality,
+indigenous reserve, and unorganized need no type labels.
 
 ## Australia
 
 The bundled `AustraliaGeographyProvider` supplies the 6 states plus
-the 2 mainland territories as `State` rows and a single-level
+the 2 mainland territories as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('AU')` after countries are seeded.
+
+The 537 local government areas ship as level-2 areas (128 NSW,
+79 VIC, 78 QLD, 137 WA, 68 SA, 29 TAS, 18 NT; the ACT has no
+local government and stays childless). All eight LGA types
+(city, shire, town, region, borough, municipality, rural
+city, council) share the `lga` assignment role. Excluded:
+Lord Howe Island and the Unincorporated Far West (NSW),
+Christmas Island and Cocos Islands shires (external
+territories, not WA LGAs), and the Gerard, APY, and
+Maralinga Aboriginal councils (SA communities, not LGAs).
 
 External territories (Norfolk Island, Christmas Island, Cocos
 Islands) carry their own postcodes and are intentionally not areas.
 
 Australian addresses are formatted per the UPU layout: street lines,
 `{locality}  {ST}  {postcode}` with two spaces between each part, and
-country.
+country. All 8 states and territories carry their postal abbreviation
+as a searchable alias; the eight LGA types render correctly and need
+no type labels.
 
 ## Argentina
 
 The bundled `ArgentinaGeographyProvider` supplies the 23 provinces
 plus the Autonomous City of Buenos Aires as `State` rows and a
-single-level administrative hierarchy. It is selected with
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('AR')` after countries are seeded.
 
-Departments and municipalities are intentionally not bundled.
+The 377 departments, 135 Buenos Aires partidos and 15 CABA comunas ship as level-2 areas under their provinces.
 
 Argentine addresses are formatted per the UPU layout: street lines,
 `{CPA} {locality}` with the `XNNNNLLL` postcode left of the locality,
-and country.
+and country. Types are labelled `Provincia`, `Ciudad`, `Comuna`, and
+`Departamento`; the capital row is the endonym `Ciudad Autónoma de
+Buenos Aires` (matching the corrected states.json entry) with the
+English name kept as an alias.
 
 ## Colombia
 
 The bundled `ColombiaGeographyProvider` supplies the 32 departments
-plus Bogotá D.C. as `State` rows and a single-level administrative
+plus Bogotá D.C. as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('CO')` after countries are seeded.
 
-Municipalities are intentionally not bundled.
+The 1101 municipalities, 20 Bogota localities and 19 non-municipalized areas ship as level-2 areas under their departments.
 
 Colombian addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with a 6-digit postcode, the department on
-its own line, and country.
+its own line, and country. Types are labelled `Departamento`,
+`Distrito Capital`, `Municipio`, `Localidad`, and
+`Área No Municipalizada`.
 
 ## Peru
 
 The bundled `PeruGeographyProvider` supplies the 25 regions plus the
-Lima metropolitan municipality as `State` rows and a single-level
+Lima metropolitan municipality as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('PE')` after countries are seeded.
 
-Provinces and districts are intentionally not bundled. The `Huánuco`
+The 196 provinces ship as level-2 areas under their regions. The `Huánuco`
 spelling is corrected at seed.
 
 Peruvian addresses are formatted per the UPU layout: street lines, a
@@ -1179,47 +1533,93 @@ country.
 ## Vietnam
 
 The bundled `VietnamGeographyProvider` supplies the post-merger 34
-provincial-level divisions (28 provinces, 6 municipalities:
-Hà Nội, Hải Phòng, Huế, Đà Nẵng, Cần Thơ, Hồ Chí Minh City) as
-`State` rows and a single-level administrative hierarchy. It is
+provincial-level divisions (25 provinces, 9 municipalities:
+Hà Nội, Hải Phòng, Huế, Đà Nẵng, Cần Thơ, Hồ Chí Minh,
+Quảng Ninh, Bắc Ninh, Đồng Nai) as
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('VN')` after
 countries are seeded.
 
 The June 2025 merger (63 → 34, districts eliminated) is reflected as
-shipped; seeding renames `Thừa Thiên-Huế` to `Huế` and retypes Hải
-Phòng, Hồ Chí Minh City, and Huế as municipalities. Communes and
-wards are intentionally not bundled.
+shipped; the bundle carries post-merger names (`Huế`) and
+municipality typing for Hải Phòng, Hồ Chí Minh, and Huế. The 2026 city
+upgrades retype Quảng Ninh, Bắc Ninh, and Đồng Nai as
+municipalities (all effective by September 2026).
+
+The 3,321 commune-level units ship as level-2 areas (2,599
+communes, 709 wards, 13 special zones) from the GSO official
+list service, parented by province code with post-2026 typing
+(22 xã→phường upgrades included). Seven rows carry mechanical
+normalizations only (NFC, collapsed whitespace, lowercase
+`xã` prefix on 06325); Hòa/Hoà spelling variants ship
+source-faithful. All three types share the `commune`
+assignment role.
 
 Vietnamese addresses are formatted per the UPU layout: street and
 ward lines, `{province} {postcode}` with a 5-digit postcode, and
 country.
 
+## Vanuatu
+
+The bundled `VanuatuGeographyProvider` supplies the 6 provinces as
+`State` rows and a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('VU')` after
+countries are seeded.
+The 60 area councils and 3 municipalities ship as level-2 areas
+under their geographic provinces with HASC codes (Lenakel added
+manually as the 2008 third municipality; municipalities are
+parented geographically though administratively independent).
+
+Vanuatu has no postcode system. Addresses are formatted per the UPU
+layout: street lines, locality, and country.
+
 ## Thailand
 
 The bundled `ThailandGeographyProvider` supplies the 76 provinces
-plus Bangkok and Pattaya as `State` rows and a single-level
+plus Bangkok and Pattaya as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('TH')` after countries are seeded.
+Pattaya (ISO TH-S, `Phatthaya`) is a special administrative city
+inside Chon Buri, modeled as a metropolitan_administration row
+like Bangkok.
 
-Districts (amphoe) and sub-districts are intentionally not bundled.
+The 878 amphoe and 50 Bangkok khet ship as level-2 areas with
+4-digit DOPA geocodes (Mueang prefixes restored on capital
+districts except Ayutthaya; Bueng Kan's 8 recoded 43xx→38xx).
+Pattaya is terminal. Sub-districts (tambon) are not bundled.
 
 Thai addresses are formatted per the UPU layout: street lines,
 `{district}, {province}`, the 5-digit postcode on its own line, and
-country.
+country. The `province` type is labelled `Changwat` (amphoe, khet,
+and metropolitan administration render correctly); Bangkok carries
+its official `Krung Thep Maha Nakhon` name alongside the row name.
 
 ## Philippines
 
 The bundled `PhilippinesGeographyProvider` supplies the 82 provinces
-as areas in a single-level administrative hierarchy, including the
+plus the National Capital Region as areas in a three-level
+administrative hierarchy, including the
 2022 Maguindanao split (`Maguindanao del Norte` / `Maguindanao del
 Sur`) and `Davao de Oro`. It is selected with
 `SeedCountryGeographiesAction::execute('PH')` after countries are seeded.
 
-The 17 regions stay global `State` rows only (with `Bangsamoro` and
-`Cordillera Administrative Region` name corrections at seed): regions
-are churny (ARMM→BARMM in 2019, Negros Island Region re-created in
-2024 without an ISO code), while provinces are the address-relevant
-unit. Cities and barangays are intentionally not bundled.
+The 1,656 municipalities and cities ship as level-2 areas (149
+cities, 1,493 municipalities, 14 Manila sub-municipalities) and
+the 42,011 barangays as level-3 areas, all from the PSA
+Philippine Standard Geographic Code 2025-2Q release (30 June
+2025, used with acknowledgement per its use constraints; PSA
+direct download is bot-walled so the build pulls a mirror of
+the official files). NCR ships as a pseudo-province area mapped
+to the existing region state, following PSGC's own model;
+highly urbanized and independent cities parent to their
+geographic province, the 8 Bangsamoro Special Geographic Area
+municipalities to Cotabato, and Manila's 14 districts sit as
+L2 siblings of Manila City (which is therefore barangay-less).
+The other 16 regions stay global `State` rows only (with
+`Bangsamoro` and `Cordillera Administrative Region` name
+corrections at seed): regions are churny (ARMM→BARMM in 2019,
+Negros Island Region re-created in 2024 without an ISO code),
+while provinces are the address-relevant unit.
 `Samar` keeps `Western Samar` as an alias.
 
 Filipino addresses are formatted per the UPU layout: street lines,
@@ -1231,14 +1631,14 @@ and country.
 ## South Korea
 
 The bundled `SouthKoreaGeographyProvider` supplies the 17
-provincial-level divisions as `State` rows (8 provinces including the
+provincial-level divisions as `State` rows (9 provinces including the
 special self-governing Gangwon State, Jeju, and Jeonbuk State — the
 2023/2024 official renames, with `Gangwon` and `North Jeolla` aliased
-— 6 metropolitan cities, Seoul, and Sejong) and a single-level
+— 6 metropolitan cities, Seoul, and Sejong) and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('KR')` after countries are seeded.
 
-Cities, districts, and dongs are intentionally not bundled.
+The 77 cities, 82 counties and 69 autonomous districts ship as level-2 areas under their provinces and cities.
 
 South Korean addresses are formatted per the UPU layout: street
 lines, `{province or city} {postcode}` with a 5-digit postcode, and
@@ -1248,10 +1648,16 @@ country.
 
 The bundled `TaiwanGeographyProvider` supplies the 22 divisions (6
 special municipalities, 3 cities, 13 counties) as `State` rows and a
-single-level administrative hierarchy. It is selected with
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('TW')` after countries are seeded.
 
-Townships, districts, and villages are intentionally not bundled.
+The 368 townships, county-administered cities, and districts ship
+as level-2 areas with 8-digit household-registration codes and
+Traditional Chinese native names (122 rural townships, 38 urban,
+24 mountain indigenous townships, 14 county-administered cities,
+164 districts, 6 mountain indigenous districts). All six types
+share the `district` assignment role; 12 cross-division name
+twins are parent-scoped. Villages (li) are not bundled.
 
 Taiwanese addresses are formatted per Chunghwa Post (no UPU sheet is
 published for Taiwan): street lines, `{locality} {postcode}` with the
@@ -1261,10 +1667,10 @@ published for Taiwan): street lines, `{locality} {postcode}` with the
 
 The bundled `UkraineGeographyProvider` supplies the 24 oblasts plus
 Kyiv, Sevastopol, and the Autonomous Republic of Crimea as `State`
-rows and a single-level administrative hierarchy. It is selected with
+rows and a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('UA')` after countries are seeded.
 
-Raions and hromadas are intentionally not bundled. Oblast names use
+The 136 post-2020 raions ship as level-2 areas under their oblasts. Oblast names use
 the ISO adjectival forms (`Kyivska`, `Lvivska`).
 
 Ukrainian addresses are formatted per the UPU layout: street lines,
@@ -1273,7 +1679,7 @@ locality, oblast, a 5-digit postcode on its own line, and country.
 ## Iraq
 
 The bundled `IraqGeographyProvider` supplies the 19 governorates as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('IQ')` after
 countries are seeded.
 
@@ -1283,18 +1689,21 @@ governorates are the address-relevant unit, seeding deletes any `KR`
 straggler rows and the bundled state data no longer ships the code.
 Halabja (governorate in Kurdistan since 2014, federally since April
 2025) has no ISO code yet; `HL` follows UK government usage pending
-ISO assignment. Districts are intentionally not bundled.
+ISO assignment. The 119 districts ship as level-2 areas under their governorates.
 
 Iraqi addresses are formatted per the UPU layout: street lines,
 `{city}, {governorate}`, the 5-digit postcode on its own line, and
-country.
+country. Types are labelled `Muhafaza` and `Qadaa`.
 
 ## Ghana
 
 The bundled `GhanaGeographyProvider` supplies the 16 regions
 (including the six created in 2019) as `State` rows and a
-single-level administrative hierarchy. It is selected with
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('GH')` after countries are seeded.
+The 261 metropolitan, municipal, and district assemblies ship as
+level-2 areas under their regions (6 metropolitan + 113 municipal
++ 142 district).
 
 Districts are intentionally not bundled.
 
@@ -1305,74 +1714,104 @@ country.
 
 ## Angola
 
-The bundled `AngolaGeographyProvider` supplies the 18 ISO provinces
-as `State` rows and a single-level administrative hierarchy. It is
+The bundled `AngolaGeographyProvider` supplies the 21 provinces
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('AO')` after
 countries are seeded.
+The 326 post-reform municipalities ship as level-2 areas,
+extracted from the 21 annexes of Law 14/24 itself (Diário da
+República, 5 September 2024 — one map page per municipality,
+titles parsed and counted to exactly 326). Names are
+title-cased from the gazette's all-caps with Portuguese
+particles kept lowercase; official spellings omit apostrophes
+(`Mbanza Kongo`, `Nzeto`) per current government usage.
 
-The September 2024 law creating three more provinces (Icolo e Bengo,
-Moxico Leste, and the Cuando/Cubango split, 21 total) is enacted but,
-per official sources, not yet implemented — so the shipped 18 track
-implemented reality, and the new units will be added once live.
-Municipalities are intentionally not bundled.
+Law 14/24 (gazetted 5 Sept 2024) split Cuando Cubango into `Cuando`
+and `Cubango`, carved `Icolo e Bengo` out of Luanda, and `Moxico
+Leste` out of Moxico; the new provinces were formally instituted
+with appointed governors in December 2024 and the 2024 census
+tabulates all 21, so the bundled data tracks the 21 as operational.
+The retired `Cuando Cubango` row is removed (a split has no single
+successor to alias). ISO 3166-2:AO still lists only the former 18,
+so the bundled codes `CUA`/`CUB`/`IEB`/`MLE` are provisional
+pending ISO.
 
 Angola has no postcode system, so the formatter stacks street lines,
-city, and country with no postcode line.
+city, and country with no postcode line. Types are labelled with the
+Portuguese gazette terms (`province` → `Província`, `municipality` →
+`Município`).
 
 ## Cameroon
 
 The bundled `CameroonGeographyProvider` supplies the 10 regions as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('CM')` after
 countries are seeded.
 
-Departments and communes are intentionally not bundled.
+The 58 departments ship as level-2 areas under their regions.
 
 Cameroon has no postcode system, so the formatter stacks street
-lines, city, and country with no postcode line.
+lines, city, and country with no postcode line. Types are labelled
+`Région` and `Département`.
 
 ## Madagascar
 
 The bundled `MadagascarGeographyProvider` supplies the 6 provinces
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('MG')` after
 countries are seeded.
+The 24 regions ship as level-2 areas under their provinces.
 
-The 23 post-2009 regions have no ISO codes (ISO 3166-2:MG still lists
-the 6 former faritany) and are intentionally not bundled; the 6
-remain postally relevant since the postcode's first digit routes by
-old province.
+The regions have no ISO codes (ISO 3166-2:MG still lists the 6
+former faritany); the 6 remain postally relevant since the
+postcode's first digit routes by old province.
 
 Malagasy addresses are formatted per the UPU layout: street lines,
-`{postcode} {town}` with a 3-digit postcode, and country.
+`{postcode} {town}` with a 3-digit postcode, and country. Types are
+labelled `Faritany` and `Faritra`.
 
 ## Afghanistan
 
 The bundled `AfghanistanGeographyProvider` supplies the 34 provinces
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('AF')` after
 countries are seeded.
 
-Districts are intentionally not bundled. The `Ghor` and `Kunduz`
+The 401 districts ship as level-2 areas from the OCHA Common
+Operational Dataset on Administrative Boundaries (COD-AB v03,
+valid 1 June 2025), which carries a UN p-code (`AF0101`-style)
+and an explicit province parent per district. Afghan government
+sources disagree on the district count over time (398/399/407 in
+various CSO/IDLG/SIGAR vintages), so the COD — the operational
+standard used by the UN and humanitarian community — is the
+bundled source of truth; 33 provincial centres and Kabul city
+ship as their own district rows. The `Ghor` and `Kunduz`
 spellings are corrected at seed.
 
 Afghan addresses are formatted per the UPU layout: street lines,
-`{postcode} {locality}` with a 6-digit postcode, the province on its
-own line, and country.
+the locality on its own line, `{postcode} {province}` with a 6-digit
+postcode (new province-encoded system from 1 October 2024), and
+country. Province and district need no type labels (the bundled data
+and COD source both use the English terms); provincial centres and
+Kabul city stay typed `district` — capital status is an attribute,
+not a distinct addressing tier.
 
 ## Mozambique
 
 The bundled `MozambiqueGeographyProvider` supplies the 10 provinces
-plus Maputo City as `State` rows and a single-level administrative
+plus Maputo City as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('MZ')` after countries are seeded.
 
-Districts are intentionally not bundled. `Maputo Province` and
-`Maputo City` are disambiguated at seed.
+The 129 districts ship as level-2 areas under their provinces, plus
+the 7 municipal districts under Maputo City. `Maputo Province` and
+`Maputo City` are disambiguated at seed. Maxixe is excluded (city,
+not a district).
 
 Mozambican addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, the province on its
-own line, and country.
+own line, and country. Types are labelled `Província`, `Cidade`,
+and `Distrito`.
 
 ## Uzbekistan
 
@@ -1409,26 +1848,40 @@ own line (omitted when it duplicates the city), and country.
 ## Myanmar
 
 The bundled `MyanmarGeographyProvider` supplies the 7 regions, 7
-states, and Naypyidaw as `State` rows and a single-level
+states, and Naypyidaw as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('MM')` after countries are seeded.
-
-Townships and districts are intentionally not bundled.
+The 80 districts ship as level-2 areas from the OCHA
+Common Operational Dataset on Administrative Boundaries
+(MIMU Place Codes, valid 15 February 2024), which carries a
+p-code (`MMR016001`-style) and an explicit parent per
+district. Operational reality wins over announcement
+reality: the April 2022 MOI announcement (Notifications
+319–333, 76 + 46 = 121) was never operationalized, and the
+reference table churns between counts, so the 80-district
+MIMU operational list is the bundled source of truth.
+MIMU splits Bago into East/West and Shan into East/North/
+South (18 admin-1 units); those split parents are rolled up
+into the ISO `Bago` and `Shan` states (Shan 16, Bago 4).
+Townships are not bundled.
 
 Myanmar addresses are formatted per the UPU layout: street lines,
 `{locality}, {postcode}` with a 7-digit postcode, the region or state
-on its own line, and country.
+on its own line, and country. Region, state, union territory, and
+district need no type labels (the MIMU English terms render
+correctly).
 
 ## Cambodia
 
 The bundled `CambodiaGeographyProvider` supplies the 24 provinces plus
-Phnom Penh municipality as `State` rows and a single-level
+Phnom Penh municipality as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('KH')` after countries are seeded.
+The 163 districts, 33 municipalities and 14 Phnom Penh sections ship as level-2 areas under their provinces.
 
 Code `18` seeds the official `Preah Sihanouk` name with `Sihanoukville`
-kept as an alternative area name. Districts (srok/khan) and communes
-are intentionally not bundled.
+kept as an alternative area name. Communes (khum/sangkat) below the
+districts are intentionally not bundled.
 
 Cambodian addresses are formatted per the UPU layout: street lines,
 the city above `{province} {postcode}` with a 6-digit postcode, and
@@ -1437,29 +1890,30 @@ country.
 ## Laos
 
 The bundled `LaosGeographyProvider` supplies the 17 provinces plus the
-Vientiane Prefecture as `State` rows and a single-level administrative
+Vientiane Prefecture as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('LA')` after countries are seeded.
+The 148 districts ship as level-2 areas under their provinces.
 
 The Vientiane province (`VI`) and Vientiane Prefecture (`VT`) are
-separate areas sharing a name; districts (muang) are intentionally not
-bundled.
+separate areas sharing a name.
 
 Laotian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, the province on its
-own line when both are set, and country.
+own line when both are set, and country. Types are labelled
+`Khoueng` and `Muang`.
 
 ## Timor-Leste
 
 The bundled `TimorLesteGeographyProvider` supplies the 13 ISO 3166-2
 municipalities (Oecusse is a special administrative region) plus
 Atauro — split from Dili in 2022 with provisional code `AT`, since
-ISO has not assigned one yet — as `State` rows and a single-level
+ISO has not assigned one yet — as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('TL')` after countries are seeded.
 
 Timor-Leste joined ASEAN as the 11th member in October 2025.
-Administrative posts are intentionally not bundled.
+The 67 administrative posts ship as level-2 areas under their municipalities.
 
 Timorese addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with a `TL` + 5-digit postcode, and country.
@@ -1469,23 +1923,41 @@ Distinct city and municipality join as `{city} - {municipality}
 ## Armenia
 
 The bundled `ArmeniaGeographyProvider` supplies the 10 regions plus
-Yerevan as `State` rows and a single-level administrative hierarchy.
+Yerevan as `State` rows and a two-level administrative hierarchy.
 It is selected with
 `SeedCountryGeographiesAction::execute('AM')` after countries are seeded.
+The 69 municipalities and 12 Yerevan districts ship as level-2 areas under their regions and city.
 
 Armenian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, the region on its
-own line when both are set, and country.
+own line when both are set, and country. Regions and municipalities
+are labelled `Marz` and `Hamaynk`; Yerevan city and its districts keep
+English headlines.
 
 ## Azerbaijan
 
-The bundled `AzerbaijanGeographyProvider` supplies the 66 districts,
-11 municipalities, and the Nakhchivan Autonomous Republic as `State`
-rows and a single-level administrative hierarchy. It is selected with
+The bundled `AzerbaijanGeographyProvider` supplies the 66 districts
+(rayonlar), 11 cities (şəhərlər), and the Nakhchivan Autonomous
+Republic as `State` rows and a two-level administrative hierarchy.
+It is selected with
 `SeedCountryGeographiesAction::execute('AZ')` after countries are seeded.
+The first-level cities share the `district` assignment role;
+Nakhchivan keeps its own role.
 
-The Lankaran, Shaki, Yevlakh, and Nakhchivan municipality/district
-pairs share names by design; filter by type.
+The 685 local municipalities (bələdiyyə) ship as level-2 areas
+from the State Statistical Committee classification (4,455
+rows; municipality rows end in `007` plus 9 suffixed rows),
+parented by the 3-digit district prefix. Baku's 12 intra-city
+rayons parent to Baku city; where SSC codes a city and its
+district together (Şəki, Lənkəran, Yevlax), the eponymous
+municipality goes to the city and the rest to the district.
+Liberated-territory districts and Aghdara are absent from SSC
+and stay childless. Type and role are `local_municipality`
+(L1 cities already own `municipality`).
+
+The Lankaran, Shaki, and Yevlakh municipality/district pairs share
+names by design, as do Nakhchivan city and the Nakhchivan Autonomous
+Republic; filter by type.
 
 Azerbaijani addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with an `AZ` + 4-digit postcode, the district
@@ -1494,9 +1966,9 @@ or region on its own line when both are set, and country.
 ## Bhutan
 
 The bundled `BhutanGeographyProvider` supplies the 20 dzongkhags as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('BT')` after
-countries are seeded. Gewogs are intentionally not bundled.
+countries are seeded. The 205 gewogs ship as level-2 areas under their districts.
 
 Bhutanese addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with a 5-digit postcode, the dzongkhag on its
@@ -1518,12 +1990,40 @@ postcode exactly as supplied.
 
 The bundled `GeorgiaGeographyProvider` supplies the 9 regions plus
 the Abkhazia and Adjara autonomous republics and Tbilisi as `State`
-rows and a single-level administrative hierarchy. It is selected with
+rows and a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('GE')` after countries are seeded.
+The 65 municipalities, 16 districts and 4 self-governing cities ship as level-2 areas under their regions, republics and Tbilisi.
 
 Georgian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, the region on its
-own line when both are set, and country.
+own line when both are set, and country. The `region` type is
+labelled `Mkhare`.
+
+## Haiti
+
+The bundled `HaitiGeographyProvider` supplies the 10 departments
+as `State` rows and a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('HT')` after
+countries are seeded.
+The 42 arrondissements ship as level-2 areas under their
+departments.
+
+Haitian addresses are formatted per the UPU layout: street lines,
+`{postcode} {locality}` with an `HT`-prefixed postcode, and
+country. Types are labelled `Département` and `Arrondissement`.
+
+## Honduras
+
+The bundled `HondurasGeographyProvider` supplies the 18
+departments as `State` rows and a two-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('HN')` after countries are seeded.
+The 298 municipalities ship as level-2 areas under their
+departments.
+
+Honduran addresses are formatted per the UPU layout: street lines,
+`{postcode} {locality}` with a 5-digit postcode, the department,
+and country. Types are labelled `Departamento` and `Municipio`.
 
 ## Hong Kong
 
@@ -1539,32 +2039,31 @@ prints on its own line for form-compatibility.
 ## Iran
 
 The bundled `IranGeographyProvider` supplies the 31 ostans
-(provinces) as `State` rows and a single-level administrative
+(provinces) as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('IR')` after countries are seeded.
-Counties (shahrestan) are intentionally not bundled.
+
+The 429 counties (shahrestan) ship as level-2 areas from the
+UN OCHA Common Operational Dataset v01, parented by province
+pcode with English names and Persian native names. Vintage
+warning: the dataset is stamped May 2019 and misses every
+county split since (current claims run 480–491 but no
+complete, parent-mapped, officially backed list exists — the
+reference page disagrees with itself and cites a 2007 atlas,
+and the Statistical Centre of Iran is unreachable). Refresh
+from SCI when accessible.
 
 Iranian addresses are formatted per the UPU layout: street lines,
 the locality, the province, the 10-digit postcode on its own line,
-and country.
-
-## Israel
-
-The bundled `IsraelGeographyProvider` supplies the 6 districts as
-`State` rows and a single-level administrative hierarchy. It is
-selected with `SeedCountryGeographiesAction::execute('IL')` after
-countries are seeded. Sub-districts are intentionally not bundled.
-
-Israeli addresses are formatted per the UPU layout: street lines,
-`{postcode} {locality}` with a 7-digit postcode (legacy 5-digit codes
-pass through), and country.
+and country. Types are labelled `Ostan` and `Shahrestan`.
 
 ## Kazakhstan
 
 The bundled `KazakhstanGeographyProvider` supplies the 17 regions
-plus Almaty, Astana, and Shymkent as `State` rows and a single-level
+plus Almaty, Astana, and Shymkent as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('KZ')` after countries are seeded.
+The 170 districts ship as level-2 areas under their regions.
 
 The Almaty region and Almaty city share a name by design; filter by
 type.
@@ -1572,38 +2071,51 @@ type.
 Kazakh addresses are formatted per the UPU layout: street lines,
 `{postcode}, {locality}` with either the legacy 6-digit or the new
 `A99A9A9` postcode, the region on its own line when both are set, and
-country.
+country. Types are labelled `Oblys`, `Qala`, and `Audan`.
 
 ## Kyrgyzstan
 
 The bundled `KyrgyzstanGeographyProvider` supplies the 7 regions plus
-Bishkek and Osh as `State` rows and a single-level administrative
+Bishkek and Osh as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('KG')` after countries are seeded.
+The 44 districts ship as level-2 areas under their regions.
 
 The Osh region and Osh city share a name by design; filter by type.
 
 Kyrgyz addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 6-digit postcode, the region on its
-own line when both are set, and country.
+own line when both are set, and country. Types are labelled
+`Oblus`, `Shaar`, and `Raion`.
 
 ## Lebanon
 
-The bundled `LebanonGeographyProvider` supplies the 8 governorates
-as `State` rows and a single-level administrative hierarchy. It is
+The bundled `LebanonGeographyProvider` supplies the 9 governorates
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('LB')` after
-countries are seeded. Cazas are intentionally not bundled.
+countries are seeded. The 25 cazas ship as level-2 areas under
+their governorates (Beirut has none — the governorate is the city).
+Keserwan-Jbeil (split from Mount Lebanon in 2017) carries the
+provisional code `KJ`: ISO 3166-2:LB still lists the 8 old
+governorates.
 
 Lebanese addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with the optional 4+4-digit LibanPost code,
 the governorate on its own line when both are set, and country.
+The `governorate` type is labelled `Muhafaza`.
 
 ## Maldives
 
-The bundled `MaldivesGeographyProvider` supplies the 20 atolls plus
-Addu City as `State` rows and a single-level administrative
+The bundled `MaldivesGeographyProvider` supplies the 18 atolls plus
+the Addu, Malé, Fuvahmulah, Kulhudhuffushi, and Thinadhoo cities as
+`State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('MV')` after countries are seeded.
+The 192 islands ship as level-2 areas under their atolls.
+Malé is typed city (ISO MV-MLE), not an atoll. Gnaviyani atoll is
+retired: Fuvahmulah city covers it entirely (ISO still lists MV-29).
+Fuvahmulah (`FVM`), Kulhudhuffushi (`KUH`), and Thinadhoo (`THD`)
+codes are invented pending ISO assignment.
 
 Maldivian addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with a 5-digit postcode, the atoll on its own
@@ -1612,35 +2124,50 @@ line when both are set, and country.
 ## Mongolia
 
 The bundled `MongoliaGeographyProvider` supplies the 21 aimags
-(provinces) plus Ulaanbaatar as `State` rows and a single-level
+(provinces) plus Ulaanbaatar as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('MN')` after countries are seeded.
+The 330 sums and 9 Ulaanbaatar düüregs ship as level-2 areas under
+their provinces.
 
 Mongolian addresses are formatted per the UPU layout: street lines,
 the district above `{province} {postcode}` with a 5-digit postcode
-(`-NNNN` extensions pass through), and country.
+(`-NNNN` extensions pass through), and country. Types are labelled
+`Aimag`, `Sum`, and `Düüreg`.
 
 ## Nepal
 
 The bundled `NepalGeographyProvider` supplies the 7 federal provinces
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('NP')` after
-countries are seeded. Districts are intentionally not bundled.
+countries are seeded. The 77 districts ship as level-2 areas under their provinces.
 
 Nepali addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with a 5-digit postcode, the province on its
-own line when both are set, and country.
+own line when both are set, and country. Types are labelled
+`Pradesh` and `Jilla`.
 
 ## North Korea
 
 The bundled `NorthKoreaGeographyProvider` supplies the 9 provinces
-plus Kaesong, Nampho, Pyongyang, and Rason as `State` rows and a
-single-level administrative hierarchy. It is selected with
+plus Kaesong, Nampo, Pyongyang, and Rason as `State` rows and a
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('KP')` after countries are seeded.
+The 179 districts (si/gun) ship as level-2 areas from the OCHA
+Common Operational Dataset on Administrative Boundaries
+(valid 24 June 2019), which carries a p-code (`KP1102`-style)
+and an explicit parent per district; Nampo nests cleanly with
+6 children (no double placement). Two modelling notes:
+COD-AB covers 11 of the 13 first-level units, so Kaesong and
+Rason ship without subdivisions, and Pyongyang ships with 3
+rows (city core plus Kangdong and Unjong counties) rather
+than its full guyok set.
 
 North Korea has no postcode system. Addresses are formatted per the
 UPU layout: street lines, the locality, and country; any supplied
-code prints on its own line.
+code prints on its own line. Province, city, and the generic district
+(mixed si/gun rows) need no type labels; si/gun cannot split further
+because the COD table carries no kind column.
 
 ## Palestine
 
@@ -1648,6 +2175,9 @@ The bundled `PalestineGeographyProvider` supplies the 16 West Bank
 and Gaza governorates as `State` rows and a single-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('PS')` after countries are seeded.
+Localities (~500) are not bundled: no consolidated machine-readable
+list with governorate parents exists (OCHA COD stops at
+governorates) and Gaza geography is in flux.
 
 Palestinian addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with a `P` + 7-digit postcode (short `P` + 3
@@ -1669,9 +2199,10 @@ its own line, and country.
 ## Syria
 
 The bundled `SyriaGeographyProvider` supplies the 14 provinces as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('SY')` after
 countries are seeded.
+The 66 districts ship as level-2 areas under their provinces.
 
 Syria has no live postcode system (a 4-digit scheme was announced but
 never confirmed). Addresses print street lines, the locality, and
@@ -1681,9 +2212,10 @@ country; any supplied code prints on its own line.
 
 The bundled `TajikistanGeographyProvider` supplies Khatlon, Sughd,
 Gorno-Badakhshan, Dushanbe, and the Districts under Republic
-Administration as `State` rows and a single-level administrative
+Administration as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('TJ')` after countries are seeded.
+The 51 districts and 18 regional-subordination cities ship as level-2 areas under their regions.
 
 Tajik addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 6-digit postcode, the region on its
@@ -1692,9 +2224,10 @@ own line when both are set, and country.
 ## Turkmenistan
 
 The bundled `TurkmenistanGeographyProvider` supplies the 5 regions
-plus Ashgabat as `State` rows and a single-level administrative
+plus Ashgabat as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('TM')` after countries are seeded.
+The 58 districts ship as level-2 areas under their regions.
 
 Turkmen addresses are formatted per the UPU layout: street lines,
 the locality, the region when it differs, the 6-digit postcode on
@@ -1704,8 +2237,9 @@ its own line, and country.
 
 The bundled `YemenGeographyProvider` supplies the 21 governorates
 plus Amanat Al Asimah (the Sanaa municipality) as `State` rows and a
-single-level administrative hierarchy. It is selected with
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('YE')` after countries are seeded.
+The 333 districts ship as level-2 areas under their governorates.
 
 Yemen has no postcode system. Addresses are formatted per the UPU
 layout: street lines, the locality, the governorate when it differs,
@@ -1714,19 +2248,27 @@ and country; any supplied code prints on its own line.
 ## Benin
 
 The bundled `BeninGeographyProvider` supplies the 12 departments
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('BJ')` after
 countries are seeded.
+The 77 communes ship as level-2 areas under their departments.
 
 Benin has no postcode system. Addresses are formatted per the UPU
 layout: P.O. box lines, the locality, and country; any supplied code
-prints on its own line.
+prints on its own line. Types are labelled `Département` and `Commune`.
+
 ## Botswana
 
 The bundled `BotswanaGeographyProvider` supplies the 10 districts,
-Gaborone, Francistown, and 4 towns as `State` rows and a
-single-level administrative hierarchy. It is selected with
+Gaborone, Francistown, and 5 towns as `State` rows and a
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('BW')` after countries are seeded.
+`Orapa` town is bundled with provisional code `OR`; ISO 3166-2:BW
+has not assigned it a code.
+The 23 subdistricts ship as level-2 areas under 8 of the 10
+districts; Chobe and North-East have no subdistrict tier and the
+cities and towns are terminal. The Central "Serowe - Palapye" entry
+ships as two subdistricts (Serowe, Palapye).
 
 Botswana has no postcode system. Addresses are formatted per the UPU
 layout: P.O. box or private bag lines, the town, and country; any
@@ -1734,14 +2276,39 @@ supplied code prints on its own line.
 ## Burkina Faso
 
 The bundled `BurkinaFasoGeographyProvider` supplies the 17 regions
-and 47 provinces flat at level 1 as `State` rows and a single-level
-administrative hierarchy. It is selected with
+as `State` rows plus the 47 provinces nested at level 2 under their
+regions, in a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('BF')` after countries are seeded.
 The July 2025 reform renamed all 13 regions, renamed 5 provinces
 (`Koosin`, `Gobnangou`, `Djelgodji`, `Sandbondtenga`, `Bassitenga`),
 and added 4 regions plus `Karo-Peli` and `Dyamongou` provinces.
-Renamed divisions keep their former codes; region codes `14`–`17`
-and province codes `KAR`/`DYA` are provisional pending ISO 3166-2:BF.
+Renamed divisions keep their former codes (each successor region
+keeps the old INSD code of the region it principally continues,
+e.g. Bankui keeps `01` from Boucle du Mouhoun); region codes
+`14`–`17` and province codes `KAR`/`DYA` are provisional pending
+ISO 3166-2:BF. French Wikipedia's region table uses a different
+unofficial numbering (e.g. Tapoa `16` / Sourou `17` swapped, and
+different `01`–`13` assignments); no INSD or ISO publication for
+the new numbering is known, so the succession scheme stands until
+an official source rules.
+
+Compositions follow the published reform details: Sourou region holds
+`Koosin`, Nayala, and Sourou; Sirba holds Gnagna and Komondjari;
+Tapoa holds `Gobnangou` and `Dyamongou` (Kantchari was a Tapoa
+department); Goulmou holds Gourma and Kompienga; Liptako holds
+Oudalan, Séno, and Yagha; Soum holds `Djelgodji` and `Karo-Peli`
+(Arbinda was a Soum department); Bankui holds the remaining Balé,
+Banwa, and Mouhoun; every other region keeps its pre-reform
+composition under its new name. Provinces remain `State` rows for
+compatibility and link their level-2 areas.
+
+Spelling evidence (Sept 2026): `Koosin` follows the decree table and
+Burkina Information Agency usage — the `Kossin` form appears only in
+the Presidency communiqué prose quoted by news outlets. `Gobnangou`
+follows the decree table; English Wikipedia still lists `Tapoa`
+because its province page predates the reform. `Kuilsé` follows the
+English Wikipedia primary article; the UK PCGN factfile prefers
+`Koulsé` ("also seen Kuilsé").
 
 Burkinabe addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, the region on its
@@ -1750,86 +2317,168 @@ own line when both are set, and country.
 
 The bundled `BurundiGeographyProvider` supplies the 5 provinces
 (Buhumuza, Bujumbura, Burunga, Butanyerera, Gitega) as `State` rows
-and a single-level administrative hierarchy. It is selected with
+and a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('BI')` after countries are
-seeded. The July 2025 reform replaced the former 18 provinces; ISO
+seeded. The 42 communes ship as level-2 areas under their provinces
+(7/11/7/8/9 per province), verified against the RGPH 2024 census
+commune tables; Gitega's Karusi spelling follows the census. The
+July 2025 reform replaced the former 18 provinces; ISO
 3166-2:BI has not issued new codes, so the bundled codes 01-05 are
 provisional local numbers pending ISO.
 
 Burundi has no postcode system. Addresses are formatted per the UPU
 layout: P.O. box lines, the commune, the province, and country; any
 supplied code prints on its own line.
+
 ## Cape Verde
 
 The bundled `CapeVerdeGeographyProvider` supplies the 22
 municipalities plus the Barlavento and Sotavento island groups as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('CV')` after
-countries are seeded. Cabo Verde is the official name since 2013;
+countries are seeded. The 32 parishes ship as level-2 areas under
+their municipalities; the island groups are terminal.
+Cabo Verde is the official name since 2013;
 the bundled data keeps the `Cape Verde` spelling.
 
 Cape Verdean addresses are formatted per the UPU layout: street
 lines, `{postcode} {locality}` with a 4-digit (or 7-digit
-`NNNN-NNN`) postcode, and country.
+`NNNN-NNN`) postcode, and country. Types are labelled `Concelho`,
+`Região Geográfica`, and `Freguesia`.
+
 ## Central African Republic
 
 The bundled `CentralAfricanRepublicGeographyProvider` supplies the
-15 prefectures plus the Bangui commune and Nana-Grébizi as `State`
-rows and a single-level administrative hierarchy. It is selected with
+20 prefectures — 18 administrative plus the Nana-Grébizi and
+Sangha-Mbaéré economic prefectures — as `State` rows and a
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('CF')` after countries are seeded.
+The 80 subprefectures ship as level-2 areas under their prefectures.
+The December 2020 law added `Lim-Pendé` (Paoua), `Mambéré` (Carnot),
+and `Ouham-Fafa` (Batangafo), and retyped Bangui from commune to
+prefecture; Sangha-Mbaéré is modelled as an economic prefecture.
+ISO 3166-2:CF still lists only the former 17, so the bundled codes
+`LP`/`ME`/`OF` are provisional pending ISO.
 
 The country has no postcode system. Addresses are formatted per the
 UPU layout: P.O. box lines, the locality, and country; any supplied
-code prints on its own line.
+code prints on its own line. Types are labelled `Préfecture`,
+`Préfecture Économique`, and `Sous-préfecture`.
 ## Chad
 
 The bundled `ChadGeographyProvider` supplies the 23 provinces as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('TD')` after
 countries are seeded.
+The 63 departments ship as level-2 areas under their provinces.
 
 Chad has no postcode system. Addresses are formatted per the UPU
 layout: P.O. box lines, the locality, the province when it differs,
-and country; any supplied code prints on its own line.
+and country; any supplied code prints on its own line. Types are
+labelled `Province` and `Département`.
+
+## Chile
+
+The bundled `ChileGeographyProvider` supplies the 16 regions as
+`State` rows and a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('CL')` after
+countries are seeded.
+The 56 provinces ship as level-2 areas under their regions.
+
+Chilean addresses are formatted per the UPU layout: street lines,
+`{postcode} {commune}` with a 7-digit postcode, the region, and
+country. Types are labelled `Región` and `Provincia`.
+
 ## Comoros
 
 The bundled `ComorosGeographyProvider` supplies the 3 islands as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('KM')` after
 countries are seeded.
+The 16 prefectures ship as level-2 areas under their islands.
 
 Comoros has no postcode system. Addresses are formatted per the UPU
 layout: P.O. box lines, the locality, the island when it differs,
-and country; any supplied code prints on its own line.
+and country; any supplied code prints on its own line. Types are
+labelled `Île` and `Préfecture`.
+
 ## Congo
 
-The bundled `CongoGeographyProvider` supplies the 12 departments
-of the Republic of Congo as `State` rows and a single-level
+The bundled `CongoGeographyProvider` supplies the 15 departments
+of the Republic of Congo as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('CG')` after countries are seeded.
+The 89 districts ship as level-2 areas under their departments.
+Laws 25/26/27-2024 (8 Oct 2024) added `Congo-Oubangui` (Bokoma,
+Loukoléla and Mossaka from Cuvette plus Liranga from Likouala),
+`Nkéni-Alima` (five districts from Plateaux), and `Djoué-Léfini`
+(five districts from Pool). ISO 3166-2:CG still lists only the
+former 12, so the bundled codes `17`/`18`/`19` are provisional
+local numbers pending ISO.
 
 Congo has no postcode system. Addresses are formatted per the UPU
 layout: street lines, the locality, and country; any supplied code
-prints on its own line.
+prints on its own line. Types are labelled `Département` and
+`District`.
+
 ## Ivory Coast
 
 The bundled `IvoryCoastGeographyProvider` supplies the 12 districts
 plus the Abidjan and Yamoussoukro autonomous districts as `State`
-rows and a single-level administrative hierarchy. It is selected with
+rows and a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('CI')` after countries are seeded.
+The 31 regions ship as level-2 areas under their districts; Abidjan
+and Yamoussoukro are terminal (undivided autonomous districts).
+Departments are third-level and not bundled.
 
 Ivory Coast has no postcode system; the 2-digit office code on box
 lines is routing, not a postcode. Addresses print street lines, the
 locality, and country; any supplied code prints on its own line.
+Types are labelled `District Autonome`, `District`, and `Région`.
+
+## Costa Rica
+
+The bundled `CostaRicaGeographyProvider` supplies the 7 provinces
+as `State` rows and a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('CR')` after
+countries are seeded.
+The 84 cantons ship as level-2 areas under their provinces.
+
+Costa Rican addresses are formatted per the UPU layout: street
+lines, the locality, the 5-digit postcode on its own line above the
+country, and country. Types are labelled `Provincia` and `Cantón`.
+
+## Cuba
+
+The bundled `CubaGeographyProvider` supplies the 15 provinces plus
+the Isla de la Juventud special municipality as `State` rows and a
+two-level administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('CU')` after countries are seeded.
+The 168 municipalities ship as level-2 areas under their provinces.
+
+Cuban addresses are formatted per the UPU layout: street lines,
+`{postcode} {locality}` with a 5-digit postcode (the `CP` prefix
+passes through when supplied), and country. Types are labelled
+`Provincia`, `Municipio Especial`, and `Municipio`.
+
 ## Djibouti
 
 The bundled `DjiboutiGeographyProvider` supplies the 5 regions
-plus Djibouti City as `State` rows and a single-level administrative
+plus Djibouti City as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('DJ')` after countries are seeded.
 
+The 20 sub-prefectures ship as level-2 areas (Ali Sabieh 3,
+Arta 2, Dikhil 4, Djibouti City 1, Obock 4, Tadjourah 6),
+each parented per its town/place article since the reference
+lists are flat. `Adailou` follows the town-article spelling
+(the flat lists print `Adaylou`); `Lac Assal` follows the
+French local name.
+
 Djiboutian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, and country.
+Types are labelled `Région`, `Ville`, and `Sous-préfecture`.
+
 ## Dominican Republic
 
 The bundled `DominicanRepublicGeographyProvider` supplies the 10
@@ -1842,6 +2491,22 @@ administrative hierarchy. It is selected with
 
 Dominican addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, and country.
+Types are labelled `Región`, `Provincia`, and `Distrito`.
+
+## El Salvador
+
+The bundled `ElSalvadorGeographyProvider` supplies the 14
+departments as `State` rows and a two-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('SV')` after countries are seeded.
+The 44 municipalities ship as level-2 areas under their departments
+(post-May-2024 reform; the former 262 are now districts and are not
+modelled).
+
+Salvadoran addresses are formatted per the UPU layout: street
+lines, `{postcode} {locality}` with a 4-digit postcode, and
+country. Types are labelled `Departamento` and `Municipio`.
+
 ## Equatorial Guinea
 
 The bundled `EquatorialGuineaGeographyProvider` supplies the 2
@@ -1853,37 +2518,48 @@ after countries are seeded.
 Equatorial Guinea has no postcode system. Addresses are formatted
 per the UPU layout: street lines, the locality, the province when it
 differs, and country; any supplied code prints on its own line.
+Types are labelled `Región` and `Provincia`.
+
 ## Eritrea
 
 The bundled `EritreaGeographyProvider` supplies the 6 regions as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('ER')` after
 countries are seeded.
+The 58 subregions ship as level-2 areas under their regions.
 
 Eritrea has no postcode system. Addresses are formatted per the UPU
 layout: street lines, the locality, and country; any supplied code
-prints on its own line.
+prints on its own line. The `region` type is labelled `Zoba`.
+
 ## Gabon
 
 The bundled `GabonGeographyProvider` supplies the 9 provinces as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('GA')` after
 countries are seeded.
+The 49 departments ship as level-2 areas under their provinces.
 
 Gabonese addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 2-digit zone, and country. The full
 UPU line adds the delivery-office code right (`NN LOCALITY NN`);
 only the zone is represented since the office half has no field.
+Types are labelled `Province` and `Département`.
 ## Gambia
 
-The bundled `GambiaGeographyProvider` supplies the 5 divisions
-plus Banjul as `State` rows and a single-level administrative
+The bundled `GambiaGeographyProvider` supplies the 5 regions plus
+Banjul and Kanifing as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('GM')` after countries are seeded.
+The 42 districts ship as level-2 areas under their regions and
+Banjul; Kanifing is terminal. The first tier is modelled as regions
+(the divisions were renamed in 2007), and Kanifing ships as its own
+first-level city rather than a Banjul district.
 
 Gambia has no postcode system. Addresses are formatted per the UPU
-layout: street lines, the locality, the division when it differs,
+layout: street lines, the locality, the region when it differs,
 and country; any supplied code prints on its own line.
+
 ## Guinea
 
 The bundled `GuineaGeographyProvider` supplies the 7 regions
@@ -1897,30 +2573,52 @@ Mamou, Nzérékoré) share names by design; filter by type.
 
 Guinean addresses are formatted per the UPU layout: P.O. box lines,
 `{postcode} {locality}` with a 3-digit radical, and country.
+Types are labelled `Région`, `Gouvernorat`, and `Préfecture`.
+
 ## Guinea-Bissau
 
-The bundled `GuineaBissauGeographyProvider` supplies the 3
-provinces, 8 regions, and the Bissau sector as `State` rows and a
-single-level administrative hierarchy. It is selected with
+The bundled `GuineaBissauGeographyProvider` supplies the 8
+regions plus the Bissau autonomous sector as `State` rows and a
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('GW')` after countries are seeded.
+The 38 sectors ship as level-2 areas under their regions. Leste,
+Norte, and Sul are statistical groupings, not administrative
+states, and are intentionally not shipped.
 
 Bissau-Guinean addresses are formatted per the UPU layout: street
 lines, `{postcode} {locality}` with a 4-digit postcode, and country.
+Types are labelled `Região`, `Sector Autónomo`, and `Sector`.
+
+## Guyana
+
+The bundled `GuyanaGeographyProvider` supplies the 10 regions as
+`State` rows and a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('GY')` after
+countries are seeded.
+The 10 towns and 66 neighbourhood democratic councils ship as
+level-2 areas under their regions.
+
+Guyanese addresses are formatted per the UPU layout: street lines,
+the locality, the postcode on its own line below the locality, and
+country.
+
 ## Lesotho
 
 The bundled `LesothoGeographyProvider` supplies the 10 districts
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('LS')` after
 countries are seeded.
+The 80 constituencys ship as level-2 areas under their districts.
 
 Basotho addresses are formatted per the UPU layout: P.O. box lines,
 `{locality} {postcode}` with a 3-digit postcode, and country.
 ## Liberia
 
 The bundled `LiberiaGeographyProvider` supplies the 15 counties
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('LR')` after
 countries are seeded.
+The 127 districts ship as level-2 areas under their countys.
 
 Liberian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, and country. The
@@ -1929,13 +2627,25 @@ stay optional; Monrovia zone suffixes pass through as supplied.
 ## Libya
 
 The bundled `LibyaGeographyProvider` supplies the 22 popularates
-(sha'biyat) as `State` rows and a single-level administrative
+(sha'biyat) as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('LY')` after countries are seeded.
+The 100 baladiyas ship as level-2 areas from IOM DTM Libya's
+Mobility Tracking baseline (Round 50, Oct–Dec 2023: `Baladiya
+Main` sheet with a `LY021102`-style p-code and an explicit
+mantika parent per baladiya). The 100-set is stable: Round 62
+(Mar–Apr 2026) carries the identical 100 (mantika, baladiya)
+pairs, both rounds' summaries assert `# Baladiyas: 100`, and
+IOM reports have used 100 consistently since 2017. Rival
+counts (99 gazetted 2013, ~101, 106–114 claimed) lose to this
+operational consensus. DTM mantika spellings map onto the ISO
+popularates (Ejdabia→Al Wahat, Tobruk→Al Butnan,
+Ubari→Wadi al Hayaa, Zwara→Nuqat al Khams).
 
 Libya has no postcode system. Addresses are formatted per the UPU
 layout: street lines, the locality, and country; any supplied code
-prints on its own line.
+prints on its own line. Popularate and baladiya render correctly and
+need no type labels.
 ## Malawi
 
 The bundled `MalawiGeographyProvider` supplies the 3 regions
@@ -1949,30 +2659,49 @@ Malawian addresses are formatted per the UPU layout: street lines,
 own line when both are set, and country.
 ## Mali
 
-The bundled `MaliGeographyProvider` supplies the 10 regions plus
-the Bamako district as `State` rows and a single-level
+The bundled `MaliGeographyProvider` supplies the 19 regions plus
+the Bamako district as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('ML')` after countries are seeded.
+The 159 cercles ship as level-2 areas under their regions with
+4-digit codes (region prefix + sequence, gap-free per region);
+Bamako is terminal (no cercles, per the district statute).
+Laws 2023-006/007 added Nioro (`11`), Kita (`12`), Dioila (`13`),
+Nara (`14`), Bougouni (`15`), Koutiala (`16`), San (`17`), Douentza
+(`18`), and Bandiagara (`19`). The bundled `9`/`10` numbering follows
+the national law (Taoudénit `09`, Ménaka `10`) and therefore diverges
+from ISO 3166-2:ML, which still assigns `ML-9` to Ménaka and `ML-10`
+to Taoudénit.
 
 Mali has no postcode system. Addresses are formatted per the UPU
 layout: street lines, the quarter, the locality, and country; any
-supplied code prints on its own line.
+supplied code prints on its own line. Types are labelled
+`District`, `Région`, and `Cercle`.
+
 ## Mauritania
 
 The bundled `MauritaniaGeographyProvider` supplies the 15 regions
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('MR')` after
 countries are seeded.
+The 63 departments ship as level-2 areas under their regions.
 
 Mauritania has no postcode system. Addresses are formatted per the
 UPU layout: P.O. box lines, the locality, and country; any supplied
-code prints on its own line.
+code prints on its own line. Types are labelled `Wilaya` and
+`Moughataa`.
+
 ## Mauritius
 
 The bundled `MauritiusGeographyProvider` supplies the 9 districts
 plus Agaléga, Rodrigues, and Saint Brandon as `State` rows and a
-single-level administrative hierarchy. It is selected with
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('MU')` after countries are seeded.
+The city of Port Louis, the 4 towns, and 137 villages ship as
+level-2 localities under their districts (16 villages spanning two
+districts parent to the first-listed district); the 3 Agaléga
+villages parent to the Agaléga dependency. Rodrigues and Saint
+Brandon are terminal.
 
 Mauritian addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with a 5-digit postcode (`R` + 4 digits on
@@ -1980,9 +2709,12 @@ Rodrigues), and country.
 ## Namibia
 
 The bundled `NamibiaGeographyProvider` supplies the 14 regions as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('NA')` after
 countries are seeded.
+The 121 constituencies ship as level-2 areas under their regions
+(Tondoro and Oshikunde verified against the Electoral Commission
+register; the Wikipedia list table omits both rows).
 
 Namibian addresses are formatted per the UPU layout: street or box
 lines, the locality, the 5-digit postcode on its own line, and
@@ -1990,18 +2722,37 @@ country.
 ## Niger
 
 The bundled `NigerGeographyProvider` supplies the 7 regions plus
-the Niamey urban community as `State` rows and a single-level
+the Niamey urban community as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('NE')` after countries are seeded.
+The 66 departments and 5 Niamey communes ship as level-2 areas under their regions.
 
 Nigerien addresses are formatted per the UPU layout: P.O. box lines,
 `{postcode} {locality}` with a 4-digit postcode, and country.
+Types are labelled `Région`, `Communauté Urbaine`, `Département`,
+and `Commune`.
+
+## Nicaragua
+
+The bundled `NicaraguaGeographyProvider` supplies the 15
+departments plus the 2 Costa Caribe autonomous regions as `State`
+rows and a two-level administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('NI')` after countries are seeded.
+The 153 municipalities ship as level-2 areas under their
+departments and regions.
+
+Nicaraguan addresses are formatted per the UPU layout: street
+lines, the 5-digit postcode on its own line above the locality,
+and country. Types are labelled `Departamento`,
+`Región Autónoma`, and `Municipio`.
+
 ## Rwanda
 
 The bundled `RwandaGeographyProvider` supplies the 4 provinces
-plus Kigali as `State` rows and a single-level administrative
+plus Kigali as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('RW')` after countries are seeded.
+The 30 districts ship as level-2 areas under their provinces.
 
 Rwanda has no postcode system. Addresses are formatted per the UPU
 layout: P.O. box lines, the locality, the province when it differs,
@@ -2012,6 +2763,8 @@ The bundled `SaoTomeAndPrincipeGeographyProvider` supplies the 6
 districts plus the Príncipe autonomous region as `State` rows and a
 single-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('ST')` after countries are seeded.
+Districts are terminal; localidades below them are localities,
+not administrative units.
 
 The country has no postcode system. Addresses are formatted per the
 UPU layout: street lines, the locality, and country; any supplied
@@ -2019,9 +2772,10 @@ code prints on its own line.
 ## Senegal
 
 The bundled `SenegalGeographyProvider` supplies the 14 regions as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('SN')` after
 countries are seeded.
+The 46 departments ship as level-2 areas under their regions.
 
 Senegalese addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode (often written `CP
@@ -2032,6 +2786,8 @@ The bundled `SeychellesGeographyProvider` supplies the 27 districts
 as `State` rows and a single-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('SC')` after
 countries are seeded.
+Districts are the only administrative tier, so they are terminal
+(no level-2).
 
 Seychelles has no postcode system. Addresses are formatted per the
 UPU layout: street lines, the locality, the island, and country; any
@@ -2039,9 +2795,10 @@ supplied code prints on its own line.
 ## Sierra Leone
 
 The bundled `SierraLeoneGeographyProvider` supplies the 4 provinces
-plus the Western Area as `State` rows and a single-level
+plus the Western Area as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('SL')` after countries are seeded.
+The 16 districts ship as level-2 areas under their provinces.
 
 Sierra Leone has no postcode system. Addresses are formatted per the
 UPU layout: street lines, the locality, the province when it differs,
@@ -2049,9 +2806,10 @@ and country; any supplied code prints on its own line.
 ## Somalia
 
 The bundled `SomaliaGeographyProvider` supplies the 18 regions
-(gobolka) as `State` rows and a single-level administrative
+(gobolka) as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('SO')` after countries are seeded.
+The 89 districts ship as level-2 areas under their regions.
 
 Somalia has no operational postcode system; the UPU paper format
 (`AA NNNNN` right of the locality) was never taken into use.
@@ -2060,9 +2818,10 @@ supplied code prints on its own line.
 ## South Sudan
 
 The bundled `SouthSudanGeographyProvider` supplies the 10 states
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('SS')` after
 countries are seeded.
+The 88 countys ship as level-2 areas under their states.
 
 South Sudan has no postcode system. Addresses are formatted per the
 UPU layout: street or box lines, the town, the state when it differs,
@@ -2070,9 +2829,10 @@ and country; any supplied code prints on its own line.
 ## Eswatini
 
 The bundled `EswatiniGeographyProvider` supplies the 4 regions as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('SZ')` after
 countries are seeded.
+The 55 inkhundlas ship as level-2 areas under their regions.
 
 Eswatini addresses are formatted per the UPU layout: P.O. box lines,
 the locality, the region-letter + 3-digit postcode on its own line,
@@ -2080,9 +2840,10 @@ and country.
 ## Togo
 
 The bundled `TogoGeographyProvider` supplies the 5 regions as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('TG')` after
 countries are seeded.
+The 39 prefectures ship as level-2 areas under their regions.
 
 Togo has no postcode system. Addresses are formatted per the UPU
 layout: P.O. box or street lines, the locality, the region when it
@@ -2090,18 +2851,21 @@ differs, and country; any supplied code prints on its own line.
 ## Tunisia
 
 The bundled `TunisiaGeographyProvider` supplies the 24 governorates
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('TN')` after
 countries are seeded.
+The 279 delegations ship as level-2 areas under their governorates
+(INS 2024 figure, superseding the older 264).
 
 Tunisian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, and country.
 ## Zambia
 
 The bundled `ZambiaGeographyProvider` supplies the 10 provinces as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('ZM')` after
 countries are seeded.
+The 116 districts ship as level-2 areas under their provinces.
 
 Zambian addresses are formatted per the UPU layout: street lines,
 `{locality} {postcode}` with a 5-digit postcode, and country. Codes
@@ -2110,9 +2874,10 @@ one.
 ## Zimbabwe
 
 The bundled `ZimbabweGeographyProvider` supplies the 10 provinces
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('ZW')` after
 countries are seeded.
+The 64 districts ship as level-2 areas under their provinces.
 
 Zimbabwe has no postcode system. Addresses are formatted per the UPU
 layout: street lines, the suburb, the city, and country; any supplied
@@ -2121,13 +2886,14 @@ code prints on its own line.
 ## Albania
 
 The bundled `AlbaniaGeographyProvider` supplies the 12 counties
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('AL')` after
 countries are seeded.
+The 61 municipalities ship as level-2 areas under their counties.
 
 Albanian addresses are formatted per the UPU layout: street lines,
 the 4-digit postcode on its own line above the locality, the county
-when it differs, and country.
+when it differs, and country. Types are labelled `Qark` and `Bashki`.
 ## Andorra
 
 The bundled `AndorraGeographyProvider` supplies the 7 parishes
@@ -2137,26 +2903,31 @@ countries are seeded.
 
 Andorran addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with an `AD` + 3-digit postcode, and country.
+Parishes are labelled `Parròquia` (Catalan).
 ## Austria
 
-The bundled `AustriaGeographyProvider` supplies the 9 states as
-`State` rows and a single-level administrative hierarchy. It is
-selected with `SeedCountryGeographiesAction::execute('AT')` after
-countries are seeded.
+The bundled `AustriaGeographyProvider` supplies the 9 states
+(Bundesländer) as `State` rows and a two-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('AT')` after countries are seeded.
+The 79 districts (Bezirke) and 14 statutory cities
+(Statutarstädte) ship as level-2 areas under their states.
 
 Austrian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, and country.
 ## Belarus
 
 The bundled `BelarusGeographyProvider` supplies the 6 oblasts
-plus Minsk as `State` rows and a single-level administrative
+plus Minsk as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('BY')` after countries are seeded.
+The 118 raions ship as level-2 areas under their oblasts.
 The Minsk oblast and Minsk city share a name by design; filter by type.
 
 Belarusian addresses are formatted per the UPU layout: street lines,
 `{postcode}, {locality}` with a 6-digit postcode, the oblast on its
-own line when both are set, and country.
+own line when both are set, and country. City and district keep
+English headlines (the country is bilingual; no single local term).
 ## Belgium
 
 The bundled `BelgiumGeographyProvider` supplies the 3 regions
@@ -2168,21 +2939,29 @@ administrative hierarchy. It is selected with
 Belgian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, and country. `B-`
 and `BE-` prefixes are forbidden by bpost and are never added.
+Flanders overrides tiers to Dutch (`Gewest`, `Provincie`) and Wallonia
+to French (`Région`, `Province`); bilingual Brussels keeps English
+headlines, so there is no country-wide label.
 ## Bosnia and Herzegovina
 
 The bundled `BosniaAndHerzegovinaGeographyProvider` supplies the
 Federation, Republika Srpska, and Brčko District as `State` rows
-and a single-level administrative hierarchy. It is selected with
+and a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('BA')` after countries are seeded.
+The 143 municipalities ship as level-2 areas under their entities.
 
 Bosnian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, and country.
+Types are labelled `Entitet`, `Distrikt`, and `Općina`, with
+Republika Srpska overriding the municipality label to `Opština`.
+
 ## Bulgaria
 
 The bundled `BulgariaGeographyProvider` supplies the 28 districts
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('BG')` after
 countries are seeded.
+The 265 municipalities ship as level-2 areas under their provinces.
 
 Bulgarian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, and country.
@@ -2190,14 +2969,17 @@ Bulgarian addresses are formatted per the UPU layout: street lines,
 
 The bundled `CroatiaGeographyProvider` supplies the 20 counties
 plus the City of Zagreb (code `21`, county-level city) as `State`
-rows and a single-level administrative hierarchy. It is selected
+rows and a two-level administrative hierarchy. It is selected
 with `SeedCountryGeographiesAction::execute('HR')` after countries
-are seeded.
+are seeded. The 428 municipalities and 128 towns ship as level-2
+areas under their counties.
 
 Croatian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, and country.
 Inbound international mail prefixes `HR-`; the formatter prints the
-postcode exactly as supplied.
+postcode exactly as supplied. Types are labelled `Županija`,
+`Općina`, and `Grad`.
+
 ## Czech Republic
 
 The bundled `CzechRepublicGeographyProvider` supplies the 13
@@ -2211,16 +2993,21 @@ two-level administrative hierarchy. It is selected with
 Czech addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode written `NNN NN`
 (Prague delivery-district suffixes pass through), and country.
+Types are labelled `Kraj`, `Hlavní Město`, and `Okres`.
+
 ## Denmark
 
 The bundled `DenmarkGeographyProvider` supplies the 5 regions as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('DK')` after
 countries are seeded.
+The 98 municipalities ship as level-2 areas under their regions.
 
 Danish addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, and country. The
-optional `DK-` prefix passes through when supplied.
+optional `DK-` prefix passes through when supplied. Types are
+labelled `Region` and `Kommune`.
+
 ## Estonia
 
 The bundled `EstoniaGeographyProvider` supplies the 15 counties
@@ -2234,6 +3021,8 @@ County/municipality name twins share names by design; filter by type.
 
 Estonian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, and country.
+Types are labelled `Maakond`, `Vald`, and `Linn`.
+
 ## Fiji
 
 The bundled `FijiGeographyProvider` supplies the 4 divisions plus
@@ -2247,44 +3036,58 @@ locality, and country; any supplied code prints on its own line.
 ## Finland
 
 The bundled `FinlandGeographyProvider` supplies the 18 regions
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('FI')` after
 countries are seeded.
+The 185 municipalities and 107 cities ship as level-2 areas under their regions; Aland is covered by the AX provider.
 
 Finnish addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, and country. The
-optional `FI-` prefix passes through when supplied.
+optional `FI-` prefix passes through when supplied. Types are
+labelled `Maakunta`, `Kaupunki`, and `Kunta`.
+
 ## Greece
 
 The bundled `GreeceGeographyProvider` supplies the 13
 administrative regions plus Mount Athos (code `69`) as `State` rows
-and a single-level administrative hierarchy. It is selected with
+and a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('GR')` after countries are seeded.
+The 332 Kallikratis municipalities including the 2019 island splits ship as level-2 areas under their regions.
 
 Greek addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode written `NNN NN`,
-and country.
+and country. Types are labelled `Periféreia` and `Dímos`.
+
 ## Hungary
 
-The bundled `HungaryGeographyProvider` supplies the 20 counties,
-22 cities with county rights, and Budapest as `State` rows and a
-single-level administrative hierarchy. It is selected with
+The bundled `HungaryGeographyProvider` supplies the 19 counties,
+23 cities with county rights, and Budapest as `State` rows and a
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('HU')` after countries are seeded.
+The 174 county districts and 23 Budapest districts ship as level-2 areas under their counties.
+Budapest districts II, XIII, XV, and XVI ship under numbered names
+matching the source list.
 
 Hungarian addresses follow international one-line practice: street
 lines, `{postcode} {locality}` with a 4-digit postcode, and country.
 (Domestic Hungarian order prints the postcode on its own line below
 the street, but the locality-before-street domestic layout does not
-fit the package's lines-first convention.)
+fit the package's lines-first convention.) Types are labelled
+`Vármegye`, `Megyei Jogú Város`, `Főváros`, and `Járás`.
+
 ## Iceland
 
-The bundled `IcelandGeographyProvider` supplies the 8 regions and
-64 municipalities flat at level 1 as `State` rows and a
-single-level administrative hierarchy. It is selected with
-`SeedCountryGeographiesAction::execute('IS')` after countries are seeded.
+The bundled `IcelandGeographyProvider` supplies the 8 regions
+as `State` rows with a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('IS')` after
+countries are seeded. The 61 municipalities ship as level-2 areas
+under their regions; 3 pre-2024 municipalities merged away and 3
+rows were renamed to official names.
 
 Icelandic addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 3-digit postcode, and country.
+Types are labelled `Landsvæði` and `Sveitarfélag`.
+
 ## Ireland
 
 The bundled `IrelandGeographyProvider` supplies the 4 provinces
@@ -2298,23 +3101,38 @@ locality, the county, the Eircode on its own line, and country.
 ## Kosovo
 
 The bundled `KosovoGeographyProvider` supplies the 7 districts
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('XK')` after
-countries are seeded.
+countries are seeded. Kosovo has no ISO 3166-2 subdivision entry,
+so district codes are an internal scheme. The 38 municipalities
+ship as level-2 areas under their districts.
 
 Kosovar addresses are formatted per the postal convention: street
 lines, `{postcode} {locality}` with a 5-digit postcode, and country.
+Types are labelled `Rajoni` and `Komuna`.
+
 ## Latvia
 
-The bundled `LatviaGeographyProvider` supplies the 36
+The bundled `LatviaGeographyProvider` supplies the 35
 municipalities plus 7 state cities as `State` rows and a
-single-level administrative hierarchy. It is selected with
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('LV')` after countries are seeded.
 The Jelgava, Rēzekne, and Ventspils municipality/city pairs share
 names by design; filter by type.
+Varakļāni Municipality merged into Madona on 1 July 2025; its
+state row is deleted on seed and its town and parishes ship
+under Madona.
+
+The 511 parishes, 71 towns, and 3 cities ship as level-2 areas
+under their municipality (state cities are childless). All
+three types share the `parish` assignment role; Sala and
+Pilskalne parishes are parent-scoped.
 
 Latvian addresses are formatted per the UPU layout: street lines,
 `{locality}, {postcode}` with an `LV-NNNN` postcode, and country.
+Types are labelled `Novads`, `Valstspilsēta`, `Pagasts`, and
+`Pilsēta`.
+
 ## Liechtenstein
 
 The bundled `LiechtensteinGeographyProvider` supplies the 11
@@ -2325,26 +3143,36 @@ Postal services follow Swiss rules.
 
 Liechtenstein addresses are formatted per the UPU layout: street
 lines, `{postcode} {locality}` with a 4-digit postcode, and country.
+The tier is labelled `Gemeinde`.
+
 ## Lithuania
 
 The bundled `LithuaniaGeographyProvider` supplies the 10 counties
-and 60 municipalities flat at level 1 as `State` rows and a
-single-level administrative hierarchy. It is selected with
-`SeedCountryGeographiesAction::execute('LT')` after countries are seeded.
-The Alytus, Kaunas, Šiauliai, and Vilnius city/district pairs share
-both name and type in the source data, so their area slugs carry a
-code suffix (e.g. `alytus-02`).
+as `State` rows with a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('LT')` after
+countries are seeded. The 43 district municipalities, 10 plain
+municipalities and 7 city municipalities ship as level-2 areas
+under their counties; Marijampolė was retyped from district to
+plain municipality with a new source id.
+The Alytus, Kaunas, Šiauliai, and Vilnius city/district pairs differ
+by type (`city_municipality` vs `district_municipality`) and name
+(`Vilniaus miestas` vs `Vilnius`); the district slugs keep their code
+suffix (e.g. `vilnius-58`) for stability. Klaipėda, Palanga, and
+Panevėžys cities use the same `miestas` convention.
 
 Lithuanian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, and country.
 International mail prefixes `LT-`; the formatter prints the postcode
-exactly as supplied.
+exactly as supplied. Types are labelled `Apskritis`,
+`Rajono Savivaldybė`, `Miesto Savivaldybė`, and `Savivaldybė`.
+
 ## Luxembourg
 
 The bundled `LuxembourgGeographyProvider` supplies the 12 cantons
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('LU')` after
 countries are seeded. Canton codes follow current ISO 3166-2:LU
+The 100 communes ship as level-2 areas under their cantons.
 (`GR` for Grevenmacher, `LU` for Luxembourg).
 
 Luxembourg addresses are formatted per the UPU layout: street lines,
@@ -2362,8 +3190,17 @@ the locality, the `AAA NNNN` postcode on its own line, and country.
 
 The bundled `MoldovaGeographyProvider` supplies the 32 districts,
 3 cities, Gagauzia, and Transnistria as `State` rows and a
-single-level administrative hierarchy. It is selected with
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('MD')` after countries are seeded.
+
+The 915 communes and 66 cities/towns ship as level-2 areas
+under their district, municipality, or autonomous unit
+(Transnistria included de jure; component villages are L3 and
+not bundled). `city` spans both levels (Uzbekistan pattern):
+municipalities keep the `city` role, district cities share the
+`commune` assignment role. Six same-district city/commune name
+pairs carry type parentheticals; 67 cross-district twins are
+parent-scoped.
 
 Moldovan addresses are formatted per the UPU layout: street lines,
 `{postcode}, {locality}` with an `MD-NNNN` postcode, and country.
@@ -2374,6 +3211,14 @@ The bundled `MonacoGeographyProvider` supplies the 17 quarters
 as `State` rows and a single-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('MC')` after
 countries are seeded.
+
+These are the ISO 3166-2:MC traditional quarters, which ISO still
+defines unchanged (verified Sept 2026) — not the 2013 sovereign
+ordinance's town-planning layer of 7 wards plus the Monaco-Ville
+and Ravin de Sainte-Dévote reserved sectors. Under that ordinance
+La Colle merged into Jardin Exotique, but the `La Colle` ISO row is
+retained since the wards carry no ISO codes. Revisit if ISO updates
+the MC entry. The tier is labelled `Quartier`.
 
 Monegasque addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit `98xxx` postcode, and country.
@@ -2386,6 +3231,8 @@ hierarchy. It is selected with
 
 Montenegrin addresses are formatted per the UPU layout: street
 lines, `{postcode} {locality}` with a 5-digit postcode, and country.
+The tier is labelled `Opština`.
+
 ## North Macedonia
 
 The bundled `NorthMacedoniaGeographyProvider` supplies the 80
@@ -2394,32 +3241,66 @@ hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('MK')` after countries are seeded.
 
 Macedonian addresses are formatted per the UPU layout: street lines,
-`{postcode} {locality}` with a 4-digit postcode, and country.
+`{postcode} {locality}` with a 4-digit postcode, and country. The
+tier is labelled `Opština`.
+
 ## Norway
 
 The bundled `NorwayGeographyProvider` supplies the 15 counties
-plus Svalbard and Jan Mayen as `State` rows and a single-level
+plus Svalbard and Jan Mayen as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('NO')` after countries are seeded.
+The 357 municipalities ship as level-2 areas under their counties.
 The old 4-digit `N-` prefix is obsolete and never added.
 
 Norwegian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, and country.
+Types are labelled `Fylke` and `Kommune`.
+
+## Papua New Guinea
+
+The bundled `PapuaNewGuineaGeographyProvider` supplies the 20
+provinces plus Bougainville and Port Moresby as `State` rows and a
+two-level administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('PG')` after countries are seeded.
+The 96 districts ship as level-2 areas under their provinces
+(post-2022 electorate count, including the 3 National Capital
+District seats under Port Moresby).
+
+Papua New Guinean addresses are formatted per the UPU layout: street
+lines, `{locality} {postcode}` with a 3-digit postcode, and country.
 ## Portugal
 
 The bundled `PortugalGeographyProvider` supplies the 18
 districts plus the Azores and Madeira as `State` rows and a
-single-level administrative hierarchy. It is selected with
+two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('PT')` after countries are seeded.
+The 18 mainland districts (`distrito`) plus the Azores and Madeira
+(`autonomous_region`, statutorily autonomous) ship as L1 `State` rows
+sharing the `district` assignment role, with the 308 municipalities
+(`município`) as level-2 areas under them. The statutory `Concelho`
+synonym appears as a common alias for one municipality.
 
 Portuguese addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 7-digit `NNNN-NNN` postcode, and country.
 ## Romania
 
 The bundled `RomaniaGeographyProvider` supplies the 41 departments
-plus Bucharest as `State` rows and a single-level administrative
+plus Bucharest as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('RO')` after countries are seeded.
+
+The 2,861 communes, 217 towns, 102 county municipalities, and 6
+Bucharest sectors ship as level-2 areas (per-county lists, each
+count-asserted against its prose; totals match the official
+103/217/2,861 with Bucharest as the 103rd municipality).
+Maramureș's Breb bullet is a village inside Ocna Șugatag and is
+dropped; Constanța's Băneasa ships as a town though listed
+under communes; legacy ş/ţ spellings are normalized to ș/ț.
+`municipality` spans both levels (Uzbekistan pattern):
+Bucharest keeps the `municipality` role, county municipalities
+share the `commune` assignment role. 355 cross-county twins
+are parent-scoped.
 
 Romanian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 6-digit postcode, and country.
@@ -2437,8 +3318,8 @@ on its own line, and country.
 ## San Marino
 
 The bundled `SanMarinoGeographyProvider` supplies the 9
-municipalities as `State` rows and a single-level administrative
-hierarchy. It is selected with
+municipalities (officially castelli) as `State` rows and a
+single-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('SM')` after countries are seeded.
 
 Sammarinese addresses are formatted per the UPU layout (Italian CAP
@@ -2447,9 +3328,13 @@ postcode, and country.
 ## Serbia
 
 The bundled `SerbiaGeographyProvider` supplies the 29 districts,
-2 provinces, and Belgrade as `State` rows and a single-level
+2 provinces, and Belgrade as `State` rows and a two-level
 administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('RS')` after countries are seeded.
+The 117 municipalities, 23 cities and 17 Belgrade city-municipalities ship as level-2 areas under their districts.
+`city` spans both levels (Romania pattern): Belgrade keeps the
+`city` role while county cities share the `municipality`
+assignment role.
 
 Serbian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit delivery-office number, and
@@ -2457,9 +3342,10 @@ country. The street-level 6-digit PAK has no field and is not printed.
 ## Slovakia
 
 The bundled `SlovakiaGeographyProvider` supplies the 8 regions as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('SK')` after
 countries are seeded.
+The 79 districts ship as level-2 areas under their regions.
 
 Slovak addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode written `XXX XX`,
@@ -2470,16 +3356,31 @@ The bundled `SloveniaGeographyProvider` supplies the 200
 municipalities plus 12 urban municipalities as `State` rows and a
 single-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('SI')` after countries are seeded.
+Urban municipalities share the `municipality` assignment role since
+they are municipalities with city status.
 
 Slovenian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, and country. An
 `SI-` prefix passes through when supplied.
+## Solomon Islands
+
+The bundled `SolomonIslandsGeographyProvider` supplies the 9
+provinces plus Honiara as `State` rows and a two-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('SB')` after countries are seeded.
+The 183 wards ship as level-2 areas under their provinces with
+SINSO pcodes (OCHA COD gazetteer; per-province counts cross-checked
+against Statoids).
+
+Solomon Islands have no postcode system. Addresses are formatted
+per the UPU layout: street lines, locality, and country.
 ## Sweden
 
 The bundled `SwedenGeographyProvider` supplies the 21 counties as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('SE')` after
 countries are seeded.
+The 290 municipalities ship as level-2 areas under their counties.
 
 Swedish addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode written `XXX XX`,
@@ -2487,9 +3388,10 @@ and country. An `SE-` prefix passes through when supplied.
 ## Switzerland
 
 The bundled `SwitzerlandGeographyProvider` supplies the 26
-cantons as `State` rows and a single-level administrative
+cantons as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('CH')` after countries are seeded.
+The 146 districts, regions and constituencies ship as level-2 areas under their cantons.
 
 Swiss addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode (office numbers and
@@ -2500,51 +3402,686 @@ The bundled `AlandGeographyProvider` supplies the 16
 municipalities as `State` rows and a single-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('AX')` after countries are seeded.
+Municipality codes 01–16 are dataset-invented: ISO defines no
+Åland subdivisions, and the official Finnish 3-digit kuntakoodi are
+not used, so the codes carry no external meaning.
 
 Åland addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit `22xxx` postcode, and country.
 International mail prefixes `AX-`; the formatter prints the postcode
-exactly as supplied.
+exactly as supplied. Municipalities are labelled `Kommun` (Swedish).
 ## Faroe Islands
 
 The bundled `FaroeIslandsGeographyProvider` supplies the 6
-regions as `State` rows and a single-level administrative
+regions as `State` rows and a two-level administrative
 hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('FO')` after countries are seeded.
+The 29 municipalitys ship as level-2 areas under their regions.
 
 Faroese addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with an `FO-NNN` postcode, and country. Old
 Danish `38xx` codes are obsolete.
 ## Guernsey
 
-The bundled `GuernseyGeographyProvider` supplies the 12 parishes
-as `State` rows and a single-level administrative hierarchy. It is
-selected with `SeedCountryGeographiesAction::execute('GG')` after
-countries are seeded.
+The bundled `GuernseyGeographyProvider` supplies the 10 parishes
+plus Alderney and Sark as `State` rows and a single-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('GG')` after countries are
+seeded. Alderney and Sark ship as dependencies, not parishes.
 
 Guernsey follows the UK postcode system (`GY` prefix, not `GG`).
 Addresses print street lines, the post town, the postcode on its own
 line, and country.
+
 ## Jersey
 
 The bundled `JerseyGeographyProvider` supplies the 12 parishes as
-`State` rows and a single-level administrative hierarchy. It is
+`State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('JE')` after
 countries are seeded.
+The 48 vingtaines, 2 cantons and 6 cueillettes ship as level-2 areas under their parishes.
 
 Jersey follows the UK postcode system (`JE` prefix). Addresses print
 street lines, the post town, the postcode on its own line, and country.
 ## Isle of Man
 
 The bundled `IsleOfManGeographyProvider` supplies the 6 sheadings
-as `State` rows and a single-level administrative hierarchy. It is
+as `State` rows and a two-level administrative hierarchy. It is
 selected with `SeedCountryGeographiesAction::execute('IM')` after
-countries are seeded.
+countries are seeded. Sheadings are the former administrative
+The 13 parishes, 4 towns, 2 districts and 2 villages ship as level-2 areas under their sheadings.
+partition (today only a loose coroners/electoral layer), but they
+remain the only island-wide geography, so they are modeled as the
+address level.
 
 The Isle of Man follows the UK postcode system (`IM` prefix).
 Addresses print street lines, the post town, the postcode on its own
 line, and country. The formatter prints `Isle of Man` rather than
 the database's inverted `Man (Isle of)` spelling.
+
+## Tonga
+
+The bundled `TongaGeographyProvider` supplies the 5 divisions as
+`State` rows and a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('TO')` after
+countries are seeded.
+
+The 23 districts ship as level-2 areas with ISO 3166-2 codes
+(7 Tongatapu, 6 Vava'u, 6 Ha'apai, 2 'Eua, 2 Niuas; the source
+table duplicates TO-024, so Ha'ano carries the correct TO-025).
+Villages are not bundled.
+
+Tonga has no postcode system; the formatter prints any supplied
+code on its own line.
+
+## American Samoa
+
+The bundled `AmericanSamoaGeographyProvider` supplies the 3
+districts and 2 atolls as `State` rows and a two-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('AS')` after countries are
+seeded.
+
+The 15 counties ship as level-2 areas (5 Western, 5 Eastern, 5
+Manu'a, including Fofo; Aunu'u island belongs to Sa'ole county).
+Rose and Swains atolls are childless. Villages are not bundled.
+
+American Samoan addresses use the US ZIP layout
+(`{locality} AS {ZIP}`, ZIP+4 supported).
+
+## Wallis and Futuna
+
+The bundled `WallisAndFutunaGeographyProvider` supplies the 3
+kingdoms (administrative precincts) as `State` rows and a two-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('WF')` after countries are
+seeded.
+
+Only Uvea is further subdivided: its 3 districts (Hihifo, Hahake,
+Mu'a) ship as level-2 areas. Alo and Sigave are childless.
+Villages are not bundled.
+
+The formatter prints the code left of the locality
+(`98600 MATA-UTU`); Futuna uses 98620.
+
+## Marshall Islands
+
+The bundled `MarshallIslandsGeographyProvider` supplies the 24
+municipalities and 2 chains as `State` rows and a two-level
+administrative hierarchy (restructure: chains promoted to the
+state level, municipalities nested beneath). It is selected with
+`SeedCountryGeographiesAction::execute('MH')` after countries are
+seeded.
+
+The 24 inhabited municipalities ship as level-2 areas under
+their census chain (14 Ralik, 10 Ratak). Uninhabited atolls are
+not bundled.
+
+Marshallese addresses use the US ZIP layout
+(`{locality} MH {ZIP}`); Ebeye uses 96970.
+
+## Guam
+
+The bundled `GuamGeographyProvider` supplies the 19 villages as
+`State` rows and a single-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('GU')` after
+countries are seeded. Villages are municipalities governed by
+elected mayors; there is no administrative tier below them (the
+North/Central/South regions are statistical groupings only).
+
+Guamanian addresses use the US ZIP layout
+(`{locality} GU {ZIP}`).
+
+## Guatemala
+
+The bundled `GuatemalaGeographyProvider` supplies the 22
+departments as `State` rows and a two-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('GT')` after countries are seeded.
+The 340 municipalities ship as level-2 areas under their
+departments.
+
+Guatemalan addresses are formatted per the UPU layout: street
+lines, `{postcode} - {locality}` with a 5-digit postcode, and
+country. Types are labelled `Departamento` and `Municipio`.
+
+## Nauru
+
+The bundled `NauruGeographyProvider` supplies the 14 districts as
+`State` rows and a single-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('NR')` after
+countries are seeded. The 169 villages are historical (1908
+expedition source, merged into a single coastal settlement, no
+current admin function) and are intentionally not bundled.
+
+Nauru has a sole national postcode, NRU68, printed on its own
+line below the district.
+
+## Niue
+
+The bundled `NiueGeographyProvider` supplies the 14 villages as
+`State` rows and a single-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('NU')` after
+countries are seeded. Villages double as municipalities and
+electoral districts; there is no tier below them.
+
+Niue has a sole island code, 9974, printed right of the
+locality.
+
+## Micronesia
+
+The bundled `MicronesiaGeographyProvider` supplies the 4 states
+as `State` rows and a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('FM')` after
+countries are seeded.
+
+The 73 municipalities and 2 cities ship as level-2 areas (40
+Chuuk, 4 Kosrae, 11 Pohnpei, 20 Yap). Weno and Kolonia are typed
+city; Tol ships as a municipality though the source table bolds
+it. The table's duplicate Piherarh row is shipped once; Utwe
+carries the table's `Utwa` spelling as an alternative name.
+Villages (including the capitals Palikir, Tofol, and Colonia,
+which sit inside municipalities) are not bundled.
+
+Micronesian addresses use the US ZIP layout
+(`{locality} FM {ZIP}`); Pohnpei uses 96941, Chuuk 96942.
+
+## Kiribati
+
+The bundled `KiribatiGeographyProvider` supplies the 3 island
+groups as `State` rows and a two-level administrative hierarchy.
+It is selected with `SeedCountryGeographiesAction::execute('KI')`
+after countries are seeded.
+
+The 24 local councils ship as level-2 areas (20 Gilbert, 3
+Line, 1 Canton under Phoenix). Tarawa's three councils ship as
+Betio, North Tarawa, and South Tarawa; isolated Banaba is
+parented to Gilbert. Villages are not bundled.
+
+Kiribati postcodes print right of the island
+(`Sth Tarawa KI0108`, `Kiritimati KI0303`).
+
+## Tuvalu
+
+The bundled `TuvaluGeographyProvider` supplies the 1 town
+council and 7 island councils as `State` rows and a single-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('TV')` after countries are
+seeded. The councils are the local government (Falekaupule Act);
+Niulakita is administered as part of Niutao. Villages have no
+separate admin function and are intentionally not bundled.
+Funafuti's town council shares the `island_council` assignment
+role as the capital's local government.
+
+Tuvalu has no postcode system; the formatter prints any supplied
+code on its own line.
+
+## Palau
+
+The bundled `PalauGeographyProvider` supplies the 16 states as
+`State` rows and a single-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('PW')`
+after countries are seeded. Hamlets are traditional (no visible
+boundaries, single settlements) and 9 of 16 states have no
+hamlet list at all, so no reliable tier-2 exists and states
+stay terminal.
+
+Palauan addresses use the US ZIP layout
+(`{locality} PW {ZIP}`, ZIP+4 supported).
+
+## Samoa
+
+The bundled `SamoaGeographyProvider` supplies the 11 districts
+as `State` rows and a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('WS')` after
+countries are seeded.
+
+The 342 census villages ship as level-2 areas under their
+district (2021 census via citypopulation; constituency parents
+mapped through the geo-ref table: Alataua i Sisifo to
+Vaisigano, Salega to Satupa'itea, Lefaga & Falease'ela to A'ana,
+greater-Apia constituencies to Tuamasaga). Same-district
+name twins are disambiguated CN-style (Matautu, Falelatai /
+Lefaga; Mulivai, Safata / Vaimauga); 12 cross-district twins
+are parent-scoped.
+
+Samoan postcodes print right of the locality
+(`Apia WS1330`).
+
+## Cayman Islands
+
+The bundled `CaymanIslandsGeographyProvider` supplies the 3
+islands as `State` rows and a two-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('KY')` after countries are
+seeded.
+
+The 7 districts ship as level-2 areas (5 Grand Cayman, Cayman
+Brac and Little Cayman self-parented). The prose "6 districts"
+count merges the Sister Islands into one; the district table
+lists all 7, and each nests on exactly one island, so the
+earlier cross-cut ruling is superseded.
+
+Caymanian postcodes print right of the island
+(`Grand Cayman  KY1-1103`).
+
+## Anguilla
+
+The bundled `AnguillaGeographyProvider` supplies the 14
+districts as `State` rows and a single-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('AI')` after countries are
+seeded. Districts are terminal; there is no tier below them.
+
+Anguillan postcodes print on their own line below the locality
+(`The Valley`, `AI-2640`).
+
+## Antigua and Barbuda
+
+The bundled `AntiguaAndBarbudaGeographyProvider` supplies the 6
+parishes and 2 dependencies (Barbuda and uninhabited Redonda)
+as `State` rows and a single-level administrative hierarchy. It
+is selected with `SeedCountryGeographiesAction::execute('AG')`
+after countries are seeded. Parishes and dependencies are
+terminal.
+
+Antigua and Barbuda has no postcode system.
+
+## Aruba
+
+The bundled `ArubaGeographyProvider` supplies the 8 regions
+and the capital Oranjestad as `State` rows and a single-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('AW')` after countries are
+seeded. Regions are statistical and terminal.
+
+Aruba has no postcode system.
+
+## Bahamas
+
+The bundled `BahamasGeographyProvider` supplies the 31
+districts and 1 island as `State` rows and a single-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('BS')` after countries are
+seeded. Districts are terminal.
+
+The Bahamas has no postcode system; Nassau P.O. boxes serve
+as the locality line.
+
+## Barbados
+
+The bundled `BarbadosGeographyProvider` supplies the 11
+parishes as `State` rows and a single-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('BB')` after countries are
+seeded. Parishes are terminal.
+
+Barbadian postcodes print right of the parish
+(`St. Peter BB26028`).
+
+## Belize
+
+The bundled `BelizeGeographyProvider` supplies the 6 districts
+as `State` rows and a single-level administrative hierarchy. It
+is selected with `SeedCountryGeographiesAction::execute('BZ')`
+after countries are seeded. City, town, village, and community
+councils exist below the districts but no consolidated
+district-mapped list ships, and the 31 constituencies are
+electoral only, so districts stay terminal.
+
+Belize has no postcode system.
+
+## Bermuda
+
+The bundled `BermudaGeographyProvider` supplies the 9
+parishes as `State` rows and a two-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('BM')` after countries are
+seeded. The City of Hamilton and the Town of St George ship as
+level-2 municipalities under Pembroke and Saint George's
+parishes respectively.
+
+Bermudian postcodes print right of the locality
+(`SMITH'S FL 07`).
+
+## Bolivia
+
+The bundled `BoliviaGeographyProvider` supplies the 9 departments
+as `State` rows and a two-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('BO')` after
+countries are seeded.
+The 112 provinces ship as level-2 areas under their departments.
+
+Bolivia has no postcode system. Addresses are formatted per the UPU
+layout: street lines, the locality, the department, and country;
+any supplied code prints on its own line. Types are labelled
+`Departamento` and `Provincia`.
+
+## Caribbean Netherlands
+
+The bundled `CaribbeanNetherlandsGeographyProvider` supplies
+the 3 special municipalities (Bonaire, Saba, Sint Eustatius) as
+`State` rows and a single-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('BQ')`
+after countries are seeded. Municipalities are terminal.
+
+Addresses print the island as its own line below the town
+(`KRALENDIJK`, `Bonaire`). The tier is labelled
+`Bijzondere Gemeente`.
+
+## Dominica
+
+The bundled `DominicaGeographyProvider` supplies the 10
+parishes as `State` rows and a single-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('DM')` after countries are
+seeded. Parishes are terminal.
+
+Dominica has no postcode system.
+
+## Grenada
+
+The bundled `GrenadaGeographyProvider` supplies the 6 parishes
+and the Carriacou dependency as `State` rows and a single-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('GD')` after countries are
+seeded. Parishes and the dependency are terminal.
+
+Grenada has no postcode system.
+
+## Jamaica
+
+The bundled `JamaicaGeographyProvider` supplies the 14
+parishes as `State` rows and a single-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('JM')` after countries are
+seeded. Parishes are terminal; postal towns below them are not
+administrative.
+
+Jamaican addresses print street lines, locality, post town,
+parish, and country.
+
+## Saint Lucia
+
+The bundled `SaintLuciaGeographyProvider` supplies the 10
+districts as `State` rows and a single-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('LC')` after countries are
+seeded. Districts are terminal.
+
+Saint Lucian postcodes print right of the locality
+(`CASTRIES, LC04  101`).
+
+## Saint Vincent and the Grenadines
+
+The bundled `SaintVincentAndTheGrenadinesGeographyProvider`
+supplies the 6 parishes as `State` rows and a single-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('VC')` after countries are
+seeded. Parishes are terminal.
+
+Vincentian postcodes print on their own line below the town
+(`KINGSTOWN`, `VC0120`).
+
+## Trinidad and Tobago
+
+The bundled `TrinidadAndTobagoGeographyProvider` supplies the
+5 boroughs, 7 regions, 2 cities, and 1 ward as `State` rows and
+a single-level administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('TT')` after countries are
+seeded. The first level is already the municipal level, so
+there is no tier-2.
+
+Postcodes print right of the locality (`CHAGUANAS 500234`).
+
+## Turks and Caicos
+
+The bundled `TurksAndCaicosGeographyProvider` supplies the 6
+districts as `State` rows and a single-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('TC')` after countries are
+seeded. Districts are terminal.
+
+The UK-style postcode prints on its own line (`TKCA 1ZZ`).
+
+## Montserrat
+
+The bundled `MontserratGeographyProvider` supplies the 4
+parishes as `State` rows and a single-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('MS')` after countries are
+seeded. Parishes are terminal; villages below them have no
+separate administration. Saint Patrick (code `04`) ships even
+though it is uninhabited (volcanic exclusion zone, incl. Plymouth).
+
+Montserrat postcodes print right of the locality
+(`Brades, MSR1110`).
+
+## Greenland
+
+The bundled `GreenlandGeographyProvider` supplies the 5
+municipalities as `State` rows and a single-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('GL')` after countries are
+seeded. Municipalities are terminal; towns are municipal seats,
+not administrative units.
+
+Greenlandic postcodes print left of the locality
+(`3900 Nuuk`). The tier is labelled `Kommune`.
+
+## Saint Barthelemy
+
+The bundled `SaintBarthelemyGeographyProvider` supplies the
+single overseas collectivity as the `State` row and a
+single-level administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('BL')` after countries are
+seeded. There is no tier-2.
+
+Addresses follow the French layout with the code left of the
+locality (`97133 SAINT-BARTHELEMY`).
+
+## Saint Martin
+
+The bundled `SaintMartinGeographyProvider` supplies the single
+overseas collectivity as the `State` row and a single-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('MF')` after countries are
+seeded. There is no tier-2.
+
+Addresses follow the French layout with the code left of the
+locality (`97150 SAINT-MARTIN`).
+
+## Saint Pierre and Miquelon
+
+The bundled `SaintPierreAndMiquelonGeographyProvider` supplies
+the single overseas collectivity as the `State` row and a
+single-level administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('PM')` after countries are
+seeded. There is no tier-2.
+
+Addresses follow the French layout with the code left of the
+locality (`97500 Saint-Pierre`).
+
+## Saint-Barthélemy
+
+The bundled `SaintBarthelemyGeographyProvider` supplies the
+single overseas collectivity as the `State` row and a
+single-level administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('BL')` after countries are
+seeded. There is no tier-2.
+
+Addresses follow the French layout with the code left of the
+locality (`97133 Gustavia`).
+
+## Réunion
+
+The bundled `ReunionGeographyProvider` supplies the 4
+arrondissements as `State` rows and a two-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('RE')` after countries are seeded.
+The 24 communes ship as level-2 areas under their arrondissements.
+
+Réunionese addresses follow the French layout with the code left
+of the locality (`97400 Saint-Denis`).
+
+## French Guiana
+
+The bundled `FrenchGuianaGeographyProvider` supplies the single
+overseas region as the `State` row and a two-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('GF')` after countries are
+seeded. The 22 communes ship as level-2 areas.
+
+Addresses follow the French layout with the code left of the
+locality (`97300 CAYENNE`). Types are labelled `Région` and
+`Commune`.
+
+## French Polynesia
+
+The bundled `FrenchPolynesiaGeographyProvider` supplies the 5
+administrative subdivisions as `State` rows and a two-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('PF')` after countries are
+seeded. The 48 communes ship as level-2 areas under their
+subdivisions.
+
+Addresses follow the French layout with the code left of the
+locality (`98714 PAPEETE`). Types are labelled `Subdivision` and
+`Commune`.
+
+## Guadeloupe
+
+The bundled `GuadeloupeGeographyProvider` supplies the 2
+arrondissements (Basse-Terre, Pointe-à-Pitre) as `State` rows and
+a two-level administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('GP')` after countries are
+seeded. The 32 communes ship as level-2 areas under their
+arrondissements.
+
+Addresses follow the French layout with the code left of the
+locality (`97100 BASSE TERRE`). Types are labelled
+`Arrondissement` and `Commune`.
+
+## Martinique
+
+The bundled `MartiniqueGeographyProvider` supplies the 4
+arrondissements as `State` rows and a two-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('MQ')` after countries are
+seeded. The 34 communes ship as level-2 areas under their
+arrondissements.
+
+Addresses follow the French layout with the code left of the
+locality (`97220 LA TRINITE`). Types are labelled
+`Arrondissement` and `Commune`.
+
+## New Caledonia
+
+The bundled `NewCaledoniaGeographyProvider` supplies the 3
+provinces as `State` rows and a two-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('NC')` after countries are
+seeded. The 33 communes ship as level-2 areas under their
+provinces.
+
+Addresses follow the French layout with the code left of the
+locality (`98800 NOUMEA`). Types are labelled `Province` and
+`Commune`.
+
+## French Southern Territories
+
+The bundled `FrenchSouthernTerritoriesGeographyProvider`
+supplies the 5 districts as `State` rows and a single-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('TF')` after countries are
+seeded. The territory is uninhabited apart from research
+stations; districts are terminal.
+
+Addresses print the base and port lines with no postcode.
+
+## US Minor Outlying Islands
+
+The bundled `USMinorOutlyingIslandsGeographyProvider` supplies
+the 9 islands as `State` rows and a single-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('UM')` after countries are
+seeded. The islands are uninhabited (military and wildlife
+stations) and terminal.
+
+Addresses print the station and island lines with no postcode.
+
+## Puerto Rico
+
+The bundled `PuertoRicoGeographyProvider` supplies the 78
+municipalities as `State` rows and a two-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('PR')` after countries are
+seeded.
+
+The 901 barrios ship as level-2 areas (827 barrios + 74
+barrio-pueblos) from the Census 2024 Gazetteer county-subdivision
+file, parented by GEOID county digits; the 38 fictitious
+`Municipio subdivision not defined` rows are excluded, as are
+subbarrios (a third layer in 23 municipios). Both types share
+the `barrio` assignment role.
+
+Puerto Rican addresses use the US ZIP layout
+(`SAN JUAN PR 00926-0221`, ZIP+4 supported).
+
+## U.S. Virgin Islands
+
+The bundled `USVirginIslandsGeographyProvider` supplies the 3
+districts as `State` rows and a two-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('VI')` after countries are
+seeded.
+The 20 subdistricts ship as level-2 areas under their districts.
+
+Virgin Islander addresses use the US ZIP layout
+(`ST THOMAS VI 00802-1222`, ZIP+4 supported).
+
+## Saint Helena
+
+The bundled `SaintHelenaGeographyProvider` supplies the 8
+Saint Helena districts plus Ascension and Tristan da Cunha as
+`State` rows and a single-level administrative hierarchy. It is
+selected with `SeedCountryGeographiesAction::execute('SH')`
+after countries are seeded. Districts and islands are terminal;
+settlements below them (Jamestown, Georgetown, Edinburgh) have
+no separate administration. Ascension and Tristan da Cunha ship
+as provisional states.json rows (Atauro convention).
+
+Postcodes print right of the locality
+(`JAMESTOWN STHL 1ZZ`, `Georgetown ASCN 1ZZ`).
+
+## Mayotte
+
+The bundled `MayotteGeographyProvider` supplies the 17
+communes as `State` rows and a single-level administrative
+hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('YT')` after countries are
+seeded. The first level is already the municipal level, so
+there is no tier-2.
+
+Mahoran addresses follow the French layout with the code left
+of the locality (`97600 MAMOUDZOU`).
+
+## New Zealand
+
+The bundled `NewZealandGeographyProvider` supplies the 16
+regions plus Chatham Islands as `State` rows and a two-level
+administrative hierarchy. It is selected with
+`SeedCountryGeographiesAction::execute('NZ')` after countries are
+seeded.
+
+The 67 territorial authorities ship as level-2 areas (53
+districts, 12 cities, Auckland and Chatham Islands councils).
+Seven authorities straddle regional boundaries; each is
+parented to its largest-share region. All three types share
+the `district` assignment role.
+
+New Zealand postcodes print left of the locality
+(`6011 Wellington`).
 
 ## Numeric state codes
 
@@ -2556,9 +4093,10 @@ Mauritania, Niger, Rwanda, Sao Tome and Principe, Seychelles,
 Tunisia, Zambia, Albania, Andorra, Austria, Bulgaria, Croatia,
 Czech Republic, Denmark, Estonia, Finland, Greece, Iceland, Latvia,
 Liechtenstein, Lithuania, Malta, Montenegro, North Macedonia,
-Norway, Portugal, San Marino, Serbia, Slovenia, Aland, Guernsey,
-Jersey, and Isle of Man use numeric ISO subdivision codes
-at the state-mapping level. PHP casts numeric-string array keys to
+Norway, Portugal, San Marino, Serbia, and Slovenia use numeric
+ISO subdivision codes at the state-mapping level. Aland, Guernsey,
+Jersey, and Isle of Man use dataset-invented numeric codes instead
+(ISO defines no subdivisions for them). PHP casts numeric-string array keys to
 int, so
 `stateAreaMappings()` returns int keys for those countries and the
 contract documents `array<int|string, ...>`. `linkStateAreas()`

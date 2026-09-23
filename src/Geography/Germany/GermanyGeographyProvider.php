@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Germany;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class GermanyGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class GermanyGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_germany_v1';
 
@@ -62,9 +63,42 @@ class GermanyGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['state'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District (Landkreis / Kreisfreie Stadt)',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['rural_district', 'urban_district'],
+                        areaLevels: [2],
+                        parentKey: 'state',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // State rows use German official names, so the type labels use
+        // the German administrative terms: Land for the 16 Länder,
+        // Landkreis and Kreisfreie Stadt for the two district forms.
+        // (Aachen, Hanover, and Saarbrücken ride with rural_district:
+        // Rural-form Kommunalverbände besonderer Art, district-level.)
+        return [
+            'state' => 'Land',
+            'rural_district' => 'Landkreis',
+            'urban_district' => 'Kreisfreie Stadt',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        // Stadtstaaten (Berlin, Hamburg, Bremen) are still Länder;
+        // no per-state terminology override.
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +109,7 @@ class GermanyGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'state' => ['state'],
+                'rural_district', 'urban_district' => ['district'],
                 default => [],
             };
 

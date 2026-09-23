@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Nicaragua;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class NicaraguaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class NicaraguaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_nicaragua_v1';
 
@@ -62,9 +63,36 @@ class NicaraguaGeographyProvider implements CountryAddressAreaMetadataProvider, 
                         areaTypes: ['department', 'autonomous_region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality'],
+                        areaLevels: [2],
+                        parentKey: 'department',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Spanish administrative terms.
+        return [
+            'department' => 'Departamento',
+            'autonomous_region' => 'Región Autónoma',
+            'municipality' => 'Municipio',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -76,6 +104,7 @@ class NicaraguaGeographyProvider implements CountryAddressAreaMetadataProvider, 
             $areaRoles = match ($area->type) {
                 'department' => ['department'],
                 'autonomous_region' => ['autonomous_region'],
+                'municipality' => ['municipality'],
                 default => [],
             };
 
@@ -91,7 +120,14 @@ class NicaraguaGeographyProvider implements CountryAddressAreaMetadataProvider, 
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            'ni:autonomous_region:costa-caribe-norte' => [
+                ['name' => 'North Caribbean Coast', 'name_type' => 'alternative'],
+            ],
+            'ni:autonomous_region:costa-caribe-sur' => [
+                ['name' => 'South Caribbean Coast', 'name_type' => 'alternative'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
@@ -177,11 +213,11 @@ class NicaraguaGeographyProvider implements CountryAddressAreaMetadataProvider, 
             ['name' => 'Managua', 'code' => 'MN'],
             ['name' => 'Masaya', 'code' => 'MS'],
             ['name' => 'Matagalpa', 'code' => 'MT'],
-            ['name' => 'North Caribbean Coast', 'code' => 'AN'],
+            ['name' => 'Costa Caribe Norte', 'code' => 'AN'],
             ['name' => 'Nueva Segovia', 'code' => 'NS'],
             ['name' => 'Río San Juan', 'code' => 'SJ'],
             ['name' => 'Rivas', 'code' => 'RI'],
-            ['name' => 'South Caribbean Coast', 'code' => 'AS'],
+            ['name' => 'Costa Caribe Sur', 'code' => 'AS'],
         ];
     }
 }

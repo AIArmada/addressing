@@ -62,6 +62,16 @@ class SolomonIslandsGeographyProvider implements CountryAddressAreaMetadataProvi
                         areaTypes: ['province', 'capital_territory'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'ward',
+                        label: 'Ward',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['ward'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'ward',
+                    ),
                 ],
             ),
         ];
@@ -76,6 +86,7 @@ class SolomonIslandsGeographyProvider implements CountryAddressAreaMetadataProvi
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
                 'capital_territory' => ['capital_territory'],
+                'ward' => ['ward'],
                 default => [],
             };
 

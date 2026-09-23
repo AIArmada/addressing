@@ -62,6 +62,16 @@ class MoldovaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['district', 'city', 'autonomous_territorial_unit', 'territorial_unit'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'commune',
+                        label: 'Commune / City',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['commune', 'city'],
+                        areaLevels: [2],
+                        parentKey: 'district',
+                        assignmentRole: 'commune',
+                    ),
                 ],
             ),
         ];
@@ -73,11 +83,14 @@ class MoldovaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         $roles = [];
 
         foreach ($this->addressAreaSource()->areas() as $area) {
-            $areaRoles = match ($area->type) {
-                'district' => ['district'],
-                'city' => ['city'],
-                'autonomous_territorial_unit' => ['autonomous_territorial_unit'],
-                'territorial_unit' => ['territorial_unit'],
+            // `city` spans two levels: municipalities (L1) vs district cities/towns (L2).
+            $areaRoles = match (true) {
+                $area->type === 'district' => ['district'],
+                $area->type === 'city' && $area->level === 1 => ['city'],
+                $area->type === 'city' => ['commune'],
+                $area->type === 'commune' => ['commune'],
+                $area->type === 'autonomous_territorial_unit' => ['autonomous_territorial_unit'],
+                $area->type === 'territorial_unit' => ['territorial_unit'],
                 default => [],
             };
 

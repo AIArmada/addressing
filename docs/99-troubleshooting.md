@@ -16,6 +16,37 @@ Run the seed command:
 php artisan address:seed-countries
 ```
 
+## District Page Lists Other Districts' Towns
+
+The database predates the dataset. Narrowing probes find no district
+links and fall back to the broader scope by design, so a district page
+shows the whole state's towns. Re-run the full seed to pick up new rows
+and rebuilt links:
+
+```bash
+php artisan address:seed
+```
+
+## Is Reseeding Safe When Other Tables Link to Geography
+
+Yes for routine growth. Every tier upserts on a stable key and keeps its
+IDs: countries by `iso2`, states by country + code, cities by country +
+state + name, areas by `source` + `source_id`. Areas absent from the feed
+deactivate instead of deleting, so foreign keys never dangle.
+
+Three exceptions need deliberate handling:
+
+- Renamed identity keys (a changed `source_id`, state code, or city name)
+  create a fresh row with a new ID while existing records still point at
+  the old row. Areas at least go inactive; states and cities have no
+  deactivation sweep, so a rename leaves the old row behind as
+  still-active. Renames need a remap migration, not just a reseed.
+- Link-table rows (roles, names, relationships) are rebuilt every seed
+  and their IDs churn. External tables must link to area, state, city,
+  or country IDs only — never to link-table IDs.
+- Records pointing at deactivated areas disappear from `is_active`
+  dropdowns. Give them a show-with-warning or remap path.
+
 ## Missing Malaysia States or Federal Territories
 
 `address:seed-countries` only seeds ISO countries. For structured Malaysia geography, run `app(SeedCountryGeographiesAction::class)->execute('MY')` after countries exist. This also imports the hierarchy and creates explicit State↔AddressArea links. Postal localities and administrative districts are separate branches; neither requires a postal-town record.

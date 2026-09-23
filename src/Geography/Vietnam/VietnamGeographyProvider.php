@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Vietnam;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class VietnamGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class VietnamGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_vietnam_v1';
 
@@ -62,9 +63,38 @@ class VietnamGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['province', 'municipality'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'commune',
+                        label: 'Commune / Ward / Special Zone',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['commune', 'ward', 'special_zone'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'commune',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Vietnamese administrative terms.
+        return [
+            'province' => 'Tỉnh',
+            'municipality' => 'Thành phố',
+            'commune' => 'Xã',
+            'ward' => 'Phường',
+            'special_zone' => 'Đặc khu',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -76,6 +106,9 @@ class VietnamGeographyProvider implements CountryAddressAreaMetadataProvider, Co
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
                 'municipality' => ['province'],
+                'commune' => ['commune'],
+                'ward' => ['commune'],
+                'special_zone' => ['commune'],
                 default => [],
             };
 

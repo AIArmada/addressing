@@ -62,6 +62,16 @@ class LesothoGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['district'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'constituency',
+                        label: 'Constituency',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['constituency'],
+                        areaLevels: [2],
+                        parentKey: 'district',
+                        assignmentRole: 'constituency',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class LesothoGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'district' => ['district'],
+                'constituency' => ['constituency'],
                 default => [],
             };
 

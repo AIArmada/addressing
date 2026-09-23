@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Mongolia;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class MongoliaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class MongoliaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_mongolia_v1';
 
@@ -44,6 +45,13 @@ class MongoliaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                 ],
             );
         }
+
+        // Ulaanbaatar follows ISO MN-1 (single digit). Delete stragglers
+        // seeded with the zero-padded code so reseeds converge.
+        $stateClass::query()
+            ->where('country_id', $country->id)
+            ->where('code', '001')
+            ->delete();
     }
 
     /** @return list<AddressHierarchyDefinition> */
@@ -62,9 +70,36 @@ class MongoliaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                         areaTypes: ['province', 'capital_city'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'Sum / Düüreg',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['sum', 'duureg'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Mongolian administrative terms (sums in the aimags, düüregs in Ulaanbaatar).
+        return [
+            'province' => 'Aimag',
+            'sum' => 'Sum',
+            'duureg' => 'Düüreg',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -76,6 +111,8 @@ class MongoliaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
                 'capital_city' => ['capital_city'],
+                'sum' => ['district'],
+                'duureg' => ['district'],
                 default => [],
             };
 
@@ -148,7 +185,7 @@ class MongoliaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             '049' => '049',
             '051' => '051',
             '047' => '047',
-            '001' => '001',
+            '1' => '1',
             '046' => '046',
             '057' => '057',
         ];
@@ -189,7 +226,7 @@ class MongoliaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Selenge', 'code' => '049'],
             ['name' => 'Sükhbaatar', 'code' => '051'],
             ['name' => 'Töv', 'code' => '047'],
-            ['name' => 'Ulaanbaatar', 'code' => '001'],
+            ['name' => 'Ulaanbaatar', 'code' => '1'],
             ['name' => 'Uvs', 'code' => '046'],
             ['name' => 'Zavkhan', 'code' => '057'],
         ];

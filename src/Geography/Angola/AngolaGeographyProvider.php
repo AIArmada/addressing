@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Angola;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_angola_v1';
 
@@ -44,6 +45,13 @@ class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                 ],
             );
         }
+
+        // Cuando Cubango split into Cuando and Cubango under the 2024 law.
+        // Delete stragglers seeded before the split so reseeds converge.
+        $stateClass::query()
+            ->where('country_id', $country->id)
+            ->where('code', 'CCU')
+            ->delete();
     }
 
     /** @return list<AddressHierarchyDefinition> */
@@ -62,9 +70,37 @@ class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                         areaTypes: ['province'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality'],
+                        areaLevels: [2],
+                        parentKey: 'province',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Portuguese is the official language and the gazette names its
+        // tiers Província and Município, so the labels use the Portuguese
+        // terms rather than the English-generic headlines.
+        return [
+            'province' => 'Província',
+            'municipality' => 'Município',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +111,7 @@ class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
+                'municipality' => ['municipality'],
                 default => [],
             };
 
@@ -132,16 +169,19 @@ class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             'BGU' => 'BGU',
             'BIE' => 'BIE',
             'CAB' => 'CAB',
-            'CCU' => 'CCU',
             'CNN' => 'CNN',
             'CNO' => 'CNO',
+            'CUA' => 'CUA',
+            'CUB' => 'CUB',
             'CUS' => 'CUS',
             'HUA' => 'HUA',
             'HUI' => 'HUI',
+            'IEB' => 'IEB',
             'LNO' => 'LNO',
             'LSU' => 'LSU',
             'LUA' => 'LUA',
             'MAL' => 'MAL',
+            'MLE' => 'MLE',
             'MOX' => 'MOX',
             'NAM' => 'NAM',
             'UIG' => 'UIG',
@@ -169,16 +209,19 @@ class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             ['name' => 'Benguela', 'code' => 'BGU'],
             ['name' => 'Bié', 'code' => 'BIE'],
             ['name' => 'Cabinda', 'code' => 'CAB'],
-            ['name' => 'Cuando Cubango', 'code' => 'CCU'],
             ['name' => 'Cunene', 'code' => 'CNN'],
             ['name' => 'Cuanza Norte', 'code' => 'CNO'],
-            ['name' => 'Cuanza', 'code' => 'CUS'],
+            ['name' => 'Cuando', 'code' => 'CUA'],
+            ['name' => 'Cubango', 'code' => 'CUB'],
+            ['name' => 'Cuanza Sul', 'code' => 'CUS'],
             ['name' => 'Huambo', 'code' => 'HUA'],
             ['name' => 'Huíla', 'code' => 'HUI'],
+            ['name' => 'Icolo e Bengo', 'code' => 'IEB'],
             ['name' => 'Lunda Norte', 'code' => 'LNO'],
             ['name' => 'Lunda Sul', 'code' => 'LSU'],
             ['name' => 'Luanda', 'code' => 'LUA'],
             ['name' => 'Malanje', 'code' => 'MAL'],
+            ['name' => 'Moxico Leste', 'code' => 'MLE'],
             ['name' => 'Moxico', 'code' => 'MOX'],
             ['name' => 'Namibe', 'code' => 'NAM'],
             ['name' => 'Uíge', 'code' => 'UIG'],

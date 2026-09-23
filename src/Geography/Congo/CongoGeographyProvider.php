@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Congo;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class CongoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class CongoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_congo_v1';
 
@@ -62,9 +63,35 @@ class CongoGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                         areaTypes: ['department'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [2],
+                        parentKey: 'department',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // French administrative terms.
+        return [
+            'department' => 'Département',
+            'district' => 'District',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +102,7 @@ class CongoGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'department' => ['department'],
+                'district' => ['district'],
                 default => [],
             };
 
@@ -130,12 +158,15 @@ class CongoGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
         $areaCodes = [
             '11' => '11',
             'BZV' => 'BZV',
+            '17' => '17',
             '8' => '8',
             '15' => '15',
+            '18' => '18',
             '5' => '5',
             '2' => '2',
             '7' => '7',
             '9' => '9',
+            '19' => '19',
             '14' => '14',
             '16' => '16',
             '12' => '12',
@@ -161,12 +192,15 @@ class CongoGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
         return [
             ['name' => 'Bouenza', 'code' => '11'],
             ['name' => 'Brazzaville', 'code' => 'BZV'],
+            ['name' => 'Congo-Oubangui', 'code' => '17'],
             ['name' => 'Cuvette', 'code' => '8'],
             ['name' => 'Cuvette-Ouest', 'code' => '15'],
+            ['name' => 'Djoué-Léfini', 'code' => '18'],
             ['name' => 'Kouilou', 'code' => '5'],
             ['name' => 'Lékoumou', 'code' => '2'],
             ['name' => 'Likouala', 'code' => '7'],
             ['name' => 'Niari', 'code' => '9'],
+            ['name' => 'Nkéni-Alima', 'code' => '19'],
             ['name' => 'Plateaux', 'code' => '14'],
             ['name' => 'Pointe-Noire', 'code' => '16'],
             ['name' => 'Pool', 'code' => '12'],

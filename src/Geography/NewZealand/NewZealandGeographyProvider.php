@@ -62,6 +62,16 @@ class NewZealandGeographyProvider implements CountryAddressAreaMetadataProvider,
                         areaTypes: ['region', 'special_island_authority'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District / City / Council',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district', 'city', 'council'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -76,6 +86,9 @@ class NewZealandGeographyProvider implements CountryAddressAreaMetadataProvider,
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
                 'special_island_authority' => ['special_island_authority'],
+                'district' => ['district'],
+                'city' => ['district'],
+                'council' => ['district'],
                 default => [],
             };
 

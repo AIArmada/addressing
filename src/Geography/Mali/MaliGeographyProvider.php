@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Mali;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class MaliGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class MaliGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_mali_v1';
 
@@ -62,9 +63,36 @@ class MaliGeographyProvider implements CountryAddressAreaMetadataProvider, Count
                         areaTypes: ['region', 'district'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'cercle',
+                        label: 'Cercle',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['cercle'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'cercle',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // French administrative terms.
+        return [
+            'district' => 'District',
+            'region' => 'Région',
+            'cercle' => 'Cercle',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -76,6 +104,7 @@ class MaliGeographyProvider implements CountryAddressAreaMetadataProvider, Count
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
                 'district' => ['district'],
+                'cercle' => ['cercle'],
                 default => [],
             };
 
@@ -130,15 +159,24 @@ class MaliGeographyProvider implements CountryAddressAreaMetadataProvider, Count
         /** @var array<int|string, string> */
         $areaCodes = [
             'BKO' => 'BKO',
+            '19' => '19',
+            '15' => '15',
+            '13' => '13',
+            '18' => '18',
             '7' => '7',
             '1' => '1',
             '8' => '8',
+            '12' => '12',
             '2' => '2',
-            '9' => '9',
+            '16' => '16',
+            '10' => '10',
             '5' => '5',
+            '14' => '14',
+            '11' => '11',
+            '17' => '17',
             '4' => '4',
             '3' => '3',
-            '10' => '10',
+            '9' => '9',
             '6' => '6',
         ];
 
@@ -160,15 +198,24 @@ class MaliGeographyProvider implements CountryAddressAreaMetadataProvider, Count
     {
         return [
             ['name' => 'Bamako', 'code' => 'BKO'],
+            ['name' => 'Bandiagara', 'code' => '19'],
+            ['name' => 'Bougouni', 'code' => '15'],
+            ['name' => 'Dioila', 'code' => '13'],
+            ['name' => 'Douentza', 'code' => '18'],
             ['name' => 'Gao', 'code' => '7'],
             ['name' => 'Kayes', 'code' => '1'],
             ['name' => 'Kidal', 'code' => '8'],
+            ['name' => 'Kita', 'code' => '12'],
             ['name' => 'Koulikoro', 'code' => '2'],
-            ['name' => 'Ménaka', 'code' => '9'],
+            ['name' => 'Koutiala', 'code' => '16'],
+            ['name' => 'Ménaka', 'code' => '10'],
             ['name' => 'Mopti', 'code' => '5'],
+            ['name' => 'Nara', 'code' => '14'],
+            ['name' => 'Nioro', 'code' => '11'],
+            ['name' => 'San', 'code' => '17'],
             ['name' => 'Ségou', 'code' => '4'],
             ['name' => 'Sikasso', 'code' => '3'],
-            ['name' => 'Taoudénit', 'code' => '10'],
+            ['name' => 'Taoudénit', 'code' => '9'],
             ['name' => 'Tombouctou', 'code' => '6'],
         ];
     }

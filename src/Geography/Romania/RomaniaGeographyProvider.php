@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Romania;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class RomaniaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class RomaniaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_romania_v1';
 
@@ -62,9 +63,38 @@ class RomaniaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['department', 'municipality'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'commune',
+                        label: 'Commune / Town / Municipality / Sector',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['commune', 'town', 'municipality', 'sector'],
+                        areaLevels: [2],
+                        parentKey: 'department',
+                        assignmentRole: 'commune',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Romanian administrative terms (`municipality` spans Bucharest at L1 and county municipalities at L2).
+        return [
+            'department' => 'Județ',
+            'municipality' => 'Municipiu',
+            'commune' => 'Comună',
+            'town' => 'Oraș',
+            'sector' => 'Sector',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -73,9 +103,14 @@ class RomaniaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         $roles = [];
 
         foreach ($this->addressAreaSource()->areas() as $area) {
-            $areaRoles = match ($area->type) {
-                'department' => ['department'],
-                'municipality' => ['municipality'],
+            // `municipality` spans two levels: Bucharest (L1) vs county municipalities (L2).
+            $areaRoles = match (true) {
+                $area->type === 'department' => ['department'],
+                $area->type === 'municipality' && $area->level === 1 => ['municipality'],
+                $area->type === 'municipality' => ['commune'],
+                $area->type === 'town' => ['commune'],
+                $area->type === 'commune' => ['commune'],
+                $area->type === 'sector' => ['commune'],
                 default => [],
             };
 
@@ -192,12 +227,12 @@ class RomaniaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         return [
             ['name' => 'Alba', 'code' => 'AB'],
             ['name' => 'Arad', 'code' => 'AR'],
-            ['name' => 'Arges', 'code' => 'AG'],
+            ['name' => 'Argeș', 'code' => 'AG'],
             ['name' => 'Bacău', 'code' => 'BC'],
             ['name' => 'Bihor', 'code' => 'BH'],
             ['name' => 'Bistrița-Năsăud', 'code' => 'BN'],
             ['name' => 'Botoșani', 'code' => 'BT'],
-            ['name' => 'Braila', 'code' => 'BR'],
+            ['name' => 'Brăila', 'code' => 'BR'],
             ['name' => 'Brașov', 'code' => 'BV'],
             ['name' => 'Bucharest', 'code' => 'B'],
             ['name' => 'Buzău', 'code' => 'BZ'],

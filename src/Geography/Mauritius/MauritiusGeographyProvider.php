@@ -62,6 +62,16 @@ class MauritiusGeographyProvider implements CountryAddressAreaMetadataProvider, 
                         areaTypes: ['district', 'dependency'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'locality',
+                        label: 'City / Town / Village',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['city', 'town', 'village'],
+                        areaLevels: [2],
+                        parentKey: 'district',
+                        assignmentRole: 'locality',
+                    ),
                 ],
             ),
         ];
@@ -76,6 +86,9 @@ class MauritiusGeographyProvider implements CountryAddressAreaMetadataProvider, 
             $areaRoles = match ($area->type) {
                 'district' => ['district'],
                 'dependency' => ['dependency'],
+                'city' => ['locality'],
+                'town' => ['locality'],
+                'village' => ['locality'],
                 default => [],
             };
 

@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Niger;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class NigerGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class NigerGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_niger_v1';
 
@@ -62,9 +63,37 @@ class NigerGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                         areaTypes: ['region', 'urban_community'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'department',
+                        label: 'Department / Commune',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['department', 'commune'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'department',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // French administrative terms.
+        return [
+            'region' => 'Région',
+            'urban_community' => 'Communauté Urbaine',
+            'department' => 'Département',
+            'commune' => 'Commune',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -76,6 +105,8 @@ class NigerGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
                 'urban_community' => ['urban_community'],
+                'department' => ['department'],
+                'commune' => ['department'],
                 default => [],
             };
 

@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Italy;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class ItalyGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class ItalyGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_italy_v1';
 
@@ -62,9 +63,35 @@ class ItalyGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
                         areaTypes: ['region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'province',
+                        label: 'Province / Metropolitan City / Consortium / Entity',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['province', 'metropolitan_city', 'free_municipal_consortium', 'decentralization_entity', 'autonomous_province'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'province',
+                    ),
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // The second-level types are already Italian administrative terms;
+        // only the English-generic region type needs its proper term.
+        return [
+            'region' => 'Regione',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
@@ -75,6 +102,11 @@ class ItalyGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
+                'province' => ['province'],
+                'metropolitan_city' => ['province'],
+                'free_municipal_consortium' => ['province'],
+                'decentralization_entity' => ['province'],
+                'autonomous_province' => ['province'],
                 default => [],
             };
 

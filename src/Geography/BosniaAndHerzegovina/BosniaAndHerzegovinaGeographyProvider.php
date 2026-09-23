@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\BosniaAndHerzegovina;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
@@ -14,7 +15,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class BosniaAndHerzegovinaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class BosniaAndHerzegovinaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_bosnia_and_herzegovina_v1';
 
@@ -62,8 +63,38 @@ class BosniaAndHerzegovinaGeographyProvider implements CountryAddressAreaMetadat
                         areaTypes: ['entity', 'district'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality'],
+                        areaLevels: [2],
+                        parentKey: 'entity',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
+        ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        // Local administrative terms; the Federation uses općina for municipalities.
+        return [
+            'entity' => 'Entitet',
+            'district' => 'Distrikt',
+            'municipality' => 'Općina',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        // Republika Srpska uses the ekavian form opština.
+        return [
+            ['state_code' => 'SRP', 'type_labels' => ['municipality' => 'Opština']],
         ];
     }
 
@@ -76,6 +107,7 @@ class BosniaAndHerzegovinaGeographyProvider implements CountryAddressAreaMetadat
             $areaRoles = match ($area->type) {
                 'entity' => ['entity'],
                 'district' => ['district'],
+                'municipality' => ['municipality'],
                 default => [],
             };
 

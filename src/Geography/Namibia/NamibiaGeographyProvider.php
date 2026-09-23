@@ -62,6 +62,16 @@ class NamibiaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                         areaTypes: ['region'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'constituency',
+                        label: 'Constituency',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['constituency'],
+                        areaLevels: [2],
+                        parentKey: 'region',
+                        assignmentRole: 'constituency',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,7 @@ class NamibiaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
+                'constituency' => ['constituency'],
                 default => [],
             };
 

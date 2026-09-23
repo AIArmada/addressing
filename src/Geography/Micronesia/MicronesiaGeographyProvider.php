@@ -62,6 +62,16 @@ class MicronesiaGeographyProvider implements CountryAddressAreaMetadataProvider,
                         areaTypes: ['state'],
                         areaLevel: 1,
                     ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality / City',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality', 'city'],
+                        areaLevels: [2],
+                        parentKey: 'state',
+                        assignmentRole: 'municipality',
+                    ),
                 ],
             ),
         ];
@@ -75,6 +85,8 @@ class MicronesiaGeographyProvider implements CountryAddressAreaMetadataProvider,
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
                 'state' => ['state'],
+                'municipality' => ['municipality'],
+                'city' => ['municipality'],
                 default => [],
             };
 
@@ -90,7 +102,11 @@ class MicronesiaGeographyProvider implements CountryAddressAreaMetadataProvider,
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            'fm:municipality:utwe' => [
+                ['name' => 'Utwa', 'name_type' => 'alternative'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */

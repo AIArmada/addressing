@@ -55,12 +55,22 @@ class BermudaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
                 label: 'Administrative / Territorial Geography',
                 levels: [
                     new AddressLevelDefinition(
-                        key: 'municipality',
-                        label: 'Municipality',
+                        key: 'parish',
+                        label: 'Parish',
                         kind: 'state',
                         hierarchyType: 'administrative',
-                        areaTypes: ['municipality'],
+                        areaTypes: ['parish'],
                         areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'municipality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['municipality'],
+                        areaLevels: [2],
+                        parentKey: 'parish',
+                        assignmentRole: 'municipality',
                     ),
                 ],
             ),
@@ -74,6 +84,7 @@ class BermudaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
 
         foreach ($this->addressAreaSource()->areas() as $area) {
             $areaRoles = match ($area->type) {
+                'parish' => ['parish'],
                 'municipality' => ['municipality'],
                 default => [],
             };
