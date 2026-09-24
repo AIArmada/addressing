@@ -24,7 +24,6 @@ final class AddressingTableResolver
             'country_currency_links' => 'country_currency_links',
             'country_timezone_links' => 'country_timezone_links',
             'area_state_links' => 'address_area_state_links',
-            'area_city_links' => 'address_area_city_links',
             'area_names' => 'address_area_names',
             'area_roles' => 'address_area_roles',
             'area_relationships' => 'address_area_relationships',

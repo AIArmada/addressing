@@ -143,21 +143,18 @@ final class Customer extends Model
 Create address:
 
 ```php
-use AIArmada\Addressing\Actions\CreateAddressAction;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Models\Address;
 
-app(CreateAddressAction::class)->execute(
-    addressable: $customer,
-    data: AddressData::from([
-        'line1' => 'Lot 12 Jalan Mawar',
-        'city' => 'Kajang',
-        'state' => 'Selangor',
-        'postcode' => '43000',
-        'countryCode' => 'MY',
-    ]),
-    type: 'shipping',
-    isPrimary: true,
-);
+$address = Address::query()->create(AddressData::from([
+    'line1' => 'Lot 12 Jalan Mawar',
+    'city' => 'Kajang',
+    'state' => 'Selangor',
+    'postcode' => '43000',
+    'countryCode' => 'MY',
+])->toModelAttributes());
+
+$customer->attachAddress($address, type: 'shipping', isPrimary: true);
 ```
 
 This level is the canonical reusable-address path for customers and venues.
@@ -189,7 +186,7 @@ Do not combine data-copy and deletion unless explicitly approved.
 | Simple provider payload | Level 1 or 2 |
 | Gateway adapter billing address | Level 2 |
 | Shipment origin/destination JSON | Level 3 |
-| Order billing/shipping address | Level 3 |
+| Order billing/shipping address | Per-order `Address` copies (Level 4 mechanics, Level 3 intent) |
 | Event published address | Level 3 |
 | Customer saved address | Level 4, then Level 5 |
 | Venue/institution address | Level 4, then Level 5 |

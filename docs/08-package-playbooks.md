@@ -35,7 +35,7 @@ optional-integration decision before adopting `HasAddresses`.
 | Package/surface | First adoption level | Storage migration? | Notes |
 |---|---:|---|---|
 | customers / typed addressables | Level 4 complete | Retired storage cleanup complete | Checkout and defaults use `HasAddresses` and `primaryAddress()` |
-| orders / order_addresses | Level 3 | Maybe | Historical snapshots, not mutable addresses |
+| orders / per-order Address copies | Level 4 mechanics, Level 3 intent | Complete | Fresh copy per order; never shared mutable links |
 | events / venues / event_locations | Level 4 + Level 3 | Eventually for venues | Venue/institution address reusable; event location snapshot historical |
 | chip / chip_clients | Level 2 | Not first | Provider/client mapper |
 | shipping / shipments JSON | Level 3 | No | JSON cast is already suitable |
@@ -97,47 +97,34 @@ $customer->attachAddress($address, type: 'shipping', isPrimary: true);
 ### Current shape
 
 ```txt
-order_addresses
-- line1
-- line2
-- city
-- state
-- postcode
-- country
+orders + HasAddresses
+- one fresh Address copy per order and type, attached at creation
+- contact fields under metadata.order_contact
+- resolved via primaryAddress('billing' | 'shipping')
 ```
 
 ### Recommendation
 
-Use Level 3.
-
-Order addresses are historical and must not depend only on mutable customer address records.
+Order addresses are historical and must not depend on mutable customer
+address records. The landed pattern is per-order copies, not shared links.
 
 ### Should orders require addressing?
 
-Yes if `AddressSnapshot` or `AddressData` is used directly.
-
-### Should `order_addresses` be deleted?
-
-Not automatically. The table may already act as a snapshot table.
-
-Possible options:
-
-1. Keep `order_addresses`, but expose `toAddressData()`.
-2. Migrate to `address_snapshots` if shared snapshot infrastructure is desired.
-3. Use JSON columns if order address structure is simple and internal.
+Yes. Orders hard-requires `aiarmada/addressing` and uses `HasAddresses`,
+`Address`, and address normalization directly.
 
 ### Example
 
 ```php
-use AIArmada\Addressing\Actions\CreateAddressSnapshotAction;
-use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Orders\Actions\CreateOrder;
 
-app(CreateAddressSnapshotAction::class)->execute(
-    snapshotable: $order,
-    data: AddressData::from($customer->primaryAddressOfType('shipping')),
-    reason: 'order_shipping',
-);
+app(CreateOrder::class)->addAddress($order, $addressData, 'shipping');
+
+$shipping = $order->primaryAddress('shipping');
 ```
+
+Use `CreateAddressSnapshotAction` instead only when tamper-proof immutable
+snapshots are required rather than per-order copies.
 
 ## Events, venues, and institutions
 
@@ -202,11 +189,11 @@ final class ResolveEventAddressAction
     public function execute(Event $event): ?AddressData
     {
         if ($event->venue?->primaryAddress() !== null) {
-            return AddressData::from($event->venue->primaryAddress());
+            return AddressData::from($event->venue->primaryAddress()->attributesToArray());
         }
 
         if ($event->institution?->primaryAddress() !== null) {
-            return AddressData::from($event->institution->primaryAddress());
+            return AddressData::from($event->institution->primaryAddress()->attributesToArray());
         }
 
         return null;

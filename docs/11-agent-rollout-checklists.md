@@ -39,9 +39,9 @@ Do not:
 packages/addressing/src/Data
 packages/addressing/src/Casts
 packages/addressing/src/Actions
-packages/addressing/src/Services
+packages/addressing/src/Support
 packages/addressing/docs
-packages/addressing/tests
+tests/src/Addressing
 ```
 
 ### Tasks
@@ -61,7 +61,7 @@ packages/addressing/tests
 ### Checks
 
 ```bash
-./vendor/bin/pest --parallel packages/addressing/tests
+./vendor/bin/pest --parallel tests/src/Addressing
 ./vendor/bin/phpstan analyse packages/addressing/src --level=6
 ```
 
@@ -72,7 +72,7 @@ packages/addressing/tests
 ```txt
 packages/commerce-support/src/Contracts
 packages/commerce-support/docs
-packages/commerce-support/tests
+tests/src/CommerceSupport
 ```
 
 ### Tasks
@@ -91,7 +91,7 @@ packages/commerce-support/tests
 ### Checks
 
 ```bash
-./vendor/bin/pest --parallel packages/commerce-support/tests
+./vendor/bin/pest --parallel tests/src/CommerceSupport
 ./vendor/bin/phpstan analyse packages/commerce-support/src --level=6
 ```
 
@@ -103,7 +103,7 @@ packages/commerce-support/tests
 packages/customers/src
 packages/customers/database
 packages/customers/docs
-packages/customers/tests
+tests/src/Customers
 ```
 
 ### Tasks
@@ -133,15 +133,14 @@ packages/customers/tests
 packages/orders/src
 packages/orders/database
 packages/orders/docs
-packages/orders/tests
+tests/src/Orders
 ```
 
 ### Tasks
 
 - Adopt `AddressData` for order address input/output.
-- Use snapshots for billing/shipping addresses.
-- Do not link order address only to mutable customer address.
-- Keep or migrate `order_addresses` intentionally.
+- Attach one fresh `Address` copy per order and type at creation time.
+- Do not link order addresses to mutable customer addresses.
 
 ### Tests
 
@@ -157,7 +156,7 @@ packages/orders/tests
 packages/events/src
 packages/events/database
 packages/events/docs
-packages/events/tests
+tests/src/Events
 packages/institutions/src if assigned
 packages/venues/src if assigned
 ```
@@ -184,7 +183,7 @@ packages/venues/src if assigned
 ```txt
 packages/shipping/src
 packages/shipping/docs
-packages/shipping/tests
+tests/src/Shipping
 ```
 
 ### Tasks
@@ -232,7 +231,7 @@ Only one provider package per agent if multiple people are active.
 ```txt
 packages/tax/src
 packages/tax/docs
-packages/tax/tests
+tests/src/Tax
 ```
 
 ### Tasks

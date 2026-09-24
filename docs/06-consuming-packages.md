@@ -74,7 +74,7 @@ It can mean any of these:
 5. Mapping `AddressData` to a provider payload.
 6. Storing a reusable address in `addresses` and linking with `addressables`.
 7. Creating an immutable `AddressSnapshot`.
-8. Looking up `address_countries` by ISO2 country code.
+8. Looking up `countries` by ISO2 country code.
 9. Resolving optional `address_areas` for state/city/district relationships.
 
 It does not always mean storage migration.
@@ -83,9 +83,9 @@ It does not always mean storage migration.
 
 `addressing.Address` plus `HasAddresses` is the canonical path for reusable
 polymorphic attachments. `customers.Customer` uses it for saved addresses and
-typed checkout defaults. `orders.OrderAddress` remains an order-time
-historical snapshot; package-specific snapshot storage is not replaced by a
-mutable reusable address.
+typed checkout defaults. `orders.Order` attaches one fresh `Address` copy per
+order and type at creation time; historical order data never points at a
+mutable shared address.
 Packages adding new address fields should add them to the canonical
 `addressing` model or use `AddressData`, not extend a legacy address table.
 

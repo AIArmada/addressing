@@ -8,13 +8,14 @@ use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class MontserratGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class MontserratGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_montserrat_v1';
 
@@ -28,6 +29,21 @@ class MontserratGeographyProvider implements CountryAddressAreaMetadataProvider,
     public function countryCode(): string
     {
         return 'MS';
+    }
+
+    /** @return list<string> */
+    public function postalCodeLookupKeys(string $code): array
+    {
+        $code = mb_strtoupper(mb_trim($code));
+
+        // Bundled codes carry the MSRprefix; bare input gains it.
+        if (preg_match('/^(?:MSR?)?(\d{4})$/', $code, $matches) === 1) {
+            $canonical = 'MSR' . $matches[1];
+
+            return $canonical === $code ? [$code] : [$code, $canonical];
+        }
+
+        return [$code];
     }
 
     public function seed(AddressCountry $country): void

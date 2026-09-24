@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Iraq;
 
 use AIArmada\Addressing\Contracts\CountryAddressFormatter;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Support\AddressLineFilter;
 
 final class IraqAddressFormatter implements CountryAddressFormatter
 {
@@ -16,7 +17,7 @@ final class IraqAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        $lines = array_filter([
+        $lines = AddressLineFilter::present([
             $address->line1,
             $address->line2,
             $address->line3,

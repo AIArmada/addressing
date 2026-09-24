@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Malaysia;
 
 use AIArmada\Addressing\Contracts\CountryAddressFormatter;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Support\AddressLineFilter;
 
 final class MalaysiaAddressFormatter implements CountryAddressFormatter
 {
@@ -16,7 +17,7 @@ final class MalaysiaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        $lines = array_filter([
+        $lines = AddressLineFilter::present([
             $address->line1,
             $address->line2,
             $address->line3,
@@ -25,7 +26,7 @@ final class MalaysiaAddressFormatter implements CountryAddressFormatter
             $this->component($address, 'district'),
         ]);
 
-        $cityLine = array_filter([$address->city]);
+        $cityLine = AddressLineFilter::present([$address->city]);
 
         if ($cityLine !== []) {
             $city = implode(', ', $cityLine);

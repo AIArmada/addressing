@@ -8,13 +8,14 @@ use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class FaroeIslandsGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class FaroeIslandsGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_faroe_islands_v1';
 
@@ -28,6 +29,21 @@ class FaroeIslandsGeographyProvider implements CountryAddressAreaMetadataProvide
     public function countryCode(): string
     {
         return 'FO';
+    }
+
+    /** @return list<string> */
+    public function postalCodeLookupKeys(string $code): array
+    {
+        $code = mb_strtoupper(mb_trim($code));
+
+        // Bundled codes carry the FO-prefix; bare input gains it.
+        if (preg_match('/^(?:FO-?)?(\d{3})$/', $code, $matches) === 1) {
+            $canonical = 'FO-' . $matches[1];
+
+            return $canonical === $code ? [$code] : [$code, $canonical];
+        }
+
+        return [$code];
     }
 
     public function seed(AddressCountry $country): void

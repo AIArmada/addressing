@@ -9,7 +9,6 @@ use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $id
@@ -52,14 +51,6 @@ class City extends Model
     public function country(): BelongsTo
     {
         return $this->belongsTo(ModelResolver::countryClass(), 'country_id');
-    }
-
-    /**
-     * @return HasMany<AddressAreaCityLink, $this>
-     */
-    public function addressAreaLinks(): HasMany
-    {
-        return $this->hasMany(AddressAreaCityLink::class, 'city_id');
     }
 
     protected function casts(): array

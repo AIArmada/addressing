@@ -9,13 +9,14 @@ use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
+class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_latvia_v1';
 
@@ -29,6 +30,21 @@ class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
     public function countryCode(): string
     {
         return 'LV';
+    }
+
+    /** @return list<string> */
+    public function postalCodeLookupKeys(string $code): array
+    {
+        $code = mb_strtoupper(mb_trim($code));
+
+        // Bundled codes carry the LV-prefix; bare input gains it.
+        if (preg_match('/^(?:LV-?)?(\d{4})$/', $code, $matches) === 1) {
+            $canonical = 'LV-' . $matches[1];
+
+            return $canonical === $code ? [$code] : [$code, $canonical];
+        }
+
+        return [$code];
     }
 
     public function seed(AddressCountry $country): void

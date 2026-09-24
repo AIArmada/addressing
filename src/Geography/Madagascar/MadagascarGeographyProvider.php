@@ -73,6 +73,16 @@ class MadagascarGeographyProvider implements CountryAddressAreaMetadataProvider,
                         parentKey: 'province',
                         assignmentRole: 'region',
                     ),
+                    new AddressLevelDefinition(
+                        key: 'district',
+                        label: 'District',
+                        kind: 'area',
+                        hierarchyType: 'administrative',
+                        areaTypes: ['district'],
+                        areaLevels: [3],
+                        parentKey: 'region',
+                        assignmentRole: 'district',
+                    ),
                 ],
             ),
         ];
@@ -85,6 +95,7 @@ class MadagascarGeographyProvider implements CountryAddressAreaMetadataProvider,
         return [
             'province' => 'Faritany',
             'region' => 'Faritra',
+            'district' => 'Distrika',
         ];
     }
 
@@ -103,6 +114,7 @@ class MadagascarGeographyProvider implements CountryAddressAreaMetadataProvider,
             $areaRoles = match ($area->type) {
                 'province' => ['province'],
                 'region' => ['region'],
+                'district' => ['district'],
                 default => [],
             };
 

@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Switzerland;
 
 use AIArmada\Addressing\Contracts\CountryAddressFormatter;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Support\AddressLineFilter;
 
 final class SwitzerlandAddressFormatter implements CountryAddressFormatter
 {
@@ -16,7 +17,7 @@ final class SwitzerlandAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        $lines = array_filter([
+        $lines = AddressLineFilter::present([
             $address->line1,
             $address->line2,
             $address->line3,

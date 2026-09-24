@@ -10,51 +10,39 @@ The package publishes a `config/addressing.php` file with these sections:
 
 ```php
 'database' => [
-    'json_column_type' => 'jsonb',
-    'tables' => [
-        'countries' => 'countries',
-        'areas' => 'address_areas',
-        'addresses' => 'addresses',
-        'addressables' => 'addressables',
-        'snapshots' => 'address_snapshots',
-        'states' => 'states',
-        'cities' => 'cities',
-    ],
+    'json_column_type' => env('ADDRESSING_JSON_COLUMN_TYPE', 'jsonb'),
+    'tables' => AddressingTableResolver::defaults(),
 ],
 ```
 
 `addressing.database.tables.*` is the only table-name configuration source.
 Runtime models, integrations, and migrations resolve names through
-`AddressingTableResolver`; configure this map before deploying.
+`AddressingTableResolver`; configure this map (via the published config file)
+before deploying. Table names have no `env()` overrides.
 
-JSON column type is controlled by `addressing.database.json_column_type` and
-inherits from the package/shared default when set.
-
-## Tables
+The default map is:
 
 ```php
-'database' => [
-    'tables' => [
-        'countries' => 'countries',
-        'areas' => 'address_areas',
-        'addresses' => 'addresses',
-        'addressables' => 'addressables',
-        'snapshots' => 'address_snapshots',
-        'states' => 'states',
-        'cities' => 'cities',
-        'area_state_links' => 'address_area_state_links',
-        'area_names' => 'address_area_names',
-        'area_roles' => 'address_area_roles',
-        'area_relationships' => 'address_area_relationships',
-        'postal_codes' => 'postal_codes',
-        'area_postal_codes' => 'address_area_postal_codes',
-        'address_area_assignments' => 'address_area_assignments',
-        'resolution_gaps' => 'address_resolution_gaps',
-    ],
+[
+    'countries' => 'countries',
+    'areas' => 'address_areas',
+    'addresses' => 'addresses',
+    'addressables' => 'addressables',
+    'snapshots' => 'address_snapshots',
+    'states' => 'states',
+    'cities' => 'cities',
+    'country_currency_links' => 'country_currency_links',
+    'country_timezone_links' => 'country_timezone_links',
+    'area_state_links' => 'address_area_state_links',
+    'area_names' => 'address_area_names',
+    'area_roles' => 'address_area_roles',
+    'area_relationships' => 'address_area_relationships',
+    'postal_codes' => 'postal_codes',
+    'area_postal_codes' => 'address_area_postal_codes',
+    'address_area_assignments' => 'address_area_assignments',
+    'resolution_gaps' => 'address_resolution_gaps',
 ],
 ```
-
-Override any table name via environment variables or config publishing.
 
 - `states` and `cities` back the first-class `State` and `City` models
 - `cities.state_id` is nullable; countries without a state/province level can still use country-scoped cities
@@ -62,10 +50,11 @@ Override any table name via environment variables or config publishing.
 
 ## Owner scoping
 
-Instance address data is owner-scoped by default. Existing ownerless rows are
-not supported by the owner cutover. The owner-column migration fails closed if
-any pre-existing address, addressable, or snapshot row has a null owner tuple;
-this release does not backfill or retain a legacy compatibility path.
+Instance address data is owner-scoped by default. The `owner_type` / `owner_id`
+columns ship in the `addresses`, `addressables`, and `address_snapshots`
+create-table migrations, and the models enforce scoping through `HasOwner` plus
+a global `OwnerScope`. There is no backfill path: rows created without an owner
+tuple stay ownerless and are invisible to tenant queries.
 
 Intentional global rows remain possible only when the application explicitly
 uses `OwnerContext::withOwner(null, ...)`. They are not included in tenant
@@ -75,9 +64,9 @@ queries unless the caller explicitly uses global context or opts into
 ```php
 'features' => [
     'owner' => [
-        'enabled' => true,
-        'include_global' => false,
-        'auto_assign_on_create' => true,
+        'enabled' => env('ADDRESSING_OWNER_ENABLED', true),
+        'include_global' => env('ADDRESSING_OWNER_INCLUDE_GLOBAL', false),
+        'auto_assign_on_create' => env('ADDRESSING_OWNER_AUTO_ASSIGN', true),
     ],
 ],
 ```
@@ -94,7 +83,7 @@ out get one control per role.
 
 ```php
 'fields' => [
-    'group_subdivision_locality' => true,
+    'group_subdivision_locality' => env('ADDRESSING_GROUP_SUBDIVISION_LOCALITY', true),
 ],
 ```
 
@@ -119,12 +108,20 @@ or when the two gates differ for the selected state.
         AIArmada\Addressing\Geography\Singapore\SingaporeGeographyProvider::class,
         AIArmada\Addressing\Geography\Indonesia\IndonesiaGeographyProvider::class,
         AIArmada\Addressing\Geography\Brunei\BruneiGeographyProvider::class,
-        // ... remaining bundled providers; see 05-country-data.md for the full set.
+        // ... 224 more bundled providers (228 total);
+        // see 05-country-data.md for the full set.
+    ],
+    'indonesia' => [
+        'villages' => env('ADDRESSING_INDONESIA_VILLAGES', false),
     ],
 ],
 ```
 
 Providers define country address levels such as state, district, municipality or locality. Resolve the profile by country with `CountryAddressProfileResolver`; do not assume that a provider level has the same meaning in every country.
+
+`addressing.geography.indonesia.villages` (default `false`) opts into the
+83,762 Indonesian village rows. The `village` assignment role is defined
+regardless; the flag only controls whether village areas are seeded.
 
 A `CountryGeographyProvider` also has a stable `providerKey()`. Keep that key unchanged when its imported `AddressAreaSource` key changes: it owns provider-seeded areas, aliases, roles, relationships, and State links across reseeds. The source key identifies a particular feed, while the provider key identifies its long-lived owner.
 
@@ -138,7 +135,7 @@ Country-specific formatters are configured separately from geography providers:
     AIArmada\Addressing\Geography\Singapore\SingaporeAddressFormatter::class,
     AIArmada\Addressing\Geography\Indonesia\IndonesiaAddressFormatter::class,
     AIArmada\Addressing\Geography\Brunei\BruneiAddressFormatter::class,
-    // ... remaining bundled formatters; see 05-country-data.md for the full set.
+    // ... 224 more bundled formatters (228 total, one per provider).
 ],
 ```
 
@@ -198,14 +195,15 @@ applied consistently.
 
 ```php
 'seed' => [
+    // Example: keep non-production city seeds to Malaysia only.
     'full_city_countries' => ['MY'],
 ],
 ```
 
 Outside production, `address:seed` (and the bundled `AddressingSeeder`) only
 seeds cities for these ISO2 codes, keeping local databases small. Production
-always seeds the full city dataset. Empty (the default) seeds everything
-everywhere.
+always seeds the full city dataset. Empty (the shipped default) seeds
+everything everywhere.
 
 ## Area Sources
 

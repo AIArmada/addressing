@@ -19,7 +19,7 @@ composer require aiarmada/addressing
 ## Publish Configuration
 
 ```bash
-php artisan vendor:publish --tag=address-config
+php artisan vendor:publish --tag=addressing-config
 ```
 
 ## Run Migrations
@@ -27,7 +27,7 @@ php artisan vendor:publish --tag=address-config
 Migrations run automatically via the service provider. To publish them first:
 
 ```bash
-php artisan vendor:publish --tag=address-migrations
+php artisan vendor:publish --tag=addressing-migrations
 php artisan migrate
 ```
 

@@ -9,13 +9,14 @@ use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class PolandGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
+class PolandGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_poland_v1';
 
@@ -29,6 +30,19 @@ class PolandGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
     public function countryCode(): string
     {
         return 'PL';
+    }
+
+    /** @return list<string> */
+    public function postalCodeLookupKeys(string $code): array
+    {
+        $code = mb_strtoupper(mb_trim($code));
+
+        // Bundled codes carry the official dash; dashless input gains it.
+        if (preg_match('/^(\d{2})(\d{3})$/', $code, $matches) === 1) {
+            return [$code, $matches[1] . '-' . $matches[2]];
+        }
+
+        return [$code];
     }
 
     public function seed(AddressCountry $country): void

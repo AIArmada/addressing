@@ -9,13 +9,14 @@ use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class NetherlandsGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
+class NetherlandsGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_netherlands_v1';
 
@@ -29,6 +30,19 @@ class NetherlandsGeographyProvider implements CountryAddressAreaMetadataProvider
     public function countryCode(): string
     {
         return 'NL';
+    }
+
+    /** @return list<string> */
+    public function postalCodeLookupKeys(string $code): array
+    {
+        $code = mb_strtoupper(mb_trim($code));
+
+        // Bundled codes are 4-digit prefixes; full NNNN LL codes strip to base.
+        if (preg_match('/^(\d{4})\s?[A-Z]{2}$/', $code, $matches) === 1) {
+            return [$code, $matches[1]];
+        }
+
+        return [$code];
     }
 
     public function seed(AddressCountry $country): void

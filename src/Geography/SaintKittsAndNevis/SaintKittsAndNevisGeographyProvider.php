@@ -8,13 +8,14 @@ use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class SaintKittsAndNevisGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class SaintKittsAndNevisGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_saint_kitts_and_nevis_v1';
 
@@ -28,6 +29,21 @@ class SaintKittsAndNevisGeographyProvider implements CountryAddressAreaMetadataP
     public function countryCode(): string
     {
         return 'KN';
+    }
+
+    /** @return list<string> */
+    public function postalCodeLookupKeys(string $code): array
+    {
+        $code = mb_strtoupper(mb_trim($code));
+
+        // Bundled codes carry the KNprefix; bare input gains it.
+        if (preg_match('/^(?:KN?)?(\d{4})$/', $code, $matches) === 1) {
+            $canonical = 'KN' . $matches[1];
+
+            return $canonical === $code ? [$code] : [$code, $canonical];
+        }
+
+        return [$code];
     }
 
     public function seed(AddressCountry $country): void

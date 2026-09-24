@@ -6,7 +6,12 @@ title: Troubleshooting
 
 ## Slow name lookups on large geography tables
 
-Name matching uses case-insensitive `LOWER(name)` lookups, which cannot use the plain `name` index. The migrations ship `LOWER(name)` functional indexes on countries, states, cities, areas, and area names (with a normalized-column fallback on drivers without functional-index support). If lookups still scan, verify the indexes exist under your configured table prefix.
+Name matching uses case-insensitive `LOWER(name)` lookups. The migrations ship
+plain `name` indexes on countries, states, cities, and areas (named
+`*_name_lower_index` for intent, but they are ordinary B-tree indexes, not
+functional `LOWER()` indexes), so case-insensitive matches can still scan on
+large tables. If lookups are slow, add a functional `LOWER(name)` index (or a
+generated normalized column with an index) under your configured table names.
 
 ## Missing Countries After Migration
 
@@ -174,13 +179,13 @@ When importing areas with a parent hierarchy, ensure parents are imported before
 If you get JSON encoding errors, ensure your database supports the configured column type. For PostgreSQL:
 
 ```env
-ADDRESS_JSON_COLUMN_TYPE=jsonb
+ADDRESSING_JSON_COLUMN_TYPE=jsonb
 ```
 
 For SQLite or MySQL:
 
 ```env
-ADDRESS_JSON_COLUMN_TYPE=json
+ADDRESSING_JSON_COLUMN_TYPE=json
 ```
 
 ## Navigation URL Not Showing
@@ -191,8 +196,8 @@ If a manual URL is set but not appearing in the output, verify it passes `Normal
 
 ## Command Not Found
 
-If `address:seed-countries` is not available, publish the vendor assets:
-
-```bash
-php artisan vendor:publish --provider="AIArmada\Addressing\AddressingServiceProvider"
-```
+If `address:seed-countries` is not available, the service provider is not
+registered: publishing assets does not register commands. Verify package
+auto-discovery is enabled (or that
+`AIArmada\Addressing\AddressingServiceProvider` is listed in your app
+providers), then confirm with `php artisan list address`.

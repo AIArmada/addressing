@@ -27,7 +27,7 @@ Navigation links allow storing manual Google Maps and Waze URLs on addresses, wi
 For Google Maps:
 1. `google_maps_url` (manual)
 2. `navigation_links.google_maps.url`
-3. Place ID (when `provider` is `google` and `provider_place_id` is set) → `https://www.google.com/maps/search/?api=1&query={coord|address}&query_place_id={place_id}`
+3. Place ID (when `provider` is `google` and `provider_place_id` is set) → `https://www.google.com/maps/search/?api=1&query={coord|formatted|line1}&query_place_id={place_id}`
 4. Latitude/longitude → `https://www.google.com/maps/search/?api=1&query={lat},{lng}`
 5. Formatted address → `https://www.google.com/maps/search/?api=1&query={address}`
 

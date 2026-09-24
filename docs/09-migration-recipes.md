@@ -65,12 +65,16 @@ return AddressData::from([
     'address_line_1' => $this->address_line_1,
     'address_line_2' => $this->address_line_2,
     'city' => $this->city,
-    'district' => $this->district,
     'state' => $this->state,
     'postcode' => $this->postcode,
     'countryCode' => $this->country,
 ]);
 ```
+
+`AddressData` has no `district` field: a `district` input key is silently
+ignored. Carry legacy district values in `components` (for example
+`'components' => ['district' => $this->district]`) or map them to a real
+area assignment instead of dropping them.
 
 ## Recipe 2: Customer address storage retirement
 
@@ -113,49 +117,55 @@ venues use HasAddresses
 ### Copy example
 
 ```php
-use AIArmada\Addressing\Actions\CreateAddressAction;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Models\Address;
 
-app(CreateAddressAction::class)->execute(
-    addressable: $venue,
-    data: AddressData::from([
-        'address_line_1' => $venue->address_line_1,
-        'address_line_2' => $venue->address_line_2,
-        'city' => $venue->city,
-        'district' => $venue->district,
-        'state' => $venue->state,
-        'postcode' => $venue->postcode,
-        'countryCode' => $venue->country,
-    ]),
-    type: 'venue',
-    isPrimary: true,
-);
+$address = Address::query()->create(AddressData::from([
+    'address_line_1' => $venue->address_line_1,
+    'address_line_2' => $venue->address_line_2,
+    'city' => $venue->city,
+    'state' => $venue->state,
+    'postcode' => $venue->postcode,
+    'countryCode' => $venue->country,
+])->toModelAttributes());
+
+$venue->attachAddress($address, type: 'venue', isPrimary: true);
 ```
+
+Map the legacy `district` column explicitly (for example into `components` or
+an area assignment): `AddressData::from()` has no `district` field and drops
+the key.
 
 ### Keep event snapshots separate
 
 Do not replace event location snapshots with live venue address. When publishing/approving an event, snapshot the resolved address.
 
-## Recipe 4: Order address to snapshot
+## Recipe 4: Order address storage
 
-If `order_addresses` already represents immutable order-time data, do not rush to remove it.
-
-Option A: keep table and expose `AddressData`.
-
-Option B: copy to shared `address_snapshots`.
-
-### Shared snapshot example
+Orders store one fresh addressing `Address` copy per order and type, created
+at order time and attached through `HasAddresses`.
 
 ```php
-use AIArmada\Addressing\Actions\CreateAddressSnapshotAction;
-use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Orders\Actions\CreateOrder;
 
-app(CreateAddressSnapshotAction::class)->execute(
-    snapshotable: $order,
-    data: AddressData::from($legacyOrderAddress->toArray()),
-    reason: 'order_shipping',
-);
+app(CreateOrder::class)->addAddress($order, [
+    'first_name' => 'Demo',
+    'last_name' => 'Buyer',
+    'line1' => '1 Jalan Demo',
+    'city' => 'Kuala Lumpur',
+    'postcode' => '50000',
+    'country_code' => 'MY',
+], 'shipping');
+
+$shipping = $order->primaryAddress('shipping');
 ```
+
+`addAddress()` normalizes the input, stores contact fields under
+`metadata.order_contact`, and attaches the copy as the primary pivot for the
+type. Historical order data never points at a mutable shared address.
+Consumers that need tamper-proof history enable
+`orders.address_snapshots.enabled`, which writes an additional immutable
+`AddressSnapshot` (`order_billing` / `order_shipping`) per call.
 
 ## Recipe 5: Shipment JSON cast
 
@@ -253,9 +263,9 @@ Before running a data migration:
 Run only affected package checks.
 
 ```bash
-./vendor/bin/pest --parallel packages/<pkg>/tests
+./vendor/bin/pest --parallel tests/src/<Pkg>
 ./vendor/bin/phpstan analyse packages/<pkg>/src --level=6
-./vendor/bin/pint packages/<pkg>/src packages/<pkg>/tests
+./vendor/bin/pint --test packages/<pkg>/src
 ```
 
 If a migration touches core addressing too, run both packages' relevant tests.

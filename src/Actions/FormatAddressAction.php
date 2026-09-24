@@ -7,6 +7,7 @@ namespace AIArmada\Addressing\Actions;
 use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Contracts\AddressNormalizer;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Support\AddressLineFilter;
 use AIArmada\Addressing\Support\CountryAddressFormatterResolver;
 use AIArmada\Addressing\Support\ModelResolver;
 
@@ -31,13 +32,13 @@ class FormatAddressAction implements AddressFormatter
 
     private function formatGeneric(AddressData $address): string
     {
-        $lines = array_filter([
+        $lines = AddressLineFilter::present([
             $address->line1,
             $address->line2,
             $address->line3,
         ]);
 
-        $cityLine = array_filter([
+        $cityLine = AddressLineFilter::present([
             $address->city,
             $address->state,
         ]);

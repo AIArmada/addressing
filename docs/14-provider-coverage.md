@@ -10,8 +10,8 @@ counts, or changes scope. See [Country Data](./05-country-data.md)
 for per-country narrative and [Provider Authoring](./13-provider-authoring.md)
 for how to add a level.
 
-Current shape: 228 providers — 2 dual-hierarchy, 1 depth-4, 1 depth-3, 178 depth-2,
-46 depth-1.
+Current shape: 228 providers — 5 dual-hierarchy, 1 depth-4, 3 depth-3, 174 depth-2,
+45 depth-1.
 All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39 US →8 above6 below27 with country1 after country1), 48 codeless.
 
 ## Legend
@@ -49,15 +49,15 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Angola | AO | 21 | 21 | 347 | 2 | administrative: province > municipality | municipality | none | Complete — 21 provinces + 326 municipalities (Law 14/24 gazette annexes, one map page each; CCU retired; CUA/CUB/IEB/MLE provisional) |
 | Anguilla | AI | 14 | 14 | 14 | 1 | administrative: district | — | below | L1 — no admin tier-2; 14 districts terminal|
 | Antigua and Barbuda | AG | 8 | 8 | 8 | 1 | administrative: parish | — | none | L1 — no admin tier-2; parishes/dependencies terminal|
-| Argentina | AR | 24 | 24 | 551 | 2 | administrative: province / city > department / partido / commune | department | ← | Complete — 24 provinces + 377 departments + 135 partidos + 15 comunas (Departments/Partidos/Communes of Buenos Aires) |
-| Armenia | AM | 11 | 11 | 92 | 2 | administrative: region / city > municipality / district | municipality | ← | Complete — 10 regions + 1 city + 69 municipalities + 12 Yerevan districts (hy.wiki current tables, transliterated + en-verified; en pages mixed-vintage) |
+| Argentina | AR | 24 | 24 | 553 | 2 | administrative: province / city > department / partido / commune | department | ← | Complete — 24 provinces + 379 departments + 135 partidos + 15 comunas (Departments/Partidos/Communes of Buenos Aires) |
+| Armenia | AM | 11 | 11 | 93 | 2 | administrative: region / city > municipality / district | municipality | ← | Complete — 10 regions + 1 city + 70 municipalities + 12 Yerevan districts (hy.wiki current tables, transliterated + en-verified; en pages mixed-vintage) |
 | Aruba | AW | 9 | 9 | 9 | 1 | administrative: region | — | none | L1 — no admin tier-2; regions are statistical|
 | Australia | AU | 8 | 8 | 545 | 2 | administrative: state > city / shire / town / region / borough / municipality / rural_city / council | lga | → | Complete — 8 states/territories + 537 LGAs (NSW 128, VIC 79, QLD 78, WA 137, SA 68, TAS 29, NT 18; ACT childless) |
 | Austria | AT | 9 | 9 | 102 | 2 | administrative: state > district / statutory_city | district | ← | Complete — 9 states + 79 districts + 14 statutory cities (Districts of Austria; Vienna is its own city) |
 | Azerbaijan | AZ | 78 | 78 | 763 | 2 | administrative: district > local_municipality | local_municipality | ← | Complete — 78 districts/cities + 685 local municipalities (SSC classification; liberated territories + Aghdara absent, childless) |
 | Bahamas | BS | 32 | 32 | 32 | 1 | administrative: district | — | none | L1 — no admin tier-2; districts terminal|
 | Bahrain | BH | 4 | 4 | 4 | 1 | administrative: governorate | — | → | L1; no admin tier-2, blocks are postal |
-| Bangladesh | BD | 72 | 8 | 72 | 2 | administrative: division > district | district | → | Complete to district; upazilas out of scope |
+| Bangladesh | BD | 72 | 8 | 72 | 2 | administrative: division > district | district | → | Complete to district; upazilas out of scope (1349 office codes linked at district) |
 | Barbados | BB | 11 | 11 | 11 | 1 | administrative: parish | — | → | L1 — no admin tier-2; 11 parishes terminal|
 | Belarus | BY | 7 | 7 | 125 | 2 | administrative: oblast / city > district | district | ← | Complete — 7 regions + 118 districts (Districts of Belarus; Minsk-region rows under oblast not city) |
 | Belgium | BE | 3 | 3 | 13 | 2 | administrative: region > province | province | ← | Complete — 3 regions + 10 provinces; Brussels childless |
@@ -89,14 +89,14 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Costa Rica | CR | 7 | 7 | 91 | 2 | administrative: province > canton | canton | below | Complete — 7 provinces + 84 cantons (Cantons of Costa Rica) |
 | Croatia | HR | 21 | 21 | 577 | 2 | administrative: county > municipality / town | municipality | ← | Complete — 21 counties + 428 municipalities + 128 towns (Municipalities/List of cities and towns in Croatia; fixed meimurje L1 typo) |
 | Cuba | CU | 16 | 16 | 184 | 2 | administrative: province / special_municipality > municipality | municipality | ← | Complete — 16 provinces + 168 municipalities (Source: Wikipedia Municipalities of Cuba (MediaWiki API, Sep 2026). Havana city rows parented to La Habana province row.) |
-| Cyprus | CY | 6 | 6 | 758 | 2 | administrative: district + postal: district > locality | postal_locality | ← | Complete — 6 districts + 752 localities (GeoNames postal dump; Keryneia 57 codes included) |
+| Cyprus | CY | 6 | 6 | 758 | dual 1+2 | administrative: district; postal: district > locality | postal_locality | ← | Complete — 6 districts + 752 localities (GeoNames postal dump; Keryneia 57 codes included) |
 | Czech Republic | CZ | 14 | 14 | 90 | 2 | administrative: region > district | district | ← | Complete — 13 regions + Praha + 76 districts; Praha childless |
 | Denmark | DK | 5 | 5 | 103 | 2 | administrative: region > municipality | municipality | ← | Complete — 5 regions + 98 municipalities (List of municipalities of Denmark; LAU codes) |
 | Djibouti | DJ | 6 | 6 | 26 | 2 | administrative: region > subprefecture | subprefecture | ← | Complete — 5 regions + Djibouti City + 20 sub-prefectures (3/2/4/1/4/6; town-article parenting; Adailou spelling) |
 | Dominica | DM | 10 | 10 | 10 | 1 | administrative: parish | — | none | L1 — no admin tier-2; 10 parishes terminal|
-| Dominican Republic | DO | 10 | 10 | 42 | 2 | administrative: region > province | province | ← | Complete — 10 regions + 31 provinces + DN; DN under Ozama |
+| Dominican Republic | DO | 10 | 10 | 200 | dual 2+2 | administrative: region > province; postal: region > municipality (refined by province) | postal_locality, province | ← | Complete — 10 regions + 31 provinces + DN + 158 municipalities (528 codes; DN codes link L2) |
 | DR Congo | CD | 26 | 26 | 171 | 2 | administrative: province > territory | territory | ← | Complete — 26 provinces + 145 territories (post-2015 mapping; Kinshasa terminal) |
-| Ecuador | EC | 24 | 24 | 246 | 2 | administrative: province > canton | canton | ← | Complete — 24 provinces + 222 cantons (Source: Wikipedia Cantons of Ecuador (MediaWiki API, Sep 2026); header counts sum to 222.) |
+| Ecuador | EC | 24 | 24 | 246 | 2 | administrative: province > canton | canton | ← | Complete — 24 provinces + 222 cantons (Source: Wikipedia Cantons of Ecuador (MediaWiki API, Sep 2026); header counts sum to 222.) + 1225-code overlay |
 | Egypt | EG | 27 | 27 | 392 | 2 | administrative: governorate > district | district | below | Complete — 27 governorates + 365 districts (OCHA COD-AB, CAPMAS geography, Apr 2017; mixed qism/markaz; COD transliteration) |
 | El Salvador | SV | 14 | 14 | 58 | 2 | administrative: department > municipality | municipality | ← | Complete — 14 departments + 44 municipalities (Source: Wikipedia List of municipalities and districts of El Salvador (MediaWiki API, Sep 2026). Post-May-2024 reform: 44 municipalities; former 262 are now districts (not modelled).) |
 | Equatorial Guinea | GQ | 2 | 2 | 10 | 2 | administrative: region > province | province | none | Complete — 2 regions + 8 provinces |
@@ -132,7 +132,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Hungary | HU | 43 | 43 | 240 | 2 | administrative: county / city_with_county_rights / capital_city > district | district | ← | Complete — 43 counties/cities + 174 county districts + 23 Budapest districts (Districts of Hungary/Budapest) |
 | Iceland | IS | 8 | 8 | 69 | 2 | administrative: region > municipality | municipality | ← | Complete — 8 regions + 61 municipalities (restructure; 3 merged away, 3 renamed official) |
 | India | IN | 36 | 36 | 822 | 2 | administrative: state > district | district | below | Complete — 28 states + 8 UTs + 786 districts (LGD 31 May 2026 + Mahe/Yanam legacy codes); post-2011 splits/renames with aliases; Ladakh 5 + Kalyan Singh Nagar excluded (no LGD codes) |
-| Indonesia | ID | 38 | 38 | 7837 | 4 | administrative: province > regency > district > village | district, regency | → | Complete to kecamatan; desa/kelurahan (83,762) opt-in via `geography.indonesia.villages` |
+| Indonesia | ID | 38 | 38 | 7837 | 4 | administrative: province > regency > district > village | district, regency, village | → | Complete to kecamatan; desa/kelurahan (83,762) opt-in via `geography.indonesia.villages` |
 | Iran | IR | 31 | 31 | 460 | 2 | administrative: province > county | county | below | Complete — 31 ostans + 429 counties (UN OCHA COD v01, vintage May 2019; splits since not reflected; refresh from SCI when accessible) |
 | Iraq | IQ | 19 | 19 | 138 | 2 | administrative: governorate > district | district | below | Complete — 19 governorates + 119 districts (per-governorate bullets (Makhmur under Nineveh only)) |
 | Ireland | IE | 4 | 4 | 30 | 2 | administrative: province > county | county | below | Complete — 4 provinces + 26 counties |
@@ -158,7 +158,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Liechtenstein | LI | 11 | 11 | 11 | 1 | administrative: commune | — | ← | L1 — no admin tier-2; L1 already municipal level |
 | Lithuania | LT | 10 | 10 | 70 | 2 | administrative: county > district_municipality / municipality / city_municipality | municipality | ← | Complete — 10 counties + 43 district + 10 plain + 7 city municipalities (restructure; Marijampolė retyped) |
 | Luxembourg | LU | 12 | 12 | 112 | 2 | administrative: canton > commune | commune | ← | Complete — 12 cantons + 100 communes (List of communes of Luxembourg) |
-| Madagascar | MG | 6 | 6 | 30 | 2 | administrative: province > region | region | ← | Complete — 6 provinces + 24 regions (single table w/ Province column (incl. Ambatosoa 2023)) |
+| Madagascar | MG | 6 | 6 | 144 | 3 | administrative: province > region > district | district, region | ← | Complete — 6 provinces + 24 regions (single table w/ Province column (incl. Ambatosoa 2023)) + 114 districts (INSTAT/Wikipedia; FR↔MG variants mapped; Antananarivo-as-one aggregation, official 119) |
 | Malawi | MW | 3 | 3 | 31 | 2 | administrative: region > district | district | ← | Complete — 3 regions + 28 districts |
 | Malaysia | MY | 16 | 16 | 1806 | dual 2+4 | administrative: region > division > district > subdivision; postal: region > locality | administrative_district, administrative_division, administrative_subdivision, postal_locality | ← | Complete; postal CSVs bundled; KL + Selangor + Pahang + Johor + Perlis + Melaka + Penang + Terengganu + Perak + Kedah + Kelantan per JUPEM UPI + N.Sembilan per PLANMalaysia/gazettes + Sabah + Sarawak per gazettes/SPR/DOSM |
 | Maldives | MV | 23 | 23 | 215 | 2 | administrative: city / atoll > island | island | → | Complete — 23 atolls + 192 islands (per-atoll inhabited lists (Male/Kulhudhuffushi/Thinadhoo childless)) |
@@ -184,7 +184,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Nepal | NP | 7 | 7 | 84 | 2 | administrative: province > district | district | → | Complete — 7 provinces + 77 districts (7 per-province tables) |
 | Netherlands | NL | 12 | 12 | 354 | 2 | administrative: province > municipality | municipality | ← | Complete — 12 provinces + 342 municipalities (Municipalities of the Netherlands; CBS codes; 3 specials under BQ) |
 | New Caledonia | NC | 3 | 3 | 36 | 2 | administrative: province > commune | commune | ← | Complete — 3 provinces + 33 communes (Administrative divisions of New Caledonia; Poya spans N/S, parented South) |
-| New Zealand | NZ | 17 | 17 | 1285 | 3 | administrative: region > district / city / council; postal: region > locality (refined by district) | district | ← | Complete — 17 regions + 67 territorial authorities (7 cross-boundary parented by largest share) + 1201 postal localities (1737 codes) |
+| New Zealand | NZ | 17 | 17 | 1285 | dual 2+2 | administrative: region > district / city / council; postal: region > locality (refined by district) | district, postal_locality | ← | Complete — 17 regions + 67 territorial authorities (7 cross-boundary parented by largest share) + 1201 postal localities (1737 codes) |
 | Nicaragua | NI | 17 | 17 | 170 | 2 | administrative: department / autonomous_region > municipality | municipality | above | Complete — 17 departments + 153 municipalities (Source: es.wikipedia Anexo:Municipios de Nicaragua (MediaWiki API, Sep 2026); en.wiki table has only 151.) |
 | Niger | NE | 8 | 8 | 79 | 2 | administrative: region / urban_community > department / commune | department | ← | Complete — 7 regions + Niamey + 66 departments + 5 Niamey communes (per-region bullets + Niamey article) |
 | Nigeria | NG | 37 | 37 | 811 | 2 | administrative: state > lga | lga | → | Complete — 37 states + 768 LGAs + 6 FCT area councils; post-2023 names; LCDAs excluded |
@@ -211,7 +211,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Rwanda | RW | 5 | 5 | 35 | 2 | administrative: province / city > district | district | none | Complete — 5 provinces/city + 30 districts (Districts of Rwanda) |
 | Saint Barthelemy | BL | 1 | 1 | 1 | 1 | administrative: overseas_collectivity | — | ← | L1 — single collectivity; no tier-2|
 | Saint Helena | SH | 10 | 10 | 10 | 1 | administrative: district / island | — | → | L1 — 8 districts + Ascension/Tristan da Cunha (added, provisional states); all terminal |
-| Saint Kitts and Nevis | KN | 2 | 2 | 108 | 3 | administrative: island > parish > village | village | below | Complete — 2 islands + 14 parishes + 92 villages |
+| Saint Kitts and Nevis | KN | 2 | 2 | 108 | 3 | administrative: island > parish > village | parish, village | below | Complete — 2 islands + 14 parishes + 92 villages |
 | Saint Lucia | LC | 10 | 10 | 10 | 1 | administrative: district | — | → | L1 — no admin tier-2; districts terminal|
 | Saint Martin | MF | 1 | 1 | 1 | 1 | administrative: overseas_collectivity | — | ← | L1 — single collectivity; no tier-2|
 | Saint Pierre and Miquelon | PM | 1 | 1 | 1 | 1 | administrative: overseas_collectivity | — | ← | L1 — single collectivity; no tier-2|
@@ -232,8 +232,8 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | South Africa | ZA | 9 | 9 | 61 | 2 | administrative: province > district_municipality / city_municipality | municipality | below | Complete — 9 provinces + 44 districts + 8 metros (List of municipalities in South Africa) |
 | South Korea | KR | 17 | 17 | 245 | 2 | administrative: special_city / metropolitan_city / province / special_self_governing_province / special_self_governing_city > city / county / district | sigungu | → | Complete — 17 first-level + 77 cities + 82 counties + 69 autonomous districts (si/gun/gu lists; non-autonomous gu excluded; Sejong childless) |
 | South Sudan | SS | 10 | 10 | 98 | 2 | administrative: state > county | county | none | Complete — 10 states + 88 counties (per-state bullets + WBG table; Ruweng->Unity, Pibor->Jonglei) |
-| Spain | ES | 19 | 19 | 69 | 2 | administrative: autonomous_community / autonomous_city > province | province | ← | Complete — 17 communities + Ceuta/Melilla + 50 provinces |
-| Sri Lanka | LK | 9 | 9 | 34 | 2 | administrative: province > district | district | below | Complete — 9 provinces + 25 districts |
+| Spain | ES | 69 | 19 | 69 | 2 | administrative: autonomous_community / autonomous_city > province | province | ← | Complete — 69 states (19 communities/cities + 50 provinces, all seeded) + 50 province areas |
+| Sri Lanka | LK | 9 | 9 | 34 | 2 | administrative: province > district | district | below | Complete — 9 provinces + 25 districts (2121 office codes linked at district) |
 | Sudan | SD | 18 | 18 | 206 | 2 | administrative: state > district | district | above | Complete — 18 states + 188 districts (UN OCHA; Aj Jazirah/Gedaref mapped; Abyei PCA excluded) |
 | Suriname | SR | 10 | 10 | 73 | 2 | administrative: district > resort | resort | none | Complete — 10 districts + 63 resorts (Resorts of Suriname) |
 | Sweden | SE | 21 | 21 | 311 | 2 | administrative: county > municipality | municipality | ← | Complete — 21 counties + 290 municipalities (List of municipalities of Sweden; codes) |

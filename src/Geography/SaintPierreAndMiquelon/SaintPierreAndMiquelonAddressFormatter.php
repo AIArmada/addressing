@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\SaintPierreAndMiquelon;
 
 use AIArmada\Addressing\Contracts\CountryAddressFormatter;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Support\AddressLineFilter;
 
 final class SaintPierreAndMiquelonAddressFormatter implements CountryAddressFormatter
 {
@@ -16,7 +17,7 @@ final class SaintPierreAndMiquelonAddressFormatter implements CountryAddressForm
 
     public function format(AddressData $address): string
     {
-        $lines = array_filter([
+        $lines = AddressLineFilter::present([
             $address->line1,
             $address->line2,
             $address->line3,

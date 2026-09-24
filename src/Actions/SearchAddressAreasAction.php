@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Actions;
 
+use AIArmada\Addressing\Contracts\CountryGeographyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\CommerceSupport\Support\LikeSearch;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 final class SearchAddressAreasAction
 {
+    /** @var array<string, ?class-string> */
+    private array $postalCodeNormalizers = [];
+
+    public function __construct(private readonly Container $container) {}
+
     /**
      * @return Collection<int, AddressArea>
      */
@@ -58,7 +66,7 @@ final class SearchAddressAreasAction
                         });
                 });
             })
-            ->when($postalCode !== null, fn (Builder $builder): Builder => $builder->whereHas('postalCodes', fn (Builder $codes): Builder => $codes->where('code', mb_trim($postalCode))))
+            ->when($postalCode !== null, fn (Builder $builder): Builder => $builder->whereHas('postalCodes', fn (Builder $codes): Builder => $codes->whereIn('code', $this->postalCodeLookupKeys($postalCode, $countryCode))))
             ->when($role !== null, fn (Builder $builder): Builder => $builder->whereHas('roles', fn (Builder $roles): Builder => $roles->where('role', $role)))
             ->where(function (Builder $builder) use ($containsPattern, $needle, $escapeClause): void {
                 if (mb_strlen($needle) < 3) {
@@ -79,5 +87,50 @@ final class SearchAddressAreasAction
             ->orderBy('name')
             ->limit(max(1, min($limit, 100)))
             ->get();
+    }
+
+    /** @return list<string> */
+    private function postalCodeLookupKeys(string $postalCode, ?string $countryCode): array
+    {
+        $postalCode = mb_trim($postalCode);
+
+        if ($countryCode === null) {
+            return [$postalCode];
+        }
+
+        $countryCode = mb_strtoupper(mb_trim($countryCode));
+
+        if (! array_key_exists($countryCode, $this->postalCodeNormalizers)) {
+            $this->postalCodeNormalizers[$countryCode] = $this->resolvePostalCodeNormalizer($countryCode);
+        }
+
+        $normalizer = $this->postalCodeNormalizers[$countryCode];
+
+        if ($normalizer === null) {
+            return [$postalCode];
+        }
+
+        return $this->container->make($normalizer)->postalCodeLookupKeys($postalCode);
+    }
+
+    /** @return ?class-string<CountryPostalCodeNormalizer> */
+    private function resolvePostalCodeNormalizer(string $countryCode): ?string
+    {
+        foreach (config('addressing.geography.providers', []) as $providerClass) {
+            if (! is_string($providerClass)) {
+                continue;
+            }
+
+            $provider = $this->container->make($providerClass);
+
+            if (! $provider instanceof CountryGeographyProvider
+                || mb_strtoupper(mb_trim($provider->countryCode())) !== $countryCode) {
+                continue;
+            }
+
+            return $provider instanceof CountryPostalCodeNormalizer ? $providerClass : null;
+        }
+
+        return null;
     }
 }

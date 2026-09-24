@@ -38,7 +38,7 @@ class CsvAddressAreaSource implements AddressAreaSource
         return LazyCollection::make(function (): Generator {
             $file = new SplFileObject($this->path, 'r');
             $file->setFlags(SplFileObject::READ_CSV | SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
-            $file->setCsvControl(',');
+            $file->setCsvControl(',', '"', '\\');
 
             $headers = $file->fgetcsv();
 

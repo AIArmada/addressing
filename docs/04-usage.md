@@ -29,6 +29,7 @@ Aliases accepted by `AddressData::from()`:
 | `shipping_street_address` | `line1` |
 | `postal_code` | `postcode` |
 | `zip_code` | `postcode` |
+| `postCode` | `postcode` |
 | `country_code` | `countryCode` |
 | `country_id` / `countryId` | `countryId` |
 | `state_id` / `stateId` | `stateId` |
@@ -45,7 +46,7 @@ normalized.
 use AIArmada\Addressing\Actions\SeedAddressCountriesAction;
 
 app(SeedAddressCountriesAction::class)->execute();
-// ['created' => 250, 'updated' => 0, 'skipped' => 0]
+// ['created' => 249, 'updated' => 0, 'skipped' => 0]
 ```
 
 Or via CLI:
@@ -288,7 +289,7 @@ selected first. Ethiopia's dissolved SNNPR
 
 ### Seed Americas geography
 
-Argentina exposes `province → department` (23 provinces + CABA, 377
+Argentina exposes `province → department` (23 provinces + CABA, 379
 departments + 135 partidos + 15 comunas) via `execute('AR')`, Colombia
 exposes `department → municipality` (32 departments + Bogotá D.C.,
 1,101 municipalities + 20 Bogotá localities + 19 non-municipalized
@@ -357,8 +358,8 @@ seeds Atauro under provisional code `AT`. The formatters print
 ### Seed Asia remainder geography
 
 Armenia (10 regions + Yerevan), Azerbaijan (66 districts + 11
-municipalities + Nakhchivan AR), Bhutan (20 dzongkhags), Cyprus (6
-districts), Georgia (9 regions + 2 ARs + Tbilisi), Hong Kong (18
+municipalities + Nakhchivan AR), Bhutan (20 dzongkhags), Cyprus (6 districts + 752 postal
+localities), Georgia (9 regions + 2 ARs + Tbilisi), Hong Kong (18
 districts), Iran (31 provinces), Kazakhstan (17
 regions + 3 cities), Kyrgyzstan (7 regions + 2 cities), Lebanon (9
 governorates), Maldives (18 atolls + 5 cities), Mongolia (21 aimags +
@@ -436,7 +437,7 @@ postcode system.
 ### Seed Africa, Central Asia, and Middle East geography
 
 Ghana (16 regions), Angola (21 provinces), Cameroon (10 regions),
-Madagascar (6 provinces), Afghanistan (34 provinces), Mozambique (10
+Madagascar (6 provinces + 24 regions + 114 districts), Afghanistan (34 provinces), Mozambique (10
 provinces + Maputo City), Myanmar (7 regions + 7 states +
 Naypyidaw), and Iraq (19 governorates) each seed via `execute('GH')`,
 `execute('AO')`, `execute('CM')`, `execute('MG')`, `execute('AF')`,
@@ -703,6 +704,27 @@ Re-imports are idempotent: rows without changes are reported as skipped. Dry-run
 php artisan address:import-areas-csv /path/to/areas.csv --source=my-source --reactivate
 ```
 
+### Saving a single area
+
+```php
+use AIArmada\Addressing\Actions\SaveAddressAreaAction;
+
+$area = app(SaveAddressAreaAction::class)->handle([
+    'country_id' => $country->id,
+    'parent_id' => $district->id,
+    'type' => 'mukim',
+    'name' => 'Mukim Baru',
+]);
+
+// Pass an existing record as the second argument to update it.
+```
+
+`handle()` validates that the country exists and the parent belongs to the
+same country, derives the slug from the name, and maintains the typed
+hierarchy edge when `hierarchy_type` is supplied. Manual rows use
+`source: 'manual'` by default so provider reseeds never touch them. The
+Filament adapter calls this action from its area create/edit pages.
+
 ## HasAddresses Trait
 
 ```php
@@ -792,7 +814,8 @@ $snapshot = app(CreateAddressSnapshotAction::class)->execute(
 Snapshot reasons are nullable, but a supplied reason must be a non-empty
 string. Use stable lowercase identifiers such as `order_shipping`,
 `order_placed`, or `event_location`; the value records the domain event that
-created the immutable snapshot.
+created the immutable snapshot. An optional `label` parameter stores a
+human-readable tag alongside the snapshot.
 
 ## Formatting
 

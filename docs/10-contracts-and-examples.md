@@ -20,16 +20,19 @@ $address = AddressData::from([
     'line2' => 'Taman Bahagia',
     'line3' => null,
     'city' => 'Kajang',
-    'district' => 'Hulu Langat',
     'state' => 'Selangor',
     'postcode' => '43000',
     'countryCode' => 'MY',
 ]);
 ```
 
+`AddressData` has no `district` field: unknown keys such as `district` are
+silently ignored. Keep district-like legacy values in `components` or model
+them as area assignments.
+
 ## Supported legacy/provider aliases
 
-`AddressData::from()` or `AddressNormalizer` should understand these aliases:
+`AddressData::from()` normalizes these aliases (see `AddressAliasMap`):
 
 ```txt
 address_line_1 -> line1
@@ -40,36 +43,41 @@ postal_code -> postcode
 zip_code -> postcode
 postCode -> postcode
 country_code -> countryCode
-countryCode -> countryCode
-country -> countryCode when the value is a 2-letter ISO code
+country_id / countryId -> countryId
+state_id / stateId -> stateId
+city_id / cityId -> cityId
+formatted_address / formattedAddress -> formatted
+google_maps_url, google_map_url, maps_url (+ camelCase) -> googleMapsUrl
+waze_url / wazeUrl -> wazeUrl
+navigation_links, external_links (+ camelCase) -> navigationLinks
+provider_place_id / providerPlaceId / place_id / placeId -> providerPlaceId
 ```
+
+`country` is the display name and is never mapped to `countryCode`: pass the
+ISO2 code explicitly. Removed aliases (`lat`, `lng`, `lon`,
+`google_place_id`) are intentionally not normalized.
 
 ## Customer saved address example
 
 ```php
 namespace AIArmada\Customers\Actions;
 
-use AIArmada\Addressing\Actions\CreateAddressAction;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Models\Address;
 use AIArmada\Customers\Models\Customer;
 
 final class StoreCustomerShippingAddressAction
 {
-    public function __construct(
-        private readonly CreateAddressAction $createAddress,
-    ) {}
-
     /**
      * @param array{line1?: string|null, line2?: string|null, city?: string|null, state?: string|null, postcode?: string|null, countryCode?: string|null} $input
      */
     public function execute(Customer $customer, array $input): void
     {
-        $this->createAddress->execute(
-            addressable: $customer,
-            data: AddressData::from($input),
-            type: 'shipping',
-            isPrimary: true,
+        $address = Address::query()->create(
+            AddressData::from($input)->toModelAttributes()
         );
+
+        $customer->attachAddress($address, type: 'shipping', isPrimary: true);
     }
 }
 ```
@@ -93,7 +101,7 @@ final class SnapshotOrderShippingAddressAction
     {
         $this->createAddressSnapshot->execute(
             snapshotable: $order,
-            data: $shippingAddress,
+            address: $shippingAddress,
             reason: 'order_shipping',
         );
     }
@@ -133,15 +141,15 @@ final class ResolveEventAddressAction
     public function execute(Event $event): ?AddressData
     {
         if ($event->venue?->primaryAddress() !== null) {
-            return AddressData::from($event->venue->primaryAddress());
+            return AddressData::from($event->venue->primaryAddress()->attributesToArray());
         }
 
         if ($event->institution?->primaryAddress() !== null) {
-            return AddressData::from($event->institution->primaryAddress());
+            return AddressData::from($event->institution->primaryAddress()->attributesToArray());
         }
 
         if (filled($event->manual_location_text)) {
-            return AddressData::fromFormatted($event->manual_location_text);
+            return AddressData::from(['formatted' => $event->manual_location_text]);
         }
 
         return null;
@@ -174,7 +182,7 @@ final class SnapshotEventLocationAction
 
         $this->createAddressSnapshot->execute(
             snapshotable: $event,
-            data: $address,
+            address: $address,
             reason: 'event_location',
         );
     }
@@ -342,7 +350,7 @@ Do not add `HasAddresses` to order snapshots, shipment snapshots, gateway payloa
 ```php
 use AIArmada\Addressing\Actions\FormatAddressAction;
 
-$formatted = app(FormatAddressAction::class)->execute($addressData);
+$formatted = app(FormatAddressAction::class)->format($addressData);
 ```
 
 Output may be:

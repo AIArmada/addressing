@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\UnitedArabEmirates;
 
 use AIArmada\Addressing\Contracts\CountryAddressFormatter;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Support\AddressLineFilter;
 
 final class UnitedArabEmiratesAddressFormatter implements CountryAddressFormatter
 {
@@ -16,7 +17,7 @@ final class UnitedArabEmiratesAddressFormatter implements CountryAddressFormatte
 
     public function format(AddressData $address): string
     {
-        $lines = array_filter([
+        $lines = AddressLineFilter::present([
             $address->line1,
             $address->line2,
             $address->line3,

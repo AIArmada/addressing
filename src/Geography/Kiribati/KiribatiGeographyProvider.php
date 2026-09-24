@@ -8,13 +8,14 @@ use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class KiribatiGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class KiribatiGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_kiribati_v1';
 
@@ -28,6 +29,21 @@ class KiribatiGeographyProvider implements CountryAddressAreaMetadataProvider, C
     public function countryCode(): string
     {
         return 'KI';
+    }
+
+    /** @return list<string> */
+    public function postalCodeLookupKeys(string $code): array
+    {
+        $code = mb_strtoupper(mb_trim($code));
+
+        // Bundled codes carry the KIprefix; bare input gains it.
+        if (preg_match('/^(?:KI?)?(\d{4})$/', $code, $matches) === 1) {
+            $canonical = 'KI' . $matches[1];
+
+            return $canonical === $code ? [$code] : [$code, $canonical];
+        }
+
+        return [$code];
     }
 
     public function seed(AddressCountry $country): void

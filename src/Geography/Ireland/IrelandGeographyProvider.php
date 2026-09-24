@@ -8,13 +8,14 @@ use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class IrelandGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
+class IrelandGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_ireland_v1';
 
@@ -28,6 +29,19 @@ class IrelandGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     public function countryCode(): string
     {
         return 'IE';
+    }
+
+    /** @return list<string> */
+    public function postalCodeLookupKeys(string $code): array
+    {
+        $code = mb_strtoupper((string) preg_replace('/\s+/', '', mb_trim($code)));
+
+        // Bundled codes are 3-char routing keys; full 7-char eircodes strip to base.
+        if (preg_match('/^([A-Z0-9]{3})[A-Z0-9]{4}$/', $code, $matches) === 1) {
+            return [$code, $matches[1]];
+        }
+
+        return [$code];
     }
 
     public function seed(AddressCountry $country): void

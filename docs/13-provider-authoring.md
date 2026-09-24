@@ -42,7 +42,7 @@ class BrazilGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
 
 ## Designing addressHierarchies()
 
-Return one `AddressHierarchyDefinition` per address structure the country needs. Every bundled provider uses the `administrative` hierarchy key with label `Administrative / Territorial Geography`; only Malaysia and Singapore add a second `postal` hierarchy, so a new provider should start with `administrative` alone.
+Return one `AddressHierarchyDefinition` per address structure the country needs. Every bundled provider uses the `administrative` hierarchy key with label `Administrative / Territorial Geography`; Malaysia, Singapore, Cyprus, the Dominican Republic, and New Zealand add a second `postal` hierarchy, so a new provider should start with `administrative` alone.
 
 List the primary hierarchy first: hierarchy order is the canonical cascade order (`CountryAddressProfileResolver::assignmentRoles()`), and first-wins lookups such as `stateLevel()` resolve ties by it. Malaysia lists `administrative` before `postal` because the land cascade (state → district → mukim) is primary and postal localities are the secondary delivery overlay.
 
@@ -75,7 +75,7 @@ public function addressHierarchies(): array
 
 - `kind` is `state` for the top level that mirrors `State` rows, `area` for everything below it. State-kind levels carry no `assignmentRole`: a `State` is selected through `state_id`, never as an area assignment. (Singapore is the exception that proves the rule: it has no states, so all its levels are `kind: 'area'`.)
 - `areaTypes` / `areaType` constrain which CSV area `type` values may fill the level. Use the plural spelling; the singular exists only as a fallback and no bundled provider uses it. State-kind levels use `areaLevel: 1` (singular is the template norm here); area sub-levels use plural `areaLevels`.
-- `parentKey` names the parent level `key` within the same hierarchy. It is required on every `area` level so hierarchy validation can walk upward.
+- `parentKey` names the parent level `key` within the same hierarchy. It is required on every `area` level except a hierarchy root: Singapore's root `postal_district` and `region` levels are `kind: 'area'` with no parent, and carry none.
 - `assignmentRole` is effectively required on every `area` level: without it the role falls back to `{hierarchy}_{level}` (e.g. `administrative_district`), but every bundled area level sets an explicit role. Use the level key as the role (`mukim`, `regency`, `district`, `province`); only prefix with the hierarchy key when one country needs distinct roles per hierarchy (`postal_locality` vs `administrative_district` in Malaysia).
 
 A deep level follows the same shape with `kind: 'area'`, for example Indonesia's regency level: `areaTypes: ['regency', 'city']`, `areaLevels: [2]`, `parentKey: 'province'`, `assignmentRole: 'regency'`. Related types may share one level and role when the addressing semantics are identical.
@@ -104,7 +104,7 @@ private function stateDefinitions(): array
 }
 ```
 
-Use the country's own subdivision codes: ISO 3166-2 second parts (`AC`, `JK`), alpha codes (`BB`…`TH` for Germany), ISTAT numbers (`21`…`88` for Italy), or official numeric strings (`13`, `14` for Bahrain). State names use official endonyms with diacritics (`São Paulo`, `Bayern`, `Piemonte`). Mirror `resources/data/states.json` for names, codes, and ordering so the provider and the bundled data never drift. If a definition changes (a renamed or merged subdivision), delete the stale rows in `seed()` so reseeds converge; Indonesia and South Korea both carry such cleanup.
+Use the country's own subdivision codes: ISO 3166-2 second parts (`AC`, `JK`), alpha codes (`BB`…`TH` for Germany), ISTAT numbers (`21`…`88` for Italy), or official numeric strings (`13`, `14` for Bahrain). State names use official endonyms with diacritics (`São Paulo`, `Bayern`, `Piemonte`). Mirror `resources/data/states.json` for names, codes, and ordering so the provider and the bundled data never drift. If a definition changes (a renamed or merged subdivision), delete the stale rows in `seed()` so reseeds converge; Indonesia (island-unit codes), Ethiopia (`SN`), and Iraq (`KR`) all carry such cleanup.
 
 ## areaNames, areaRoles, areaRelationships
 
@@ -184,11 +184,11 @@ When two rows share both name *and* type, the slug alone cannot disambiguate the
 
 ## Level keys for mixed flat tiers
 
-A single-level tier may legitimately carry two administrative tiers flat (Azerbaijan's districts + municipalities + autonomous republic). Name the level `key` after the top tier (`province`, `region`, `county`), list every carried type in `areaTypes` top-tier-first, and join the labels with ` / `. Record the country as a depth-2 candidate in the [provider coverage registry](14-provider-coverage.md) so a future split has a starting point.
+A single-level tier may legitimately carry two administrative tiers flat (Azerbaijan's state level carries districts + municipalities + autonomous republic). Name the level `key` after the top tier (`province`, `region`, `county`), list every carried type in `areaTypes` top-tier-first, and join the labels with ` / `. When the flat tier is still the whole tree, record the country as a depth-2 candidate in the [provider coverage registry](14-provider-coverage.md) so a future split has a starting point.
 
 ## State-only versus deep trees
 
-Ship state-only (one `state` level, one CSV level, identity mappings) unless consumer addressing genuinely needs sub-state granularity. Deep trees exist where addressing or hierarchy selection requires them: dual-hierarchy Malaysia and Singapore, depth-4 Indonesia, and the depth-2 providers listed in the [provider coverage registry](14-provider-coverage.md). When in doubt, start state-only — depth can be added later without breaking the state level, while shipping wrong depth forces consumers to carry it.
+Ship state-only (one `state` level, one CSV level, identity mappings) unless consumer addressing genuinely needs sub-state granularity. Deep trees exist where addressing or hierarchy selection requires them: dual-hierarchy Malaysia, Singapore, Cyprus, the Dominican Republic, and New Zealand, depth-4 Indonesia, depth-3 Philippines, Saint Kitts and Nevis, and Madagascar, and the depth-2 providers listed in the [provider coverage registry](14-provider-coverage.md). When in doubt, start state-only — depth can be added later without breaking the state level, while shipping wrong depth forces consumers to carry it.
 
 ## The numeric-key gotcha
 
@@ -257,33 +257,72 @@ Every assignment role and area type in use across the bundled providers, extract
 
 | Role | Countries | Area types | Levels |
 | ---- | --------- | ---------- | ------ |
-| `administrative_district` | MY | district, minor_district | 2–3 |
+| `administrative_district` | MY | district, minor_district | 2, 3 |
 | `administrative_division` | MY | division | 2 |
-| `administrative_subdivision` | MY | city, municipality, mukim, subdistrict | 2–4 |
+| `administrative_post` | TL | administrative_post | 2 |
+| `administrative_subdivision` | MY | bandar, city, mukim, municipality, pekan, subdistrict | 2, 3, 4 |
+| `amphoe` | TH | amphoe, khet | 2 |
+| `area` | KW | area | 2 |
+| `area_council` | VU | area_council, municipality | 2 |
+| `arrondissement` | HT | arrondissement | 2 |
+| `baladiya` | LY | baladiya | 2 |
+| `barangay` | PH | barangay | 3 |
+| `barrio` | PR | barrio, barrio_pueblo | 2 |
+| `canton` | CR, EC | canton | 2 |
+| `caza` | LB | caza | 2 |
+| `cercle` | ML | cercle | 2 |
+| `commune` | BI, BJ, GF, GP, LU, MD, MQ, NC, PF, RE, RO, VN | city, commune, municipality, sector, special_zone, town, ward | 2 |
+| `constituency` | KE, LS, NA | constituency | 2 |
+| `council` | KI | council | 2 |
+| `county` | AS, GB, IE, IR, SS, US | borough, census_area, city, council_area, county, county_borough, district, municipality, parish, planning_region | 2 |
 | `daira` | DZ | daira | 2 |
-| `district` | BD, ID, IN, PK, TR | district | BD 2, ID 3, IN 2, PK 2, TR 2 |
-| `lga` | NG | lga, area_council | 2 |
+| `delegation` | TN | delegation | 2 |
+| `department` | AR, CM, FR, GA, MR, NE, SN, TD | commune, department, partido | 2 |
+| `district` | 51 countries | city, council, county_administered_city, district, duureg, metropolitan_city, mountain_indigenous_district, mountain_indigenous_township, municipality, rural_district, rural_township, section, statutory_city, sum, urban_district, urban_township | 2, 3 |
+| `gewog` | BT | gewog | 2 |
+| `governorate` | SA | governorate | 2 |
+| `inkhundla` | SZ | inkhundla | 2 |
+| `island` | MV | island | 2 |
+| `land_county` | PL | city_county, land_county | 2 |
+| `lga` | AU, NG | area_council, borough, city, council, lga, municipality, region, rural_city, shire, town | 2 |
 | `liwa` | JO | liwa | 2 |
+| `local_authority` | IM | district, parish, town, village | 2 |
+| `local_municipality` | AZ | local_municipality | 2 |
+| `locality` | MU | city, town, village | 2 |
 | `mukim` | BN | mukim | 2 |
-| `municipality` | JP | municipality | 2 |
+| `municipality` | 37 countries | borough, city, city_municipality, district, district_municipality, indigenous_reserve, locality, municipality, non_municipalized_area, rural_municipality, sub_municipality, town, unorganized, urban_municipality, village, ward | 2 |
+| `parish` | CV, KN, LV | city, parish, town | 2 |
 | `planning_area` | SG | planning_area | 2 |
 | `postal_district` | SG | postal_district | 1 |
-| `postal_locality` | MY | locality, precinct | 2 |
+| `postal_locality` | CY, DO, MY, NZ | locality, municipality, precinct | 2, 3, 4 |
 | `postal_sector` | SG | postal_sector | 2 |
-| `province` | ES, MA | ES province; MA province, prefecture | 2 |
-| `regency` | ID | regency, city | 2 |
-| `region` | SG | region | 1 |
-| `tuman` | UZ | tuman, city | 2 |
+| `prefecture` | CN, GN, KM, TG | autonomous_prefecture, league, prefecture, prefecture_city | 2 |
+| `province` | BE, BF, BO, CL, DO, ES, FJ, GQ, IT, MA, PE | autonomous_province, decentralization_entity, district, free_municipal_consortium, metropolitan_city, prefecture, province | 2 |
+| `raion` | UA | raion | 2 |
+| `regency` | ID | city, regency | 2 |
+| `region` | CI, MG, SG | region | 1, 2 |
+| `resort` | SR | resort | 2 |
+| `sector` | GW | sector | 2 |
+| `sigungu` | KR | city, county, district | 2 |
+| `subdistrict` | BW, VI | subdistrict | 2 |
+| `subprefecture` | CF, DJ | subprefecture | 2 |
+| `subregion` | ER | subregion | 2 |
+| `territory` | CD | territory | 2 |
+| `town` | GY | neighbourhood_democratic_council, town | 2 |
+| `tuman` | UZ | city, tuman | 2 |
+| `village` | ID, KN, WS | urban_village, village | 2, 3, 4 |
+| `vingtaine` | JE | canton, cueillette, vingtaine | 2 |
+| `ward` | SB | ward | 2 |
 | `wilayat` | OM | wilayat | 2 |
-| `zone` | QA | zone | 2 |
+| `zone` | ET, QA | woreda, zone | 2 |
 
 ### Area types by level
 
 Level 1 is always state-kind (one level per country, `areaLevel: 1`), except Singapore, which has no states: its level-1 `postal_district` and `region` are `kind: 'area'`.
 
-State-level (kind `state`, level 1): administrative_region, arctic_region, area, atoll, autonomous_city, autonomous_community, autonomous_district, autonomous_oblast, autonomous_region, autonomous_republic, autonomous_sector, autonomous_territorial_unit, canton, capital_city, capital_district, capital_territory, city, city_municipality, city_with_county_rights, commune, county, department, dependency, district, district_municipality, districts_under_republic_administration, division, economic_prefecture, emirate, entity, federal_city, federal_district, geographical_region, governorate, island, krai, local_council, metropolitan_administration, metropolitan_city, municipality, nation, oblast, okrug, parish, popularate, prefecture, province, quarter, region, regional_unit, republic, rural_municipality, sheading, special_administrative_region, special_city, special_municipality, special_self_governing_city, special_self_governing_province, state, state_city, territorial_unit, territory, town, union_territory, urban_community, urban_municipality, voivodeship, wilaya, wilayah_persekutuan.
+State-level (kind `state`, level 1): administrative_precinct, administrative_region, arctic_region, area, atoll, autonomous_city, autonomous_community, autonomous_district, autonomous_oblast, autonomous_region, autonomous_republic, autonomous_sector, autonomous_territorial_unit, borough, canton, capital_city, capital_district, capital_territory, chain, city, city_with_county_rights, commune, county, department, dependency, district, districts_under_republic_administration, division, economic_prefecture, emirate, entity, federal_city, federal_dependency, federal_district, geographical_region, governorate, indigenous_region, island, island_council, krai, local_council, metropolitan_administration, metropolitan_city, municipality, nation, oblast, okrug, overseas_collectivity, overseas_region, parish, popularate, prefecture, province, quarter, region, republic, sheading, special_administrative_region, special_city, special_island_authority, special_municipality, special_self_governing_city, special_self_governing_province, state, state_city, territorial_unit, territory, town, town_council, union_territory, urban_community, urban_municipality, village, voivodeship, ward, wilaya, wilayah_persekutuan.
 
-Sub-state (kind `area`, level 2+, plus SG level 1): area_council, city, daira, district, division, lga, liwa, locality, minor_district, mukim, municipality, planning_area, postal_district, postal_sector, precinct, prefecture, province, regency, region, subdistrict, tuman, wilayat, zone.
+Sub-state (kind `area`, level 2+, plus SG level 1): administrative_post, amphoe, area, area_council, arrondissement, autonomous_prefecture, autonomous_province, baladiya, bandar, barangay, barrio, barrio_pueblo, borough, canton, caza, census_area, cercle, city, city_county, city_municipality, commune, constituency, council, council_area, county, county_administered_city, county_borough, cueillette, daira, decentralization_entity, delegation, department, district, district_municipality, division, duureg, free_municipal_consortium, gewog, governorate, indigenous_reserve, inkhundla, island, khet, land_county, league, lga, liwa, local_municipality, locality, metropolitan_city, minor_district, mountain_indigenous_district, mountain_indigenous_township, mukim, municipality, neighbourhood_democratic_council, non_municipalized_area, parish, partido, pekan, planning_area, planning_region, postal_district, postal_sector, precinct, prefecture, prefecture_city, province, raion, regency, region, resort, rural_city, rural_district, rural_municipality, rural_township, section, sector, shire, special_zone, statutory_city, sub_municipality, subdistrict, subprefecture, subregion, sum, territory, town, tuman, unorganized, urban_district, urban_municipality, urban_township, urban_village, village, vingtaine, ward, wilayat, woreda, zone.
 
 ### Naming new roles and types
 

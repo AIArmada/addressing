@@ -9,13 +9,14 @@ use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class ArgentinaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
+class ArgentinaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_argentina_v1';
 
@@ -29,6 +30,22 @@ class ArgentinaGeographyProvider implements CountryAddressAreaMetadataProvider, 
     public function countryCode(): string
     {
         return 'AR';
+    }
+
+    /** @return list<string> */
+    public function postalCodeLookupKeys(string $code): array
+    {
+        $code = mb_strtoupper((string) preg_replace('/\s+/', '', mb_trim($code)));
+        $keys = [$code];
+
+        // Full 8-char CPA: province letter + 4-digit base + 3 block-face
+        // letters. Bundled codes are base level (interior 4-digit, CABA
+        // C+4-digit); the block face carries no L2 signal.
+        if (preg_match('/^([A-Z])(\d{4})[A-Z]{3}$/', $code, $matches) === 1) {
+            $keys[] = $matches[1] === 'C' ? 'C' . $matches[2] : $matches[2];
+        }
+
+        return $keys;
     }
 
     public function seed(AddressCountry $country): void

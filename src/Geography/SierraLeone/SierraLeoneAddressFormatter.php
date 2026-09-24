@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\SierraLeone;
 
 use AIArmada\Addressing\Contracts\CountryAddressFormatter;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Support\AddressLineFilter;
 
 final class SierraLeoneAddressFormatter implements CountryAddressFormatter
 {
@@ -16,7 +17,7 @@ final class SierraLeoneAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        $lines = array_filter([
+        $lines = AddressLineFilter::present([
             $address->line1,
             $address->line2,
             $address->line3,

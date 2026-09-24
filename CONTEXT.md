@@ -50,7 +50,7 @@ keywords:
 - Owner/security: `Address`, `Addressable`, and `AddressSnapshot` are owner-scoped; geography reference data remains global. The attaching model and address must be resolved in the same owner context.
 
 ## Key surfaces
-- Models: `Address`, `AddressArea`, `AddressAreaAssignment`, `AddressAreaCityLink`, `AddressAreaName`, `AddressAreaPostalCode`, `AddressAreaRelationship`, `AddressAreaRole`, `AddressAreaStateLink`, `AddressCountry`
+- Models: `Address`, `AddressArea`, `AddressAreaAssignment`, `AddressAreaName`, `AddressAreaPostalCode`, `AddressAreaRelationship`, `AddressAreaRole`, `AddressAreaStateLink`, `AddressCountry`
 - Actions/Services: `Actions/BuildAddressNavigationLinksAction`, `Actions/CreateAddressSnapshotAction`, `Actions/FormatAddressAction`, `Actions/ImportAddressAreasAction`, `Actions/ImportPostalCodesAction`, `Actions/NormalizeAddressDataAction`, `Actions/SaveAddressAreaAction`, `Actions/SearchAddressAreasAction`
 - Config `addressing.php`: `database.tables`, `database.json_column_type`, `models`, `countries`, `areas`, `addresses`, `addressables`, `snapshots`, `states`, `cities`
 

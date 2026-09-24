@@ -47,7 +47,6 @@ class AddressArea extends Model
     {
         static::deleting(function (AddressArea $area): void {
             AddressAreaAssignment::query()->where('address_area_id', $area->getKey())->delete();
-            AddressAreaCityLink::query()->where('address_area_id', $area->getKey())->delete();
             AddressAreaName::query()->where('address_area_id', $area->getKey())->delete();
             AddressAreaPostalCode::query()->where('address_area_id', $area->getKey())->delete();
             AddressAreaRole::query()->where('address_area_id', $area->getKey())->delete();
@@ -116,14 +115,6 @@ class AddressArea extends Model
     public function stateLinks(): HasMany
     {
         return $this->hasMany(AddressAreaStateLink::class, 'address_area_id');
-    }
-
-    /**
-     * @return HasMany<AddressAreaCityLink, $this>
-     */
-    public function cityLinks(): HasMany
-    {
-        return $this->hasMany(AddressAreaCityLink::class, 'address_area_id');
     }
 
     /** @return HasMany<AddressAreaName, $this> */

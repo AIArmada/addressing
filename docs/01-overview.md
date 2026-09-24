@@ -16,7 +16,7 @@ defaults; the customer package's former parallel address storage is retired.
 |---|---|---|
 | `addressing.Address` + `addressables` | Mutable reusable address and polymorphic attachment | Canonical for new attachments |
 | `customers.Customer` + `addresses/addressables` | Reusable customer addresses and typed defaults | Canonical; owner-scoped |
-| `orders.OrderAddress` | Order-bound historical address | Keep as snapshot lineage; no pilot here |
+| `orders.Order` + per-order `Address` copies | Order-bound historical address | Fresh copy per order via `HasAddresses` |
 | `events` location/organizer surfaces | Event-scoped role or historical location | Follow the later adoption plan |
 
 The instance tier (`addresses`, `addressables`, `address_snapshots`) is
@@ -66,10 +66,10 @@ resources/data/countries.json Bundled ISO 3166-1 data
 docs/                          Package documentation
 ```
 
-## Non-goals (v1)
+## Non-goals
 
-- Tenant ownership of persisted addresses
-- Geocoding providers
-- Postcode validation by country
-- Full UPU S42 formatting engine
-- Worldwide bundled district/postcode datasets (beyond optional MY/SG/ID/BN seed data)
+- Geocoding providers (coordinates are stored, never resolved)
+- Per-country postcode validation engine (a `CountryPostalCodeNormalizer`
+  contract exists for search-time grouping, not address validation)
+- Full UPU S42 formatting engine (country formatters follow UPU layouts
+  without implementing S42)

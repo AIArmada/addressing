@@ -75,6 +75,31 @@ class DominicanRepublicGeographyProvider implements CountryAddressAreaMetadataPr
                     ),
                 ],
             ),
+            new AddressHierarchyDefinition(
+                key: 'postal',
+                label: 'Postal / Address Geography',
+                levels: [
+                    new AddressLevelDefinition(
+                        key: 'region',
+                        label: 'Region',
+                        kind: 'state',
+                        hierarchyType: 'postal',
+                        areaTypes: ['region'],
+                        areaLevel: 1,
+                    ),
+                    new AddressLevelDefinition(
+                        key: 'locality',
+                        label: 'Municipality',
+                        kind: 'area',
+                        hierarchyType: 'postal',
+                        areaTypes: ['municipality'],
+                        areaLevels: [3],
+                        parentKey: 'region',
+                        assignmentRole: 'postal_locality',
+                        refinedBy: 'province',
+                    ),
+                ],
+            ),
         ];
     }
 
@@ -86,6 +111,7 @@ class DominicanRepublicGeographyProvider implements CountryAddressAreaMetadataPr
             'region' => 'Región',
             'province' => 'Provincia',
             'district' => 'Distrito',
+            'municipality' => 'Municipio',
         ];
     }
 
@@ -105,6 +131,7 @@ class DominicanRepublicGeographyProvider implements CountryAddressAreaMetadataPr
                 'region' => ['region'],
                 'province' => ['province'],
                 'district' => ['province'],
+                'municipality' => ['postal_locality'],
                 default => [],
             };
 
