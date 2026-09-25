@@ -93,6 +93,15 @@ unresolvable choice onto every consumer.
   (213.24.64.189) but TCP times out on ports 80/443 from
   foreign networks. IP-level blocking. Confirmed from two
   networks, September 2026.
+- Fresh official-host recheck, 2026-09-25:
+  `https://fias-file.nalog.ru/Frontend` is reachable and its
+  developer page advertises "Open data (file dumps)". The
+  current page reports a software update on 2026-09-22. The
+  public GAR listing renders its format tabs but no file rows;
+  the listing's normal `Frontend/OpenDataFiltered` request
+  returns HTTP 405. No authentication was attempted or
+  bypassed. This is a new official access path, but it did not
+  expose a usable dump or either required table.
 - `data.nalog.ru`: reachable but only a regional tax-office
   homepage, no datasets. `opendata.nalog.ru`: dead.
   `data.gov.ru`: TLS failure.

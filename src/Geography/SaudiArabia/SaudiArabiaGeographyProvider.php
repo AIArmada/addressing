@@ -9,13 +9,14 @@ use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class SaudiArabiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
+class SaudiArabiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_saudi_arabia_v1';
 
@@ -29,6 +30,20 @@ class SaudiArabiaGeographyProvider implements CountryAddressAreaMetadataProvider
     public function countryCode(): string
     {
         return 'SA';
+    }
+
+    /** @return list<string> */
+    public function postalCodeLookupKeys(string $code): array
+    {
+        $code = mb_trim($code);
+
+        // Bundled codes are 5-digit bases; Wasel 4-digit building
+        // suffixes (dashed or plain) strip to base.
+        if (preg_match('/^(\d{5})-?(\d{4})$/', $code, $matches) === 1) {
+            return [$code, $matches[1]];
+        }
+
+        return [$code];
     }
 
     public function seed(AddressCountry $country): void

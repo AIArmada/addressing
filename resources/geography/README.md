@@ -3,7 +3,8 @@
 Country-specific `AddressArea` trees imported by the bundled geography providers.
 
 - `malaysia-address-areas.csv`, `malaysia-postal-codes.csv`, `malaysia-postal-code-areas.csv` — used by `MalaysiaGeographyProvider`.
-- `{slug}-postal-codes.csv` + `{slug}-postal-code-areas.csv` pairs — bundled postcode datasets imported via `CsvPostalCodeSource` (28 countries including Malaysia; full list and per-country verdicts in `docs/18-postal-overlays.md`).
+- `{slug}-postal-codes.csv` + `{slug}-postal-code-areas.csv` pairs — bundled postcode datasets imported via `CsvPostalCodeSource` (147 countries including Malaysia; full list and per-country verdicts in `docs/18-postal-overlays.md`).
+- `palestine-postal-codes.csv` + `palestine-postal-code-areas.csv` — Ministry P3 postal-zone table; 603 published codes linked to the 16 bundled governorates.
 - `singapore-address-areas.csv` — used by `SingaporeGeographyProvider`.
 - `indonesia-address-areas.csv` — used by `IndonesiaGeographyProvider`. Derived from [lokabisa-oss/region-id v1.0.1](https://github.com/lokabisa-oss/region-id/releases/tag/v1.0.1) (MIT, © 2025 lokabisa), keeping Kemendagri codes, official names, and parent links for provinces, regencies/cities, and districts. Province 31 is named `DKI Jakarta` and province 34 `DI Yogyakarta` to match the seeded states; see `docs/05-country-data.md`.
 - `indonesia-villages.csv` — opt-in L4 set for `IndonesiaGeographyProvider` (83,762 desa/kelurahan from the same region-id v1.0.1 release). Seeded only when `addressing.geography.indonesia.villages` is true.

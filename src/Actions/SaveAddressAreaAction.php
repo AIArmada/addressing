@@ -92,7 +92,10 @@ final class SaveAddressAreaAction
 
             AddressAreaRelationship::query()
                 ->where('child_address_area_id', $record->getKey())
-                ->whereIn('source', array_filter([$previousSource, $record->source]))
+                ->whereIn('source', array_filter(
+                    [$previousSource, $record->source],
+                    static fn (?string $source): bool => $source !== null && $source !== '',
+                ))
                 ->delete();
 
             if ($hierarchyType !== null && $parent instanceof AddressArea) {

@@ -1,0 +1,14 @@
+postcode,area_source_id,relationship_type,is_primary
+GY1,gg:parish:st-peter-port,served_by,true
+GY10,gg:dependency:sark,served_by,true
+GY2,gg:parish:st-sampson,served_by,true
+GY3,gg:parish:vale,served_by,true
+GY4,gg:parish:st-martin,served_by,true
+GY5,gg:parish:castel,served_by,true
+GY6,gg:parish:st-andrew,served_by,true
+GY6,gg:parish:vale,served_by,false
+GY7,gg:parish:st-pierre-du-bois,served_by,true
+GY7,gg:parish:st-saviour,served_by,false
+GY8,gg:parish:forest,served_by,true
+GY8,gg:parish:torteval,served_by,false
+GY9,gg:dependency:alderney,served_by,true

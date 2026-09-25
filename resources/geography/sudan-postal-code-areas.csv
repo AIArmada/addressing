@@ -2,6 +2,7 @@ postcode,area_source_id,relationship_type,is_primary
 11111,sd:state:khartoum,served_by,true
 12217,sd:state:khartoum,served_by,true
 13315,sd:state:khartoum,served_by,true
+13315,sd:state:river-nile,served_by,false
 13321,sd:state:khartoum,served_by,true
 13323,sd:state:khartoum,served_by,true
 14419,sd:state:khartoum,served_by,true
@@ -95,3 +96,4 @@ postcode,area_source_id,relationship_type,is_primary
 63312,sd:state:south-darfur,served_by,true
 63313,sd:state:south-darfur,served_by,true
 63314,sd:state:west-darfur,served_by,true
+63314,sd:state:central-darfur,served_by,false

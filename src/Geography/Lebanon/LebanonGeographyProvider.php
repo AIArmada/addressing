@@ -9,13 +9,14 @@ use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
 use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
+use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class LebanonGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
+class LebanonGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_lebanon_v1';
 
@@ -29,6 +30,20 @@ class LebanonGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     public function countryCode(): string
     {
         return 'LB';
+    }
+
+    /** @return list<string> */
+    public function postalCodeLookupKeys(string $code): array
+    {
+        $code = mb_trim($code);
+
+        // Bundled codes are base 4-digit; the 4-digit sector suffix
+        // (spaced LibanPost form or compact) carries no caza signal.
+        if (preg_match('/^(\d{4})\s?(\d{4})$/', $code, $matches) === 1) {
+            return [$code, $matches[1]];
+        }
+
+        return [$code];
     }
 
     public function seed(AddressCountry $country): void

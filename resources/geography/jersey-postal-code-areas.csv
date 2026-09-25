@@ -1,0 +1,13 @@
+postcode,area_source_id,relationship_type,is_primary
+JE2,je:parish:st-helier,served_by,true
+JE2,je:parish:st-clement,served_by,false
+JE2,je:parish:st-saviour,served_by,false
+JE3,je:parish:grouville,served_by,true
+JE3,je:parish:st-brelade,served_by,false
+JE3,je:parish:st-john,served_by,false
+JE3,je:parish:st-lawrence,served_by,false
+JE3,je:parish:st-martin,served_by,false
+JE3,je:parish:st-mary,served_by,false
+JE3,je:parish:st-ouen,served_by,false
+JE3,je:parish:st-peter,served_by,false
+JE3,je:parish:trinity,served_by,false

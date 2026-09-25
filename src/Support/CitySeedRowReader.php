@@ -129,7 +129,10 @@ class CitySeedRowReader
                 static fn (array $match): string => str_repeat(' ', mb_strlen($match[0], '8bit')),
                 $batch,
             );
-            $blanked = is_string($blanked) ? $blanked : $batch;
+
+            if (! is_string($blanked)) {
+                throw new RuntimeException('Unable to parse the address city seed data.');
+            }
             $length = mb_strlen($blanked, '8bit');
             $position = 0;
 

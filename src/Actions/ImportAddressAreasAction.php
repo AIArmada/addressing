@@ -101,7 +101,10 @@ class ImportAddressAreasAction
                     }
 
                     // New rows skip hierarchy validation: validating a null
-                    // record always passes.
+                    // record always passes. Note the cycle walk below queries
+                    // stored rows, so it cannot see rows staged by this run;
+                    // a cycle routed through staged rows is only reported
+                    // once every link exists in the database.
                     if ($existing !== null) {
                         $validationMessage = AddressAreaHierarchy::validateParentAssignment(
                             $this->hydrateArea($existing),
