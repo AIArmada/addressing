@@ -1911,7 +1911,7 @@ Region names use official Uzbek Latin forms (`Qashqadaryo`,
 
 Uzbek addresses are formatted per the UPU layout: street lines,
 `{postcode}, {locality}` with a 6-digit postcode, the region on its
-own line (omitted when it duplicates the city), and country.
+own line (omitted when it duplicates the city), and country. Cities are labelled `Shahar`.
 
 ## Myanmar
 
@@ -2316,7 +2316,7 @@ The 51 districts and 18 regional-subordination cities ship as level-2 areas unde
 
 Tajik addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 6-digit postcode, the region on its
-own line when both are set, and country.
+own line when both are set, and country. Types are labelled `Viloyat`, `Nohiya`, and `Shahr`.
 
 ## Turkmenistan
 
@@ -3323,7 +3323,7 @@ parent-scoped.
 
 Moldovan addresses are formatted per the UPU layout: street lines,
 `{postcode}, {locality}` with an `MD-NNNN` postcode, and country.
-The prefix passes through as supplied.
+The prefix passes through as supplied. Types are labelled `Raion`, `Comună`, and `Oraș`.
 ## Monaco
 
 The bundled `MonacoGeographyProvider` supplies the 17 quarters
@@ -3478,7 +3478,7 @@ The 79 districts ship as level-2 areas under their regions.
 
 Slovak addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode written `XXX XX`,
-and country.
+and country. Types are labelled `Kraj` and `Okres`.
 ## Slovenia
 
 The bundled `SloveniaGeographyProvider` supplies the 200
@@ -3549,7 +3549,7 @@ The 29 municipalitys ship as level-2 areas under their regions.
 
 Faroese addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with an `FO-NNN` postcode, and country. Old
-Danish `38xx` codes are obsolete.
+Danish `38xx` codes are obsolete. Municipalities are labelled `Kommuna` (Faroese).
 ## Guernsey
 
 The bundled `GuernseyGeographyProvider` supplies the 10 parishes
@@ -4018,17 +4018,6 @@ not administrative units.
 
 Greenlandic postcodes print left of the locality
 (`3900 Nuuk`). The tier is labelled `Kommune`.
-
-## Saint Barthelemy
-
-The bundled `SaintBarthelemyGeographyProvider` supplies the
-single overseas collectivity as the `State` row and a
-single-level administrative hierarchy. It is selected with
-`SeedCountryGeographiesAction::execute('BL')` after countries are
-seeded. There is no tier-2.
-
-Addresses follow the French layout with the code left of the
-locality (`97133 SAINT-BARTHELEMY`).
 
 ## Saint Martin
 

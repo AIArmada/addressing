@@ -10,7 +10,7 @@ use AIArmada\Addressing\Support\AddressLineFilter;
 
 final class VietnamAddressFormatter implements CountryAddressFormatter
 {
-    public function countryCode(): string
+    public static function countryCode(): string
     {
         return 'VN';
     }

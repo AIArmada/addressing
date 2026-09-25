@@ -6,5 +6,5 @@ namespace AIArmada\Addressing\Contracts;
 
 interface CountryAddressFormatter extends AddressFormatter
 {
-    public function countryCode(): string;
+    public static function countryCode(): string;
 }

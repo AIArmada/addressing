@@ -38,7 +38,10 @@ class BrazilGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
 - `CountryGeographyProvider` (extends `CountryAddressProfile`) is the only required contract. It contributes `countryCode()`, the stable `providerKey()`, `seed()` for `State` rows, and `addressHierarchies()`.
 - `CountryHierarchyProvider` is optional and contributes `addressAreaSource()` plus `stateAreaMappings()`. Every bundled provider implements it; without it the country has states but no area tree and no state↔area links.
 - `CountryAddressAreaMetadataProvider` is optional and contributes `areaRoles()`, `areaNames()`, and `areaRelationships()`, all keyed by CSV `source_id`. Empty arrays are a normal pattern, not a gap.
-- `CountryAddressFormatter` (extends `AddressFormatter`) lives in a separate class per country and is registered under the separate `addressing.formatters` key, not `addressing.geography.providers`. It contributes `countryCode()` plus `format(AddressData $address): string`.
+- `CountryAddressFormatter` (extends `AddressFormatter`) lives in a separate class per country and is registered under the separate `addressing.formatters` key, not `addressing.geography.providers`. It contributes static `countryCode()` plus `format(AddressData $address): string`. The static code lets the resolver map country codes without instantiating formatters.
+
+> [!warning]
+> `CountryAddressFormatter::countryCode()` is static. Custom formatters written against the instance-method contract fatal until updated — add the `static` keyword to `countryCode()`. Nothing else changes: `format()` stays an instance method and `addressing.formatters` stays a plain class-string list.
 
 ## Designing addressHierarchies()
 
@@ -207,7 +210,7 @@ Pick the closest layout pattern and note the UPU source in a one-line comment:
 - **Own line above**: Albania, the only bundled country whose postcode sits above the locality.
 - **None**: Hong Kong, North Korea, most of Africa. Print any supplied code on its own line; never drop user data.
 
-Pass-through rules: formatters print postcodes exactly as supplied — they never add, strip, or validate prefixes and spacing. City/state twins that compare equal print once (`sameText` guard). The country line uses the short display name from `resources/data/countries.json` (`Iran`, not `IRAN (ISLAMIC REP.)`), except where the database spelling is unusable on mail (Isle of Man prints `Isle of Man`, not `Man (Isle of)`). When the model cannot represent part of the UPU line (Serbia's street-level PAK, Gabon's trailing office code), document the gap in the formatter comment and the country's [05-country-data](05-country-data.md) section instead of fabricating it.
+Pass-through rules: formatters print postcodes exactly as supplied — they never add, strip, or validate prefixes and spacing. City/state twins that compare equal print once (`sameText` guard). The country line uses the short display name from `resources/data/countries.json` (`Iran`, not `IRAN (ISLAMIC REP.)`), except where the database spelling is unusable on mail (Isle of Man prints `Isle of Man`, not `Man (Isle of)`). Resolve it as supplied `country`, then the seeded country name, then the formatter's hardcoded display name for its own code; the raw ISO code is the last resort, used only when no provider knows the code. When the model cannot represent part of the UPU line (Serbia's street-level PAK, Gabon's trailing office code), document the gap in the formatter comment and the country's [05-country-data](05-country-data.md) section instead of fabricating it.
 
 ## Bundling postcodes
 
@@ -223,8 +226,8 @@ $source = new CsvPostalCodeSource('SM', $codesPath, $linksPath, $areaSource);
 app(ImportPostalCodesAction::class)->execute($source);
 ```
 
-`PostalCodeCsvImportTest` picks up every pair automatically and
-enforces zero failures plus exactly one primary link per postcode.
+`PostalCodeCsvImportShard*Test` pick up every pair automatically and
+enforce zero failures plus exactly one primary link per postcode.
 
 ## Testing a provider
 

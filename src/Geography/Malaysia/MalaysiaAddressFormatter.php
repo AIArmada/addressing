@@ -10,7 +10,7 @@ use AIArmada\Addressing\Support\AddressLineFilter;
 
 final class MalaysiaAddressFormatter implements CountryAddressFormatter
 {
-    public function countryCode(): string
+    public static function countryCode(): string
     {
         return 'MY';
     }
@@ -47,7 +47,7 @@ final class MalaysiaAddressFormatter implements CountryAddressFormatter
         if ($address->country !== null && $address->country !== '') {
             $lines[] = $address->country;
         } elseif ($address->countryCode !== null && $address->countryCode !== '') {
-            $lines[] = $address->countryCode;
+            $lines[] = mb_strtoupper($address->countryCode) === 'MY' ? 'Malaysia' : $address->countryCode;
         }
 
         return implode("\n", $lines);

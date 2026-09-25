@@ -28,7 +28,7 @@ countries use it and why the rest do not.
   (`country_code,code`) and `{slug}-postal-code-areas.csv`
   (`postcode,area_source_id,relationship_type,is_primary`).
 - Exactly one primary link per postcode that has links
-  (enforced by `PostalCodeCsvImportTest`).
+  (enforced by the `PostalCodeCsvImportShard*Test` shards).
 - Bundled postcodes are stored at base level. Suffixed formats
   resolve through their base at lookup: full 8-char Argentine CPA
   (`N4419ABC`, `C1406DOB`) strips to the bundled base (`4419`,
