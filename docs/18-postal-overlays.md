@@ -345,7 +345,7 @@ $source = new CsvPostalCodeSource(
     countryCode: 'SM',
     codesPath: resource_path('geography/san-marino-postal-codes.csv'),
     linksPath: resource_path('geography/san-marino-postal-code-areas.csv'),
-    areaSource: 'aiarmada_addressing_sanmarino_v1',
+    areaSource: 'aiarmada_addressing_san_marino_v1',
 );
 
 $result = app(ImportPostalCodesAction::class)->execute($source);

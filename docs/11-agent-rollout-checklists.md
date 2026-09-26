@@ -157,9 +157,11 @@ packages/events/src
 packages/events/database
 packages/events/docs
 tests/src/Events
-packages/institutions/src if assigned
-packages/venues/src if assigned
 ```
+
+`Venue`, `VenueSpace`, `VenueSpaceType`, `VenueFacility`, `EventFacility`,
+`FacilityType`, and `EventLocation` all live in `packages/events` — there is
+no separate `venues` or `institutions` package.
 
 ### Tasks
 

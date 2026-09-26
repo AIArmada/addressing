@@ -200,7 +200,7 @@ applied consistently.
 ],
 ```
 
-Outside production, `address:seed` (and the bundled `AddressingSeeder`) only
+Outside production, the bundled `AddressingSeeder` only
 seeds cities for these ISO2 codes, keeping local databases small. Production
 always seeds the full city dataset. Empty (the shipped default) seeds
 everything everywhere.

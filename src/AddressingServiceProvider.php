@@ -25,13 +25,7 @@ use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 use AIArmada\Addressing\Actions\SyncAddressAreaAssignmentsAction;
 use AIArmada\Addressing\Commands\ExportResolutionGapAliasesCommand;
 use AIArmada\Addressing\Commands\ImportAddressAreasCommand;
-use AIArmada\Addressing\Commands\ImportAddressAreasCsvCommand;
 use AIArmada\Addressing\Commands\ReportResolutionGapsCommand;
-use AIArmada\Addressing\Commands\SeedAddressCitiesCommand;
-use AIArmada\Addressing\Commands\SeedAddressCountriesCommand;
-use AIArmada\Addressing\Commands\SeedAddressCountryReferencesCommand;
-use AIArmada\Addressing\Commands\SeedAddressingCommand;
-use AIArmada\Addressing\Commands\SeedAddressStatesCommand;
 use AIArmada\Addressing\Commands\SeedCountryGeographiesCommand;
 use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Contracts\AddressNormalizer;
@@ -54,14 +48,8 @@ final class AddressingServiceProvider extends PackageServiceProvider
             ->runsMigrations()
             ->discoversMigrations()
             ->hasCommands(
-                SeedAddressingCommand::class,
-                SeedAddressCountriesCommand::class,
-                SeedAddressCountryReferencesCommand::class,
-                SeedAddressStatesCommand::class,
-                SeedAddressCitiesCommand::class,
                 SeedCountryGeographiesCommand::class,
                 ImportAddressAreasCommand::class,
-                ImportAddressAreasCsvCommand::class,
                 ReportResolutionGapsCommand::class,
                 ExportResolutionGapAliasesCommand::class,
             );

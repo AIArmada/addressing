@@ -18,7 +18,7 @@ generated normalized column with an index) under your configured table names.
 Run the seed command:
 
 ```bash
-php artisan address:seed-countries
+php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressCountrySeeder"
 ```
 
 ## District Page Lists Other Districts' Towns
@@ -29,7 +29,7 @@ shows the whole state's towns. Re-run the full seed to pick up new rows
 and rebuilt links:
 
 ```bash
-php artisan address:seed
+php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressingSeeder"
 ```
 
 ## Is Reseeding Safe When Other Tables Link to Geography
@@ -54,7 +54,7 @@ Three exceptions need deliberate handling:
 
 ## Missing Malaysia States or Federal Territories
 
-`address:seed-countries` only seeds ISO countries. For structured Malaysia geography, run `app(SeedCountryGeographiesAction::class)->execute('MY')` after countries exist. This also imports the hierarchy and creates explicit State↔AddressArea links. Postal localities and administrative districts are separate branches; neither requires a postal-town record.
+`AddressCountrySeeder` only seeds ISO countries. For structured Malaysia geography, run `app(SeedCountryGeographiesAction::class)->execute('MY')` after countries exist. This also imports the hierarchy and creates explicit State↔AddressArea links. Postal localities and administrative districts are separate branches; neither requires a postal-town record.
 
 ## Missing Singapore Districts or Planning Areas
 
@@ -196,7 +196,7 @@ If a manual URL is set but not appearing in the output, verify it passes `Normal
 
 ## Command Not Found
 
-If `address:seed-countries` is not available, the service provider is not
+If `AddressCountrySeeder` is not available, the service provider is not
 registered: publishing assets does not register commands. Verify package
 auto-discovery is enabled (or that
 `AIArmada\Addressing\AddressingServiceProvider` is listed in your app

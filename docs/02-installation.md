@@ -34,7 +34,7 @@ php artisan migrate
 ## Seed the Reference Dataset
 
 ```bash
-php artisan address:seed
+php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressingSeeder"
 ```
 
 This is the single entry point. It seeds countries, currency/timezone
@@ -60,9 +60,9 @@ app(SeedAddressingAction::class)->execute(
 );
 ```
 
-The granular commands remain for partial work: `address:seed-countries`,
-`address:seed-country-references`, `address:seed-states`, `address:seed-cities`,
-and `address:seed-geographies {country?}`.
+Partial runs use the bundled seeders: `AddressCountrySeeder` for the ISO countries
+layer, and `AddressingSeeder` for the full dataset. Per-country provider geography
+stays on the command: `address:seed-geographies {country?}`.
 
 ## Seed a Country Geography Provider
 
