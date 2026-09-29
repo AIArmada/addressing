@@ -71,7 +71,7 @@ Repeat for every top-level division (state/province/WP):
 
 ## After changing the dataset
 
-Dataset truth is not database truth. Consumers must re-run `address:seed`
+Dataset truth is not database truth. Consumers must re-run `AddressingSeeder`
 (or the bundled `AddressingSeeder`) to pick up new rows and rebuilt
 links; the geography seed upserts areas by `source_id` with stable IDs,
 so reseeding is safe.

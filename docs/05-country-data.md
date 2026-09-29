@@ -13,7 +13,7 @@ The package always bundles ISO 3166-1 country/territory data.
 
 File location: `resources/data/countries.json`
 
-The bundled `MalaysiaGeographyProvider` supplies Malaysia's State/Federal Territory catalog, two explicit address hierarchies, the AddressArea hierarchy, and State↔AddressArea mappings. The primary administrative/land hierarchy is `region → district / division / jajahan → mukim / subdistrict / bandar / pekan`; the secondary postal/address hierarchy is `region → locality / precinct / kampung`. It is selected with `SeedCountryGeographiesAction::execute('MY')` after countries are seeded.
+The bundled `MalaysiaGeographyProvider` supplies Malaysia's State/Federal Territory catalog, two explicit address hierarchies, the AddressArea hierarchy, and State↔AddressArea mappings. The primary administrative/land hierarchy is `region → division → district → subdivision` (state/wilayah_persekutuan → division → district/minor_district → city, municipality, mukim, subdistrict, bandar, pekan); the secondary postal/address hierarchy is `region → locality` (state/wilayah_persekutuan → locality/precinct), refined by the picked `administrative_district`. It is selected with `SeedCountryGeographiesAction::execute('MY')` after countries are seeded.
 
 The dataset contains **249 records** — these are ISO 3166-1 address entities, not 249 sovereign countries. Records include:
 
@@ -872,9 +872,11 @@ The bundled `ParaguayGeographyProvider` supplies the 17 departments plus
 Asunción as `State` rows and a two-level administrative hierarchy
 (department → 263 districts). It is selected with
 `SeedCountryGeographiesAction::execute('PY')` after countries are seeded.
-Asunción is typed `capital_district` sharing the L1 level and `department`
-assignment role, so it sits in the state tier with department grouping
-rather than a standalone label.
+Asunción is typed `capital_district` sharing the L1 `department`
+level, so it sits in the state tier with department grouping rather
+than a standalone label. The state tier is selected through `state_id`
+and carries no assignment role; the only role is the level-2
+`district` role.
 
 Paraguayan addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, and country.
@@ -897,8 +899,10 @@ plus the Capital District and the Federal Dependencies (ISO code
 `W`) as `State` rows and a two-level administrative hierarchy
 (state → 335 municipalities). It is selected with
 `SeedCountryGeographiesAction::execute('VE')` after countries are seeded.
-The capital district shares the `state` assignment role; the
-childless federal dependency keeps its own role. Libertador ships
+The capital district is a second `areaType` on the L1 `state` level,
+and the childless federal dependency a third, so both are selected
+through `state_id` and neither carries an assignment role. The only
+role is the level-2 `municipality` role. Libertador ships
 under the capital district.
 
 Venezuelan addresses are formatted per the UPU layout: street lines,
@@ -4257,11 +4261,11 @@ every database driver.
 ## Seed Command
 
 ```bash
-php artisan address:seed-countries
-php artisan commerce:seed-currencies
-php artisan commerce:seed-languages
-php artisan commerce:seed-timezones
-php artisan address:seed-country-references
+php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressCountrySeeder"
+php artisan db:seed --class="AIArmada\CommerceSupport\Database\Seeders\CurrencySeeder"
+php artisan db:seed --class="AIArmada\CommerceSupport\Database\Seeders\LanguageSeeder"
+php artisan db:seed --class="AIArmada\CommerceSupport\Database\Seeders\TimezoneSeeder"
+php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressingSeeder"
 ```
 
 This is idempotent — running it multiple times is safe.
