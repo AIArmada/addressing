@@ -52,7 +52,7 @@ app(SeedAddressCountriesAction::class)->execute();
 Or via CLI:
 
 ```bash
-php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressCountrySeeder"
+php artisan address:seed-countries
 ```
 
 ## States and Cities
@@ -64,7 +64,7 @@ use AIArmada\Addressing\Models\Address;
 use AIArmada\Addressing\Models\City;
 use AIArmada\Addressing\Models\State;
 
-$state = State::query()->where('code', 'SGR')->first();
+$state = State::query()->where('code', '10')->first(); // Selangor
 $city = City::query()->where('country_id', $state->country_id)->where('name', 'Shah Alam')->first();
 
 $address = Address::query()->create([
@@ -99,7 +99,7 @@ resolved, normalization throws instead of preserving a stale ID.
 ```php
 use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 
-// After AddressingSeeder
+// After address:seed-countries
 app(SeedCountryGeographiesAction::class)->execute('MY');
 ```
 
@@ -112,7 +112,7 @@ Malaysia exposes one first-level region type whose values are either a state or 
 ```php
 use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 
-// After AddressingSeeder
+// After address:seed-countries
 app(SeedCountryGeographiesAction::class)->execute('SG');
 ```
 
@@ -123,7 +123,7 @@ Singapore exposes two separate hierarchies: postal/delivery geography (`postal d
 ```php
 use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 
-// After AddressingSeeder
+// After address:seed-countries
 app(SeedCountryGeographiesAction::class)->execute('ID');
 ```
 
@@ -134,7 +134,7 @@ Indonesia exposes one administrative hierarchy: `province → regency / city →
 ```php
 use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 
-// After AddressingSeeder
+// After address:seed-countries
 app(SeedCountryGeographiesAction::class)->execute('BN');
 ```
 
@@ -145,7 +145,7 @@ Brunei exposes one administrative hierarchy: `district → mukim` (4 districts, 
 ```php
 use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 
-// After AddressingSeeder; repeat per country.
+// After address:seed-countries; repeat per country.
 app(SeedCountryGeographiesAction::class)->execute('BH');
 ```
 
@@ -688,7 +688,7 @@ echo $result->created; // 1
 ### From CSV
 
 ```bash
-php artisan address:import-areas --csv=/path/to/areas.csv --source-key=my-source
+php artisan address:import-areas-csv /path/to/areas.csv --source=my-source
 ```
 
 CSV format:
@@ -701,7 +701,7 @@ source_id,country_code,type,name,native_name,code,parent_source_id,level,latitud
 Re-imports are idempotent: rows without changes are reported as skipped. Dry-run mode validates every row (including parent and hierarchy checks) without writing. Re-imports never reactivate areas an operator deactivated; pass `--reactivate` (or `reactivate: true`) to opt back in:
 
 ```bash
-php artisan address:import-areas --csv=/path/to/areas.csv --source-key=my-source --reactivate
+php artisan address:import-areas-csv /path/to/areas.csv --source=my-source --reactivate
 ```
 
 ### Saving a single area
@@ -767,8 +767,7 @@ Raw queries against `addresses`, `addressables`, or `address_snapshots` must
 apply the shared owner query primitive. Reference geography tables are
 intentionally global and do not use owner scoping.
 
-> **info**
->
+> [!info]
 > `primaryAddress()` and `addressesOfType()` only consider pivot rows whose `valid_from` / `valid_until` window includes the current time.
 >
 > Use `scopeWithPrimaryAddress()` when you want to eager-load the current primary subset for display.
@@ -928,29 +927,3 @@ $suffix = LocationSlugSegments::suffix(
 ```
 
 Each level prefers the literal address string, then the canonical name for the referenced geography id, then the assigned area name; consecutive duplicates collapse to one. Pass `preferLiteralCountry: false` when the referenced country's ISO code should win over the literal `country_code`. Granular resolvers (`areaName()`, `cityName()`, `stateName()`, `countryCode()`) are available when you need a single level.
-
-## Console commands
-
-| Command | Purpose |
-|---|---|
-| `address:seed-geographies {country?}` | Seed state/city data from configured providers. One ISO2 code, or every registered provider when omitted |
-| `address:import-areas {source?} {--csv=} {--source-key=} {--dry-run} {--reactivate}` | Import areas from a key registered in `addressing.area_sources`, or from a CSV file via `--csv` |
-| `address:resolution-gaps {--country=} {--days=30} {--reason=} {--status=} {--limit=20}` | Report unmatched/ambiguous name gaps |
-| `address:export-gap-aliases {--country=} {--prune}` | Emit admin-matched aliases as provider `areaNames()` entries |
-
-### Seeders
-
-Countries, country references, states, and cities are loaded by seeders, not commands:
-
-```bash
-php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressingSeeder"
-```
-
-`AddressingSeeder` runs `SeedAddressingAction` — the same action the removed `address:seed*`
-commands called, so nothing was lost in the move to seeders. `AddressCountrySeeder` covers the
-ISO countries layer on its own, and `MalaysiaPostalCodeSeeder` covers the MY postal overlay.
-
-Per-country provider geography stays on the command: `address:seed-geographies {country?}`.
-That command always shows progress; `SeedAddressingAction::execute()` and
-`SeedCountryGeographiesAction::execute()` run silently without a progress callback, which is
-what queued jobs and tests want.

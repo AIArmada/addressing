@@ -92,29 +92,26 @@ The cleanup migration should:
 Verify the migration twice on a development database and confirm that
 canonical address rows and addressable pivots remain available.
 
-## Recipe 3: Legacy address columns to Address
+## Recipe 3: Venue address columns to Address
 
-Use when a consuming package still stores address fields inline. The
-shape below is the generic legacy column set this recipe migrates from;
-`venues` in `aiarmada/events` is already past it (it has no address
-columns at all and its models use `HasAddresses`).
+Use when migrating venue/institution addresses.
 
 ### Before
 
 ```txt
-<owners>.address_line_1
-<owners>.address_line_2
-<owners>.city
-<owners>.district
-<owners>.state
-<owners>.postcode
-<owners>.country
+venues.address_line_1
+venues.address_line_2
+venues.city
+venues.district
+venues.state
+venues.postcode
+venues.country
 ```
 
 ### After
 
 ```txt
-<owners> use HasAddresses
+venues use HasAddresses
 ```
 
 ### Copy example
@@ -124,15 +121,15 @@ use AIArmada\Addressing\Data\AddressData;
 use AIArmada\Addressing\Models\Address;
 
 $address = Address::query()->create(AddressData::from([
-    'address_line_1' => $owner->address_line_1,
-    'address_line_2' => $owner->address_line_2,
-    'city' => $owner->city,
-    'state' => $owner->state,
-    'postcode' => $owner->postcode,
-    'countryCode' => $owner->country,
+    'address_line_1' => $venue->address_line_1,
+    'address_line_2' => $venue->address_line_2,
+    'city' => $venue->city,
+    'state' => $venue->state,
+    'postcode' => $venue->postcode,
+    'countryCode' => $venue->country,
 ])->toModelAttributes());
 
-$owner->attachAddress($address, type: 'venue', isPrimary: true);
+$venue->attachAddress($address, type: 'venue', isPrimary: true);
 ```
 
 Map the legacy `district` column explicitly (for example into `components` or

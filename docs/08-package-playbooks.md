@@ -23,12 +23,12 @@ uses `HasAddresses` unconditionally. Conditional trait composition is not a
 valid standalone-package boundary in PHP, so these integrations must declare
 the dependency explicitly and document the resulting package direction.
 
-Three integrations have ratified this policy and hard-require
-`aiarmada/addressing` because their models use `HasAddresses`
-unconditionally: `aiarmada/customers` (`Customer`), `aiarmada/orders`
-(`Order`), and `aiarmada/events` (`Venue`, `EventLocation`,
-`VenueSpace`, `VenueSpaceType`, `VenueFacility`, `EventFacility`, and
-`FacilityType`).
+The customers pilot ratifies this policy: `aiarmada/customers` hard-requires
+`aiarmada/addressing` because `Customer` uses `HasAddresses`. The events
+integration remains an optional suggestion because its address behavior is
+conditional and does not make the event package's core model depend on the
+addressing trait. The orders pilot must make the same hard-require versus
+optional-integration decision before adopting `HasAddresses`.
 
 ## Summary table
 
@@ -36,7 +36,7 @@ unconditionally: `aiarmada/customers` (`Customer`), `aiarmada/orders`
 |---|---:|---|---|
 | customers / typed addressables | Level 4 complete | Retired storage cleanup complete | Checkout and defaults use `HasAddresses` and `primaryAddress()` |
 | orders / per-order Address copies | Level 4 mechanics, Level 3 intent | Complete | Fresh copy per order; never shared mutable links |
-| events / venues / event_locations | Level 4 complete | None needed | Seven models use `HasAddresses`; no venue address columns remain |
+| events / venues / event_locations | Level 4 + Level 3 | Eventually for venues | Venue/institution address reusable; event location snapshot historical |
 | chip / chip_clients | Level 2 | Not first | Provider/client mapper |
 | shipping / shipments JSON | Level 3 | No | JSON cast is already suitable |
 | signals / signal_sessions | Resolver only | No | Approximate IP/location, not full address |
@@ -131,10 +131,17 @@ snapshots are required rather than per-order copies.
 ### Current shape
 
 ```txt
-venues, venue_spaces, venue_space_types, venue_facilities,
-event_locations, event_facilities, facility_types
-- no address columns; all seven models use HasAddresses
-- addresses live in addresses + addressables
+venues
+- address_line_1
+- address_line_2
+- city
+- district
+- state
+- postcode
+- country
+
+event_locations
+- address_snapshot
 ```
 
 ### Recommendation
@@ -154,16 +161,11 @@ Yes for location snapshots and address resolution.
 
 ### Should venue columns be removed?
 
-Nothing to remove: `venues` never carried address columns. Addresses are
-already stored in `addresses` + `addressables` through `HasAddresses`.
+Eventually, after venue/institution addresses are migrated to `addresses` + `addressables`.
 
 ### Should `event_locations.address_snapshot` be removed?
 
-Not applicable. No migration creates an `event_locations.address_snapshot`
-column; the `EventLocation` model still declares the attribute in its
-`@property` block and `casts()`, so treat snapshots as a
-consumer-side `AddressData` value or an `address_snapshots` row until a
-migration lands.
+Not necessarily. It may remain as JSON cast to `AddressData` or migrate to `address_snapshots`.
 
 ### Event address resolution order
 
@@ -287,8 +289,7 @@ protected function casts(): array
 
 ```txt
 signal_sessions
-- country_code
-- country_source
+- country
 - resolved_country_code
 - resolved_country_name
 - resolved_state

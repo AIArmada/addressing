@@ -40,12 +40,12 @@ class BrazilGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
 - `CountryAddressAreaMetadataProvider` is optional and contributes `areaRoles()`, `areaNames()`, and `areaRelationships()`, all keyed by CSV `source_id`. Empty arrays are a normal pattern, not a gap.
 - `CountryAddressFormatter` (extends `AddressFormatter`) lives in a separate class per country and is registered under the separate `addressing.formatters` key, not `addressing.geography.providers`. It contributes static `countryCode()` plus `format(AddressData $address): string`. The static code lets the resolver map country codes without instantiating formatters.
 
-> **warning**
+> [!warning]
 > `CountryAddressFormatter::countryCode()` is static. Custom formatters written against the instance-method contract fatal until updated — add the `static` keyword to `countryCode()`. Nothing else changes: `format()` stays an instance method and `addressing.formatters` stays a plain class-string list.
 
 ## Designing addressHierarchies()
 
-Return one `AddressHierarchyDefinition` per address structure the country needs. Every bundled provider uses the `administrative` hierarchy key, almost always labelled `Administrative / Territorial Geography` (Malaysia labels it `Administrative / Land Geography` and Singapore `Administrative / Planning Geography`); Malaysia, Singapore, Cyprus, the Dominican Republic, and New Zealand add a second `postal` hierarchy, so a new provider should start with `administrative` alone.
+Return one `AddressHierarchyDefinition` per address structure the country needs. Every bundled provider uses the `administrative` hierarchy key with label `Administrative / Territorial Geography`; Malaysia, Singapore, Cyprus, the Dominican Republic, and New Zealand add a second `postal` hierarchy, so a new provider should start with `administrative` alone.
 
 List the primary hierarchy first: hierarchy order is the canonical cascade order (`CountryAddressProfileResolver::assignmentRoles()`), and first-wins lookups such as `stateLevel()` resolve ties by it. Malaysia lists `administrative` before `postal` because the land cascade (state → district → mukim) is primary and postal localities are the secondary delivery overlay.
 
@@ -76,7 +76,7 @@ public function addressHierarchies(): array
 }
 ```
 
-- `kind` is `state` for the top level that mirrors `State` rows, `area` for everything below it. State-kind levels carry no `assignmentRole`: a `State` is selected through `state_id`, never as an area assignment. (Singapore is the exception that proves the rule: it has no states, so all its levels are `kind: 'area'`.)
+- `kind` is `state` for the top level that mirrors `State` rows, `area` for everything below it. State-kind levels carry no `assignmentRole`: a `State` is selected through `state_id`, never as an area assignment. (Singapore is the exception that proves the rule: it has no state-kind level, so all its levels are `kind: 'area'`.)
 - `areaTypes` / `areaType` constrain which CSV area `type` values may fill the level. Use the plural spelling; the singular exists only as a fallback and no bundled provider uses it. State-kind levels use `areaLevel: 1` (singular is the template norm here); area sub-levels use plural `areaLevels`.
 - `parentKey` names the parent level `key` within the same hierarchy. It is required on every `area` level except a hierarchy root: Singapore's root `postal_district` and `region` levels are `kind: 'area'` with no parent, and carry none.
 - `assignmentRole` is effectively required on every `area` level: without it the role falls back to `{hierarchy}_{level}` (e.g. `administrative_district`), but every bundled area level sets an explicit role. Use the level key as the role (`mukim`, `regency`, `district`, `province`); only prefix with the hierarchy key when one country needs distinct roles per hierarchy (`postal_locality` vs `administrative_district` in Malaysia).
@@ -175,8 +175,9 @@ br:state:alagoas,BR,state,Alagoas,,AL,,1,,
 - Canonical `name` values use official endonyms. English exonyms, historic names, and abbreviations belong in `areaNames()`, never in the CSV — except countries whose official administrative language is English, which use English canonically with no aliases.
 - Names containing commas are quoted per RFC 4180 (`"Larut, Matang dan Selama"`, `"Praha, Hlavní město"`); the loader parses them with `fgetcsv`. Slugs strip diacritics and punctuation (`liquica`, `sao-paulo`, `sanaa`).
 
-> **warning**
-> `source_id` prefixes do not always equal the row type: Indonesian city rows use the `id:regency:` prefix and only the `type` column distinguishes them. Always match on the `type` column, never by parsing `source_id`.
+:::warning
+`source_id` prefixes do not always equal the row type: Indonesian city rows use the `id:regency:` prefix and only the `type` column distinguishes them. Always match on the `type` column, never by parsing `source_id`.
+:::
 
 ## Name twins and slug stability
 
@@ -206,7 +207,7 @@ Pick the closest layout pattern and note the UPU source in a one-line comment:
 - **Right** (`{locality} {postcode}`): Cambodia (province-anchored), Bhutan, Lebanon, Lesotho, Zambia. Latvia adds a comma (`RIGA, LV-1050`).
 - **Comma-left** (`{postcode}, {locality}`): Kazakhstan, Belarus, Moldova.
 - **Own line below**: Iran, Sri Lanka, Namibia, Malta, Ireland (Eircode), the UK-system Crown dependencies.
-- **Own line above**: Albania, Nicaragua, Oman, Peru, Saudi Arabia, Sudan.
+- **Own line above**: Albania, the only bundled country whose postcode sits above the locality.
 - **None**: Hong Kong, North Korea, most of Africa. Print any supplied code on its own line; never drop user data.
 
 Pass-through rules: formatters print postcodes exactly as supplied — they never add, strip, or validate prefixes and spacing. City/state twins that compare equal print once (`sameText` guard). The country line uses the short display name from `resources/data/countries.json` (`Iran`, not `IRAN (ISLAMIC REP.)`), except where the database spelling is unusable on mail (Isle of Man prints `Isle of Man`, not `Man (Isle of)`). Resolve it as supplied `country`, then the seeded country name, then the formatter's hardcoded display name for its own code; the raw ISO code is the last resort, used only when no provider knows the code. When the model cannot represent part of the UPU line (Serbia's street-level PAK, Gabon's trailing office code), document the gap in the formatter comment and the country's [05-country-data](05-country-data.md) section instead of fabricating it.
@@ -245,7 +246,7 @@ Assert at minimum:
 
 Then exercise the consumer path once: seed the country, create an address with the role assignments from the new hierarchy, and run `SyncAddressAreaAssignmentsAction` — unknown roles and wrong-level areas must be rejected, correct assignments must persist.
 
-Add two formatter cases to the country's own `tests/src/Addressing/Geography/<Country>GeographyProviderTest.php` (bundled providers test their formatter there, not in a shared file): the main UPU layout with a real example from the research, plus one variant (missing postcode, twin dedup, or a documented edge such as a pass-through prefix). Use the country's real division names so the tests double as usage examples.
+Add two formatter cases to `tests/src/Addressing/Geography/CountryAddressFormattersTest.php`: the main UPU layout with a real example from the research, plus one variant (missing postcode, twin dedup, or a documented edge such as a pass-through prefix). Use the country's real division names so the tests double as usage examples.
 
 ## Registering the provider
 
@@ -320,7 +321,7 @@ Every assignment role and area type in use across the bundled providers, extract
 
 ### Area types by level
 
-Level 1 is always state-kind (one level per country, `areaLevel: 1`), except Singapore, which has no states: its level-1 `postal_district` and `region` are `kind: 'area'`.
+Level 1 is always state-kind (one level per country, `areaLevel: 1`), except Singapore, which has no state-kind level: its level-1 `postal_district` and `region` are `kind: 'area'`.
 
 State-level (kind `state`, level 1): administrative_precinct, administrative_region, arctic_region, area, atoll, autonomous_city, autonomous_community, autonomous_district, autonomous_oblast, autonomous_region, autonomous_republic, autonomous_sector, autonomous_territorial_unit, borough, canton, capital_city, capital_district, capital_territory, chain, city, city_with_county_rights, commune, county, department, dependency, district, districts_under_republic_administration, division, economic_prefecture, emirate, entity, federal_city, federal_dependency, federal_district, geographical_region, governorate, indigenous_region, island, island_council, krai, local_council, metropolitan_administration, metropolitan_city, municipality, nation, oblast, okrug, overseas_collectivity, overseas_region, parish, popularate, prefecture, province, quarter, region, republic, sheading, special_administrative_region, special_city, special_island_authority, special_municipality, special_self_governing_city, special_self_governing_province, state, state_city, territorial_unit, territory, town, town_council, union_territory, urban_community, urban_municipality, village, voivodeship, ward, wilaya, wilayah_persekutuan.
 

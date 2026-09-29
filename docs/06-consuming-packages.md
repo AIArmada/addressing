@@ -97,7 +97,7 @@ These packages should normally require or strongly depend on `aiarmada/addressin
 
 - customers
 - orders
-- events (including its `Venue` and institution/masjid models)
+- events / venues / institutions
 - shipping
 - cashier
 - commerce-support if shared address contracts live there

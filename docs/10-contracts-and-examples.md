@@ -195,11 +195,11 @@ final class SnapshotEventLocationAction
 namespace AIArmada\Chip\Support;
 
 use AIArmada\Addressing\Data\AddressData;
-use AIArmada\Chip\Models\ChipClient;
+use AIArmada\Chip\Models\Client;
 
-final class ChipClientAddressMapper
+final class ClientAddressMapper
 {
-    public function billingAddress(ChipClient $client): AddressData
+    public function billingAddress(Client $client): AddressData
     {
         return AddressData::from([
             'line1' => $client->street_address,
@@ -210,7 +210,7 @@ final class ChipClientAddressMapper
         ]);
     }
 
-    public function shippingAddress(ChipClient $client): AddressData
+    public function shippingAddress(Client $client): AddressData
     {
         return AddressData::from([
             'line1' => $client->shipping_street_address,
