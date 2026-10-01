@@ -78,6 +78,53 @@ final class AddressAreaHierarchy
         return 'Selected parent area would create a hierarchy cycle.';
     }
 
+    /**
+     * Validate a parent assignment against an explicit parent map.
+     *
+     * Unlike validateParentAssignment(), which walks stored rows, this sees
+     * caller-supplied links such as rows staged by an import that are not in
+     * the database yet. Ids missing from the map fall back to stored rows so
+     * chains leaving the map keep the database-backed behavior. The chain is
+     * walked for new and existing rows alike, and any repeated node fails the
+     * row, including a pre-existing loop the record itself is not part of.
+     *
+     * @param  array<string, string|null>  $parentById  area id => parent id (null roots)
+     */
+    public static function validateParentAssignmentInGraph(?string $recordId, string $candidateParentId, array $parentById): ?string
+    {
+        if ($recordId !== null && $recordId === $candidateParentId) {
+            return 'Selected parent area cannot be the current area.';
+        }
+
+        $visited = [];
+        $currentId = $candidateParentId;
+
+        while (true) {
+            if ($currentId === $recordId) {
+                return 'Selected parent area would create a hierarchy cycle.';
+            }
+
+            if (isset($visited[$currentId])) {
+                return 'Selected parent area would create a hierarchy cycle.';
+            }
+
+            $visited[$currentId] = true;
+
+            if (array_key_exists($currentId, $parentById)) {
+                $nextId = $parentById[$currentId];
+            } else {
+                $nextId = AddressArea::query()->select(['id', 'parent_id'])->find($currentId)?->parent_id;
+                $nextId = $nextId !== null ? (string) $nextId : null;
+            }
+
+            if ($nextId === null) {
+                return null;
+            }
+
+            $currentId = $nextId;
+        }
+    }
+
     public static function validateParentCompatibility(AddressArea $parent, ?int $childLevel): ?string
     {
         if ($childLevel === null || $parent->level === null) {

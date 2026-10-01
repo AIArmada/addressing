@@ -14,6 +14,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class GreeceGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
@@ -60,10 +61,7 @@ class GreeceGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
 
         // Achaea (13) and East Attica (A2) are pre-2011 prefecture codes,
         // not current regions. Delete stragglers seeded before that fix.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->whereIn('code', ['13', 'A2'])
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['13', 'A2']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

@@ -13,6 +13,8 @@ use AIArmada\Addressing\Models\AddressAreaRelationship;
 use AIArmada\Addressing\Support\AddressAreaStateBridge;
 use AIArmada\Addressing\Support\AddressOwnerGuard;
 use AIArmada\Addressing\Support\CountryAddressProfileResolver;
+use AIArmada\Addressing\Support\ModelResolver;
+use AIArmada\CommerceSupport\Support\OwnerScope;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +46,47 @@ final class SyncAddressAreaAssignmentsAction
             return;
         }
 
+        $selectedAssignments = $this->validate($this->persistedAddress($address), $assignments, $stateId);
+
+        DB::transaction(function () use ($address, $selectedAssignments, $metadata): void {
+            AddressAreaAssignment::query()
+                ->where('address_id', $address->getKey())
+                ->delete();
+
+            foreach ($selectedAssignments as $role => $areaId) {
+                AddressAreaAssignment::query()->create([
+                    'address_id' => $address->getKey(),
+                    'address_area_id' => $areaId,
+                    'role' => $role,
+                    'is_primary' => true,
+                    'metadata' => $metadata !== [] ? $metadata : null,
+                ]);
+            }
+        });
+    }
+
+    /**
+     * Validate an assignment map against authoritative address geography.
+     *
+     * Callers must pass persisted address data: the caller's in-memory model
+     * may carry unsaved or stale country/state values that must never widen
+     * or narrow validation.
+     *
+     * @param  array<string, string|null>  $assignments
+     * @return array<string, string>
+     */
+    public function validate(Address $address, array $assignments, ?string $stateId = null): array
+    {
+        if ($stateId !== null) {
+            $persistedStateId = $address->state_id;
+
+            if ($persistedStateId === null || (string) $stateId !== (string) $persistedStateId) {
+                throw ValidationException::withMessages([
+                    'state_id' => 'The selected state does not match the persisted address state.',
+                ]);
+            }
+        }
+
         $countryCode = mb_strtoupper(mb_trim((string) $address->country_code));
         $selectedAssignments = array_filter(
             $assignments,
@@ -69,7 +112,7 @@ final class SyncAddressAreaAssignmentsAction
 
             if (! $area instanceof AddressArea || $definition === null) {
                 throw ValidationException::withMessages([
-                    is_string($role) ? $role : 'address_areas' => 'The selected address area role is not defined by the country address profile.',
+                    $role => 'The selected address area role is not defined by the country address profile.',
                 ]);
             }
 
@@ -88,21 +131,137 @@ final class SyncAddressAreaAssignmentsAction
 
         $this->validateHierarchy($address, $selectedAssignments, $stateId, $areas, $countryCode);
 
-        DB::transaction(function () use ($address, $selectedAssignments, $metadata): void {
-            AddressAreaAssignment::query()
-                ->where('address_id', $address->getKey())
-                ->delete();
+        /** @var array<string, string> $selectedAssignments */
+        return $selectedAssignments;
+    }
 
-            foreach ($selectedAssignments as $role => $areaId) {
-                AddressAreaAssignment::query()->create([
-                    'address_id' => $address->getKey(),
-                    'address_area_id' => $areaId,
-                    'role' => $role,
-                    'is_primary' => true,
-                    'metadata' => $metadata !== [] ? $metadata : null,
-                ]);
+    /**
+     * Delete persisted assignments that are no longer valid under the
+     * address's current persisted geography.
+     *
+     * Still-valid roles are left untouched. Validity is decided solely by
+     * validate(), so pruning can never disagree with synchronization.
+     */
+    public function pruneIncompatibleAssignments(Address $address): void
+    {
+        AddressOwnerGuard::assertAddressIsWritable($address->getKey());
+
+        $persisted = $this->persistedAddress($address);
+
+        /** @var array<string, string> $current */
+        $current = AddressAreaAssignment::query()
+            ->where('address_id', $address->getKey())
+            ->pluck('address_area_id', 'role')
+            ->map(static fn (mixed $areaId): string => (string) $areaId)
+            ->all();
+
+        if ($current === []) {
+            return;
+        }
+
+        $removedRoles = array_map(
+            static fn (int | string $role): string => (string) $role,
+            array_keys(array_diff_key($current, $this->narrowToValidAssignments($persisted, $current))),
+        );
+
+        if ($removedRoles === []) {
+            return;
+        }
+
+        AddressAreaAssignment::query()
+            ->where('address_id', $address->getKey())
+            ->whereIn('role', $removedRoles)
+            ->delete();
+    }
+
+    /**
+     * Reduce an assignment map to the subset that validates, dropping only
+     * roles that validate() reports as offending.
+     *
+     * Owner-agnostic: reads only geography (`country_code`, `state_id`) and
+     * global area tables, so system cleanup can reuse it cross-owner. After
+     * a bulk `state_id` nulling that bypasses model events (for example
+     * state reference cleanup), reload the persisted address, pass its
+     * current assignments, and delete the returned diff without owner scope.
+     *
+     * @param  array<string, string>  $assignments
+     * @return array<string, string>
+     */
+    public function narrowToValidAssignments(Address $address, array $assignments): array
+    {
+        $candidates = $assignments;
+
+        while ($candidates !== []) {
+            try {
+                return $this->validate($address, $candidates);
+            } catch (ValidationException $exception) {
+                $offending = array_keys($exception->errors());
+
+                if (in_array('address_areas', $offending, true)) {
+                    $narrowed = $this->retainUsableAreas($address, $candidates);
+
+                    if ($narrowed === $candidates) {
+                        return [];
+                    }
+
+                    $candidates = $narrowed;
+
+                    continue;
+                }
+
+                foreach ($offending as $role) {
+                    unset($candidates[$role]);
+                }
             }
-        });
+        }
+
+        return [];
+    }
+
+    /**
+     * Keep only candidate areas that exist, are active, and belong to the
+     * address country: the same membership rule validate() enforces, used
+     * here to isolate which roles a country-level failure implicates.
+     *
+     * @param  array<string, string>  $assignments
+     * @return array<string, string>
+     */
+    private function retainUsableAreas(Address $address, array $assignments): array
+    {
+        $countryCode = mb_strtoupper(mb_trim((string) $address->country_code));
+
+        $usable = AddressArea::query()
+            ->whereIn('id', array_values($assignments))
+            ->where('country_code', $countryCode)
+            ->where('is_active', true)
+            ->pluck('id')
+            ->map(static fn (mixed $id): string => (string) $id)
+            ->flip()
+            ->all();
+
+        return array_filter(
+            $assignments,
+            static fn (mixed $areaId): bool => is_string($areaId) && isset($usable[$areaId]),
+        );
+    }
+
+    /**
+     * Reload the authoritative persisted row for validation.
+     *
+     * The caller's model may carry unsaved mutations or stale values; those
+     * must never widen or narrow validation, and this reload must not persist
+     * them back.
+     */
+    private function persistedAddress(Address $address): Address
+    {
+        $addressClass = ModelResolver::addressClass();
+        $query = $addressClass::query();
+
+        if (! $addressClass::ownerScopeConfig()->enabled) {
+            $query->withoutGlobalScope(OwnerScope::class);
+        }
+
+        return $query->whereKey($address->getKey())->firstOrFail();
     }
 
     private function areaMatchesDefinition(AddressArea $area, AddressLevelDefinition $definition): bool

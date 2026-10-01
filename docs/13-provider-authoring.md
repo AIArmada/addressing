@@ -107,7 +107,7 @@ private function stateDefinitions(): array
 }
 ```
 
-Use the country's own subdivision codes: ISO 3166-2 second parts (`AC`, `JK`), alpha codes (`BB`…`TH` for Germany), ISTAT numbers (`21`…`88` for Italy), or official numeric strings (`13`, `14` for Bahrain). State names use official endonyms with diacritics (`São Paulo`, `Bayern`, `Piemonte`). Mirror `resources/data/states.json` for names, codes, and ordering so the provider and the bundled data never drift. If a definition changes (a renamed or merged subdivision), delete the stale rows in `seed()` so reseeds converge; Indonesia (island-unit codes), Ethiopia (`SN`), and Iraq (`KR`) all carry such cleanup.
+Use the country's own subdivision codes: ISO 3166-2 second parts (`AC`, `JK`), alpha codes (`BB`…`TH` for Germany), ISTAT numbers (`21`…`88` for Italy), or official numeric strings (`13`, `14` for Bahrain). State names use official endonyms with diacritics (`São Paulo`, `Bayern`, `Piemonte`). Mirror `resources/data/states.json` for names, codes, and ordering so the provider and the bundled data never drift. If a definition changes (a renamed or merged subdivision), prune the stale rows in `seed()` with `GeographyReferenceCleanup::pruneStatesByCodes($country, [...])` so reseeds converge through model deletes with reference integrity; Indonesia (island-unit codes), Ethiopia (`SN`), and Iraq (`KR`) all carry such cleanup. Never bulk-delete states by query: it bypasses `State` events and leaves addresses, cities, and area links dangling.
 
 ## areaNames, areaRoles, areaRelationships
 

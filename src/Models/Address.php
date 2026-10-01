@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Actions\SyncAddressAreaAssignmentsAction;
 use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Contracts\AddressNormalizer;
 use AIArmada\Addressing\Data\AddressData;
@@ -86,6 +87,7 @@ class Address extends Model
         'postcode',
         'country',
         'country_code',
+        'components',
         'latitude',
         'longitude',
         'provider',
@@ -109,6 +111,14 @@ class Address extends Model
             if (! $preserveFormatted) {
                 $address->forceFill($address->regeneratedFormattedAttributes($normalized));
             }
+        });
+
+        static::updated(function (Address $address): void {
+            if (! $address->wasChanged(['country_code', 'country_id', 'state_id'])) {
+                return;
+            }
+
+            app(SyncAddressAreaAssignmentsAction::class)->pruneIncompatibleAssignments($address);
         });
 
         static::deleting(function (Address $address): void {

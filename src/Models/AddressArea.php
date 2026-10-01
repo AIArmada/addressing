@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Support\AddressAreaAssignmentOwnerScope;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
@@ -46,7 +47,10 @@ class AddressArea extends Model
     protected static function booted(): void
     {
         static::deleting(function (AddressArea $area): void {
-            AddressAreaAssignment::query()->where('address_area_id', $area->getKey())->delete();
+            AddressAreaAssignment::query()
+                ->withoutGlobalScope(AddressAreaAssignmentOwnerScope::class)
+                ->where('address_area_id', $area->getKey())
+                ->delete();
             AddressAreaName::query()->where('address_area_id', $area->getKey())->delete();
             AddressAreaPostalCode::query()->where('address_area_id', $area->getKey())->delete();
             AddressAreaRole::query()->where('address_area_id', $area->getKey())->delete();

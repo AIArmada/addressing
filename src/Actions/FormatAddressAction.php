@@ -32,11 +32,13 @@ class FormatAddressAction implements AddressFormatter
 
     private function formatGeneric(AddressData $address): string
     {
-        $lines = AddressLineFilter::present([
+        // AddressLineFilter preserves keys, so reindex: the postcode merge
+        // below addresses the last line by position.
+        $lines = array_values(AddressLineFilter::present([
             $address->line1,
             $address->line2,
             $address->line3,
-        ]);
+        ]));
 
         $cityLine = AddressLineFilter::present([
             $address->city,

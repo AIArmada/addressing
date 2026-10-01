@@ -50,6 +50,17 @@ class ImportAddressAreasAction
             // meaning: a parent later in the file is still "not found".
             $areasByKey = $this->preloadAreas($rows);
 
+            // Id-keyed parent map for cycle validation across the stored and
+            // staged graphs. Staged rows overlay their prepped links as the
+            // run advances, so a cycle routed through this file is caught.
+            $parentById = [];
+
+            foreach ($areasByKey as $preloaded) {
+                $parentById[(string) $preloaded['id']] = $preloaded['parent_id'] !== null
+                    ? (string) $preloaded['parent_id']
+                    : null;
+            }
+
             $inserts = [];
             $staged = [];
             $linkStates = [];
@@ -100,32 +111,72 @@ class ImportAddressAreasAction
                         continue;
                     }
 
-                    // New rows skip hierarchy validation: validating a null
-                    // record always passes. Note the cycle walk below queries
-                    // stored rows, so it cannot see rows staged by this run;
-                    // a cycle routed through staged rows is only reported
-                    // once every link exists in the database.
-                    if ($existing !== null) {
-                        $validationMessage = AddressAreaHierarchy::validateParentAssignment(
-                            $this->hydrateArea($existing),
-                            $this->hydrateArea($parent),
+                    // Parent checks apply to new and existing rows alike: the
+                    // parent must belong to the same country, must not close
+                    // a cycle through stored or staged rows, and must sit at
+                    // a lower level than the child.
+                    $parentCountryCode = isset($parent['country_code'])
+                        ? mb_strtoupper((string) $parent['country_code'])
+                        : null;
+
+                    if ($parentCountryCode !== $countryCode) {
+                        $failures[] = new ImportAddressAreaFailureData(
+                            sourceId: $areaData->sourceId,
+                            reason: 'The selected parent area must belong to the same country.',
+                            name: $areaData->name,
                         );
 
-                        if ($validationMessage !== null) {
-                            $failures[] = new ImportAddressAreaFailureData(
-                                sourceId: $areaData->sourceId,
-                                reason: $validationMessage,
-                                name: $areaData->name,
-                            );
-
-                            continue;
-                        }
+                        continue;
                     }
 
-                    $parentId = $parent['id'];
+                    $parentId = (string) $parent['id'];
+                    $cycleMessage = AddressAreaHierarchy::validateParentAssignmentInGraph(
+                        isset($existing['id']) ? (string) $existing['id'] : null,
+                        $parentId,
+                        $parentById,
+                    );
+
+                    if ($cycleMessage !== null) {
+                        $failures[] = new ImportAddressAreaFailureData(
+                            sourceId: $areaData->sourceId,
+                            reason: $cycleMessage,
+                            name: $areaData->name,
+                        );
+
+                        continue;
+                    }
+
+                    $levelMessage = AddressAreaHierarchy::validateParentCompatibility(
+                        $this->hydrateArea($parent),
+                        $areaData->level,
+                    );
+
+                    if ($levelMessage !== null) {
+                        $failures[] = new ImportAddressAreaFailureData(
+                            sourceId: $areaData->sourceId,
+                            reason: $levelMessage,
+                            name: $areaData->name,
+                        );
+
+                        continue;
+                    }
                 }
 
                 if ($dryRun) {
+                    // Dry-run stages the same graph without writing or firing
+                    // model events, so later rows validate exactly as they
+                    // would on a real import.
+                    $this->simulateStaged(
+                        $areaData,
+                        $key,
+                        $countryId,
+                        $countryCode,
+                        $parentId,
+                        $existing,
+                        $providerKey,
+                        $areasByKey,
+                    );
+                    $parentById[(string) $areasByKey[$key]['id']] = $parentId;
                     $skipped++;
 
                     continue;
@@ -145,6 +196,7 @@ class ImportAddressAreasAction
                     $inserts,
                     $staged,
                 );
+                $parentById[(string) $areasByKey[$key]['id']] = $parentId;
 
                 $this->trackLink($linkStates, $areaData, (string) $areasByKey[$key]['id'], $parentId, $providerKey);
 
@@ -199,6 +251,25 @@ class ImportAddressAreasAction
                 reason: 'Missing required field: name',
                 name: null,
             );
+        }
+
+        foreach ([
+            'source' => [$areaData->source, 255],
+            'sourceId' => [$areaData->sourceId, 255],
+            'countryCode' => [$areaData->countryCode, 2],
+            'type' => [$areaData->type, 255],
+            'name' => [$areaData->name, 255],
+            'nativeName' => [$areaData->nativeName, 255],
+            'code' => [$areaData->code, 255],
+            'parentSourceId' => [$areaData->parentSourceId, 255],
+        ] as $field => [$value, $limit]) {
+            if ($value !== null && mb_strlen($value) > $limit) {
+                return new ImportAddressAreaFailureData(
+                    sourceId: $areaData->sourceId,
+                    reason: "Field exceeds {$limit} characters: {$field}",
+                    name: $areaData->name,
+                );
+            }
         }
 
         if ($areaData->hierarchyType !== null && mb_trim($areaData->hierarchyType) === '') {
@@ -265,6 +336,74 @@ class ImportAddressAreasAction
     }
 
     /**
+     * @return array<string, mixed>
+     */
+    private function rowData(
+        AddressAreaData $areaData,
+        string $countryId,
+        string $countryCode,
+        ?string $parentId,
+        ?string $providerKey,
+    ): array {
+        $metadata = $areaData->metadata;
+
+        if ($providerKey !== null) {
+            $metadata['provider'] = $providerKey;
+        }
+
+        return [
+            'country_id' => $countryId,
+            'parent_id' => $parentId,
+            'country_code' => $countryCode,
+            'type' => $areaData->type,
+            'level' => $areaData->level,
+            'name' => $areaData->name,
+            'native_name' => $areaData->nativeName,
+            'code' => $areaData->code,
+            'slug' => Str::limit(Str::slug($areaData->name), 255, ''),
+            'latitude' => $areaData->latitude,
+            'longitude' => $areaData->longitude,
+            'source' => $areaData->source,
+            'source_id' => $areaData->sourceId,
+            'parent_source_id' => $areaData->parentSourceId,
+            'source_payload' => $areaData->sourcePayload !== [] ? $areaData->sourcePayload : null,
+            'metadata' => $metadata !== [] ? $metadata : null,
+        ];
+    }
+
+    /**
+     * Stage a validated row for dry-run without writing or firing events.
+     *
+     * @param  array<string, mixed>|null  $existing
+     * @param  array<string, array<string, mixed>>  $areasByKey
+     */
+    private function simulateStaged(
+        AddressAreaData $areaData,
+        string $key,
+        string $countryId,
+        string $countryCode,
+        ?string $parentId,
+        ?array $existing,
+        ?string $providerKey,
+        array &$areasByKey,
+    ): void {
+        $data = $this->rowData($areaData, $countryId, $countryCode, $parentId, $providerKey);
+
+        if ($existing === null) {
+            $areasByKey[$key] = [
+                ...$data,
+                'id' => (string) Str::uuid7(),
+            ];
+
+            return;
+        }
+
+        // A repeated source id later in the file updates the staged row,
+        // mirroring the last-duplicate-wins real path.
+        $areasByKey[$key] = array_merge($existing, $data);
+    }
+
+    /**
      * @param  array<string, mixed>|null  $existing
      * @param  array<string, array<string, mixed>>  $areasByKey
      * @param  array<string, array<string, mixed>>  $inserts
@@ -285,30 +424,7 @@ class ImportAddressAreasAction
         array &$inserts,
         array &$staged,
     ): string {
-        $metadata = $areaData->metadata;
-
-        if ($providerKey !== null) {
-            $metadata['provider'] = $providerKey;
-        }
-
-        $data = [
-            'country_id' => $countryId,
-            'parent_id' => $parentId,
-            'country_code' => $countryCode,
-            'type' => $areaData->type,
-            'level' => $areaData->level,
-            'name' => $areaData->name,
-            'native_name' => $areaData->nativeName,
-            'code' => $areaData->code,
-            'slug' => Str::slug($areaData->name),
-            'latitude' => $areaData->latitude,
-            'longitude' => $areaData->longitude,
-            'source' => $areaData->source,
-            'source_id' => $areaData->sourceId,
-            'parent_source_id' => $areaData->parentSourceId,
-            'source_payload' => $areaData->sourcePayload !== [] ? $areaData->sourcePayload : null,
-            'metadata' => $metadata !== [] ? $metadata : null,
-        ];
+        $data = $this->rowData($areaData, $countryId, $countryCode, $parentId, $providerKey);
 
         if ($existing === null) {
             $payload = [

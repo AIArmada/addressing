@@ -2069,7 +2069,7 @@ The bundled `GeorgiaGeographyProvider` supplies the 9 regions plus
 the Abkhazia and Adjara autonomous republics and Tbilisi as `State`
 rows and a two-level administrative hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('GE')` after countries are seeded.
-The 65 municipalities, 16 districts and 4 self-governing cities ship as level-2 areas under their regions, republics and Tbilisi.
+The 65 municipalities, 16 districts and 4 self-governing cities ship as level-2 areas under their regions, republics and Tbilisi. The level-2 cities share the `municipality` assignment role with municipalities and districts; Tbilisi stays on the level-1 `city` role.
 
 Georgian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 4-digit postcode, the region on its
@@ -3281,7 +3281,9 @@ The Alytus, Kaunas, Šiauliai, and Vilnius city/district pairs differ
 by type (`city_municipality` vs `district_municipality`) and name
 (`Vilniaus miestas` vs `Vilnius`); the district slugs keep their code
 suffix (e.g. `vilnius-58`) for stability. Klaipėda, Palanga, and
-Panevėžys cities use the same `miestas` convention.
+Panevėžys cities use the same `miestas` convention. All three municipal
+types share the `municipality` assignment role so role-filtered lookups
+find every level-2 row.
 
 Lithuanian addresses are formatted per the UPU layout: street lines,
 `{postcode} {locality}` with a 5-digit postcode, and country.

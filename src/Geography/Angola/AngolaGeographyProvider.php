@@ -13,6 +13,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
@@ -48,10 +49,7 @@ class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
 
         // Cuando Cubango split into Cuando and Cubango under the 2024 law.
         // Delete stragglers seeded before the split so reseeds converge.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->where('code', 'CCU')
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['CCU']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

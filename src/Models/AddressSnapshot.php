@@ -11,6 +11,7 @@ use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use LogicException;
 
 /**
  * @property string $id
@@ -110,6 +111,10 @@ class AddressSnapshot extends Model
             if ($addressId !== null) {
                 AddressOwnerGuard::assertAddressIsWritable($addressId);
             }
+        });
+
+        static::updating(function (): void {
+            throw new LogicException('Address snapshots are immutable and cannot be updated.');
         });
     }
 }

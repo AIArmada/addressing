@@ -13,6 +13,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class LuxembourgGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
@@ -63,10 +64,7 @@ class LuxembourgGeographyProvider implements CountryAddressAreaMetadataProvider,
 
         // Single-letter district codes G/L were replaced by canton codes
         // GR/LU. Delete stragglers seeded before that fix.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->whereIn('code', ['G', 'L'])
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['G', 'L']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

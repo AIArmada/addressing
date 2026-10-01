@@ -12,6 +12,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class MaldivesGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
@@ -48,10 +49,7 @@ class MaldivesGeographyProvider implements CountryAddressAreaMetadataProvider, C
         // Gnaviyani atoll was absorbed by Fuvahmulah city, which covers it
         // entirely. Delete stragglers seeded before the fix so reseeds
         // converge on the 18 atolls plus 5 cities.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->where('code', '29')
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['29']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

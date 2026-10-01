@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Models;
 
 use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property string $id
@@ -24,6 +26,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class City extends Model
 {
     use HasUuids;
+
+    protected static function booted(): void
+    {
+        static::deleting(static function (City $city): void {
+            GeographyReferenceCleanup::cleanupCityReferences($city);
+        });
+    }
+
+    public function delete(): ?bool
+    {
+        return DB::transaction(fn (): ?bool => parent::delete());
+    }
 
     protected $fillable = [
         'country_id',

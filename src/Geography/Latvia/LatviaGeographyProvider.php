@@ -14,6 +14,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
@@ -64,10 +65,7 @@ class LatviaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
 
         // Varakļāni Municipality merged into Madona on 1 July 2025.
         // Delete stragglers seeded before that fix.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->where('code', '102')
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['102']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

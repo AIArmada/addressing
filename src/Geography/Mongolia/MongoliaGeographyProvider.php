@@ -13,6 +13,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class MongoliaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
@@ -48,10 +49,7 @@ class MongoliaGeographyProvider implements CountryAddressAreaMetadataProvider, C
 
         // Ulaanbaatar follows ISO MN-1 (single digit). Delete stragglers
         // seeded with the zero-padded code so reseeds converge.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->where('code', '001')
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['001']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

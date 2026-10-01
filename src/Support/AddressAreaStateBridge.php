@@ -72,6 +72,44 @@ final class AddressAreaStateBridge
     }
 
     /**
+     * Forget cached bridge entries for a state.
+     *
+     * Call after the state's links are deleted (state delete, provider
+     * prune) so primed forward lookups and reverse lookups pointing at the
+     * state re-query instead of returning the deleted mapping later in the
+     * same request. Unrelated cached entries are kept.
+     */
+    public static function forgetState(State | string | null $state): void
+    {
+        $stateId = $state instanceof State ? (string) $state->getKey() : $state;
+
+        if (! is_string($stateId) || $stateId === '' || ! app()->bound('request')) {
+            return;
+        }
+
+        $request = request();
+        $cache = $request->attributes->get(self::REQUEST_CACHE_KEY, []);
+
+        if (! is_array($cache)) {
+            return;
+        }
+
+        foreach ($cache as $key => $value) {
+            if (! is_string($key)) {
+                continue;
+            }
+
+            if (str_starts_with($key, $stateId . ':')) {
+                unset($cache[$key]);
+            } elseif (str_starts_with($key, 'area:') && $value === $stateId) {
+                unset($cache[$key]);
+            }
+        }
+
+        $request->attributes->set(self::REQUEST_CACHE_KEY, $cache);
+    }
+
+    /**
      * Resolve a State from an explicitly linked AddressArea or any ancestor.
      */
     public static function stateIdForArea(AddressArea | string | null $area): ?string

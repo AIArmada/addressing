@@ -13,6 +13,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class EthiopiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
@@ -49,10 +50,7 @@ class EthiopiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
         // The Southern Nations, Nationalities, and Peoples' Region was
         // dissolved in August 2023 (split into Sidama, Southwest, South,
         // and Central Ethiopia). Delete stragglers seeded before that fix.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->where('code', 'SN')
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['SN']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

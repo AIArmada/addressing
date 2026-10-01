@@ -102,11 +102,13 @@ class LithuaniaGeographyProvider implements CountryAddressAreaMetadataProvider, 
         $roles = [];
 
         foreach ($this->addressAreaSource()->areas() as $area) {
+            // All three municipal types share the profile's municipality
+            // assignment role so role-filtered lookups find every L2 row.
             $areaRoles = match ($area->type) {
                 'county' => ['county'],
-                'district_municipality' => ['district_municipality'],
+                'district_municipality' => ['municipality'],
                 'municipality' => ['municipality'],
-                'city_municipality' => ['city_municipality'],
+                'city_municipality' => ['municipality'],
                 default => [],
             };
 

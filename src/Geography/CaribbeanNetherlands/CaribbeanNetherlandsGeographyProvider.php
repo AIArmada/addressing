@@ -13,6 +13,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class CaribbeanNetherlandsGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
@@ -48,10 +49,7 @@ class CaribbeanNetherlandsGeographyProvider implements CountryAddressAreaMetadat
 
         // Malformed codes BQ1/BQ2/BQ3 were replaced by ISO codes BO/SA/SE.
         // Delete stragglers seeded before that fix.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->whereIn('code', ['BQ1', 'BQ2', 'BQ3'])
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['BQ1', 'BQ2', 'BQ3']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

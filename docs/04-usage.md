@@ -94,6 +94,34 @@ When a reference ID is present, its persisted name and country relationship
 win over conflicting free-text fields. If an explicit reference ID cannot be
 resolved, normalization throws instead of preserving a stale ID.
 
+Deleting a `State` nulls live `addresses.state_id` and `cities.state_id`
+pointers cross-owner (free-text `state`/`city` and snapshots are preserved)
+and clears `address_area_state_links`, then prunes only area assignments that
+no longer validate without the state. Deleting a `City` nulls
+`addresses.city_id` the same way. Both deletes run in a transaction with no
+database cascades. Provider `seed()` stale-state cleanup must reuse
+`GeographyReferenceCleanup::pruneStatesByCodes()` so the same integrity runs
+instead of bulk deletes that bypass model events.
+
+State selectors should offer only provider state-kind roots so every option
+resolves to an area parent. Use the core seam instead of hardcoding country
+lists:
+
+```php
+use AIArmada\Addressing\Support\CountryAddressProfileResolver;
+
+$resolver = app(CountryAddressProfileResolver::class);
+
+// Null when no filtering applies (provider-less countries fall back to all
+// states); otherwise the mapped codes, e.g. 4 nations for GB, 10 counties
+// for LT. Lower-tier rows stay in the database for City references.
+$codes = $resolver->stateSelectionCodes('GB');
+
+// ModelResolver-aware query scoped to the country and, when applicable,
+// to those codes.
+$options = $resolver->stateOptionsQuery('GB')?->pluck('name', 'id')->all() ?? [];
+```
+
 ### Seed Malaysia geography
 
 ```php
@@ -483,12 +511,14 @@ $areas = app(SearchAddressAreasAction::class)->execute(
 ~~~
 
 Search supports canonical names, aliases, place type, address role, parent
-area and postcode filters.
+area and postcode filters. It queries the configured `addressing.models.area`
+subclass through `ModelResolver`, so custom global scopes apply.
 
 For incomplete external place-provider results, use the package hierarchy
 resolver to locate a named area below a known state root and recover its typed
-ancestor. The resolver is provider-agnostic; integrations remain responsible
-for translating provider components into the canonical area types and roles.
+ancestor. The resolver is provider-agnostic and only considers active
+candidates; integrations remain responsible for translating provider
+components into the canonical area types and roles.
 
 ~~~php
 use AIArmada\Addressing\Support\AddressAreaHierarchyResolver;
@@ -596,6 +626,10 @@ Assignment sync is authoritative: pass the complete current role map. Passing an
 
 Only area-kind roles are accepted as assignment keys. The `state_id` pseudo-role and any other non-area role are rejected — state travels through the `stateId` parameter and the `addresses.state_id` column, never as an assignment. Unknown roles are rejected as not defined by the country profile. All validation runs before any write, so a rejected payload persists nothing.
 
+Validation always uses the persisted address row: unsaved or stale `country_code`/`state_id` on the caller model never widen or narrow the check. When `stateId` is passed it must match the persisted `state_id`; a contradictory explicit state is rejected instead of attaching another state's areas while the address stays put. Persist the state change first, then sync.
+
+Pruning (`pruneIncompatibleAssignments`, called from `Address::updated` when country/state changes) keeps still-valid roles and drops only roles `validate()` reports. System cleanup that bulk-nulls `state_id` without model events must reuse the owner-agnostic `narrowToValidAssignments($persistedAddress, $currentMap)` seam and delete the diff cross-owner; the seam reads only geography and global area tables.
+
 ### Resolving assignment roles
 
 ```php
@@ -698,7 +732,7 @@ source_id,country_code,type,name,native_name,code,parent_source_id,level,latitud
 1,MY,state,Selangor,Selangor,SGR,,1,3.0738,101.5183,,,{},{}
 ```
 
-Re-imports are idempotent: rows without changes are reported as skipped. Dry-run mode validates every row (including parent and hierarchy checks) without writing. Re-imports never reactivate areas an operator deactivated; pass `--reactivate` (or `reactivate: true`) to opt back in:
+Re-imports are idempotent: rows without changes are reported as skipped. Parent checks apply to new and existing rows alike: the parent must belong to the same country, sit at a lower level, and never close a cycle through persisted or staged rows. A repeated source id later in the file wins. Dry-run mode stages the same graph without writing or firing model events, so children of parents earlier in the payload validate exactly as on a real import. Re-imports never reactivate areas an operator deactivated; pass `--reactivate` (or `reactivate: true`) to opt back in:
 
 ```bash
 php artisan address:import-areas --csv=/path/to/areas.csv --source-key=my-source --reactivate
@@ -720,8 +754,12 @@ $area = app(SaveAddressAreaAction::class)->handle([
 ```
 
 `handle()` validates that the country exists and the parent belongs to the
-same country, derives the slug from the name, and maintains the typed
-hierarchy edge when `hierarchy_type` is supplied. Manual rows use
+same country, derives the slug from the name, and honors an explicit
+`is_active` boolean (omitted keeps the column default on create and the
+stored value on update). Source-owned `contains` edges follow the parent:
+a parent-only move carries existing edges with their hierarchy types, a
+detach clears them and `parent_source_id`, and unrelated sources or
+relationship types are left untouched. Manual rows use
 `source: 'manual'` by default so provider reseeds never touch them. The
 Filament adapter calls this action from its area create/edit pages.
 
@@ -757,6 +795,19 @@ OwnerContext::withOwner($owner, function () use ($customer, $address): void {
 
 Global address records require explicit global context and are not implicitly
 shared with tenants.
+
+`primaryAddress()` re-checks an already-loaded `addresses` collection against
+the current owner before using it: both the address and its pivot must be
+visible, original owner state wins over caller mutations, and
+`OwnerScopeOverride` suppression is honoured. A partial preload that omits
+owner columns abandons the cache and runs a fresh scoped query instead of
+trusting a null-looking tuple; full eager loads still hit the cache with no
+query.
+
+Assignment visibility follows the parent address through the configured
+`address` relation, so custom address tables, keys, and extra visibility
+scopes apply. Deleting a reference area still clears its assignments
+cross-owner by design.
 
 The customers package uses the shared `addresses()` relation for checkout
 hydration and typed billing/shipping defaults. Attach and resolve addresses
@@ -838,7 +889,7 @@ $formatted = app(FormatAddressAction::class)->format($address);
 //  Malaysia"
 ```
 
-When `countryCode` is present, the action uses the configured country-specific formatter when one is available. Otherwise it uses the generic line-based formatter.
+When `countryCode` is present, the action uses the configured country-specific formatter when one is available. Otherwise it uses the generic line-based formatter. The generic path preserves sparse street lines and zero values, and the US/CA/AU/BR/MX full state-name lookups are case-insensitive.
 
 Saving an `Address` regenerates `formatted_address` and `formatted_lines` automatically whenever address inputs change, unless you explicitly set a formatted value on that save. Saves that touch no address inputs skip normalization entirely.
 

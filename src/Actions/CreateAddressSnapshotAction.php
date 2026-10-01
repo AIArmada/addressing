@@ -53,6 +53,9 @@ class CreateAddressSnapshotAction
             'country' => $data->country,
             'country_code' => $data->countryCode,
             'formatted_address' => $data->formatted,
+            'formatted_lines' => $data->formatted !== null && mb_trim($data->formatted) !== ''
+                ? explode("\n", $data->formatted)
+                : null,
             'components' => $data->components !== [] ? $data->components : null,
             'latitude' => $data->latitude,
             'longitude' => $data->longitude,

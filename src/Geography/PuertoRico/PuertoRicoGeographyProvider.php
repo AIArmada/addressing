@@ -14,6 +14,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\Addressing\Support\UsZipCodeKeys;
 
@@ -57,10 +58,7 @@ class PuertoRicoGeographyProvider implements CountryAddressAreaMetadataProvider,
         // Ten municipios were mistyped as regions with invented 2-letter
         // codes. Delete stragglers seeded before the FIPS fix so reseeds
         // converge on the 78 FIPS-coded municipios.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->whereIn('code', ['AR', 'BY', 'CG', 'CL', 'GN', 'MG', 'PO', 'SJ', 'TB', 'TA'])
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['AR', 'BY', 'CG', 'CL', 'GN', 'MG', 'PO', 'SJ', 'TB', 'TA']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

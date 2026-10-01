@@ -7,6 +7,7 @@ namespace AIArmada\Addressing\Actions;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Models\AddressArea;
+use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\CommerceSupport\Support\LikeSearch;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
@@ -47,9 +48,10 @@ final class SearchAddressAreasAction
             return new Collection;
         }
 
-        $escapeClause = LikeSearch::escapeClause(AddressArea::query()->getConnection());
+        $areaClass = ModelResolver::areaClass();
+        $escapeClause = LikeSearch::escapeClause($areaClass::query()->getConnection());
 
-        return AddressArea::query()
+        return $areaClass::query()
             ->where('is_active', true)
             ->when($countryCode !== null, fn (Builder $builder): Builder => $builder->where('country_code', mb_strtoupper($countryCode)))
             ->when($type !== null, fn (Builder $builder): Builder => $builder->where('type', $type))

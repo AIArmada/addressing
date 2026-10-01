@@ -12,6 +12,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class TrinidadAndTobagoGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
@@ -47,10 +48,7 @@ class TrinidadAndTobagoGeographyProvider implements CountryAddressAreaMetadataPr
 
         // Eastern/Western Tobago (ETO/WTO) are stale splits; Tobago is a
         // single ward. Delete stragglers seeded before that fix.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->whereIn('code', ['ETO', 'WTO'])
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['ETO', 'WTO']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

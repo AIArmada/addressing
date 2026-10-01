@@ -92,7 +92,19 @@ final class BrazilAddressFormatter implements CountryAddressFormatter
             return $upper;
         }
 
-        return self::STATE_ABBREVIATIONS[$state] ?? $state;
+        if (isset(self::STATE_ABBREVIATIONS[$state])) {
+            return self::STATE_ABBREVIATIONS[$state];
+        }
+
+        $folded = mb_strtolower($state);
+
+        foreach (self::STATE_ABBREVIATIONS as $name => $abbreviation) {
+            if (mb_strtolower($name) === $folded) {
+                return $abbreviation;
+            }
+        }
+
+        return $state;
     }
 
     private static function textOrNull(?string $value): ?string

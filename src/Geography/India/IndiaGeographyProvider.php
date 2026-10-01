@@ -12,6 +12,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class IndiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider
@@ -47,10 +48,7 @@ class IndiaGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
 
         // ISO 3166-2:IN amendment of 23 November 2023 renamed subdivision
         // codes (CT->CG, OR->OD, TG->TS). Delete stragglers.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->whereIn('code', ['CT', 'OR', 'TG'])
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['CT', 'OR', 'TG']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

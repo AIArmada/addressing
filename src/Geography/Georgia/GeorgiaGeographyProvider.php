@@ -99,13 +99,15 @@ class GeorgiaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         $roles = [];
 
         foreach ($this->addressAreaSource()->areas() as $area) {
+            // Tbilisi is a level-1 root city (state kind); the four
+            // self-governing cities are level-2 and share the municipality
+            // assignment role with municipalities and districts.
             $areaRoles = match ($area->type) {
                 'region' => ['region'],
                 'autonomous_republic' => ['autonomous_republic'],
-                'city' => ['city'],
                 'municipality' => ['municipality'],
                 'district' => ['municipality'],
-                'city' => ['municipality'],
+                'city' => $area->level === 1 || $area->parentSourceId === null ? ['city'] : ['municipality'],
                 default => [],
             };
 

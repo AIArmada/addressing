@@ -35,6 +35,7 @@ final class AddressAreaHierarchyResolver
 
         /** @var Collection<int, AddressArea> $matches */
         $matches = AddressArea::query()
+            ->where('is_active', true)
             ->when($countryId !== null, fn (Builder $query): Builder => $query->where('country_id', $countryId))
             ->whereIn('type', $types)
             ->whereRaw('LOWER(name) = ?', [$normalizedName])
@@ -65,6 +66,7 @@ final class AddressAreaHierarchyResolver
 
         /** @var Collection<int, AddressArea> $matches */
         $matches = AddressArea::query()
+            ->where('is_active', true)
             ->when($countryId !== null, fn (Builder $query): Builder => $query->where('country_id', $countryId))
             ->whereRaw('LOWER(name) = ?', [$normalizedName])
             ->whereHas('roles', fn (Builder $query): Builder => $query->where('role', $role))

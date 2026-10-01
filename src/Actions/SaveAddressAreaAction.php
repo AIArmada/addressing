@@ -62,13 +62,19 @@ final class SaveAddressAreaAction
             'name' => $name,
             'native_name' => $this->resolveNullableString($attributes, 'native_name', $record->native_name),
             'code' => $this->resolveNullableString($attributes, 'code', $record->code),
-            'slug' => Str::slug($name),
+            'slug' => Str::limit(Str::slug($name), 255, ''),
             'latitude' => $this->resolveNullableScalar($attributes, 'latitude', $record->latitude),
             'longitude' => $this->resolveNullableScalar($attributes, 'longitude', $record->longitude),
             'source' => $source,
             'source_id' => $sourceId,
             'parent_source_id' => $this->resolveParentSourceId($attributes, $record, $parent),
         ]);
+
+        // Omitted on create, the column default (active) applies; omitted on
+        // update, the stored value stands. An explicit boolean always wins.
+        if (array_key_exists('is_active', $attributes)) {
+            $record->is_active = (bool) $attributes['is_active'];
+        }
 
         if ($parent instanceof AddressArea) {
             $childLevel = $record->level !== null ? (int) $record->level : null;
@@ -81,32 +87,59 @@ final class SaveAddressAreaAction
             }
         }
 
-        DB::transaction(function () use ($record, $attributes, $parent, $previousSource): void {
+        $previousParentId = $record->exists ? $record->getOriginal('parent_id') : null;
+        $previousParentId = $previousParentId !== null ? (string) $previousParentId : null;
+
+        DB::transaction(function () use ($record, $attributes, $parent, $previousSource, $previousParentId): void {
             $record->save();
 
-            if (! array_key_exists('hierarchy_type', $attributes)) {
+            $hierarchyTypeProvided = array_key_exists('hierarchy_type', $attributes);
+            $currentParentId = $record->parent_id !== null ? (string) $record->parent_id : null;
+
+            if (! $hierarchyTypeProvided && $previousParentId === $currentParentId) {
                 return;
             }
 
-            $hierarchyType = $this->resolveNullableString($attributes, 'hierarchy_type');
+            $sources = array_values(array_filter(
+                [$previousSource, $record->source],
+                static fn (?string $source): bool => $source !== null && $source !== '',
+            ));
 
-            AddressAreaRelationship::query()
+            // Only source-owned containment edges move with the save; other
+            // sources and relationship types are left untouched.
+            $ownedLinks = static fn () => AddressAreaRelationship::query()
                 ->where('child_address_area_id', $record->getKey())
-                ->whereIn('source', array_filter(
-                    [$previousSource, $record->source],
-                    static fn (?string $source): bool => $source !== null && $source !== '',
-                ))
-                ->delete();
+                ->where('relationship_type', 'contains')
+                ->whereIn('source', $sources);
 
-            if ($hierarchyType !== null && $parent instanceof AddressArea) {
-                AddressAreaRelationship::query()->create([
-                    'parent_address_area_id' => $parent->getKey(),
-                    'child_address_area_id' => $record->getKey(),
-                    'relationship_type' => 'contains',
-                    'hierarchy_type' => $hierarchyType,
-                    'source' => $record->source,
-                ]);
+            if ($hierarchyTypeProvided) {
+                $hierarchyType = $this->resolveNullableString($attributes, 'hierarchy_type');
+
+                $ownedLinks()->delete();
+
+                if ($hierarchyType !== null && $parent instanceof AddressArea) {
+                    AddressAreaRelationship::query()->create([
+                        'parent_address_area_id' => $parent->getKey(),
+                        'child_address_area_id' => $record->getKey(),
+                        'relationship_type' => 'contains',
+                        'hierarchy_type' => $hierarchyType,
+                        'source' => $record->source,
+                    ]);
+                }
+
+                return;
             }
+
+            // The parent moved without a new hierarchy type: carry the
+            // existing containment edges to the new parent (keeping their
+            // hierarchy types) or drop them on detach.
+            if (! $parent instanceof AddressArea) {
+                $ownedLinks()->delete();
+
+                return;
+            }
+
+            $ownedLinks()->update(['parent_address_area_id' => $parent->getKey()]);
         });
 
         return $record->fresh(['country', 'parent']) ?? $record;
@@ -250,7 +283,17 @@ final class SaveAddressAreaAction
             return $this->resolveNullableString($attributes, 'parent_source_id', $record->parent_source_id);
         }
 
-        return $parent instanceof AddressArea ? $parent->source_id : $record->parent_source_id;
+        if ($parent instanceof AddressArea) {
+            return $parent->source_id;
+        }
+
+        // An explicit detach clears the stale pointer; an untouched parent
+        // keeps the stored value.
+        if (array_key_exists('parent_id', $attributes)) {
+            return null;
+        }
+
+        return $record->parent_source_id;
     }
 
     private function generatedSourceId(AddressCountry $country, string $type, string $name): string

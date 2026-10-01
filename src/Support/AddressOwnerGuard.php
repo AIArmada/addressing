@@ -8,6 +8,7 @@ use AIArmada\Addressing\Models\Addressable;
 use AIArmada\CommerceSupport\Support\OwnerContext;
 use AIArmada\CommerceSupport\Support\OwnerQuery;
 use AIArmada\CommerceSupport\Support\OwnerScope;
+use AIArmada\CommerceSupport\Support\OwnerScopeOverride;
 use AIArmada\CommerceSupport\Support\OwnerWriteGuard;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
@@ -34,7 +35,7 @@ final class AddressOwnerGuard
         OwnerQuery::applyToQueryBuilder(
             $relation->getQuery()->getQuery(),
             $owner,
-            $config->includeGlobal,
+            OwnerScopeOverride::suppressIncludeGlobal() ? false : $config->includeGlobal,
             $relation->getTable() . '.' . $config->ownerTypeColumn,
             $relation->getTable() . '.' . $config->ownerIdColumn,
         );
@@ -47,7 +48,7 @@ final class AddressOwnerGuard
         $addressClass = ModelResolver::addressClass();
 
         if (! $addressClass::ownerScopeConfig()->enabled) {
-            $addressClass::query()->whereKey($addressId)->firstOrFail();
+            $addressClass::query()->withoutGlobalScope(OwnerScope::class)->whereKey($addressId)->firstOrFail();
 
             return;
         }

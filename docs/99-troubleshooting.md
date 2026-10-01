@@ -160,7 +160,7 @@ line.
 
 ## Area Assignment Role Rejected
 
-`SyncAddressAreaAssignmentsAction` throws `The selected address area role is not defined by the country address profile.` for unknown roles — check the role against `CountryAddressProfileResolver::definitionForRole()` for that country. It throws `The selected role is not an assignable area role.` for `state_id` and other non-area roles: pass state through the action's `stateId` parameter instead of the assignments map.
+`SyncAddressAreaAssignmentsAction` throws `The selected address area role is not defined by the country address profile.` for unknown roles — check the role against `CountryAddressProfileResolver::definitionForRole()` for that country. It throws `The selected role is not an assignable area role.` for `state_id` and other non-area roles: pass state through the action's `stateId` parameter instead of the assignments map. It throws `The selected state does not match the persisted address state.` when `stateId` contradicts the persisted `state_id` — save the address state first so the two agree.
 
 ## Address Has Text State/City but No Relations
 

@@ -13,6 +13,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class IraqGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
@@ -49,10 +50,7 @@ class IraqGeographyProvider implements CountryAddressAreaMetadataProvider, Count
         // Iqlim Kurdistan is an autonomous region overlapping Erbil, Dohuk,
         // Sulaymaniyah, and Halabja — not a governorate. Delete stragglers
         // seeded before that fix.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->where('code', 'KR')
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['KR']);
     }
 
     /** @return list<AddressHierarchyDefinition> */

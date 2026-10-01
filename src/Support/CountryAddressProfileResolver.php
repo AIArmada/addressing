@@ -6,9 +6,11 @@ namespace AIArmada\Addressing\Support;
 
 use AIArmada\Addressing\Contracts\CountryAddressProfile;
 use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
+use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
+use AIArmada\Addressing\Models\State;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -90,6 +92,80 @@ final class CountryAddressProfileResolver
     public function stateLevel(mixed $country): ?AddressLevelDefinition
     {
         return $this->stateDefinition($country)['level'] ?? null;
+    }
+
+    /**
+     * State codes that back the provider's state-kind level, if any.
+     *
+     * Returns null when no filtering applies: unknown or provider-less
+     * countries, profiles without a state level, or providers without
+     * state-area mappings. Consumers list all states in that case.
+     * Otherwise returns the mapping keys (stringified, unique) so selectors
+     * offer only roots that resolve to an area parent. Mapping area codes
+     * live in a different namespace and are never selection codes.
+     * Lower-tier State rows stay in the database for City references; this
+     * only narrows selection.
+     *
+     * @return list<string>|null
+     */
+    public function stateSelectionCodes(mixed $country): ?array
+    {
+        $provider = $this->resolve($country);
+
+        if (! $provider instanceof CountryAddressProfile) {
+            return null;
+        }
+
+        if ($this->stateLevel($country) === null) {
+            return null;
+        }
+
+        if (! $provider instanceof CountryHierarchyProvider) {
+            return null;
+        }
+
+        $mappings = $provider->stateAreaMappings();
+
+        if ($mappings === []) {
+            return null;
+        }
+
+        return array_values(array_unique(array_map(
+            static fn (int | string $key): string => (string) $key,
+            array_keys($mappings),
+        )));
+    }
+
+    /**
+     * State options query for the provider's state-kind roots.
+     *
+     * Returns null when the country cannot be resolved. Otherwise returns a
+     * ModelResolver-aware State query scoped to the country and, when the
+     * provider defines state-kind roots, to those codes. Provider-less
+     * countries fall back to all states.
+     *
+     * @return EloquentBuilder<State>|null
+     */
+    public function stateOptionsQuery(mixed $country): ?EloquentBuilder
+    {
+        $resolved = $this->countryResolver->resolve($country);
+
+        if (! $resolved instanceof AddressCountry) {
+            return null;
+        }
+
+        $stateClass = ModelResolver::stateClass();
+        $query = $stateClass::query()
+            ->where('country_id', $resolved->getKey())
+            ->orderBy('name');
+
+        $codes = $this->stateSelectionCodes($country);
+
+        if ($codes !== null) {
+            $query->whereIn('code', $codes);
+        }
+
+        return $query;
     }
 
     /**

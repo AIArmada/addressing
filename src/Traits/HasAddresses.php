@@ -9,9 +9,13 @@ use AIArmada\Addressing\Models\Addressable;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\AddressOwnerGuard;
 use AIArmada\Addressing\Support\ModelResolver;
+use AIArmada\CommerceSupport\Support\OwnerContext;
+use AIArmada\CommerceSupport\Support\OwnerScopeConfig;
+use AIArmada\CommerceSupport\Support\OwnerScopeOverride;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -43,18 +47,11 @@ trait HasAddresses
     public function primaryAddress(?string $type = null): ?Address
     {
         if ($this->relationLoaded('addresses')) {
-            /** @var Collection<int, Address> $addresses */
-            $addresses = $this->getRelation('addresses');
-            $now = CarbonImmutable::now();
+            $cached = $this->primaryFromLoadedAddresses($type);
 
-            return $addresses->first(function (Address $address) use ($type, $now): bool {
-                $pivot = $address->pivot;
-
-                return (bool) $pivot?->is_primary
-                    && ($type === null || $pivot?->type === $type)
-                    && ($pivot?->valid_from === null || $pivot->valid_from <= $now)
-                    && ($pivot?->valid_until === null || $pivot->valid_until >= $now);
-            });
+            if ($cached instanceof Address) {
+                return $cached;
+            }
         }
 
         $pivotTable = AddressingTableResolver::resolve('addressables');
@@ -68,6 +65,161 @@ trait HasAddresses
 
         /** @var Address|null */
         return $query->first();
+    }
+
+    private function primaryFromLoadedAddresses(?string $type): ?Address
+    {
+        /** @var Collection<int, Address> $addresses */
+        $addresses = $this->authorizeLoadedAddresses($this->getRelation('addresses'));
+        $now = CarbonImmutable::now();
+
+        return $addresses->first(function (Address $address) use ($type, $now): bool {
+            $pivot = $address->pivot;
+
+            return (bool) $pivot?->is_primary
+                && ($type === null || $pivot?->type === $type)
+                && ($pivot?->valid_from === null || $pivot->valid_from <= $now)
+                && ($pivot?->valid_until === null || $pivot->valid_until >= $now);
+        });
+    }
+
+    /**
+     * Reapply the current owner boundary to an already-loaded collection.
+     *
+     * Loaded rows may predate an OwnerContext switch, so they are filtered
+     * against the current context instead of trusted. Rows without owner
+     * state fail closed and fall back to a fresh query.
+     *
+     * Both the address and its pivot must be visible: absent owner columns
+     * (for example a constrained `select('addresses.id', ...)` preload)
+     * abandon the cache entirely so the caller runs a fresh scoped query
+     * instead of trusting a null-looking tuple.
+     *
+     * @param  Collection<int, Address>  $addresses
+     * @return Collection<int, Address>
+     */
+    private function authorizeLoadedAddresses(Collection $addresses): Collection
+    {
+        $addressClass = ModelResolver::addressClass();
+        $config = $addressClass::ownerScopeConfig();
+
+        if (! $config->enabled) {
+            return $addresses;
+        }
+
+        $owner = OwnerContext::resolve();
+
+        OwnerContext::assertResolvedOrExplicitGlobal(
+            $owner,
+            sprintf('%s requires an owner context or explicit global context.', $addressClass),
+        );
+
+        $includeGlobal = OwnerScopeOverride::suppressIncludeGlobal() ? false : $config->includeGlobal;
+        $pivotConfig = Addressable::ownerScopeConfig();
+        $pivotIncludeGlobal = OwnerScopeOverride::suppressIncludeGlobal() ? false : $pivotConfig->includeGlobal;
+
+        foreach ($addresses as $address) {
+            if ($this->trustedOwnerTuple($address, $config) === null) {
+                return new Collection;
+            }
+
+            if (! $pivotConfig->enabled) {
+                continue;
+            }
+
+            $pivot = $address->pivot;
+
+            if (! $pivot instanceof Model || $this->trustedOwnerTuple($pivot, $pivotConfig) === null) {
+                return new Collection;
+            }
+        }
+
+        return $addresses->filter(fn (Address $address): bool => $this->loadedRowIsVisible(
+            $address,
+            $owner,
+            $includeGlobal,
+            $config,
+            $pivotIncludeGlobal,
+            $pivotConfig,
+        ));
+    }
+
+    private function loadedRowIsVisible(
+        Address $address,
+        ?Model $owner,
+        bool $includeGlobal,
+        OwnerScopeConfig $config,
+        bool $pivotIncludeGlobal,
+        OwnerScopeConfig $pivotConfig,
+    ): bool {
+        $addressTuple = $this->trustedOwnerTuple($address, $config);
+
+        if ($addressTuple === null || ! $this->tupleIsVisible($addressTuple, $owner, $includeGlobal)) {
+            return false;
+        }
+
+        if (! $pivotConfig->enabled) {
+            return true;
+        }
+
+        $pivot = $address->pivot;
+
+        if (! $pivot instanceof Model) {
+            return false;
+        }
+
+        $pivotTuple = $this->trustedOwnerTuple($pivot, $pivotConfig);
+
+        return $pivotTuple !== null && $this->tupleIsVisible($pivotTuple, $owner, $pivotIncludeGlobal);
+    }
+
+    /**
+     * Prefer persisted owner state over caller-mutated attributes.
+     *
+     * Returns null when neither the original nor the current attributes
+     * contain both configured owner columns (for example a partial select),
+     * forcing the caller to fail closed.
+     *
+     * @return array{0: mixed, 1: mixed}|null
+     */
+    private function trustedOwnerTuple(Model $model, OwnerScopeConfig $config): ?array
+    {
+        $typeColumn = $config->ownerTypeColumn;
+        $idColumn = $config->ownerIdColumn;
+        $original = $model->getOriginal();
+
+        if (is_array($original)
+            && array_key_exists($typeColumn, $original)
+            && array_key_exists($idColumn, $original)) {
+            return [$original[$typeColumn], $original[$idColumn]];
+        }
+
+        $attributes = $model->getAttributes();
+
+        if (array_key_exists($typeColumn, $attributes) && array_key_exists($idColumn, $attributes)) {
+            return [$attributes[$typeColumn], $attributes[$idColumn]];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param  array{0: mixed, 1: mixed}  $tuple
+     */
+    private function tupleIsVisible(array $tuple, ?Model $owner, bool $includeGlobal): bool
+    {
+        [$type, $id] = $tuple;
+        $isGlobal = $type === null && $id === null;
+
+        if ($owner === null) {
+            return $isGlobal;
+        }
+
+        if ($isGlobal) {
+            return $includeGlobal;
+        }
+
+        return $type === $owner->getMorphClass() && (string) $id === (string) $owner->getKey();
     }
 
     /**
@@ -181,7 +333,7 @@ trait HasAddresses
      */
     public function scopeWithPrimaryAddress(Builder $query, ?string $type = null): void
     {
-        $query->with(['addresses' => function (Builder $q) use ($type): void {
+        $query->with(['addresses' => function (MorphToMany $q) use ($type): void {
             $pivotTable = AddressingTableResolver::resolve('addressables');
             $this->validAddressQuery(
                 $q->where("{$pivotTable}.is_primary", true),

@@ -13,6 +13,7 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
+use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 
 class GuineaBissauGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
@@ -48,10 +49,7 @@ class GuineaBissauGeographyProvider implements CountryAddressAreaMetadataProvide
 
         // Leste/Norte/Sul are statistical groupings, not administrative
         // states. Delete stragglers seeded before that fix.
-        $stateClass::query()
-            ->where('country_id', $country->id)
-            ->whereIn('code', ['L', 'N', 'S'])
-            ->delete();
+        GeographyReferenceCleanup::pruneStatesByCodes($country, ['L', 'N', 'S']);
     }
 
     /** @return list<AddressHierarchyDefinition> */
