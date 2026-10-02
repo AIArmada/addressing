@@ -789,12 +789,32 @@ final class CountryAddressProfileResolver
         $areaClass = ModelResolver::areaClass();
         $areaTypes = self::areaTypesForLevel($definition['level']);
         $areaLevels = self::areaLevelsForLevel($definition['level']);
+        $hierarchyType = self::hierarchyType($definition['hierarchy'], $definition['level']);
+        $query = $areaClass::query();
+        $key = 'scope-types:' . hash('xxh128', serialize([
+            $areaClass,
+            $query->getModel()->getConnection()->getName(),
+            $query->getModel()->getTable(),
+            $parentId,
+            $hierarchyType,
+            $areaTypes,
+            $areaLevels,
+        ]));
+        $request = app()->bound('request') ? request() : null;
+        $cache = $request?->attributes->get(self::REQUEST_CACHE_KEY, []);
 
-        $found = $areaClass::query()
+        if (is_array($cache) && array_key_exists($key, $cache)) {
+            /** @var list<string> $cached */
+            $cached = $cache[$key];
+
+            return $cached;
+        }
+
+        $found = $query
             ->where('is_active', true)
             ->when($areaTypes !== [], static fn (EloquentBuilder $query): EloquentBuilder => $query->whereIn('type', $areaTypes))
             ->when($areaLevels !== [], static fn (EloquentBuilder $query): EloquentBuilder => $query->whereIn('level', $areaLevels))
-            ->whereAncestorLink($parentId, self::hierarchyType($definition['hierarchy'], $definition['level']))
+            ->whereAncestorLink($parentId, $hierarchyType)
             ->distinct()
             ->pluck('type')
             ->map(static fn (mixed $type): string => (string) $type)
@@ -804,7 +824,16 @@ final class CountryAddressProfileResolver
 
         usort($found, static fn (string $a, string $b): int => ($order[$a] ?? PHP_INT_MAX) <=> ($order[$b] ?? PHP_INT_MAX));
 
-        return array_values(array_unique($found));
+        $types = array_values(array_unique($found));
+
+        if ($request !== null) {
+            $cache = $request->attributes->get(self::REQUEST_CACHE_KEY, []);
+            $cache = is_array($cache) ? $cache : [];
+            $cache[$key] = $types;
+            $request->attributes->set(self::REQUEST_CACHE_KEY, $cache);
+        }
+
+        return $types;
     }
 
     private function areaTypeLabel(?CountryAddressProfile $profile, ?string $stateCode, string $type): string

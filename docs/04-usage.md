@@ -695,6 +695,10 @@ $resolver->levelLabel($countryId, 'administrative_district', $stateId, $areaIdsB
 
 Without a state the static level label applies. With one, the label joins the distinct area-type labels present under the role's resolved parent — narrowed like the options themselves — so a Johor district selector reads `District`, a Putrajaya locality selector reads `Precinct`, and mixed scopes keep a combined label (`Mukim / Bandar / Pekan`). Types resolve through provider overrides first (Kelantan calls districts `Jajahan`), else a headline rendering. Null when the country or role is unknown.
 
+Malaysia declares its base type labels explicitly; state overrides still take precedence. Labels remain language-neutral and consumers own translation. Consumers can preserve an exact phrase translation first, then translate individual terms separated by ` / ` when no phrase translation exists.
+
+Distinct-type lookups, including empty results, are memoised in request attributes by area model, connection, table, parent, hierarchy type, ordered type filters, and level filters. Labels still adapt when the selection changes. The cache holds raw types rather than translated labels, expires with the request, and is bypassed when no request is bound. Geography writes become visible to a previously cached scope on the next request.
+
 ## Import Areas
 
 ### From a custom source

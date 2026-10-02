@@ -131,9 +131,21 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Headline rendering covers every Malaysian type (Mukim, Bandar,
-        // Pekan, Precinct); only state-specific proper terms are declared.
-        return [];
+        return [
+            'state' => 'State',
+            'wilayah_persekutuan' => 'Wilayah Persekutuan',
+            'division' => 'Division',
+            'district' => 'District',
+            'minor_district' => 'Minor District',
+            'city' => 'City',
+            'municipality' => 'Municipality',
+            'mukim' => 'Mukim',
+            'subdistrict' => 'Subdistrict',
+            'bandar' => 'Bandar',
+            'pekan' => 'Pekan',
+            'locality' => 'Locality',
+            'precinct' => 'Precinct',
+        ];
     }
 
     /** @return list<array{state_code: string, type_labels: array<string, string>}> */
