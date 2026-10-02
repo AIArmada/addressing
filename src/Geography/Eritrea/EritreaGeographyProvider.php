@@ -81,9 +81,10 @@ class EritreaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Regions are zobas; subregions keep the English headline.
+        // Regions are zobas; subregions use the English headline term.
         return [
             'region' => 'Zoba',
+            'subregion' => 'Subregion',
         ];
     }
 

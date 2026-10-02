@@ -85,6 +85,7 @@ class NorwayGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         return [
             'county' => 'Fylke',
             'municipality' => 'Kommune',
+            'arctic_region' => 'Arctic Region',
         ];
     }
 

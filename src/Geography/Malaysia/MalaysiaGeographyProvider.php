@@ -80,7 +80,7 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                     ),
                     new AddressLevelDefinition(
                         key: 'district',
-                        label: 'District / Jajahan / Jajahan Kecil',
+                        label: 'District / Jajahan / Jajahan Kecil / Daerah Kecil',
                         kind: 'area',
                         hierarchyType: 'administrative',
                         areaTypes: ['district', 'minor_district'],
@@ -90,10 +90,10 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                     ),
                     new AddressLevelDefinition(
                         key: 'subdivision',
-                        label: 'Mukim / Subdistrict / Bandar / Pekan',
+                        label: 'Mukim / Subdistrict / Bandar / Pekan / Daerah Kecil',
                         kind: 'area',
                         hierarchyType: 'administrative',
-                        areaTypes: ['city', 'municipality', 'mukim', 'subdistrict', 'bandar', 'pekan'],
+                        areaTypes: ['city', 'municipality', 'mukim', 'subdistrict', 'bandar', 'pekan', 'daerah_kecil'],
                         areaLevels: [2, 3, 4],
                         parentKey: 'region',
                         assignmentRole: 'administrative_subdivision',
@@ -143,6 +143,7 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             'subdistrict' => 'Subdistrict',
             'bandar' => 'Bandar',
             'pekan' => 'Pekan',
+            'daerah_kecil' => 'Daerah Kecil',
             'locality' => 'Locality',
             'precinct' => 'Precinct',
         ];
@@ -167,7 +168,7 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                 'state', 'wilayah_persekutuan' => ['region'],
                 'division' => ['administrative_division'],
                 'district', 'minor_district' => ['administrative_district'],
-                'city', 'municipality', 'mukim', 'subdistrict', 'bandar', 'pekan' => ['administrative_subdivision'],
+                'city', 'municipality', 'mukim', 'subdistrict', 'bandar', 'pekan', 'daerah_kecil' => ['administrative_subdivision'],
                 'precinct', 'locality' => ['postal_locality'],
                 default => [],
             };

@@ -87,9 +87,12 @@ class EthiopiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Regions are kilils; zones, woredas and cities keep the English headlines.
+        // Regions are kilils; zones, woredas and cities use English headline terms.
         return [
             'region' => 'Kilil',
+            'city' => 'City',
+            'zone' => 'Zone',
+            'woreda' => 'Woreda',
         ];
     }
 

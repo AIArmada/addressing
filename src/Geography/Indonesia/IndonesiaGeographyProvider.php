@@ -118,6 +118,8 @@ class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, 
             'district' => 'Kecamatan',
             'village' => 'Desa',
             'urban_village' => 'Kelurahan',
+            'province' => 'Province',
+            'regency' => 'Regency',
         ];
     }
 

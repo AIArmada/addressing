@@ -81,9 +81,10 @@ class BulgariaGeographyProvider implements CountryAddressAreaMetadataProvider, C
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Districts are oblasti (municipalities keep the English headline).
+        // Districts are oblasti (municipalities use the English headline term).
         return [
             'district' => 'Oblast',
+            'municipality' => 'Municipality',
         ];
     }
 

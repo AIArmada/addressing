@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\UnitedStates;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
@@ -16,7 +17,7 @@ use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\Addressing\Support\UsZipCodeKeys;
 
-class UnitedStatesGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
+class UnitedStatesGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_united_states_v1';
 
@@ -83,6 +84,29 @@ class UnitedStatesGeographyProvider implements CountryAddressAreaMetadataProvide
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        return [
+            'state' => 'State',
+            'district' => 'District',
+            'territory' => 'Territory',
+            'county' => 'County',
+            'parish' => 'Parish',
+            'borough' => 'Borough',
+            'census_area' => 'Census Area',
+            'city' => 'City',
+            'municipality' => 'Municipality',
+            'planning_region' => 'Planning Region',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */

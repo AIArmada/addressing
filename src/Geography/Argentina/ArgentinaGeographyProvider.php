@@ -98,12 +98,13 @@ class ArgentinaGeographyProvider implements CountryAddressAreaMetadataProvider, 
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Area names use Spanish official forms (partido already renders correctly).
+        // Area names use Spanish official forms (partido matches its headline).
         return [
             'province' => 'Provincia',
             'city' => 'Ciudad',
             'commune' => 'Comuna',
             'department' => 'Departamento',
+            'partido' => 'Partido',
         ];
     }
 

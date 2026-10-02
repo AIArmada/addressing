@@ -81,9 +81,13 @@ class GeorgiaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Regions are mkhare; other tiers keep the English headlines.
+        // Regions are mkhare; other tiers use English headline terms.
         return [
             'region' => 'Mkhare',
+            'autonomous_republic' => 'Autonomous Republic',
+            'city' => 'City',
+            'municipality' => 'Municipality',
+            'district' => 'District',
         ];
     }
 

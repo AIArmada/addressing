@@ -81,9 +81,10 @@ class KuwaitGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Governorates are muhafazas; areas keep the English headline.
+        // Governorates are muhafazas; areas use the English headline term.
         return [
             'governorate' => 'Muhafaza',
+            'area' => 'Area',
         ];
     }
 

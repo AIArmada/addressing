@@ -102,6 +102,8 @@ class MoldovaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
             'district' => 'Raion',
             'commune' => 'Comună',
             'city' => 'Oraș',
+            'autonomous_territorial_unit' => 'Autonomous Territorial Unit',
+            'territorial_unit' => 'Territorial Unit',
         ];
     }
 

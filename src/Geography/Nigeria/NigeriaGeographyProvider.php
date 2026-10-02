@@ -84,6 +84,8 @@ class NigeriaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         // LGAs keep their acronym (the headline would render `Lga`).
         return [
             'lga' => 'LGA',
+            'state' => 'State',
+            'area_council' => 'Area Council',
         ];
     }
 

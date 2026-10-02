@@ -81,14 +81,17 @@ class BelgiumGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // No country-wide override: the regions share no single language.
-        return [];
+        // English neutral base; the regions share no single language, so per-state terms override below.
+        return [
+            'region' => 'Region',
+            'province' => 'Province',
+        ];
     }
 
     /** @return list<array{state_code: string, type_labels: array<string, string>}> */
     public function stateAreaTypeLabels(): array
     {
-        // Flanders uses Dutch terms, Wallonia French terms; bilingual Brussels keeps the English headlines.
+        // Flanders uses Dutch terms, Wallonia French terms; bilingual Brussels uses the English base labels.
         return [
             ['state_code' => 'VLG', 'type_labels' => ['region' => 'Gewest', 'province' => 'Provincie']],
             ['state_code' => 'WAL', 'type_labels' => ['region' => 'Région', 'province' => 'Province']],

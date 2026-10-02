@@ -96,9 +96,10 @@ class LebanonGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Governorates are muhafazas; cazas keep the headline.
+        // Governorates are muhafazas; cazas use the headline term.
         return [
             'governorate' => 'Muhafaza',
+            'caza' => 'Caza',
         ];
     }
 

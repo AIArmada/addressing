@@ -91,6 +91,7 @@ class MongoliaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             'province' => 'Aimag',
             'sum' => 'Sum',
             'duureg' => 'Düüreg',
+            'capital_city' => 'Capital City',
         ];
     }
 

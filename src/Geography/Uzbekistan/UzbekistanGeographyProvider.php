@@ -81,9 +81,12 @@ class UzbekistanGeographyProvider implements CountryAddressAreaMetadataProvider,
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Cities are shahar; tumans headline correctly.
+        // Cities are shahar; regions, republics, and tumans match their headlines.
         return [
             'city' => 'Shahar',
+            'region' => 'Region',
+            'republic' => 'Republic',
+            'tuman' => 'Tuman',
         ];
     }
 

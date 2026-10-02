@@ -81,11 +81,13 @@ class ThailandGeographyProvider implements CountryAddressAreaMetadataProvider, C
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Amphoe, Khet, and Metropolitan Administration render correctly
-        // from the type strings; only the English-generic province type
-        // needs its proper Thai term.
+        // Amphoe, Khet, and Metropolitan Administration match their headlines;
+        // the English-generic province type uses its proper Thai term.
         return [
             'province' => 'Changwat',
+            'metropolitan_administration' => 'Metropolitan Administration',
+            'amphoe' => 'Amphoe',
+            'khet' => 'Khet',
         ];
     }
 

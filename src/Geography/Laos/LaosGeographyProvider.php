@@ -85,6 +85,7 @@ class LaosGeographyProvider implements CountryAddressAreaMetadataProvider, Count
         return [
             'province' => 'Khoueng',
             'district' => 'Muang',
+            'prefecture' => 'Prefecture',
         ];
     }
 

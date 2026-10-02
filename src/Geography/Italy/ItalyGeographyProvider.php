@@ -81,10 +81,15 @@ class ItalyGeographyProvider implements CountryAddressAreaMetadataProvider, Coun
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // The second-level types are already Italian administrative terms;
-        // only the English-generic region type needs its proper term.
+        // The English-generic region type uses its proper term;
+        // the second-level types match their English headlines.
         return [
             'region' => 'Regione',
+            'province' => 'Province',
+            'metropolitan_city' => 'Metropolitan City',
+            'free_municipal_consortium' => 'Free Municipal Consortium',
+            'decentralization_entity' => 'Decentralization Entity',
+            'autonomous_province' => 'Autonomous Province',
         ];
     }
 

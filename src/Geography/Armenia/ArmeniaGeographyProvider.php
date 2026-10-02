@@ -81,10 +81,12 @@ class ArmeniaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Marz and hamaynk are the standard terms even in English discourse; Yerevan city and its districts keep English headlines.
+        // Marz and hamaynk are the standard terms even in English discourse; Yerevan city and its districts use English headline terms.
         return [
             'region' => 'Marz',
             'municipality' => 'Hamaynk',
+            'city' => 'City',
+            'district' => 'District',
         ];
     }
 

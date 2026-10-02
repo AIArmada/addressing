@@ -97,9 +97,10 @@ class FaroeIslandsGeographyProvider implements CountryAddressAreaMetadataProvide
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Municipalities are kommunur; regions keep the English headline.
+        // Municipalities are kommunur; regions use the English headline term.
         return [
             'municipality' => 'Kommuna',
+            'region' => 'Region',
         ];
     }
 

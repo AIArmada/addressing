@@ -86,6 +86,9 @@ class TajikistanGeographyProvider implements CountryAddressAreaMetadataProvider,
             'region' => 'Viloyat',
             'district' => 'Nohiya',
             'city' => 'Shahr',
+            'capital_territory' => 'Capital Territory',
+            'autonomous_region' => 'Autonomous Region',
+            'districts_under_republic_administration' => 'Districts Under Republic Administration',
         ];
     }
 

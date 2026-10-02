@@ -84,6 +84,7 @@ class BhutanGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         // Bhutan's districts are dzongkhags, the standard term even in English discourse.
         return [
             'district' => 'Dzongkhag',
+            'gewog' => 'Gewog',
         ];
     }
 

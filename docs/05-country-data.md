@@ -338,17 +338,22 @@ conflicting codes for the latter); Batang Berjuntai (Bestari Jaya
 alias); Setia Alam (township); Klang Valley suburbs and townships as a
 class (USJ, Sunway, Puchong Jaya, Kinrara, and the like).
 
-Sabah sweep: no additions — towns live as level-4 `subdistrict` rows and
-every checked town (Kundasang, Tamparuli, Kiulu, Donggongon, Kinarut,
-Benoni, Kimanis, Bongawan, Menumbok, Melalap, Kemabong, Sindumin,
-Apin-Apin, Bingkor, Tungku, Sukau, Bukit Garam, Matunggong, Tandek) has
-one. Skipped: Lok Kawi, Sikuati, Kanibongan (no verified postcode
+Sabah sweep: superseded by the below-district rectification below — the
+level-4 tier is now `daerah_kecil` (6 gazetted units) plus `locality`
+towns, with 14 town localities added (Pekan Tamparuli, Pekan Menumbok,
+Pekan Membakut, Pekan Sook, Pekan Paitan, Pekan Kalabakan, Pekan Nabalu,
+Pekan Lok Kawi, Bandau, Langkon, Pekan Matunggong, Pekan Sikuati, Pekan
+Karakit, Merotai Besar). Still skipped: Kanibongan (no verified postcode
 evidence).
 
-Sarawak sweep: no additions — same level-4 `subdistrict` pattern covers
-every checked town (Sematan, Engkilili, Debak, Spaoh, Roban, Bintangor,
-Niah, Batu Niah, Bekenu, Oya, Balingian, Sundar, Trusan, Sadong Jaya).
-Skipped: Bako (fishing village).
+Sarawak sweep: superseded by the below-district rectification below —
+the level-4 tier is now `daerah_kecil` (17 gazetted units) plus `locality`
+towns, with 16 town localities added (Pekan Debak, Pekan Spaoh, Pekan
+Roban, Pekan Sundar, Pekan Trusan, Pekan Nanga Medamit, Pekan Oya, Pekan
+Balingian, Pekan Engkilili, Pekan Long Lama, Pekan Bario, Pekan Sematan,
+Pekan Sadong Jaya, Pusa, Sebauh, Tatau). Still skipped: Bako (fishing
+village); Long Bedian and Long Akah (council-styled pekan without any
+postcode evidence).
 
 WP sweep: no additions — KL's 11 parliamentary `locality` rows plus 7
 mukims, Putrajaya's precincts, and Labuan's 28 kampung `locality` rows
@@ -538,20 +543,87 @@ Two-hierarchy relocation: Cenderawasih (91150, own post office) returned as
 a level-4 postal `locality` row; the remaining removals stay deleted as
 duplicates or non-places.
 
+## Sabah below-district rectification
+
+All 154 level-4 rows were re-verified one by one against the SPR
+polling-district rolls for P167-P191 (21 Nov 2025 gazette) plus DUN pages,
+the Paitan/Kalabakan/Sugut administrative record, four postcode directories
+(v-swiss, all.json, J&T, City-Link), poskod.com entries, council and
+department notices (MD Kota Marudu, Sabah JANS/JPP, MOH PeKa B40), Sabah
+gazettes, and addressed shop/clinic/school evidence. Only about one in
+twelve rows was a genuine below-district administrative unit; the rest were
+towns (kept as `locality`), electoral names, villages, islands, estates, or
+placeholders.
+
+New `daerah_kecil` type (6 rows, all level 4 under their district,
+administrative-only with no postal links): Tamparuli (Tuaran), Menumbok
+(Kuala Penyu), Banggi and Matunggong (Kudat), Kemabong (Tenom), Pagalungan
+(Nabawan). This is deliberately not the peninsular `minor_district` type:
+peninsular minor districts sit at the district tier (level 2 under the
+state, e.g. Genting, Lojing) and a district-tier town row may hold a
+primary (Muadzam Shah holds 26700), while Sabah daerah kecil sit at the
+subdivision tier (level 4 under the district) and their towns are separate
+`locality` rows. Sabah's subdivision tier now renders `Daerah Kecil`; the
+district and subdivision static fallback labels list it.
+
+Name-sharing splits: Tamparuli and Menumbok keep the bare name as
+`daerah_kecil` while new Pekan Tamparuli (89250-set) and Pekan Menumbok
+(89760-set) localities take the primaries; Matunggong splits the same way
+with Pekan Matunggong taking the 89050 secondary. The bare Penampang
+primaries (89500-set) moved to Pekan Donggongon and the bare row was
+removed; the Membakut district-held primaries (89720-set) moved to the new
+Pekan Membakut locality. Bare Kota Kinabalu is the city itself, so it
+retyped to `locality` in place keeping all primaries.
+
+Added localities (14): Pekan Tamparuli, Pekan Menumbok, Pekan Membakut,
+Pekan Sook (89000 shared), Pekan Paitan (90107 shared), Pekan Kalabakan
+(91000 shared), Pekan Nabalu (89150 shared; the tourist town — not Kampung
+Nabalu, Ranau), Pekan Lok Kawi (Papar, 89600 shared), Bandau and Langkon
+(Kota Marudu, 89100/89050 shared), Pekan Matunggong, Pekan Sikuati, Pekan
+Karakit (Kudat, 89050 shared), and Merotai Besar (Tawau, 91000 shared; the
+pekan is Merotai Besar, so the DUN-named Merotai row was removed).
+Retyped to `locality` (49): every verified town, including the
+shared-code small towns Kiulu (89250), Kimanis, Kinarut, Benoni, Lok Kawi
+(89600), Sindumin and Mesapol (89850), Melalap (89900), Apin-Apin (89000),
+Sepulot and Pensiangan (89950), Tungku (91100), and Weston (89800).
+
+Removed 98 rows: bare-X district-town duplicates (23, all secondaries
+duplicative of the town primaries, including bare Kalabakan which Pekan
+Kalabakan replaces); DUN/polling-district/kampung names with no town and
+no code (Klias, Lumadan in both districts, Bingkor, Liawan, Sukau, Lamag,
+Elopura, Tanjong Papat, Sri Tanjung, Balung, Segama, Madai, and the like);
+islands (Bum-Bum, Jambongan-as-village); estates and scheme areas (Lumadan,
+Kerukan); city suburbs with no own code (Luyang, Sembulan, Kepayan); the
+synonym-duplicate Pekan Kinabatangan; and wrong-district duplicates (Pitas
+and Tandek under Kudat, Lumadan under Sipitang).
+
+District corrections: Pamol (own code 90400, SMK Pamol) moved Beluran to
+Paitan with its primary (Sugut-DUN + Jalan Pamol tender evidence); Pekan
+Pitas takes the 89100 secondary (three addressed town usages beat the
+directory's 89050 area entries); Tandek (Kota Marudu) takes the 89050
+secondary cross-district and drops the unverified 89100 link.
+
+Removed 4 phantom postcodes with their links: 89130/89137/89138/89139
+(absent from all four directories with no addressed usage; the single Kiau
+sighting is zone-incoherent and discounted as a probable 89150 typo).
+Not phantoms: Telupid's 89327-89329 (poskod.com PO boxes) and Tongod's
+89330-set (MOH "Pos Mini Tongod, Pekan Tongod 89330"), kept although
+unlisted in the courier directories. 90108/91208 were verified nonexistent
+(Pos Malaysia skips them), so the Beluran/Kunak sets stay as they are.
+
+Residual uncertainties: Melalap, Sepulot, and Benoni are weak keeps
+(single-road/local-usage town evidence against directory silence); Tulid
+has no town (DUN named for Kampung Tulid) and keeps no row.
+
 ## Sarawak audit
 
-Sarawak has no mukim tier. Its below-district `subdistrict` tier is mixed:
-about two dozen gazetted daerah kecil sit alongside state-constituency and
-polling-district names, towns, and district-town placeholders, so no single
-proper term covers the tier and it keeps the generic `Subdistrict` label.
-The gazetted daerah kecil are Padawan, Sematan, Sadong Jaya, Balai Ringin,
-Engkilili, Spaoh, Debak, Maludam, Nanga Budu, Roban, Balingian, Oya, Igan,
-Nanga Merit, Sungai Asap, Bario, Niah-Suai (rowed as Niah and Suai), Mulu,
-Lapok, Long Lama, Long Bedian, Nanga Medamit, Sundar, and Trusan; Bario
-(Miri district) has no row yet. Every row was verified against the
-Administrative Areas Order 2022 gazette, the 2018 admin table plus 2021/22
-upgrade notices, the SPR polling-district gazette, and DOSM townships.
-Moved 9 rows: Tapah to Siburan,
+Sarawak has no mukim tier. The earlier below-district audit below is
+superseded by the rectification record that follows it: the old gazetted
+list mixed real daerah kecil with a district (Padawan), polling and DUN
+areas (Igan, Nanga Merit, Balai Ringin, Lapok), a resettlement scheme
+(Sungai Asap), a national park (Mulu), and a longhouse bazaar without
+gazette evidence (Long Bedian), and it misplaced Bario under Miri district
+instead of Marudi. Moved 9 rows: Tapah to Siburan,
 Moyan and Tambirat to Asajaya, Triso to Pusa, Roban to Kabong, Nanga Medamit
 to Limbang, Belawai to Tanjung Manis, Paloh to Daro, and Niah to Subis.
 Removed 13 rows: stale post-split duplicates (Balingian, Bekenu, Long Lama,
@@ -559,6 +631,99 @@ Lingga, Kabong, Sebauh, Tatau, Entabai), the Kuala Balingian duplicate, the
 Pusat Mel Miri mail centre (98070 moves to Miri), the Baram region name
 (Marudi postcodes move to Marudi), the Poyut/Nibong conflated name, and the
 Sebelak river name. Renamed Budu to the official Nanga Budu form.
+
+## Sarawak below-district rectification
+
+All 138 level-4 rows were re-verified one by one against the SPR
+polling-district rolls for P192-P222 plus DUN pages, three postcode
+directories (v-swiss layout PDF, all.json, postcode.info), the Sarawak
+Government Gazette via Sinar Project, council records (Majlis Daerah
+Subis, Dalat & Mukah, Marudi, Bau), school/church/shop/clinic addressed
+evidence, and the MS Wikipedia daerah-kecil articles with their district
+maps. Seventeen rows are genuine gazetted daerah kecil; the rest were
+towns (kept as `locality`), electoral names, villages, longhouses,
+islands, parks, suburbs, or placeholders.
+
+New `daerah_kecil` rows (17, all level 4 under their district,
+administrative-only with no postal links): Debak and Spaoh (Betong),
+Roban (Kabong), Maludam (Pusa), Nanga Budu (Saratok), Sematan (Lundu),
+Sadong Jaya (Asajaya), Sundar and Trusan (Lawas), Nanga Medamit
+(Limbang), Long Lama (Telang Usan), Oya (Dalat), Balingian (Mukah),
+Engkilili (Lubok Antu), Bario (Marudi), Sibuti and Niah-Suai (Subis).
+Proof highlights: MS daerah-kecil articles with district maps (Debak,
+Roban, Sadong Jaya, Sematan, Nanga Budu, Nanga Medamit, Oya, Sundar,
+Trusan); gazetted sub-district offices (Balingian 2004-2021, Engkilili
+2016/2018, Long Lama 2007-2020, Bario 2019/2020); the Majlis Daerah
+Subis PDF (Sibuti + Niah-Suai); the UKM Daerah Kecil Spaoh study; the
+Maludam article (Pejabat Daerah Kecil Maludam under Pusa). Not daerah
+kecil: Song (gazette shows Pejabat Daerah Song — a district office),
+Beluru (the old Beluru sub-district office predates the Beluru district
+upgrade), Padawan (a district, so its misplaced level-4 row was
+removed), Ba'kelalan (nine-village highland cluster, removed), and
+Batang Ai (dam/lake area, no row).
+
+Name-sharing splits (13): each keeps the bare name as `daerah_kecil`
+while a new Pekan locality takes the postal links — Pekan Debak
+(95500), Pekan Spaoh (95600), Pekan Roban (95300), Pekan Sundar (98800),
+Pekan Trusan (98850 shared; gazette "Pekan Trusan, 98850 Lawas" plus
+SJK(C) Chung Hua Trusan), Pekan Nanga Medamit (98750), Pekan Oya
+(96410 shared; council "Pekan Kecil Oya"), Pekan Balingian (96350),
+Pekan Engkilili (95800; "BAZAAR ENGKILILI" petrol-station address),
+Pekan Long Lama (98300), Pekan Bario (98060 own code plus 98050
+shared), Pekan Sematan (94500 shared), and Pekan Sadong Jaya (94600
+shared; bank "Pekan Sadong Jaya" and addressed shop usage). The
+district-held primaries moved to new bare-form capital towns: 94950 to
+Pusa, 97100 to Sebauh, 97200 to Tatau. Bare-form towns with own codes
+retyped in place: Marudi (98050-set), Song (96850), Belaga (96900-set),
+Bekenu (98150-set), Belawai (96150), Daro, Matu, Simunjan, Sebuyau,
+Lingga, Lubok Antu, Niah (98200), and Lutong (98100-set, the Miri
+township with single-entry directory confirmation).
+
+Added secondaries on proven shared-code towns: Selangau (96000; "Pekan
+Selangau" Pan-Borneo town), Pakan (96100; Petron "96100 SARIKEI"
+address — the PeKa B40 96150 listing is their error), Tebedu (94760;
+v-swiss "Tebedu" entry plus border town), Beluru (98000; SJK(C) Hua
+Kwong at "Pekan Beluru, Bakong"), Pantu (95000; district since 2021
+per MS Daerah Pantu, admin centre Pekan Pantu), and Batu Niah (98200;
+SJK(C) Chee Mung Niah). Siniawan (94000) and Sematan-town (94500) keep
+their shared links as notable historic/beach towns; Sibu Jaya keeps
+96010 (all.json plus addressed Waze/foodpanda usage against two
+directory gaps).
+
+Removed 80 rows: longhouse and kampung pollings (Long Teru, Long
+Jegan, Long Semado, Merapok, Lio Matu, Long Akah, Long Bedian, Long
+San, Padeh, Sepupok, Triso, Majau, Wuak, Arip); Nanga confluence
+names (Merit, Engkuah, Entabai, Dap, Tada); DUN-area names (Machan,
+Tamin, Meluan, Repok, Kemena, Muara Tuang, Jemoreng, Katibas, Batu
+Danau); river, island, park, and scheme geography (Batang Igan,
+Skrang, Pelagus rapids, Pulau Babi, Mulu, Lambir, Sungai Asap, Long
+Murum); city/industrial suburbs and resort areas (Batu Kawa, Matang,
+Semariang, Santubong, Jepak, Kidurong, Bakam, Sungai Merah, Jakar);
+municipal and port areas (Padawan,
+Tanjung Manis); villages without town evidence (Buso, Krokong,
+Tondong, Musi, Biawak, Nyabor, Lapok, Kemuyang, Pasai Siong, Paloh,
+Semah, Serdeng, Igan, Moyan, Semera, Tambirat, Rangawan, Terasi,
+Nyelong, Tulai, Balai Ringin, Tapah, Amo, Lemanak, Batu Lintang,
+Undop, Kubong, Lidong); Suai (river/longhouse area inside Niah-Suai,
+no town proof); Tebakang (kampung cluster, no pekan proof); Ba'kelalan
+(village cluster); Gedong (kampung-only directory entries, no postal
+town); and the jetty place-name Pangkalan Tebang.
+
+Corrections: 98060 moved Marudi to Pekan Bario (eight "Bario, 98060"
+Tripadvisor addresses; the directories carry only 98050 Baram for the
+highlands). Removed 1 phantom postcode with its link: 94111 (absent
+from all three directories — the whole 941 range is missing from two
+of them — with no addressed usage; the single 94100 hotel-listing
+sighting reads as a 94500 typo). Not phantoms: 96010 Sibu Jaya (kept
+per the S6-positive rule plus addressed usage) and 97300 Tanjung
+Kidurong (stays on the Bintulu city row as a suburb code).
+
+Residual uncertainties: Song has no proven "Song" daerah kecil inside
+Song district (town row only); Bario's 98050 secondary alongside its
+98060 primary reflects dual real-world addressing; Padawan district
+itself is missing from the level-3 tier (follow-up L3 program, not
+half-added here); Lachau and Sungai Tenggang (Pantu district pekan
+per MS Daerah Pantu) have no rows and no codes.
 
 ## Singapore
 

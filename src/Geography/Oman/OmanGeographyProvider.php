@@ -81,9 +81,10 @@ class OmanGeographyProvider implements CountryAddressAreaMetadataProvider, Count
     /** @return array<string, string> */
     public function areaTypeLabels(): array
     {
-        // Governorates are muhafazas; wilayats keep the headline.
+        // Governorates are muhafazas; wilayats use the headline term.
         return [
             'governorate' => 'Muhafaza',
+            'wilayat' => 'Wilayat',
         ];
     }
 

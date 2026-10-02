@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Geography\Taiwan;
 
 use AIArmada\Addressing\Contracts\AddressAreaSource;
 use AIArmada\Addressing\Contracts\CountryAddressAreaMetadataProvider;
+use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
@@ -15,7 +16,7 @@ use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
 use AIArmada\Addressing\Support\ModelResolver;
 
-class TaiwanGeographyProvider implements CountryAddressAreaMetadataProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
+class TaiwanGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
 {
     public const string AREA_SOURCE = 'aiarmada_addressing_taiwan_v1';
 
@@ -89,6 +90,28 @@ class TaiwanGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
                 ],
             ),
         ];
+    }
+
+    /** @return array<string, string> */
+    public function areaTypeLabels(): array
+    {
+        return [
+            'special_municipality' => 'Special Municipality',
+            'county' => 'County',
+            'city' => 'City',
+            'district' => 'District',
+            'mountain_indigenous_district' => 'Mountain Indigenous District',
+            'county_administered_city' => 'County Administered City',
+            'urban_township' => 'Urban Township',
+            'rural_township' => 'Rural Township',
+            'mountain_indigenous_township' => 'Mountain Indigenous Township',
+        ];
+    }
+
+    /** @return list<array{state_code: string, type_labels: array<string, string>}> */
+    public function stateAreaTypeLabels(): array
+    {
+        return [];
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */

@@ -11,15 +11,19 @@ namespace AIArmada\Addressing\Contracts;
  * reads District, a Putrajaya locality selector reads Precinct, and mixed
  * scopes keep a combined label. Only states whose proper term differs
  * from the base need overrides (Kelantan calls districts Jajahan).
+ *
+ * Bundled providers label every supported hierarchy type explicitly, even
+ * when the label matches the headline fallback. The contract stays optional
+ * for third-party providers: undeclared types fall back to headline rendering.
  */
 interface CountryAreaTypeLabelProvider
 {
     /**
      * Country-wide display labels per area type.
      *
-     * Types without a declared label fall back to a headline rendering
-     * (`minor_district` becomes `Minor District`), so only declare types
-     * whose proper term differs.
+     * Bundled providers declare every hierarchy type. Third-party providers
+     * may declare a subset; types without a declared label fall back to a
+     * headline rendering (`minor_district` becomes `Minor District`).
      *
      * @return array<string, string>
      */
