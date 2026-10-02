@@ -36,11 +36,16 @@ class AddressAliasMap
         'navigationLinks' => 'navigationLinks',
         'external_links' => 'navigationLinks',
         'externalLinks' => 'navigationLinks',
-        'provider' => 'provider',
-        'provider_place_id' => 'providerPlaceId',
-        'providerPlaceId' => 'providerPlaceId',
-        'place_id' => 'providerPlaceId',
-        'placeId' => 'providerPlaceId',
+        'google_place_id' => 'googlePlaceId',
+        'googlePlaceId' => 'googlePlaceId',
+        'place_id' => 'googlePlaceId',
+        'placeId' => 'googlePlaceId',
+        'google_feature_id' => 'googleFeatureId',
+        'googleFeatureId' => 'googleFeatureId',
+        'google_cid' => 'googleCid',
+        'googleCid' => 'googleCid',
+        'google_entity_id' => 'googleEntityId',
+        'googleEntityId' => 'googleEntityId',
     ];
 
     public static function normalize(array $data): array

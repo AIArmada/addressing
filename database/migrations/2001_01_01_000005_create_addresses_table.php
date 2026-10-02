@@ -45,11 +45,12 @@ return new class extends Migration
             $table->decimal('longitude', 10, 7)->nullable();
             $table->string('geohash')->nullable()->index();
             $table->string('geo_precision')->nullable();
-            $table->string('provider')->nullable()->index();
-            $table->string('provider_place_id')->nullable()->index();
-            $table->{$jsonColumnType}('provider_payload')->nullable();
             $table->text('google_maps_url')->nullable();
             $table->text('waze_url')->nullable();
+            $table->string('google_place_id')->nullable()->index();
+            $table->string('google_feature_id')->nullable()->index();
+            $table->string('google_cid')->nullable()->index();
+            $table->string('google_entity_id')->nullable()->index();
             $table->{$jsonColumnType}('navigation_links')->nullable();
             $table->string('validation_status')->default('unverified')->index();
             $table->timestampTz('validated_at')->nullable();

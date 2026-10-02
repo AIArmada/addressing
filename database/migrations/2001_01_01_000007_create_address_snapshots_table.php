@@ -34,8 +34,10 @@ return new class extends Migration
             $table->{$jsonColumnType}('components')->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
-            $table->string('provider')->nullable();
-            $table->string('provider_place_id')->nullable();
+            $table->string('google_place_id')->nullable()->index();
+            $table->string('google_feature_id')->nullable()->index();
+            $table->string('google_cid')->nullable()->index();
+            $table->string('google_entity_id')->nullable()->index();
             $table->text('google_maps_url')->nullable();
             $table->text('waze_url')->nullable();
             $table->{$jsonColumnType}('navigation_links')->nullable();

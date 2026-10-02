@@ -36,9 +36,8 @@ Aliases accepted by `AddressData::from()`:
 | `city_id` / `cityId` | `cityId` |
 
 Geographic values use the canonical `latitude`, `longitude`, and
-`providerPlaceId`/`provider_place_id` fields. The removed `lat`, `lng`,
-`lon`, `google_place_id`, and `googlePlaceId` aliases are intentionally not
-normalized.
+`googlePlaceId`/`google_place_id` fields. The removed `lat`, `lng`, and
+`lon` aliases are intentionally not normalized.
 
 ## Seed Country Data
 

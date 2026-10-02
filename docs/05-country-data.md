@@ -1199,6 +1199,12 @@ North, 7 North-East, 12 West). Singapore intentionally has no postal
 postcode, and HDB towns already coincide with planning areas. The pins live
 in `SingaporeGeographyProviderTest`.
 
+Re-verified Oct 2026 against the URA-sourced district/sector table and the
+URA-cited planning-area list: all 81 links, all 55 names with parents, and
+the five CDC states match with zero changes. (Cross-check note: the
+Regions of Singapore overview table misstates North-East as 9 areas; the
+planning-area list itself confirms 7.)
+
 Individual six-digit postcodes are intentionally not bundled. Every building
 in Singapore has its own postcode, so the dataset is SingPost-scale. Resolve
 operational postcodes on demand with `ResolveSingaporePostalCodesAction`,
@@ -1250,11 +1256,15 @@ stragglers from databases seeded before that fix, so `Papua` always resolves
 to the province. Nusantara/IKN is a separate capital authority, not a 39th
 province.
 
-Individual five-digit postcodes are intentionally not bundled; import
-operational postcodes through `ImportPostalCodesAction`. There is no postal
-hierarchy and no `refinedBy`: the single administrative chain
-province → regency/city → district → village already scopes every level,
-and villages are administrative rows rather than postal localities.
+There is no postal hierarchy and no `refinedBy`: the single
+administrative chain province → regency/city → district → village already
+scopes every level, and villages are administrative rows rather than postal
+localities. The 9,361-code postal overlay links each code to exactly one
+regency/city (all 514 covered); see `18-postal-overlays.md` for the
+methodology. Residual gaps are only unassigned ranges (18xxx, 47xxx–49xxx,
+88xxx) plus deliberately dropped rows: 29 Timor-Leste (`dili`) codes and
+38 typo-dupe/stale rows (transposed or mistyped codes such as
+98011 for Soppeng 90811, whose correct forms are covered independently).
 
 Revisit record: all 38 province codes verified against ISO 3166-2:ID, every
 province's regency/city split reconciled (416 + 98), and all 91,599 rows
@@ -1263,6 +1273,31 @@ Known lag: BPS counts 7,288 districts (2025) and 84,048 villages (2024)
 against the bundled 7,285 and 83,762 — upstream `lokabisa-oss/region-id`
 has no release newer than v1.0.1, so refresh when it does rather than
 hand-patching rows.
+
+October 2026 re-verification: the full 91,599-row tree was diffed against
+Kepmendagri 300.2.2-2138/2025 with zero code differences and 107 name
+corrections applied (upstream parse artefacts: neighbour/province tokens
+appended to 32 regency/city names, four truncated names restored, spacing
+and punctuation fixes). Deliberate deviations kept: `DKI Jakarta` / `DI
+Yogyakarta` (state-matched, documented above), Jakarta municipalities
+without the `Administrasi` qualifier (display convention shared with
+upstream), and `Kepulauan Siau Tagulandang Biaro` spelled out (the decree
+abbreviates `Kep.`). The postal overlay was re-verified code by code
+against GeoNames place names resolved through the village tree plus
+coordinates and postal references: 1,912 links corrected (34%), fixing
+systematic block rotations in Jakarta (all five municipalities cycled),
+North Sumatra, West Sumatra, Aceh, NTT, Southeast Sulawesi, South
+Sulawesi, Lampung, Kalimantan blocks, Maluku, North Maluku, and Papua,
+plus cross-province misfiles (323xx OKU Timur filed under Kalsel, 983xx
+Manokwari-raya filed under Yapen, 996xx south-Papua filed under Nabire).
+GeoNames admin2 codes proved unreliable (same rotations; stale pre-split
+Papua and invented 94xx codes) and were used only for place names and
+coordinates, never for verdicts. Follow-up gap-fill from the Pos Indonesia
+postcode book (prangko.nl mirror: 7 regional + 8 city volumes) crossed
+with GeoNames added 3,613 codes with the same place-vote adjudication,
+closing Surabaya, Semarang, Medan-core, Makassar-core, Malang-core,
+Surakarta-core and all other real-range gaps (Ambon verified complete and 18 more Semarang-city codes added via worldpostalcode town pages); coverage is now 514 of 514
+regencies/cities.
 
 Indonesian addresses are formatted as street lines, `kelurahan`/`desa` and
 `kecamatan` components, `{kota} {postcode}`, province, and country, per the
@@ -1278,10 +1313,21 @@ Temburong). It is selected with
 
 Mukim names follow Brunei government spellings (`Pengkalan Batu`, with
 `Pangkalan Batu` aliased). Bruneian postcodes are six characters — two
-uppercase letters (district, then mukim) followed by four digits — but no
-complete public dataset exists, so postcodes are intentionally not bundled.
-Import operational villages and postcodes through `AddressAreaSource` and
-`ImportPostalCodesAction`.
+uppercase letters (district, then mukim) followed by four digits.
+
+Verification (Oct 2026): the 39 mukim names match the published mukim
+list exactly, and all 394 bundled postcodes were checked code by code
+against Brunei Post finder data (post.gov.bn extract): every code exists
+with the matching mukim, each linking exactly once as primary. The two
+shared prefixes are genuine — `BE` spans Gadong A/B by kampung and `BK`
+spans Sungai Kebun/Kedayan (which also holds `BN`). The 34 finder codes
+not bundled are all agency or locked-bag codes (ministries, Hospital
+Ripas, UBD, `BS8670`–`BS8675` Peti Surat ranges, Shell, post-office
+private bags) — deliberately excluded; the bundle covers kampung
+delivery codes only. Finder-only spellings (`Burong Pinggai Ayer`,
+`Kampong Peramu`) are kept as alternative names. Residual: the finder
+extract notes a few kampungs returned no data, so those kampungs have no
+code here either.
 
 Brunei addresses are formatted per the UPU layout: street lines, kampung
 component, `{town or district} {postcode}` with the town preferred, and

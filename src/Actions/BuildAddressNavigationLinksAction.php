@@ -47,14 +47,14 @@ final class BuildAddressNavigationLinksAction
             return $manual;
         }
 
-        if ($data->provider === 'google' && $data->providerPlaceId !== null) {
+        if ($data->googlePlaceId !== null) {
             $query = $this->coordinateQuery($data) ?? $data->formatted ?? $data->line1;
 
             if ($query !== null) {
                 return 'https://www.google.com/maps/search/?' . http_build_query([
                     'api' => '1',
                     'query' => $query,
-                    'query_place_id' => $data->providerPlaceId,
+                    'query_place_id' => $data->googlePlaceId,
                 ]);
             }
         }
@@ -123,7 +123,7 @@ final class BuildAddressNavigationLinksAction
             return 'navigation_links';
         }
 
-        if ($data->provider === 'google' && $data->providerPlaceId !== null) {
+        if ($data->googlePlaceId !== null) {
             return 'generated_place_id';
         }
 

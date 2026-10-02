@@ -33,8 +33,10 @@ use LogicException;
  * @property array|null $components
  * @property float|null $latitude
  * @property float|null $longitude
- * @property string|null $provider
- * @property string|null $provider_place_id
+ * @property string|null $google_place_id
+ * @property string|null $google_feature_id
+ * @property string|null $google_cid
+ * @property string|null $google_entity_id
  * @property array|null $metadata
  * @property string|null $google_maps_url
  * @property string|null $waze_url
@@ -67,8 +69,10 @@ class AddressSnapshot extends Model
         'components',
         'latitude',
         'longitude',
-        'provider',
-        'provider_place_id',
+        'google_place_id',
+        'google_feature_id',
+        'google_cid',
+        'google_entity_id',
         'metadata',
         'google_maps_url',
         'waze_url',

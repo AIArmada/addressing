@@ -50,7 +50,7 @@ formatted_address / formattedAddress -> formatted
 google_maps_url, google_map_url, maps_url (+ camelCase) -> googleMapsUrl
 waze_url / wazeUrl -> wazeUrl
 navigation_links, external_links (+ camelCase) -> navigationLinks
-provider_place_id / providerPlaceId / place_id / placeId -> providerPlaceId
+google_place_id / googlePlaceId / place_id / placeId -> googlePlaceId
 ```
 
 `country` is the display name and is never mapped to `countryCode`: pass the

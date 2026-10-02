@@ -49,9 +49,10 @@ use Illuminate\Support\Facades\DB;
  * @property float|null $longitude
  * @property string|null $geohash
  * @property string|null $geo_precision
- * @property string|null $provider
- * @property string|null $provider_place_id
- * @property array|null $provider_payload
+ * @property string|null $google_place_id
+ * @property string|null $google_feature_id
+ * @property string|null $google_cid
+ * @property string|null $google_entity_id
  * @property string $validation_status
  * @property CarbonImmutable|null $validated_at
  * @property array|null $metadata
@@ -90,8 +91,10 @@ class Address extends Model
         'components',
         'latitude',
         'longitude',
-        'provider',
-        'provider_place_id',
+        'google_place_id',
+        'google_feature_id',
+        'google_cid',
+        'google_entity_id',
         'google_maps_url',
         'waze_url',
         'navigation_links',
@@ -151,10 +154,10 @@ class Address extends Model
     }
 
     /**
-     * Trusted-write-only fields (`validation_status`, `validated_at`, `provider`,
-     * `provider_place_id`, `provider_payload`) must only be written by server-side
-     * verification flows. Never bind them to user input: callers who forge them
-     * can fake verification state.
+     * Trusted-write-only fields (`validation_status`, `validated_at`,
+     * `google_place_id`) must only be written by server-side verification flows.
+     * Never bind them to user input: callers who forge them can fake
+     * verification state.
      */
     protected $fillable = [
         'country_id',
@@ -185,13 +188,14 @@ class Address extends Model
         'longitude',
         'geohash',
         'geo_precision',
-        'provider',
-        'provider_place_id',
-        'provider_payload',
         'validation_status',
         'validated_at',
         'metadata',
         'google_maps_url',
+        'google_place_id',
+        'google_feature_id',
+        'google_cid',
+        'google_entity_id',
         'waze_url',
         'navigation_links',
     ];
@@ -220,8 +224,10 @@ class Address extends Model
             'formatted_address',
             'geohash',
             'geo_precision',
-            'provider',
-            'provider_place_id',
+            'google_place_id',
+            'google_feature_id',
+            'google_cid',
+            'google_entity_id',
             'validation_status',
             'google_maps_url',
             'waze_url' => parent::setAttribute(
@@ -286,7 +292,6 @@ class Address extends Model
         return [
             'formatted_lines' => 'array',
             'components' => 'array',
-            'provider_payload' => 'array',
             'validated_at' => 'immutable_datetime',
             'metadata' => 'array',
             'navigation_links' => 'array',

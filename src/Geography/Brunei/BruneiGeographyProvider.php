@@ -125,6 +125,13 @@ class BruneiGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             'bn:mukim:pengkalan-batu' => [
                 ['name' => 'Pangkalan Batu', 'name_type' => 'alternative'],
             ],
+            // Brunei Post finder spellings for the gazetted names.
+            'bn:mukim:burong-pingai-ayer' => [
+                ['name' => 'Burong Pinggai Ayer', 'name_type' => 'alternative'],
+            ],
+            'bn:mukim:peramu' => [
+                ['name' => 'Kampong Peramu', 'name_type' => 'alternative'],
+            ],
         ];
     }
 
