@@ -205,6 +205,10 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
                 ['name' => 'Hulu Kelang', 'name_type' => 'alternative'],
                 ['name' => 'Ulu Kelang', 'name_type' => 'alternative'],
             ],
+            // Common form for the WPKL book-to-row row.
+            'my:subdistrict:state:wilayah-persekutuan-kuala-lumpur:bandar-bandar-baharu-sungai-besi' => [
+                ['name' => 'Bandar Bandar Baru Sungai Besi', 'name_type' => 'alternative'],
+            ],
             // Gazetted names; rows keep the long-established common spellings.
             'my:subdistrict:district:selangor:hulu-langat:hulu-langat' => [
                 ['name' => 'Ulu Langat', 'name_type' => 'alternative'],
@@ -237,6 +241,48 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             'my:subdistrict:district:selangor:kuala-langat:tanjong-sepat' => [
                 ['name' => 'Tanjung Sepat', 'name_type' => 'alternative'],
             ],
+            // Variant spellings for Selangor book-to-row rows (towns take the
+            // mukim-consistent stem; the pure-UPI form stays searchable).
+            'my:subdistrict:district:selangor:hulu-langat:bandar-hulu-langat' => [
+                ['name' => 'Bandar Ulu Langat', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:selangor:hulu-langat:pekan-batu-18-hulu-langat' => [
+                ['name' => 'Pekan Batu 18 Ulu Langat', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:selangor:hulu-langat:pekan-dusun-tua-hulu-langat' => [
+                ['name' => 'Pekan Dusun Tua Ulu Langat', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:selangor:hulu-selangor:bandar-hulu-yam' => [
+                ['name' => 'Bandar Ulu Yam', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:selangor:hulu-selangor:bandar-hulu-yam-baharu' => [
+                ['name' => 'Bandar Ulu Yam Baharu', 'name_type' => 'alternative'],
+                ['name' => 'Bandar Hulu Yam Baru', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:selangor:hulu-selangor:bandar-hulu-bernam-i' => [
+                ['name' => 'Bandar Ulu Bernam I', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:selangor:hulu-selangor:bandar-hulu-bernam-ii' => [
+                ['name' => 'Bandar Ulu Bernam II', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:selangor:gombak:bandar-hulu-klang' => [
+                ['name' => 'Bandar Ulu Kelang', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:selangor:kuala-selangor:pekan-kampong-kuantan' => [
+                ['name' => 'Pekan Kampung Kuantan', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:selangor:kuala-selangor:pekan-kampong-baru-hulu-tiram-buruk' => [
+                ['name' => 'Pekan Kampung Baru Hulu Tiram Buruk', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:selangor:kuala-langat:pekan-tanjong-duabelas' => [
+                ['name' => 'Pekan Tanjong Dua Belas', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:selangor:sabak-bernam:pekan-sabak' => [
+                ['name' => 'Sabak Bernam', 'name_type' => 'common', 'is_preferred' => true],
+            ],
+            'my:subdistrict:district:selangor:kuala-langat:bandar-telok-panglima-garang' => [
+                ['name' => 'Teluk Panglima Garang', 'name_type' => 'alternative'],
+            ],
             'my:subdistrict:district:pahang:genting:genting' => [
                 ['name' => 'Genting Highlands', 'name_type' => 'common', 'is_preferred' => true],
             ],
@@ -246,6 +292,10 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             // JUPEM UPI spellings; rows keep the common Hulu forms.
             'my:subdistrict:district:pahang:jelai:ulu-jelai' => [
                 ['name' => 'Hulu Jelai', 'name_type' => 'alternative'],
+            ],
+            // Common town spelling; the row keeps the UPI "Telemung" form.
+            'my:subdistrict:district:pahang:bentong:telemung' => [
+                ['name' => 'Telemong', 'name_type' => 'alternative'],
             ],
             'my:subdistrict:district:pahang:kuantan:hulu-kuantan' => [
                 ['name' => 'Ulu Kuantan', 'name_type' => 'alternative'],
@@ -284,6 +334,16 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             'my:subdistrict:district:johor:pontian:pontian-kechil' => [
                 ['name' => 'Bandar Pontian', 'name_type' => 'alternative'],
             ],
+            // Common town spellings for the Johor book-to-row bandar/pekan rows.
+            'my:subdistrict:district:johor:kluang:bandar-rengam' => [
+                ['name' => 'Renggam', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:johor:tangkak:pekan-grisek' => [
+                ['name' => 'Gerisek', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:johor:segamat:gemas-bahru' => [
+                ['name' => 'Gemas Baru', 'name_type' => 'alternative'],
+            ],
             // JUPEM UPI spellings for Melaka rows keeping common forms.
             'my:subdistrict:district:melaka:melaka-tengah:sungai-udang' => [
                 ['name' => 'Sungei Udang', 'name_type' => 'alternative'],
@@ -312,6 +372,16 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             'my:subdistrict:district:melaka:alor-gajah:sungai-baru-ulu' => [
                 ['name' => 'Sungei Baru Ulu', 'name_type' => 'alternative'],
             ],
+            // UPI archaic forms for the Melaka book-to-row pekan rows.
+            'my:subdistrict:district:melaka:melaka-tengah:pekan-sungai-udang' => [
+                ['name' => 'Pekan Sungei Udang', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:melaka:jasin:pekan-sungai-rambai' => [
+                ['name' => 'Pekan Sungei Rambai', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:melaka:alor-gajah:pekan-kuala-sungai-baru' => [
+                ['name' => 'Pekan Kuala Sungei Baru', 'name_type' => 'alternative'],
+            ],
             // JUPEM UPI spellings for Penang rows keeping common forms.
             'my:subdistrict:district:pulau-pinang:timur-laut:air-itam' => [
                 ['name' => 'Ayer Itam', 'name_type' => 'alternative'],
@@ -328,9 +398,20 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             'my:subdistrict:district:pulau-pinang:seberang-perai-tengah:perai' => [
                 ['name' => 'Prai', 'name_type' => 'alternative'],
             ],
+            // UPI form for the Penang book-to-row row (book: BANDAR SUNGEI BAKAP).
+            'my:subdistrict:district:pulau-pinang:seberang-perai-selatan:bandar-sungai-bakap' => [
+                ['name' => 'Bandar Sungei Bakap', 'name_type' => 'alternative'],
+            ],
             // Common names for Terengganu rows renamed to gazetted forms.
             'my:subdistrict:district:terengganu:kemaman:cukai' => [
                 ['name' => 'Chukai', 'name_type' => 'alternative'],
+            ],
+            // Postal spellings for Terengganu book-to-row rows.
+            'my:subdistrict:district:terengganu:kemaman:pekan-air-putih' => [
+                ['name' => 'Ayer Puteh', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:terengganu:marang:pekan-bukit-payung' => [
+                ['name' => 'Bukit Payong', 'name_type' => 'alternative'],
             ],
             'my:subdistrict:district:terengganu:kemaman:hulu-cukai' => [
                 ['name' => 'Hulu Chukai', 'name_type' => 'alternative'],
@@ -385,6 +466,28 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             'my:subdistrict:district:perak:kinta:hulu-kinta' => [
                 ['name' => 'Ulu Kinta', 'name_type' => 'alternative'],
             ],
+            // Variant spellings for Perak book-to-row rows (UPI Teluk Baru; common Kampung/Puluh forms).
+            'my:subdistrict:district:perak:bagan-datuk:teluk-bharu' => [
+                ['name' => 'Teluk Baru', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:perak:manjung:kampong-baharu' => [
+                ['name' => 'Kampung Baharu', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:perak:manjung:kampong-koh' => [
+                ['name' => 'Kampung Koh', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:perak:manjung:kampong-sitiawan' => [
+                ['name' => 'Kampung Sitiawan', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:perak:perak-tengah:kampong-buloh-akar' => [
+                ['name' => 'Kampung Buloh Akar', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:perak:bagan-datuk:kampong-sungai-haji-mohamed' => [
+                ['name' => 'Kampung Sungai Haji Mohamed', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:perak:bagan-datuk:batu-dua-puloh' => [
+                ['name' => 'Batu Dua Puluh', 'name_type' => 'alternative'],
+            ],
             'my:subdistrict:district:perak:perak-tengah:kampung-gajah' => [
                 ['name' => 'Kampong Gajah', 'name_type' => 'alternative'],
             ],
@@ -413,6 +516,16 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             'my:subdistrict:district:kedah:yan:guar-cempedak' => [
                 ['name' => 'Guar Chempedak', 'name_type' => 'alternative'],
             ],
+            // Common spellings for Kedah book-to-row rows keeping UPI forms.
+            'my:subdistrict:district:kedah:langkawi:telok-datai' => [
+                ['name' => 'Teluk Datai', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:kedah:padang-terap:lubok-merbau' => [
+                ['name' => 'Lubuk Merbau', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:kedah:sik:gajah-puteh' => [
+                ['name' => 'Gajah Putih', 'name_type' => 'alternative'],
+            ],
             // Common names for Kelantan rows renamed to gazetted forms.
             'my:subdistrict:district:kelantan:kota-bharu:baru-kubang-kerian' => [
                 ['name' => 'Kubang Kerian', 'name_type' => 'alternative'],
@@ -426,6 +539,9 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             'my:subdistrict:district:kelantan:tumpat:kampung-laut' => [
                 ['name' => 'Kampong Laut', 'name_type' => 'alternative'],
             ],
+            'my:subdistrict:district:kelantan:kota-bharu:kampung-sireh' => [
+                ['name' => 'Kampong Sireh', 'name_type' => 'alternative'],
+            ],
             // Common names for Negeri Sembilan rows renamed to gazetted forms.
             'my:subdistrict:district:negeri-sembilan:seremban:baru-enstek' => [
                 ['name' => 'Bandar Enstek', 'name_type' => 'alternative'],
@@ -435,6 +551,13 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ],
             'my:subdistrict:district:negeri-sembilan:rembau:sepri' => [
                 ['name' => 'Spri', 'name_type' => 'alternative'],
+            ],
+            // Common spellings for Negeri Sembilan book-to-row rows keeping UPI forms.
+            'my:subdistrict:district:negeri-sembilan:rembau:kampong-batu' => [
+                ['name' => 'Kampung Batu', 'name_type' => 'alternative'],
+            ],
+            'my:subdistrict:district:negeri-sembilan:tampin:gemencheh-bahru' => [
+                ['name' => 'Gemencheh Baru', 'name_type' => 'alternative'],
             ],
         ];
     }

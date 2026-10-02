@@ -16,6 +16,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use SplPriorityQueue;
 
 class ImportAddressAreasAction
 {
@@ -42,12 +43,14 @@ class ImportAddressAreasAction
             $now = CarbonImmutable::now();
 
             $rows = $source->areas()->all();
+            $rows = $this->orderByDependency($rows);
             $total = count($rows);
             $done = 0;
 
             // One preload replaces a SELECT per row. Rows staged by this run
-            // join the map as they are prepped, so file order keeps its
-            // meaning: a parent later in the file is still "not found".
+            // join the map as they are prepped; the payload is
+            // dependency-ordered first, so in-file parents always stage
+            // before their children regardless of file order.
             $areasByKey = $this->preloadAreas($rows);
 
             // Id-keyed parent map for cycle validation across the stored and
@@ -289,6 +292,121 @@ class ImportAddressAreasAction
         }
 
         return null;
+    }
+
+    /**
+     * Order rows so in-file parents precede their children.
+     *
+     * Groups rows by source key (preserving file order within a group, so
+     * last-duplicate-wins semantics are untouched), then emits groups in a
+     * stable topological order: among groups whose in-file parents are all
+     * emitted, the earliest in the file goes first. Payloads that already
+     * list parents first come out in exactly their input order. Rows
+     * left over (a parent cycle inside the file) emit last in raw file
+     * order, so the existing per-row checks report them exactly as before.
+     *
+     * @param  list<AddressAreaData>  $rows
+     * @return list<AddressAreaData>
+     */
+    private function orderByDependency(array $rows): array
+    {
+        $groups = [];
+        $firstSeen = [];
+
+        foreach ($rows as $index => $areaData) {
+            $key = $areaData->source . "\0" . $areaData->sourceId;
+            $groups[$key][] = $index;
+            $firstSeen[$key] ??= $index;
+        }
+
+        if ($groups === []) {
+            return $rows;
+        }
+
+        $parents = [];
+        $dependents = [];
+
+        foreach ($groups as $key => $indexes) {
+            $deps = [];
+
+            foreach ($indexes as $index) {
+                $parentSourceId = $rows[$index]->parentSourceId;
+
+                if ($parentSourceId === null || $parentSourceId === '') {
+                    continue;
+                }
+
+                $parentKey = $rows[$index]->source . "\0" . $parentSourceId;
+
+                if ($parentKey !== $key && isset($groups[$parentKey])) {
+                    $deps[$parentKey] = true;
+                }
+            }
+
+            $parents[$key] = $deps;
+
+            foreach (array_keys($deps) as $dep) {
+                $dependents[$dep][] = $key;
+            }
+        }
+
+        $pending = [];
+
+        foreach ($groups as $key => $indexes) {
+            $pending[$key] = count($parents[$key]);
+        }
+
+        // First-seen indexes are unique per group, so the negated priority
+        // keeps every extraction deterministic.
+        $ready = new SplPriorityQueue;
+        $ready->setExtractFlags(SplPriorityQueue::EXTR_DATA);
+
+        foreach ($groups as $key => $indexes) {
+            if ($pending[$key] === 0) {
+                $ready->insert($key, -$firstSeen[$key]);
+            }
+        }
+
+        $sorted = [];
+        $emitted = [];
+
+        while (! $ready->isEmpty()) {
+            $key = $ready->extract();
+
+            foreach ($groups[$key] as $index) {
+                $sorted[] = $rows[$index];
+            }
+
+            $emitted[$key] = true;
+
+            foreach ($dependents[$key] ?? [] as $child) {
+                $pending[$child]--;
+
+                if ($pending[$child] === 0) {
+                    $ready->insert($child, -$firstSeen[$child]);
+                }
+            }
+        }
+
+        if (count($sorted) < count($rows)) {
+            // File-internal cycle: emit the leftover rows in raw file order
+            // so the existing per-row checks report them exactly as before.
+            $leftover = [];
+
+            foreach ($groups as $key => $indexes) {
+                if (! isset($emitted[$key])) {
+                    array_push($leftover, ...$indexes);
+                }
+            }
+
+            sort($leftover);
+
+            foreach ($leftover as $index) {
+                $sorted[] = $rows[$index];
+            }
+        }
+
+        return $sorted;
     }
 
     /**
