@@ -197,6 +197,8 @@ applied consistently.
 'seed' => [
     // Example: keep non-production city seeds to Malaysia only.
     'full_city_countries' => ['MY'],
+    // Seed bundled postcode datasets as part of the full addressing seed.
+    'postal_codes' => true,
 ],
 ```
 
@@ -204,6 +206,10 @@ Outside production, the bundled `AddressingSeeder` only
 seeds cities for these ISO2 codes, keeping local databases small. Production
 always seeds the full city dataset. Empty (the shipped default) seeds
 everything everywhere.
+
+Set `seed.postal_codes` to `false` to skip the postcode tier in the full
+seed. `PostalCodeSeeder` and `address:seed-postal-codes` always run when
+invoked directly, regardless of this flag.
 
 ## Area Sources
 

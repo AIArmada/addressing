@@ -330,7 +330,10 @@ countries use it and why the rest do not.
 | Vietnam | VN | 3320 | 3320 | B21 re-verification (verify-only, zero changes; gate_vn ALL PASS): bundle set ⊆ true MOST (direct 3321-row recount incl. #VALUE! 05127; prior 3319 JSON was lossy); 3320/3320 legs MOST-correct, 68/68 hand sample; H1 22 wards held as 2026 conversions (live openapi 33/66 vs bundle 45/54, identical names); H2 05127 held (corrupt-row value); H5 GeoNames has no VN postal dump. Original bundling: MOST 2025 national postcode list (94pp; X./P./Đặc khu wards incl. 13 special zones; Tam Dương Bắc cell reads 152213, taken as 15221 sequential; Nghi Dương post-dates the list, omitted) |
 | Wallis and Futuna | WF | 3 | 3 | La Poste Hexasmal (Sep 2026) |
 
-Import any dataset with the generic source (no per-country seeder):
+Seed every bundled dataset with `PostalCodeSeeder`, or one country with
+`address:seed-postal-codes {country?}` (seed countries and country geographies
+first). For a custom dataset outside the bundle, import it with the generic
+source directly:
 
 ```php
 use AIArmada\Addressing\Actions\ImportPostalCodesAction;

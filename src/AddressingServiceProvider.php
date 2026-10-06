@@ -22,11 +22,13 @@ use AIArmada\Addressing\Actions\SeedAddressCountryReferencesAction;
 use AIArmada\Addressing\Actions\SeedAddressingAction;
 use AIArmada\Addressing\Actions\SeedAddressStatesAction;
 use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
+use AIArmada\Addressing\Actions\SeedPostalCodesAction;
 use AIArmada\Addressing\Actions\SyncAddressAreaAssignmentsAction;
 use AIArmada\Addressing\Commands\ExportResolutionGapAliasesCommand;
 use AIArmada\Addressing\Commands\ImportAddressAreasCommand;
 use AIArmada\Addressing\Commands\ReportResolutionGapsCommand;
 use AIArmada\Addressing\Commands\SeedCountryGeographiesCommand;
+use AIArmada\Addressing\Commands\SeedPostalCodesCommand;
 use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Contracts\AddressNormalizer;
 use AIArmada\Addressing\Contracts\CountryAddressFormatter;
@@ -49,6 +51,7 @@ final class AddressingServiceProvider extends PackageServiceProvider
             ->discoversMigrations()
             ->hasCommands(
                 SeedCountryGeographiesCommand::class,
+                SeedPostalCodesCommand::class,
                 ImportAddressAreasCommand::class,
                 ReportResolutionGapsCommand::class,
                 ExportResolutionGapAliasesCommand::class,
@@ -63,6 +66,7 @@ final class AddressingServiceProvider extends PackageServiceProvider
         $this->app->singleton(SeedAddressStatesAction::class);
         $this->app->singleton(SeedAddressCitiesAction::class);
         $this->app->singleton(SeedCountryGeographiesAction::class);
+        $this->app->singleton(SeedPostalCodesAction::class);
         $this->app->singleton(SearchAddressAreasAction::class);
         $this->app->singleton(SyncAddressAreaAssignmentsAction::class);
         $this->app->singleton(ImportPostalCodesAction::class);

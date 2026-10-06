@@ -1002,9 +1002,19 @@ php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressingSeed
 
 `AddressingSeeder` runs `SeedAddressingAction` — the same action the removed `address:seed*`
 commands called, so nothing was lost in the move to seeders. `AddressCountrySeeder` covers the
-ISO countries layer on its own, and `MalaysiaPostalCodeSeeder` covers the MY postal overlay.
+ISO countries layer on its own, and `PostalCodeSeeder` covers every bundled postcode dataset.
 
 Per-country provider geography stays on the command: `address:seed-geographies {country?}`.
-That command always shows progress; `SeedAddressingAction::execute()` and
-`SeedCountryGeographiesAction::execute()` run silently without a progress callback, which is
+Per-country postcodes stay on `address:seed-postal-codes {country?}`. Both commands always
+show progress; the underlying actions run silently without a progress callback, which is
 what queued jobs and tests want.
+
+Breaking change: `MalaysiaPostalCodeSeeder` is removed; `PostalCodeSeeder` seeds Malaysia
+from the same CSVs. Link rows now carry source `my_postal_v1` instead of `pos_malaysia_v1`,
+so after upgrading, prune the stale rows once:
+
+```php
+use AIArmada\Addressing\Models\AddressAreaPostalCode;
+
+AddressAreaPostalCode::query()->where('source', 'pos_malaysia_v1')->delete();
+```

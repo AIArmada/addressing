@@ -39,8 +39,9 @@ php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressingSeed
 
 This is the single entry point. It seeds countries, currency/timezone
 references, states, cities, then every configured country geography provider,
-with progress bars. From your app's `DatabaseSeeder`, call the bundled seeder
-instead of orchestrating the steps yourself:
+then every bundled postcode dataset, with progress bars. From your app's
+`DatabaseSeeder`, call the bundled seeder instead of orchestrating the steps
+yourself:
 
 ```php
 use AIArmada\Addressing\Database\Seeders\AddressingSeeder;
@@ -61,8 +62,11 @@ app(SeedAddressingAction::class)->execute(
 ```
 
 Partial runs use the bundled seeders: `AddressCountrySeeder` for the ISO countries
-layer, and `AddressingSeeder` for the full dataset. Per-country provider geography
-stays on the command: `address:seed-geographies {country?}`.
+layer, `PostalCodeSeeder` for every bundled postcode dataset, and `AddressingSeeder`
+for the full dataset. Per-country provider geography stays on the command:
+`address:seed-geographies {country?}`; per-country postcodes stay on
+`address:seed-postal-codes {country?}`. Seed countries and country geographies
+before postcodes so area links resolve.
 
 ## Seed a Country Geography Provider
 

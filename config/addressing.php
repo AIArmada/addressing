@@ -972,6 +972,8 @@ return [
     'seed' => [
         // ISO2 codes fully seeded outside production; empty keeps the full city dataset.
         'full_city_countries' => [],
+        // Seed bundled postcode datasets as part of the full addressing seed.
+        'postal_codes' => true,
     ],
 
     'area_sources' => [

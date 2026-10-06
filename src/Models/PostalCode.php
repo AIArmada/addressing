@@ -10,6 +10,12 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @property string $country_code
+ * @property string $code
+ * @property bool $is_active
+ * @property array|null $metadata
+ */
 class PostalCode extends Model
 {
     use HasUuids;
