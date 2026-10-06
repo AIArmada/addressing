@@ -92,6 +92,7 @@ postcode,area_source_id,relationship_type,is_primary
 0106,am:district:davtashen,served_by,true
 0107,am:district:nork-marash,served_by,true
 0108,am:district:malatia-sebastia,served_by,true
+0109,am:district:kentron,served_by,true
 0201,am:municipality:ashtarak,served_by,true
 0204,am:municipality:ashtarak,served_by,true
 0205,am:municipality:ashtarak,served_by,true
@@ -112,6 +113,7 @@ postcode,area_source_id,relationship_type,is_primary
 0224,am:municipality:ashtarak,served_by,true
 0225,am:municipality:ashtarak,served_by,true
 0226,am:municipality:ashtarak,served_by,true
+0236,am:municipality:ashtarak,served_by,true
 0301,am:municipality:aparan,served_by,true
 0307,am:municipality:aparan,served_by,true
 0308,am:municipality:aparan,served_by,true
@@ -693,7 +695,7 @@ postcode,area_source_id,relationship_type,is_primary
 3515,am:municipality:sisian,served_by,true
 3516,am:municipality:sisian,served_by,true
 3517,am:municipality:sisian,served_by,true
-3518,am:municipality:goris,served_by,true
+3518,am:municipality:sisian,served_by,true
 3519,am:municipality:sisian,served_by,true
 3601,am:municipality:yeghegnadzor,served_by,true
 3602,am:municipality:areni,served_by,true

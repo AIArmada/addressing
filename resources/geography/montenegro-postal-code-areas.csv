@@ -122,6 +122,7 @@ postcode,area_source_id,relationship_type,is_primary
 85331,me:municipality:kotor,served_by,true
 85332,me:municipality:tivat,served_by,true
 85333,me:municipality:tivat,served_by,true
+85333,me:municipality:kotor,served_by,false
 85334,me:municipality:kotor,served_by,true
 85335,me:municipality:kotor,served_by,true
 85336,me:municipality:kotor,served_by,true

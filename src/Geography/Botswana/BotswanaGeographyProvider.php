@@ -208,7 +208,7 @@ class BotswanaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'North-East', 'code' => 'NE'],
             ['name' => 'North-West', 'code' => 'NW'],
             ['name' => 'Orapa', 'code' => 'OR'],
-            ['name' => 'Selibe Phikwe', 'code' => 'SP'],
+            ['name' => 'Selebi Phikwe', 'code' => 'SP'],
             ['name' => 'South-East', 'code' => 'SE'],
             ['name' => 'Southern', 'code' => 'SO'],
             ['name' => 'Sowa Town', 'code' => 'ST'],

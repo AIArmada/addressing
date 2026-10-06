@@ -232,6 +232,10 @@ class MalaysiaGeographyProvider implements CountryAddressAreaMetadataProvider, C
             'my:subdistrict:district:selangor:klang:port-swettenham' => [
                 ['name' => 'Port Klang', 'name_type' => 'common', 'is_preferred' => true],
             ],
+            // Former name; still the postal locality header for 42920 addresses.
+            'my:subdistrict:district:selangor:klang:pulau-indah' => [
+                ['name' => 'Pulau Lumut', 'name_type' => 'alternative'],
+            ],
             'my:subdistrict:district:selangor:gombak:gombak-setia' => [
                 ['name' => 'Gombak', 'name_type' => 'alternative'],
             ],

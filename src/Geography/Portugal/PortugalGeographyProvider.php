@@ -120,7 +120,14 @@ class PortugalGeographyProvider implements CountryAddressAreaMetadataProvider, C
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            'pt:district:lisbon' => [
+                ['name' => 'Lisbon', 'name_type' => 'alternative'],
+            ],
+            'pt:municipality:lisbon' => [
+                ['name' => 'Lisbon', 'name_type' => 'alternative'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
@@ -208,7 +215,7 @@ class PortugalGeographyProvider implements CountryAddressAreaMetadataProvider, C
             ['name' => 'Faro', 'code' => '08'],
             ['name' => 'Guarda', 'code' => '09'],
             ['name' => 'Leiria', 'code' => '10'],
-            ['name' => 'Lisbon', 'code' => '11'],
+            ['name' => 'Lisboa', 'code' => '11'],
             ['name' => 'Madeira', 'code' => '30'],
             ['name' => 'Portalegre', 'code' => '12'],
             ['name' => 'Porto', 'code' => '13'],

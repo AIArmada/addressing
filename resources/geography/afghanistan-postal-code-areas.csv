@@ -740,7 +740,7 @@ postcode,area_source_id,relationship_type,is_primary
 175301,af:district:shortepa,served_by,true
 175401,af:district:nahr-e-shahi,served_by,true
 175501,af:district:kaldar,served_by,true
-175502,af:district:kaldar,served_by,true
+175502,af:district:sharak-e-hayratan,served_by,true
 175701,af:district:marmul,served_by,true
 175801,af:district:charkent,served_by,true
 175901,af:district:dehdadi,served_by,true
@@ -775,7 +775,7 @@ postcode,area_source_id,relationship_type,is_primary
 186101,af:district:garzewan,served_by,true
 186201,af:district:almar,served_by,true
 186301,af:district:qaysar,served_by,true
-186401,af:district:ghormach,served_by,true
+186401,af:district:qaysar,served_by,true
 186501,af:district:pashtun-kot,served_by,true
 186601,af:district:faryab:kohistan,served_by,true
 186701,af:district:qaysar,served_by,true
@@ -821,7 +821,7 @@ postcode,area_source_id,relationship_type,is_primary
 215701,af:district:kohestanat,served_by,true
 215801,af:district:kohestanat,served_by,true
 215901,af:district:sar-e-pul,served_by,true
-216001,af:district:sayad,served_by,true
+216001,af:district:sar-e-pul,served_by,true
 220101,af:district:gardez,served_by,true
 220201,af:district:gardez,served_by,true
 220301,af:district:gardez,served_by,true
@@ -933,7 +933,7 @@ postcode,area_source_id,relationship_type,is_primary
 265501,af:district:chaparhar,served_by,true
 265601,af:district:surkh-rod,served_by,true
 265701,af:district:behsud,served_by,true
-265702,af:district:jalalabad,served_by,true
+265702,af:district:behsud,served_by,true
 265801,af:district:kuz-kunar,served_by,true
 265901,af:district:dara-e-nur,served_by,true
 266001,af:district:kama,served_by,true
@@ -1000,7 +1000,7 @@ postcode,area_source_id,relationship_type,is_primary
 295501,af:district:barg-e-matal,served_by,true
 295601,af:district:mandol,served_by,true
 295701,af:district:duab,served_by,true
-295801,af:district:dara-e-pech,served_by,true
+295801,af:district:waygal,served_by,true
 295901,af:district:parun,served_by,true
 300101,af:district:hirat,served_by,true
 300102,af:district:hirat,served_by,true
@@ -1132,7 +1132,7 @@ postcode,area_source_id,relationship_type,is_primary
 306401,af:district:zindajan,served_by,true
 306501,af:district:guzara,served_by,true
 306601,af:district:shindand,served_by,true
-306701,af:district:anar-dara,served_by,true
+306701,af:district:shindand,served_by,true
 306801,af:district:shindand,served_by,true
 306901,af:district:shindand,served_by,true
 310101,af:district:farah,served_by,true
@@ -1170,8 +1170,8 @@ postcode,area_source_id,relationship_type,is_primary
 325801,af:district:shahrak,served_by,true
 325901,af:district:tolak,served_by,true
 326001,af:district:feroz-koh,served_by,true
-326101,af:district:qala-e-naw,served_by,true
-326201,af:district:qala-e-naw,served_by,true
+326101,af:district:feroz-koh,served_by,true
+326201,af:district:jawand,served_by,true
 330101,af:district:qala-e-naw,served_by,true
 330201,af:district:qala-e-naw,served_by,true
 330301,af:district:qala-e-naw,served_by,true
@@ -1186,7 +1186,7 @@ postcode,area_source_id,relationship_type,is_primary
 335501,af:district:qadis,served_by,true
 335601,af:district:badghis:muqur,served_by,true
 335701,af:district:qadis,served_by,true
-335801,af:district:badghis:muqur,served_by,true
+335801,af:district:ab-kamari,served_by,true
 335901,af:district:bala-murghab,served_by,true
 340101,af:district:fayzabad,served_by,true
 340201,af:district:fayzabad,served_by,true
@@ -1211,7 +1211,7 @@ postcode,area_source_id,relationship_type,is_primary
 346201,af:district:khash,served_by,true
 346301,af:district:kofab,served_by,true
 346401,af:district:shaki,served_by,true
-346501,af:district:darwaz-e-balla,served_by,true
+346501,af:district:darwaz-e-payin,served_by,true
 346601,af:district:darwaz-e-balla,served_by,true
 346701,af:district:shighnan,served_by,true
 346801,af:district:arghanj-khwah,served_by,true
@@ -1265,7 +1265,7 @@ postcode,area_source_id,relationship_type,is_primary
 366201,af:district:khwaja-hejran,served_by,true
 366301,af:district:dahana-e-ghori,served_by,true
 366401,af:district:burka,served_by,true
-366501,af:district:dahana-e-ghori,served_by,true
+366501,af:district:pul-e-khumri,served_by,true
 370101,af:district:taloqan,served_by,true
 370201,af:district:taloqan,served_by,true
 370301,af:district:taloqan,served_by,true
@@ -1353,9 +1353,10 @@ postcode,area_source_id,relationship_type,is_primary
 396101,af:district:nad-e-ali,served_by,true
 396201,af:district:washer,served_by,true
 396301,af:district:nad-e-ali,served_by,true
-396401,af:district:kiti,served_by,true
+396401,af:district:baghran,served_by,true
 396501,af:district:baghran,served_by,true
 396601,af:district:nahr-e-saraj,served_by,true
+396701,af:district:deh-e-shu,served_by,true
 396801,af:district:nahr-e-saraj,served_by,true
 400101,af:district:qalat,served_by,true
 400201,af:district:qalat,served_by,true
@@ -1388,6 +1389,7 @@ postcode,area_source_id,relationship_type,is_primary
 420301,af:district:nili,served_by,true
 420401,af:district:nili,served_by,true
 425101,af:district:kajran,served_by,true
+425201,af:district:gizab,served_by,true
 425301,af:district:shahrestan,served_by,true
 425401,af:district:miramor,served_by,true
 425501,af:district:ashtarlay,served_by,true

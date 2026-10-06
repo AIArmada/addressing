@@ -782,7 +782,7 @@ postcode,area_source_id,relationship_type,is_primary
 35500,ni:municipality:las-sabanas,served_by,true
 35600,ni:municipality:san-jose-de-cusmapa,served_by,true
 35700,ni:municipality:telpaneca,served_by,true
-35800,ni:municipality:san-juan-de-rio-coco,served_by,true
+35800,ni:municipality:san-juan-del-rio-coco,served_by,true
 37000,ni:municipality:ocotal,served_by,true
 38100,ni:municipality:mozonte,served_by,true
 38200,ni:municipality:dipilto,served_by,true

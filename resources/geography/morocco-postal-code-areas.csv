@@ -38,7 +38,6 @@ postcode,area_source_id,relationship_type,is_primary
 10114,ma:prefecture:rabat,served_by,true
 10115,ma:prefecture:rabat,served_by,true
 10116,ma:prefecture:rabat,served_by,true
-10119,ma:prefecture:casablanca,served_by,true
 10120,ma:prefecture:rabat,served_by,true
 10130,ma:prefecture:rabat,served_by,true
 10140,ma:prefecture:rabat,served_by,true
@@ -309,7 +308,6 @@ postcode,area_source_id,relationship_type,is_primary
 20104,ma:prefecture:casablanca,served_by,true
 20105,ma:prefecture:casablanca,served_by,true
 20110,ma:prefecture:casablanca,served_by,true
-20119,ma:prefecture:casablanca,served_by,true
 20120,ma:prefecture:casablanca,served_by,true
 20130,ma:prefecture:casablanca,served_by,true
 20140,ma:prefecture:casablanca,served_by,true
@@ -675,7 +673,6 @@ postcode,area_source_id,relationship_type,is_primary
 27182,ma:province:nouaceur,served_by,true
 27222,ma:province:nouaceur,served_by,true
 27223,ma:province:nouaceur,served_by,true
-28119,ma:prefecture:casablanca,served_by,true
 28630,ma:prefecture:mohammedia,served_by,true
 28632,ma:prefecture:mohammedia,served_by,true
 28800,ma:prefecture:mohammedia,served_by,true
@@ -727,7 +724,6 @@ postcode,area_source_id,relationship_type,is_primary
 30105,ma:prefecture:fes,served_by,true
 30106,ma:prefecture:fes,served_by,true
 30110,ma:prefecture:fes,served_by,true
-30119,ma:prefecture:casablanca,served_by,true
 30120,ma:prefecture:fes,served_by,true
 30202,ma:prefecture:fes,served_by,true
 30203,ma:prefecture:fes,served_by,true
@@ -939,8 +935,8 @@ postcode,area_source_id,relationship_type,is_primary
 35203,ma:province:taza,served_by,true
 35222,ma:province:taza,served_by,true
 35223,ma:province:taza,served_by,true
-35224,ma:province:taza,served_by,true
-35224,ma:province:taounate,served_by,false
+35224,ma:province:taza,served_by,false
+35224,ma:province:taounate,served_by,true
 35225,ma:province:taza,served_by,true
 35250,ma:province:taza,served_by,true
 35252,ma:province:taza,served_by,true
@@ -1662,7 +1658,6 @@ postcode,area_source_id,relationship_type,is_primary
 70052,ma:province:laayoune,served_by,true
 70072,ma:province:laayoune,served_by,true
 70073,ma:province:laayoune,served_by,true
-70119,ma:prefecture:casablanca,served_by,true
 71000,ma:province:boujdour,served_by,true
 71002,ma:province:boujdour,served_by,true
 72000,ma:province:es-semara,served_by,true
@@ -1698,9 +1693,8 @@ postcode,area_source_id,relationship_type,is_primary
 80070,ma:prefecture:agadir-ida-ou-tanane,served_by,true
 80080,ma:prefecture:agadir-ida-ou-tanane,served_by,true
 80090,ma:prefecture:agadir-ida-ou-tanane,served_by,true
-80100,ma:prefecture:agadir-ida-ou-tanane,served_by,true
-80100,ma:prefecture:inezgane-ait-melloul,served_by,false
-80119,ma:prefecture:casablanca,served_by,true
+80100,ma:prefecture:agadir-ida-ou-tanane,served_by,false
+80100,ma:prefecture:inezgane-ait-melloul,served_by,true
 80302,ma:prefecture:agadir-ida-ou-tanane,served_by,true
 80303,ma:prefecture:agadir-ida-ou-tanane,served_by,true
 80322,ma:prefecture:agadir-ida-ou-tanane,served_by,true
@@ -1710,8 +1704,8 @@ postcode,area_source_id,relationship_type,is_primary
 80326,ma:prefecture:agadir-ida-ou-tanane,served_by,true
 80502,ma:prefecture:agadir-ida-ou-tanane,served_by,true
 80522,ma:prefecture:agadir-ida-ou-tanane,served_by,true
-80650,ma:prefecture:agadir-ida-ou-tanane,served_by,true
-80650,ma:prefecture:inezgane-ait-melloul,served_by,false
+80650,ma:prefecture:agadir-ida-ou-tanane,served_by,false
+80650,ma:prefecture:inezgane-ait-melloul,served_by,true
 80652,ma:prefecture:agadir-ida-ou-tanane,served_by,true
 80750,ma:prefecture:agadir-ida-ou-tanane,served_by,true
 80752,ma:prefecture:agadir-ida-ou-tanane,served_by,true

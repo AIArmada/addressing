@@ -12,6 +12,7 @@ postcode,area_source_id,relationship_type,is_primary
 01012,es:province:araba,served_by,true
 01013,es:province:araba,served_by,true
 01015,es:province:araba,served_by,true
+01070,es:province:araba,served_by,true
 01071,es:province:araba,served_by,true
 01080,es:province:araba,served_by,true
 01100,es:province:araba,served_by,true
@@ -240,7 +241,6 @@ postcode,area_source_id,relationship_type,is_primary
 03112,es:province:alicante,served_by,true
 03113,es:province:alicante,served_by,true
 03114,es:province:alicante,served_by,true
-03115,es:province:alicante,served_by,true
 03130,es:province:alicante,served_by,true
 03138,es:province:alicante,served_by,true
 03139,es:province:alicante,served_by,true
@@ -321,7 +321,6 @@ postcode,area_source_id,relationship_type,is_primary
 03430,es:province:alicante,served_by,true
 03440,es:province:alicante,served_by,true
 03450,es:province:alicante,served_by,true
-03459,es:province:alicante,served_by,true
 03460,es:province:alicante,served_by,true
 03469,es:province:alicante,served_by,true
 03500,es:province:alicante,served_by,true
@@ -334,7 +333,6 @@ postcode,area_source_id,relationship_type,is_primary
 03516,es:province:alicante,served_by,true
 03517,es:province:alicante,served_by,true
 03518,es:province:alicante,served_by,true
-03519,es:province:alicante,served_by,true
 03520,es:province:alicante,served_by,true
 03530,es:province:alicante,served_by,true
 03540,es:province:alicante,served_by,true
@@ -347,7 +345,6 @@ postcode,area_source_id,relationship_type,is_primary
 03579,es:province:alicante,served_by,true
 03580,es:province:alicante,served_by,true
 03581,es:province:alicante,served_by,true
-03589,es:province:alicante,served_by,true
 03590,es:province:alicante,served_by,true
 03599,es:province:alicante,served_by,true
 03600,es:province:alicante,served_by,true
@@ -760,7 +757,6 @@ postcode,area_source_id,relationship_type,is_primary
 06009,es:province:badajoz,served_by,true
 06010,es:province:badajoz,served_by,true
 06011,es:province:badajoz,served_by,true
-06012,es:province:badajoz,served_by,true
 06050,es:province:badajoz,served_by,true
 06070,es:province:badajoz,served_by,true
 06071,es:province:badajoz,served_by,true
@@ -914,7 +910,7 @@ postcode,area_source_id,relationship_type,is_primary
 06680,es:province:badajoz,served_by,true
 06689,es:province:badajoz,served_by,true
 06690,es:province:badajoz,served_by,true
-06691,es:province:badajoz,served_by,true
+06691,es:province:caceres,served_by,true
 06692,es:province:badajoz,served_by,true
 06700,es:province:badajoz,served_by,true
 06710,es:province:badajoz,served_by,true
@@ -1069,7 +1065,6 @@ postcode,area_source_id,relationship_type,is_primary
 07589,es:province:illes-balears,served_by,true
 07590,es:province:illes-balears,served_by,true
 07600,es:province:illes-balears,served_by,true
-07608,es:province:illes-balears,served_by,true
 07609,es:province:illes-balears,served_by,true
 07610,es:province:illes-balears,served_by,true
 07611,es:province:illes-balears,served_by,true
@@ -1484,7 +1479,6 @@ postcode,area_source_id,relationship_type,is_primary
 08798,es:province:barcelona,served_by,true
 08799,es:province:barcelona,served_by,true
 08800,es:province:barcelona,served_by,true
-08805,es:province:barcelona,served_by,true
 08810,es:province:barcelona,served_by,true
 08811,es:province:barcelona,served_by,true
 08812,es:province:barcelona,served_by,true
@@ -1544,6 +1538,7 @@ postcode,area_source_id,relationship_type,is_primary
 09108,es:province:burgos,served_by,true
 09109,es:province:burgos,served_by,true
 09110,es:province:burgos,served_by,true
+09117,es:province:burgos,served_by,true
 09118,es:province:burgos,served_by,true
 09119,es:province:burgos,served_by,true
 09120,es:province:burgos,served_by,true
@@ -1595,7 +1590,6 @@ postcode,area_source_id,relationship_type,is_primary
 09227,es:province:burgos,served_by,true
 09228,es:province:burgos,served_by,true
 09230,es:province:burgos,served_by,true
-09233,es:province:burgos,served_by,true
 09239,es:province:burgos,served_by,true
 09240,es:province:burgos,served_by,true
 09244,es:province:burgos,served_by,true
@@ -1619,7 +1613,6 @@ postcode,area_source_id,relationship_type,is_primary
 09271,es:province:burgos,served_by,true
 09272,es:province:burgos,served_by,true
 09280,es:province:burgos,served_by,true
-09285,es:province:burgos,served_by,true
 09290,es:province:burgos,served_by,true
 09292,es:province:burgos,served_by,true
 09293,es:province:burgos,served_by,true
@@ -1653,7 +1646,6 @@ postcode,area_source_id,relationship_type,is_primary
 09352,es:province:burgos,served_by,true
 09353,es:province:burgos,served_by,true
 09354,es:province:burgos,served_by,true
-09360,es:province:burgos,served_by,true
 09370,es:province:burgos,served_by,true
 09390,es:province:burgos,served_by,true
 09391,es:province:burgos,served_by,true
@@ -1770,7 +1762,6 @@ postcode,area_source_id,relationship_type,is_primary
 10136,es:province:caceres,served_by,true
 10137,es:province:caceres,served_by,true
 10140,es:province:caceres,served_by,true
-10150,es:province:caceres,served_by,true
 10160,es:province:caceres,served_by,true
 10161,es:province:caceres,served_by,true
 10162,es:province:caceres,served_by,true
@@ -1845,7 +1836,6 @@ postcode,area_source_id,relationship_type,is_primary
 10392,es:province:caceres,served_by,true
 10393,es:province:caceres,served_by,true
 10394,es:province:caceres,served_by,true
-10396,es:province:caceres,served_by,true
 10400,es:province:caceres,served_by,true
 10410,es:province:caceres,served_by,true
 10411,es:province:caceres,served_by,true
@@ -2027,7 +2017,6 @@ postcode,area_source_id,relationship_type,is_primary
 11179,es:province:cadiz,served_by,true
 11180,es:province:cadiz,served_by,true
 11190,es:province:cadiz,served_by,true
-11200,es:province:cadiz,served_by,true
 11201,es:province:cadiz,served_by,true
 11202,es:province:cadiz,served_by,true
 11203,es:province:cadiz,served_by,true
@@ -2086,7 +2075,6 @@ postcode,area_source_id,relationship_type,is_primary
 11550,es:province:cadiz,served_by,true
 11560,es:province:cadiz,served_by,true
 11570,es:province:cadiz,served_by,true
-11574,es:province:cadiz,served_by,true
 11579,es:province:cadiz,served_by,true
 11580,es:province:cadiz,served_by,true
 11590,es:province:cadiz,served_by,true
@@ -2225,7 +2213,6 @@ postcode,area_source_id,relationship_type,is_primary
 12500,es:province:castellon,served_by,true
 12510,es:province:castellon,served_by,true
 12511,es:province:castellon,served_by,true
-12512,es:province:castellon,served_by,true
 12513,es:province:castellon,served_by,true
 12520,es:province:castellon,served_by,true
 12526,es:province:castellon,served_by,true
@@ -2300,6 +2287,7 @@ postcode,area_source_id,relationship_type,is_primary
 13240,es:province:ciudad-real,served_by,true
 13247,es:province:ciudad-real,served_by,true
 13248,es:province:ciudad-real,served_by,true
+13249,es:province:albacete,served_by,false
 13249,es:province:ciudad-real,served_by,true
 13250,es:province:ciudad-real,served_by,true
 13260,es:province:ciudad-real,served_by,true
@@ -2344,7 +2332,6 @@ postcode,area_source_id,relationship_type,is_primary
 13431,es:province:ciudad-real,served_by,true
 13432,es:province:ciudad-real,served_by,true
 13433,es:province:ciudad-real,served_by,true
-13434,es:province:ciudad-real,served_by,true
 13440,es:province:ciudad-real,served_by,true
 13450,es:province:ciudad-real,served_by,true
 13459,es:province:ciudad-real,served_by,true
@@ -2410,6 +2397,7 @@ postcode,area_source_id,relationship_type,is_primary
 14111,es:province:cordoba,served_by,true
 14112,es:province:cordoba,served_by,true
 14113,es:province:cordoba,served_by,true
+14113,es:province:sevilla,served_by,false
 14115,es:province:cordoba,served_by,true
 14120,es:province:cordoba,served_by,true
 14129,es:province:cordoba,served_by,true
@@ -2742,7 +2730,6 @@ postcode,area_source_id,relationship_type,is_primary
 15580,es:province:a-coruna,served_by,true
 15582,es:province:a-coruna,served_by,true
 15590,es:province:a-coruna,served_by,true
-15591,es:province:a-coruna,served_by,true
 15592,es:province:a-coruna,served_by,true
 15593,es:province:a-coruna,served_by,true
 15594,es:province:a-coruna,served_by,true
@@ -2926,7 +2913,6 @@ postcode,area_source_id,relationship_type,is_primary
 16080,es:province:cuenca,served_by,true
 16100,es:province:cuenca,served_by,true
 16111,es:province:cuenca,served_by,true
-16112,es:province:cuenca,served_by,true
 16113,es:province:cuenca,served_by,true
 16114,es:province:cuenca,served_by,true
 16118,es:province:cuenca,served_by,true
@@ -2940,7 +2926,6 @@ postcode,area_source_id,relationship_type,is_primary
 16144,es:province:cuenca,served_by,true
 16145,es:province:cuenca,served_by,true
 16146,es:province:cuenca,served_by,true
-16147,es:province:cuenca,served_by,true
 16150,es:province:cuenca,served_by,true
 16152,es:province:cuenca,served_by,true
 16160,es:province:cuenca,served_by,true
@@ -3047,6 +3032,7 @@ postcode,area_source_id,relationship_type,is_primary
 16600,es:province:cuenca,served_by,true
 16610,es:province:cuenca,served_by,true
 16611,es:province:cuenca,served_by,true
+16612,es:province:albacete,served_by,false
 16612,es:province:cuenca,served_by,true
 16620,es:province:cuenca,served_by,true
 16621,es:province:cuenca,served_by,true
@@ -3427,6 +3413,7 @@ postcode,area_source_id,relationship_type,is_primary
 18300,es:province:granada,served_by,true
 18310,es:province:granada,served_by,true
 18311,es:province:granada,served_by,true
+18312,es:province:cordoba,served_by,false
 18312,es:province:granada,served_by,true
 18313,es:province:granada,served_by,true
 18314,es:province:granada,served_by,true
@@ -3579,7 +3566,6 @@ postcode,area_source_id,relationship_type,is_primary
 19128,es:province:guadalajara,served_by,true
 19129,es:province:guadalajara,served_by,true
 19130,es:province:guadalajara,served_by,true
-19131,es:province:guadalajara,served_by,true
 19132,es:province:guadalajara,served_by,true
 19133,es:province:guadalajara,served_by,true
 19134,es:province:guadalajara,served_by,true
@@ -3897,6 +3883,7 @@ postcode,area_source_id,relationship_type,is_primary
 21410,es:province:huelva,served_by,true
 21420,es:province:huelva,served_by,true
 21430,es:province:huelva,served_by,true
+21431,es:province:huelva,served_by,true
 21440,es:province:huelva,served_by,true
 21449,es:province:huelva,served_by,true
 21450,es:province:huelva,served_by,true
@@ -4569,6 +4556,7 @@ postcode,area_source_id,relationship_type,is_primary
 24356,es:province:leon,served_by,true
 24357,es:province:leon,served_by,true
 24358,es:province:leon,served_by,true
+24359,es:province:leon,served_by,true
 24360,es:province:leon,served_by,true
 24367,es:province:leon,served_by,true
 24368,es:province:leon,served_by,true
@@ -5179,7 +5167,6 @@ postcode,area_source_id,relationship_type,is_primary
 26222,es:province:la-rioja,served_by,true
 26223,es:province:la-rioja,served_by,true
 26224,es:province:la-rioja,served_by,true
-26226,es:province:la-rioja,served_by,true
 26230,es:province:la-rioja,served_by,true
 26240,es:province:la-rioja,served_by,true
 26241,es:province:la-rioja,served_by,true
@@ -5239,6 +5226,7 @@ postcode,area_source_id,relationship_type,is_primary
 26526,es:province:la-rioja,served_by,true
 26527,es:province:la-rioja,served_by,true
 26528,es:province:la-rioja,served_by,true
+26528,es:province:zaragoza,served_by,false
 26529,es:province:la-rioja,served_by,true
 26530,es:province:la-rioja,served_by,true
 26531,es:province:la-rioja,served_by,true
@@ -5664,7 +5652,6 @@ postcode,area_source_id,relationship_type,is_primary
 27792,es:province:lugo,served_by,true
 27793,es:province:lugo,served_by,true
 27794,es:province:lugo,served_by,true
-27795,es:province:lugo,served_by,true
 27796,es:province:lugo,served_by,true
 27797,es:province:lugo,served_by,true
 27798,es:province:lugo,served_by,true
@@ -5696,7 +5683,6 @@ postcode,area_source_id,relationship_type,is_primary
 27841,es:province:lugo,served_by,true
 27842,es:province:lugo,served_by,true
 27843,es:province:lugo,served_by,true
-27844,es:province:lugo,served_by,true
 27845,es:province:lugo,served_by,true
 27849,es:province:lugo,served_by,true
 27850,es:province:lugo,served_by,true
@@ -5796,7 +5782,6 @@ postcode,area_source_id,relationship_type,is_primary
 28160,es:province:madrid,served_by,true
 28170,es:province:madrid,served_by,true
 28180,es:province:madrid,served_by,true
-28189,es:province:guadalajara,served_by,false
 28189,es:province:madrid,served_by,true
 28190,es:province:guadalajara,served_by,true
 28190,es:province:madrid,served_by,false
@@ -5828,7 +5813,6 @@ postcode,area_source_id,relationship_type,is_primary
 28250,es:province:madrid,served_by,true
 28260,es:province:madrid,served_by,true
 28270,es:province:madrid,served_by,true
-28279,es:province:madrid,served_by,true
 28280,es:province:madrid,served_by,true
 28290,es:province:madrid,served_by,true
 28292,es:province:madrid,served_by,true
@@ -5838,13 +5822,11 @@ postcode,area_source_id,relationship_type,is_primary
 28296,es:province:madrid,served_by,true
 28297,es:province:madrid,served_by,true
 28300,es:province:madrid,served_by,true
-28310,es:province:madrid,served_by,false
-28310,es:province:toledo,served_by,true
+28310,es:province:madrid,served_by,true
 28311,es:province:madrid,served_by,true
 28312,es:province:madrid,served_by,true
 28320,es:province:madrid,served_by,true
 28330,es:province:madrid,served_by,true
-28339,es:province:madrid,served_by,true
 28340,es:province:madrid,served_by,true
 28341,es:province:madrid,served_by,true
 28342,es:province:madrid,served_by,true
@@ -5861,12 +5843,10 @@ postcode,area_source_id,relationship_type,is_primary
 28411,es:province:madrid,served_by,true
 28412,es:province:madrid,served_by,true
 28413,es:province:madrid,served_by,true
-28419,es:province:madrid,served_by,true
 28420,es:province:madrid,served_by,true
 28430,es:province:madrid,served_by,true
 28440,es:province:madrid,served_by,true
 28450,es:province:madrid,served_by,true
-28459,es:province:madrid,served_by,true
 28460,es:province:madrid,served_by,true
 28470,es:province:madrid,served_by,true
 28479,es:province:madrid,served_by,true
@@ -5878,7 +5858,6 @@ postcode,area_source_id,relationship_type,is_primary
 28510,es:province:madrid,served_by,true
 28511,es:province:madrid,served_by,true
 28512,es:province:madrid,served_by,true
-28513,es:province:madrid,served_by,true
 28514,es:province:madrid,served_by,true
 28515,es:province:madrid,served_by,true
 28521,es:province:madrid,served_by,true
@@ -5899,6 +5878,7 @@ postcode,area_source_id,relationship_type,is_primary
 28597,es:province:madrid,served_by,true
 28598,es:province:madrid,served_by,true
 28600,es:province:madrid,served_by,true
+28600,es:province:toledo,served_by,false
 28607,es:province:madrid,served_by,true
 28609,es:province:madrid,served_by,true
 28610,es:province:madrid,served_by,true
@@ -5980,13 +5960,11 @@ postcode,area_source_id,relationship_type,is_primary
 28830,es:province:madrid,served_by,true
 28840,es:province:madrid,served_by,true
 28850,es:province:madrid,served_by,true
-28851,es:province:madrid,served_by,true
 28860,es:province:madrid,served_by,true
 28861,es:province:madrid,served_by,true
 28862,es:province:madrid,served_by,true
 28863,es:province:madrid,served_by,true
 28864,es:province:madrid,served_by,true
-28870,es:province:madrid,served_by,true
 28880,es:province:madrid,served_by,true
 28890,es:province:madrid,served_by,true
 28891,es:province:madrid,served_by,true
@@ -6114,7 +6092,6 @@ postcode,area_source_id,relationship_type,is_primary
 29392,es:province:malaga,served_by,true
 29393,es:province:malaga,served_by,true
 29394,es:province:malaga,served_by,true
-29395,es:province:malaga,served_by,true
 29400,es:province:malaga,served_by,true
 29410,es:province:malaga,served_by,true
 29420,es:province:malaga,served_by,true
@@ -6224,9 +6201,6 @@ postcode,area_source_id,relationship_type,is_primary
 30010,es:province:murcia,served_by,true
 30011,es:province:murcia,served_by,true
 30012,es:province:murcia,served_by,true
-30070,es:province:murcia,served_by,true
-30071,es:province:murcia,served_by,true
-30080,es:province:murcia,served_by,true
 30100,es:province:murcia,served_by,true
 30107,es:province:murcia,served_by,true
 30108,es:province:murcia,served_by,true
@@ -6270,7 +6244,6 @@ postcode,area_source_id,relationship_type,is_primary
 30193,es:province:murcia,served_by,true
 30194,es:province:murcia,served_by,true
 30195,es:province:murcia,served_by,true
-30196,es:province:murcia,served_by,true
 30200,es:province:murcia,served_by,true
 30201,es:province:murcia,served_by,true
 30202,es:province:murcia,served_by,true
@@ -6340,7 +6313,6 @@ postcode,area_source_id,relationship_type,is_primary
 30528,es:province:murcia,served_by,true
 30529,es:province:murcia,served_by,true
 30530,es:province:murcia,served_by,true
-30535,es:province:murcia,served_by,true
 30540,es:province:murcia,served_by,true
 30550,es:province:murcia,served_by,true
 30558,es:province:murcia,served_by,true
@@ -6916,7 +6888,6 @@ postcode,area_source_id,relationship_type,is_primary
 32768,es:province:ourense,served_by,true
 32769,es:province:ourense,served_by,true
 32770,es:province:ourense,served_by,true
-32774,es:province:ourense,served_by,true
 32778,es:province:ourense,served_by,true
 32779,es:province:ourense,served_by,true
 32780,es:province:ourense,served_by,true
@@ -7172,7 +7143,6 @@ postcode,area_source_id,relationship_type,is_primary
 33558,es:province:asturias,served_by,true
 33559,es:province:asturias,served_by,true
 33560,es:province:asturias,served_by,true
-33566,es:province:asturias,served_by,true
 33567,es:province:asturias,served_by,true
 33568,es:province:asturias,served_by,true
 33569,es:province:asturias,served_by,true
@@ -7189,7 +7159,6 @@ postcode,area_source_id,relationship_type,is_primary
 33585,es:province:asturias,served_by,true
 33586,es:province:asturias,served_by,true
 33587,es:province:asturias,served_by,true
-33588,es:province:asturias,served_by,true
 33589,es:province:asturias,served_by,true
 33590,es:province:asturias,served_by,true
 33591,es:province:asturias,served_by,true
@@ -7200,7 +7169,6 @@ postcode,area_source_id,relationship_type,is_primary
 33596,es:province:asturias,served_by,true
 33597,es:province:asturias,served_by,true
 33598,es:province:asturias,served_by,true
-33599,es:province:asturias,served_by,true
 33600,es:province:asturias,served_by,true
 33610,es:province:asturias,served_by,true
 33611,es:province:asturias,served_by,true
@@ -7213,7 +7181,6 @@ postcode,area_source_id,relationship_type,is_primary
 33618,es:province:asturias,served_by,true
 33619,es:province:asturias,served_by,true
 33620,es:province:asturias,served_by,true
-33627,es:province:asturias,served_by,true
 33628,es:province:asturias,served_by,true
 33629,es:province:asturias,served_by,true
 33630,es:province:asturias,served_by,true
@@ -7225,7 +7192,6 @@ postcode,area_source_id,relationship_type,is_primary
 33660,es:province:asturias,served_by,true
 33669,es:province:asturias,served_by,true
 33670,es:province:asturias,served_by,true
-33673,es:province:asturias,served_by,true
 33675,es:province:asturias,served_by,true
 33676,es:province:asturias,served_by,true
 33677,es:province:asturias,served_by,true
@@ -7242,7 +7208,6 @@ postcode,area_source_id,relationship_type,is_primary
 33688,es:province:asturias,served_by,true
 33690,es:province:asturias,served_by,true
 33691,es:province:asturias,served_by,true
-33692,es:province:asturias,served_by,true
 33693,es:province:asturias,served_by,true
 33694,es:province:asturias,served_by,true
 33695,es:province:asturias,served_by,true
@@ -7257,8 +7222,6 @@ postcode,area_source_id,relationship_type,is_primary
 33718,es:province:asturias,served_by,true
 33719,es:province:asturias,served_by,true
 33720,es:province:asturias,served_by,true
-33721,es:province:asturias,served_by,true
-33724,es:province:asturias,served_by,true
 33725,es:province:asturias,served_by,true
 33726,es:province:asturias,served_by,true
 33727,es:province:asturias,served_by,true
@@ -7266,18 +7229,14 @@ postcode,area_source_id,relationship_type,is_primary
 33729,es:province:asturias,served_by,true
 33730,es:province:asturias,served_by,true
 33731,es:province:asturias,served_by,true
-33732,es:province:asturias,served_by,true
 33733,es:province:asturias,served_by,true
 33734,es:province:asturias,served_by,true
 33735,es:province:asturias,served_by,true
-33736,es:province:asturias,served_by,true
-33737,es:province:asturias,served_by,true
 33738,es:province:asturias,served_by,true
 33739,es:province:asturias,served_by,true
 33740,es:province:asturias,served_by,true
 33746,es:province:asturias,served_by,true
 33747,es:province:asturias,served_by,true
-33748,es:province:asturias,served_by,true
 33749,es:province:asturias,served_by,true
 33750,es:province:asturias,served_by,true
 33756,es:province:asturias,served_by,true
@@ -7311,7 +7270,6 @@ postcode,area_source_id,relationship_type,is_primary
 33795,es:province:asturias,served_by,true
 33796,es:province:asturias,served_by,true
 33798,es:province:asturias,served_by,true
-33799,es:province:asturias,served_by,true
 33800,es:province:asturias,served_by,true
 33810,es:province:asturias,served_by,true
 33811,es:province:asturias,served_by,true
@@ -7331,8 +7289,6 @@ postcode,area_source_id,relationship_type,is_primary
 33829,es:province:asturias,served_by,true
 33830,es:province:asturias,served_by,true
 33836,es:province:asturias,served_by,true
-33837,es:province:asturias,served_by,true
-33838,es:province:asturias,served_by,true
 33839,es:province:asturias,served_by,true
 33840,es:province:asturias,served_by,true
 33841,es:province:asturias,served_by,true
@@ -7371,7 +7327,6 @@ postcode,area_source_id,relationship_type,is_primary
 33900,es:province:asturias,served_by,true
 33909,es:province:asturias,served_by,true
 33910,es:province:asturias,served_by,true
-33912,es:province:asturias,served_by,true
 33919,es:province:asturias,served_by,true
 33920,es:province:asturias,served_by,true
 33929,es:province:asturias,served_by,true
@@ -7414,7 +7369,6 @@ postcode,area_source_id,relationship_type,is_primary
 34003,es:province:palencia,served_by,true
 34004,es:province:palencia,served_by,true
 34005,es:province:palencia,served_by,true
-34006,es:province:palencia,served_by,true
 34070,es:province:palencia,served_by,true
 34071,es:province:palencia,served_by,true
 34080,es:province:palencia,served_by,true
@@ -7433,7 +7387,6 @@ postcode,area_source_id,relationship_type,is_primary
 34127,es:province:palencia,served_by,true
 34128,es:province:palencia,served_by,true
 34129,es:province:palencia,served_by,true
-34130,es:province:palencia,served_by,true
 34131,es:province:palencia,served_by,true
 34132,es:province:palencia,served_by,true
 34133,es:province:palencia,served_by,true
@@ -7460,7 +7413,6 @@ postcode,area_source_id,relationship_type,is_primary
 34250,es:province:palencia,served_by,true
 34257,es:province:palencia,served_by,true
 34259,es:province:palencia,served_by,true
-34260,es:province:burgos,served_by,true
 34261,es:province:palencia,served_by,true
 34300,es:province:palencia,served_by,true
 34304,es:province:palencia,served_by,true
@@ -7750,8 +7702,6 @@ postcode,area_source_id,relationship_type,is_primary
 36270,es:province:pontevedra,served_by,true
 36271,es:province:pontevedra,served_by,true
 36280,es:province:pontevedra,served_by,true
-36281,es:province:pontevedra,served_by,true
-36282,es:province:pontevedra,served_by,true
 36300,es:province:pontevedra,served_by,true
 36307,es:province:pontevedra,served_by,true
 36308,es:province:pontevedra,served_by,true
@@ -7767,7 +7717,6 @@ postcode,area_source_id,relationship_type,is_primary
 36320,es:province:pontevedra,served_by,true
 36330,es:province:pontevedra,served_by,true
 36331,es:province:pontevedra,served_by,true
-36339,es:province:pontevedra,served_by,true
 36340,es:province:pontevedra,served_by,true
 36350,es:province:pontevedra,served_by,true
 36360,es:province:pontevedra,served_by,true
@@ -8099,7 +8048,6 @@ postcode,area_source_id,relationship_type,is_primary
 37120,es:province:salamanca,served_by,true
 37129,es:province:salamanca,served_by,true
 37130,es:province:salamanca,served_by,true
-37139,es:province:salamanca,served_by,true
 37140,es:province:salamanca,served_by,true
 37147,es:province:salamanca,served_by,true
 37148,es:province:salamanca,served_by,true
@@ -8126,10 +8074,7 @@ postcode,area_source_id,relationship_type,is_primary
 37191,es:province:salamanca,served_by,true
 37192,es:province:salamanca,served_by,true
 37193,es:province:salamanca,served_by,true
-37197,es:province:salamanca,served_by,true
-37198,es:province:salamanca,served_by,true
 37200,es:province:salamanca,served_by,true
-37207,es:province:salamanca,served_by,true
 37208,es:province:salamanca,served_by,true
 37209,es:province:salamanca,served_by,true
 37210,es:province:salamanca,served_by,true
@@ -8154,7 +8099,6 @@ postcode,area_source_id,relationship_type,is_primary
 37259,es:province:salamanca,served_by,true
 37260,es:province:salamanca,served_by,true
 37267,es:province:salamanca,served_by,true
-37269,es:province:salamanca,served_by,true
 37270,es:province:salamanca,served_by,true
 37271,es:province:salamanca,served_by,true
 37281,es:province:salamanca,served_by,true
@@ -8208,20 +8152,16 @@ postcode,area_source_id,relationship_type,is_primary
 37454,es:province:salamanca,served_by,true
 37455,es:province:salamanca,served_by,true
 37456,es:province:salamanca,served_by,true
-37458,es:province:salamanca,served_by,true
 37460,es:province:salamanca,served_by,true
 37465,es:province:salamanca,served_by,true
 37466,es:province:salamanca,served_by,true
-37467,es:province:salamanca,served_by,true
 37468,es:province:salamanca,served_by,true
 37470,es:province:salamanca,served_by,true
 37478,es:province:salamanca,served_by,true
-37479,es:province:salamanca,served_by,true
 37480,es:province:salamanca,served_by,true
 37481,es:province:salamanca,served_by,true
 37488,es:province:salamanca,served_by,true
 37490,es:province:salamanca,served_by,true
-37491,es:province:salamanca,served_by,true
 37492,es:province:salamanca,served_by,true
 37493,es:province:salamanca,served_by,true
 37494,es:province:salamanca,served_by,true
@@ -8260,7 +8200,6 @@ postcode,area_source_id,relationship_type,is_primary
 37600,es:province:salamanca,served_by,true
 37606,es:province:salamanca,served_by,true
 37607,es:province:salamanca,served_by,true
-37608,es:province:salamanca,served_by,true
 37609,es:province:salamanca,served_by,true
 37610,es:province:salamanca,served_by,true
 37617,es:province:salamanca,served_by,true
@@ -8291,7 +8230,6 @@ postcode,area_source_id,relationship_type,is_primary
 37712,es:province:salamanca,served_by,true
 37713,es:province:salamanca,served_by,true
 37714,es:province:salamanca,served_by,true
-37715,es:province:salamanca,served_by,true
 37716,es:province:salamanca,served_by,true
 37717,es:province:salamanca,served_by,true
 37718,es:province:salamanca,served_by,true
@@ -8442,7 +8380,6 @@ postcode,area_source_id,relationship_type,is_primary
 38399,es:province:santa-cruz-de-tenerife,served_by,true
 38400,es:province:santa-cruz-de-tenerife,served_by,true
 38410,es:province:santa-cruz-de-tenerife,served_by,true
-38411,es:province:santa-cruz-de-tenerife,served_by,true
 38412,es:province:santa-cruz-de-tenerife,served_by,true
 38413,es:province:santa-cruz-de-tenerife,served_by,true
 38414,es:province:santa-cruz-de-tenerife,served_by,true
@@ -8900,7 +8837,6 @@ postcode,area_source_id,relationship_type,is_primary
 40296,es:province:segovia,served_by,true
 40297,es:province:segovia,served_by,true
 40298,es:province:segovia,served_by,true
-40299,es:province:segovia,served_by,true
 40300,es:province:segovia,served_by,true
 40310,es:province:segovia,served_by,true
 40311,es:province:segovia,served_by,true
@@ -9193,12 +9129,10 @@ postcode,area_source_id,relationship_type,is_primary
 42142,es:province:soria,served_by,true
 42145,es:province:soria,served_by,true
 42146,es:province:soria,served_by,true
-42147,es:province:soria,served_by,true
 42148,es:province:soria,served_by,true
 42149,es:province:soria,served_by,true
 42150,es:province:soria,served_by,true
 42153,es:province:soria,served_by,true
-42154,es:province:soria,served_by,true
 42156,es:province:soria,served_by,true
 42157,es:province:soria,served_by,true
 42158,es:province:soria,served_by,true
@@ -9213,7 +9147,6 @@ postcode,area_source_id,relationship_type,is_primary
 42172,es:province:soria,served_by,true
 42173,es:province:soria,served_by,true
 42174,es:province:soria,served_by,true
-42175,es:province:soria,served_by,true
 42180,es:province:soria,served_by,true
 42181,es:province:soria,served_by,true
 42189,es:province:soria,served_by,true
@@ -9241,8 +9174,7 @@ postcode,area_source_id,relationship_type,is_primary
 42258,es:province:soria,served_by,true
 42259,es:province:soria,served_by,true
 42260,es:province:soria,served_by,true
-42269,es:province:soria,served_by,false
-42269,es:province:zaragoza,served_by,true
+42269,es:province:soria,served_by,true
 42290,es:province:soria,served_by,true
 42291,es:province:soria,served_by,true
 42294,es:province:soria,served_by,true
@@ -9262,7 +9194,6 @@ postcode,area_source_id,relationship_type,is_primary
 42342,es:province:soria,served_by,true
 42344,es:province:soria,served_by,true
 42345,es:province:soria,served_by,true
-42350,es:province:soria,served_by,true
 42351,es:province:soria,served_by,true
 42360,es:province:soria,served_by,true
 42365,es:province:soria,served_by,true
@@ -9376,7 +9307,6 @@ postcode,area_source_id,relationship_type,is_primary
 43515,es:province:tarragona,served_by,true
 43516,es:province:tarragona,served_by,true
 43517,es:province:tarragona,served_by,true
-43518,es:province:tarragona,served_by,true
 43519,es:province:tarragona,served_by,true
 43520,es:province:tarragona,served_by,true
 43527,es:province:tarragona,served_by,true
@@ -9413,7 +9343,6 @@ postcode,area_source_id,relationship_type,is_primary
 43718,es:province:tarragona,served_by,true
 43719,es:province:tarragona,served_by,true
 43720,es:province:tarragona,served_by,true
-43729,es:province:tarragona,served_by,true
 43730,es:province:tarragona,served_by,true
 43736,es:province:tarragona,served_by,true
 43737,es:province:tarragona,served_by,true
@@ -9605,7 +9534,6 @@ postcode,area_source_id,relationship_type,is_primary
 44450,es:province:teruel,served_by,true
 44459,es:province:teruel,served_by,true
 44460,es:province:teruel,served_by,true
-44470,es:province:teruel,served_by,true
 44477,es:province:teruel,served_by,true
 44478,es:province:teruel,served_by,true
 44479,es:province:teruel,served_by,true
@@ -9752,6 +9680,7 @@ postcode,area_source_id,relationship_type,is_primary
 45213,es:province:toledo,served_by,true
 45214,es:province:toledo,served_by,true
 45215,es:province:toledo,served_by,true
+45216,es:province:madrid,served_by,false
 45216,es:province:toledo,served_by,true
 45217,es:province:toledo,served_by,true
 45220,es:province:toledo,served_by,true
@@ -9788,7 +9717,6 @@ postcode,area_source_id,relationship_type,is_primary
 45470,es:province:toledo,served_by,true
 45479,es:province:toledo,served_by,true
 45480,es:province:toledo,served_by,true
-45489,es:province:toledo,served_by,true
 45500,es:province:toledo,served_by,true
 45510,es:province:toledo,served_by,true
 45511,es:province:toledo,served_by,true
@@ -10037,7 +9965,6 @@ postcode,area_source_id,relationship_type,is_primary
 46229,es:province:valencia,served_by,true
 46230,es:province:valencia,served_by,true
 46240,es:province:valencia,served_by,true
-46249,es:province:valencia,served_by,true
 46250,es:province:valencia,served_by,true
 46260,es:province:valencia,served_by,true
 46266,es:province:valencia,served_by,true
@@ -10251,7 +10178,6 @@ postcode,area_source_id,relationship_type,is_primary
 47015,es:province:valladolid,served_by,true
 47016,es:province:valladolid,served_by,true
 47017,es:province:valladolid,served_by,true
-47018,es:province:valladolid,served_by,true
 47070,es:province:valladolid,served_by,true
 47071,es:province:valladolid,served_by,true
 47080,es:province:valladolid,served_by,true
@@ -10697,7 +10623,6 @@ postcode,area_source_id,relationship_type,is_primary
 49272,es:province:zamora,served_by,true
 49280,es:province:zamora,served_by,true
 49281,es:province:zamora,served_by,true
-49290,es:province:zamora,served_by,true
 49300,es:province:zamora,served_by,true
 49310,es:province:zamora,served_by,true
 49317,es:province:zamora,served_by,true
@@ -10939,7 +10864,6 @@ postcode,area_source_id,relationship_type,is_primary
 50173,es:province:zaragoza,served_by,true
 50174,es:province:zaragoza,served_by,true
 50175,es:province:zaragoza,served_by,true
-50176,es:province:zaragoza,served_by,true
 50177,es:province:zaragoza,served_by,true
 50178,es:province:zaragoza,served_by,true
 50180,es:province:zaragoza,served_by,true
@@ -10963,6 +10887,7 @@ postcode,area_source_id,relationship_type,is_primary
 50217,es:province:zaragoza,served_by,true
 50219,es:province:zaragoza,served_by,true
 50220,es:province:zaragoza,served_by,true
+50221,es:province:zaragoza,served_by,true
 50227,es:province:zaragoza,served_by,true
 50228,es:province:zaragoza,served_by,true
 50229,es:province:zaragoza,served_by,true
@@ -11045,7 +10970,6 @@ postcode,area_source_id,relationship_type,is_primary
 50408,es:province:zaragoza,served_by,true
 50409,es:province:zaragoza,served_by,true
 50410,es:province:zaragoza,served_by,true
-50411,es:province:zaragoza,served_by,true
 50420,es:province:zaragoza,served_by,true
 50430,es:province:zaragoza,served_by,true
 50440,es:province:zaragoza,served_by,true
@@ -11085,8 +11009,6 @@ postcode,area_source_id,relationship_type,is_primary
 50584,es:province:zaragoza,served_by,true
 50590,es:province:zaragoza,served_by,true
 50591,es:province:zaragoza,served_by,true
-50592,es:province:zaragoza,served_by,true
-50596,es:province:zaragoza,served_by,true
 50600,es:province:zaragoza,served_by,true
 50610,es:province:zaragoza,served_by,true
 50611,es:province:zaragoza,served_by,true

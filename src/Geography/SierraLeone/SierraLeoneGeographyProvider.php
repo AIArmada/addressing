@@ -119,7 +119,23 @@ class SierraLeoneGeographyProvider implements CountryAddressAreaMetadataProvider
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        return [
+            // Stats SL official long forms for the Districts-table short names.
+            'sl:district:western-rural' => [
+                ['name' => 'Western Area Rural', 'name_type' => 'alternative'],
+            ],
+            'sl:district:western-urban' => [
+                ['name' => 'Western Area Urban', 'name_type' => 'alternative'],
+            ],
+            // Stats SL/display shorthand for the ISO 3166-2:SL name.
+            'sl:province:north-western' => [
+                ['name' => 'North West', 'name_type' => 'alternative'],
+            ],
+            // ISO 3166-2:SL official name (SL-W) for the Western Area.
+            'sl:area:western' => [
+                ['name' => 'Western Area', 'name_type' => 'alternative'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */

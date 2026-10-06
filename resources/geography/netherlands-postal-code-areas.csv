@@ -119,7 +119,6 @@ postcode,area_source_id,relationship_type,is_primary
 1214,nl:municipality:hilversum,served_by,true
 1215,nl:municipality:hilversum,served_by,true
 1216,nl:municipality:hilversum,served_by,true
-1216,nl:municipality:wijdemeren,served_by,false
 1217,nl:municipality:hilversum,served_by,true
 1218,nl:municipality:hilversum,served_by,true
 1221,nl:municipality:hilversum,served_by,true
@@ -2243,6 +2242,7 @@ postcode,area_source_id,relationship_type,is_primary
 6143,nl:municipality:sittard-geleen,served_by,true
 6151,nl:municipality:sittard-geleen,served_by,true
 6153,nl:municipality:sittard-geleen,served_by,true
+6153,nl:municipality:beekdaelen,served_by,false
 6155,nl:municipality:beekdaelen,served_by,true
 6161,nl:municipality:sittard-geleen,served_by,true
 6162,nl:municipality:sittard-geleen,served_by,true
@@ -2527,6 +2527,7 @@ postcode,area_source_id,relationship_type,is_primary
 6874,nl:municipality:renkum,served_by,true
 6877,nl:municipality:ede,served_by,true
 6881,nl:municipality:rheden,served_by,true
+6881,nl:municipality:rozendaal,served_by,false
 6882,nl:municipality:rheden,served_by,true
 6883,nl:municipality:rheden,served_by,true
 6891,nl:municipality:rozendaal,served_by,true

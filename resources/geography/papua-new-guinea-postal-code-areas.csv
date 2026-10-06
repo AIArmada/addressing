@@ -6,6 +6,7 @@ postcode,area_source_id,relationship_type,is_primary
 131,pg:district:port-moresby-north-west,served_by,true
 133,pg:district:port-moresby-north-east,served_by,true
 134,pg:district:port-moresby-north-west,served_by,true
+135,pg:district:port-moresby-north-east,served_by,true
 136,pg:district:port-moresby-north-west,served_by,true
 136,pg:district:goilala,served_by,false
 139,pg:district:port-moresby-north-west,served_by,true
@@ -28,6 +29,7 @@ postcode,area_source_id,relationship_type,is_primary
 314,pg:district:kikori,served_by,true
 315,pg:district:kikori,served_by,true
 331,pg:district:south-fly,served_by,true
+332,pg:district:north-fly,served_by,true
 335,pg:district:north-fly,served_by,true
 336,pg:district:middle-fly,served_by,true
 351,pg:district:central-bougainville,served_by,true
@@ -36,7 +38,7 @@ postcode,area_source_id,relationship_type,is_primary
 355,pg:district:south-bougainville,served_by,false
 411,pg:district:lae,served_by,true
 422,pg:district:wau-waria,served_by,true
-423,pg:district:bulolo-district,served_by,true
+423,pg:district:bulolo,served_by,true
 427,pg:district:menyamya,served_by,true
 432,pg:district:tawae-siassi,served_by,true
 434,pg:district:kabwum,served_by,true
@@ -50,6 +52,7 @@ postcode,area_source_id,relationship_type,is_primary
 461,pg:district:kerowagi,served_by,false
 461,pg:district:sina-sina-yonggomugl,served_by,false
 511,pg:district:madang,served_by,true
+512,pg:district:madang,served_by,true
 515,pg:district:sumkar,served_by,true
 517,pg:district:bogia,served_by,true
 522,pg:district:usino-bundi,served_by,true
@@ -63,10 +66,12 @@ postcode,area_source_id,relationship_type,is_primary
 555,pg:district:telefomin,served_by,true
 556,pg:district:nuku,served_by,true
 611,pg:district:rabaul,served_by,true
+613,pg:district:kokopo,served_by,true
 621,pg:district:talasea,served_by,true
 622,pg:district:talasea,served_by,true
 624,pg:district:talasea,served_by,true
 625,pg:district:kandrian-gloucester,served_by,true
 631,pg:district:kavieng,served_by,true
 633,pg:district:namatanai,served_by,true
+635,pg:district:namatanai,served_by,true
 641,pg:district:manus,served_by,true

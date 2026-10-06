@@ -126,7 +126,7 @@ WS1430,ws:village:vailoa,served_by,true
 WS1431,ws:village:lalomanu,served_by,true
 WS1432,ws:district:atua,served_by,true
 WS1433,ws:district:atua,served_by,true
-WS1434,ws:village:matautu,served_by,true
+WS1434,ws:district:atua,served_by,true
 WS1440,ws:village:malaela,served_by,true
 WS1441,ws:village:satitoa,served_by,true
 WS1442,ws:village:ulutogia,served_by,true
@@ -209,7 +209,7 @@ WS2483,ws:district:vaisigano,served_by,true
 WS2484,ws:district:vaisigano,served_by,true
 WS2485,ws:district:vaisigano,served_by,true
 WS2490,ws:village:aopo,served_by,true
-WS2491,ws:village:vaisigano:matavai,served_by,true
+WS2491,ws:district:vaisigano,served_by,true
 WS2492,ws:village:auala,served_by,true
 WS2493,ws:village:vaisala,served_by,true
 WS2494,ws:village:sataua,served_by,true

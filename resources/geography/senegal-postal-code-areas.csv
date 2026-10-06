@@ -24,6 +24,7 @@ postcode,area_source_id,relationship_type,is_primary
 20100,sn:department:rufisque,served_by,true
 20400,sn:department:rufisque,served_by,true
 20600,sn:department:thies,served_by,true
+20600,sn:department:tivaouane,served_by,false
 21000,sn:department:thies,served_by,true
 21001,sn:department:thies,served_by,true
 21001,sn:department:tivaouane,served_by,false
@@ -32,7 +33,6 @@ postcode,area_source_id,relationship_type,is_primary
 21600,sn:department:diourbel,served_by,true
 21800,sn:department:diourbel,served_by,true
 22100,sn:department:mbacke,served_by,true
-22100,sn:department:diourbel,served_by,false
 22300,sn:department:mbacke,served_by,true
 22600,sn:department:m-bour,served_by,true
 23000,sn:department:m-bour,served_by,true
@@ -42,7 +42,6 @@ postcode,area_source_id,relationship_type,is_primary
 23018,sn:department:fatick,served_by,true
 23020,sn:department:foundiougne,served_by,true
 23200,sn:department:m-bour,served_by,true
-23200,sn:department:thies,served_by,false
 23400,sn:department:fatick,served_by,true
 23600,sn:department:fatick,served_by,true
 23605,sn:department:fatick,served_by,true
@@ -57,14 +56,12 @@ postcode,area_source_id,relationship_type,is_primary
 24014,sn:department:foundiougne,served_by,true
 24016,sn:department:foundiougne,served_by,true
 24018,sn:department:foundiougne,served_by,true
-24018,sn:department:gossas,served_by,false
 24020,sn:department:foundiougne,served_by,true
 24022,sn:department:foundiougne,served_by,true
 24025,sn:department:foundiougne,served_by,true
 24025,sn:department:fatick,served_by,false
-24027,sn:department:foundiougne,served_by,true
+24027,sn:department:fatick,served_by,true
 24030,sn:department:kaolack,served_by,true
-24030,sn:department:nioro-du-rip,served_by,false
 24032,sn:department:kaolack,served_by,true
 24034,sn:department:kaolack,served_by,true
 24200,sn:department:nioro-du-rip,served_by,true
@@ -75,7 +72,6 @@ postcode,area_source_id,relationship_type,is_primary
 24800,sn:department:malem-hoddar,served_by,true
 25200,sn:department:koungheul,served_by,true
 25400,sn:department:koumpentoum,served_by,true
-25400,sn:department:tambacounda,served_by,false
 25600,sn:department:tambacounda,served_by,true
 25800,sn:department:tambacounda,served_by,true
 26000,sn:department:tambacounda,served_by,true
@@ -89,7 +85,6 @@ postcode,area_source_id,relationship_type,is_primary
 26015,sn:department:nioro-du-rip,served_by,true
 26015,sn:department:velingara,served_by,false
 26018,sn:department:goudiry,served_by,true
-26018,sn:department:tambacounda,served_by,false
 26020,sn:department:goudiry,served_by,true
 26020,sn:department:bakel,served_by,false
 26022,sn:department:bakel,served_by,true
@@ -106,7 +101,6 @@ postcode,area_source_id,relationship_type,is_primary
 27001,sn:department:ziguinchor,served_by,true
 27005,sn:department:oussouye,served_by,true
 27009,sn:department:oussouye,served_by,true
-27009,sn:department:ziguinchor,served_by,false
 27011,sn:department:ziguinchor,served_by,true
 27013,sn:department:goudomp,served_by,true
 27015,sn:department:goudomp,served_by,true
@@ -114,7 +108,6 @@ postcode,area_source_id,relationship_type,is_primary
 27019,sn:department:sedhiou,served_by,true
 27022,sn:department:sedhiou,served_by,true
 27022,sn:department:goudomp,served_by,false
-27022,sn:department:bounkiling,served_by,false
 27024,sn:department:bounkiling,served_by,true
 27026,sn:department:sedhiou,served_by,true
 27026,sn:department:goudomp,served_by,false
@@ -126,11 +119,9 @@ postcode,area_source_id,relationship_type,is_primary
 27208,sn:department:bignona,served_by,true
 27400,sn:department:kolda,served_by,true
 27400,sn:department:medina-yoro-foulah,served_by,false
-27400,sn:department:velingara,served_by,false
 27402,sn:department:goudomp,served_by,true
 27404,sn:department:velingara,served_by,true
 27406,sn:department:velingara,served_by,true
-27406,sn:department:kolda,served_by,false
 30000,sn:department:tivaouane,served_by,true
 30005,sn:department:tivaouane,served_by,true
 30200,sn:department:tivaouane,served_by,true
@@ -139,14 +130,12 @@ postcode,area_source_id,relationship_type,is_primary
 30404,sn:department:tivaouane,served_by,true
 30500,sn:department:tivaouane,served_by,true
 30600,sn:department:kebemer,served_by,true
-30600,sn:department:louga,served_by,false
 30800,sn:department:kebemer,served_by,true
 30802,sn:department:kebemer,served_by,true
 30804,sn:department:kebemer,served_by,true
 30806,sn:department:kebemer,served_by,true
 30900,sn:department:kebemer,served_by,true
 31000,sn:department:louga,served_by,true
-31000,sn:department:kebemer,served_by,false
 31009,sn:department:louga,served_by,true
 31011,sn:department:linguere,served_by,true
 31011,sn:department:kebemer,served_by,false

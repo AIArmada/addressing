@@ -260,6 +260,7 @@ postcode,area_source_id,relationship_type,is_primary
 04026,it:province:latina,served_by,true
 04027,it:province:latina,served_by,true
 04029,it:province:latina,served_by,true
+04031,it:province:latina,served_by,true
 04100,it:province:latina,served_by,true
 05010,it:province:terni,served_by,true
 05011,it:province:terni,served_by,true
@@ -399,9 +400,11 @@ postcode,area_source_id,relationship_type,is_primary
 07047,it:metropolitan_city:sassari,served_by,true
 07048,it:metropolitan_city:sassari,served_by,true
 07049,it:metropolitan_city:sassari,served_by,true
+07051,it:province:gallura-north-east-sardinia,served_by,true
+07052,it:province:gallura-north-east-sardinia,served_by,true
 07100,it:metropolitan_city:sassari,served_by,true
-08010,it:province:oristano,served_by,true
 08010,it:province:nuoro,served_by,false
+08010,it:province:oristano,served_by,true
 08011,it:province:nuoro,served_by,true
 08012,it:province:nuoro,served_by,true
 08013,it:province:oristano,served_by,true
@@ -410,9 +413,8 @@ postcode,area_source_id,relationship_type,is_primary
 08017,it:province:nuoro,served_by,true
 08018,it:province:nuoro,served_by,true
 08019,it:province:oristano,served_by,true
-08020,it:province:nuoro,served_by,true
-08020,it:metropolitan_city:sassari,served_by,false
 08020,it:province:gallura-north-east-sardinia,served_by,false
+08020,it:province:nuoro,served_by,true
 08021,it:province:nuoro,served_by,true
 08022,it:province:nuoro,served_by,true
 08023,it:province:nuoro,served_by,true
@@ -422,8 +424,8 @@ postcode,area_source_id,relationship_type,is_primary
 08027,it:province:nuoro,served_by,true
 08028,it:province:nuoro,served_by,true
 08029,it:province:nuoro,served_by,true
-08030,it:province:nuoro,served_by,true
-08030,it:province:oristano,served_by,false
+08030,it:metropolitan_city:cagliari,served_by,true
+08030,it:province:nuoro,served_by,false
 08031,it:province:nuoro,served_by,true
 08032,it:province:nuoro,served_by,true
 08033,it:metropolitan_city:cagliari,served_by,true
@@ -443,8 +445,8 @@ postcode,area_source_id,relationship_type,is_primary
 08048,it:province:ogliastra,served_by,true
 08049,it:province:ogliastra,served_by,true
 08100,it:province:nuoro,served_by,true
-09010,it:province:sulcis-iglesiente,served_by,true
 09010,it:metropolitan_city:cagliari,served_by,false
+09010,it:province:sulcis-iglesiente,served_by,true
 09011,it:province:sulcis-iglesiente,served_by,true
 09012,it:metropolitan_city:cagliari,served_by,true
 09013,it:province:sulcis-iglesiente,served_by,true
@@ -454,6 +456,7 @@ postcode,area_source_id,relationship_type,is_primary
 09017,it:province:sulcis-iglesiente,served_by,true
 09018,it:metropolitan_city:cagliari,served_by,true
 09019,it:province:sulcis-iglesiente,served_by,true
+09020,it:metropolitan_city:cagliari,served_by,false
 09020,it:province:medio-campidano,served_by,true
 09021,it:province:medio-campidano,served_by,true
 09022,it:province:medio-campidano,served_by,true
@@ -464,8 +467,8 @@ postcode,area_source_id,relationship_type,is_primary
 09027,it:province:medio-campidano,served_by,true
 09028,it:metropolitan_city:cagliari,served_by,true
 09029,it:province:medio-campidano,served_by,true
-09030,it:province:medio-campidano,served_by,true
 09030,it:metropolitan_city:cagliari,served_by,false
+09030,it:province:medio-campidano,served_by,true
 09031,it:province:medio-campidano,served_by,true
 09032,it:metropolitan_city:cagliari,served_by,true
 09033,it:metropolitan_city:cagliari,served_by,true
@@ -485,6 +488,26 @@ postcode,area_source_id,relationship_type,is_primary
 09047,it:metropolitan_city:cagliari,served_by,true
 09048,it:metropolitan_city:cagliari,served_by,true
 09049,it:metropolitan_city:cagliari,served_by,true
+09050,it:metropolitan_city:cagliari,served_by,true
+09051,it:metropolitan_city:cagliari,served_by,true
+09052,it:metropolitan_city:cagliari,served_by,true
+09053,it:metropolitan_city:cagliari,served_by,true
+09054,it:metropolitan_city:cagliari,served_by,true
+09055,it:metropolitan_city:cagliari,served_by,true
+09056,it:metropolitan_city:cagliari,served_by,true
+09057,it:metropolitan_city:cagliari,served_by,true
+09058,it:metropolitan_city:cagliari,served_by,true
+09059,it:metropolitan_city:cagliari,served_by,true
+09060,it:metropolitan_city:cagliari,served_by,true
+09061,it:metropolitan_city:cagliari,served_by,true
+09062,it:metropolitan_city:cagliari,served_by,true
+09063,it:metropolitan_city:cagliari,served_by,true
+09064,it:province:ogliastra,served_by,true
+09065,it:province:nuoro,served_by,true
+09066,it:metropolitan_city:cagliari,served_by,true
+09067,it:metropolitan_city:cagliari,served_by,true
+09068,it:metropolitan_city:cagliari,served_by,true
+09069,it:metropolitan_city:cagliari,served_by,true
 09070,it:province:oristano,served_by,true
 09071,it:province:oristano,served_by,true
 09072,it:province:oristano,served_by,true
@@ -503,6 +526,7 @@ postcode,area_source_id,relationship_type,is_primary
 09085,it:province:oristano,served_by,true
 09086,it:province:oristano,served_by,true
 09088,it:province:oristano,served_by,true
+09089,it:province:oristano,served_by,true
 09090,it:province:oristano,served_by,true
 09091,it:province:oristano,served_by,true
 09092,it:province:oristano,served_by,true
@@ -591,6 +615,7 @@ postcode,area_source_id,relationship_type,is_primary
 10076,it:metropolitan_city:turin,served_by,true
 10077,it:metropolitan_city:turin,served_by,true
 10078,it:metropolitan_city:turin,served_by,true
+10079,it:metropolitan_city:turin,served_by,true
 10080,it:metropolitan_city:turin,served_by,true
 10081,it:metropolitan_city:turin,served_by,true
 10082,it:metropolitan_city:turin,served_by,true
@@ -956,6 +981,7 @@ postcode,area_source_id,relationship_type,is_primary
 15079,it:province:alessandria,served_by,true
 15100,it:province:alessandria,served_by,true
 15121,it:province:alessandria,served_by,true
+15122,it:province:alessandria,served_by,true
 16010,it:metropolitan_city:genoa,served_by,true
 16011,it:metropolitan_city:genoa,served_by,true
 16012,it:metropolitan_city:genoa,served_by,true
@@ -1102,8 +1128,8 @@ postcode,area_source_id,relationship_type,is_primary
 18022,it:province:imperia,served_by,true
 18023,it:province:imperia,served_by,true
 18024,it:province:imperia,served_by,true
-18025,it:province:imperia,served_by,true
 18025,it:province:cuneo,served_by,false
+18025,it:province:imperia,served_by,true
 18026,it:province:imperia,served_by,true
 18027,it:province:imperia,served_by,true
 18030,it:province:imperia,served_by,true
@@ -1976,7 +2002,11 @@ postcode,area_source_id,relationship_type,is_primary
 28897,it:province:verbano-cusio-ossola,served_by,true
 28898,it:province:verbano-cusio-ossola,served_by,true
 28899,it:province:verbano-cusio-ossola,served_by,true
+28921,it:province:verbano-cusio-ossola,served_by,true
 28922,it:province:verbano-cusio-ossola,served_by,true
+28923,it:province:verbano-cusio-ossola,served_by,true
+28924,it:province:verbano-cusio-ossola,served_by,true
+28925,it:province:verbano-cusio-ossola,served_by,true
 29010,it:province:piacenza,served_by,true
 29011,it:province:piacenza,served_by,true
 29012,it:province:piacenza,served_by,true
@@ -1997,6 +2027,7 @@ postcode,area_source_id,relationship_type,is_primary
 29027,it:province:piacenza,served_by,true
 29028,it:province:piacenza,served_by,true
 29029,it:province:piacenza,served_by,true
+29031,it:province:piacenza,served_by,true
 29100,it:province:piacenza,served_by,true
 29121,it:province:piacenza,served_by,true
 29122,it:province:piacenza,served_by,true
@@ -2123,11 +2154,12 @@ postcode,area_source_id,relationship_type,is_primary
 32044,it:province:belluno,served_by,true
 32045,it:province:belluno,served_by,true
 32046,it:province:belluno,served_by,true
-32047,it:province:belluno,served_by,true
 32100,it:province:belluno,served_by,true
 33010,it:decentralization_entity:udine,served_by,true
 33011,it:decentralization_entity:udine,served_by,true
+33012,it:decentralization_entity:udine,served_by,true
 33013,it:decentralization_entity:udine,served_by,true
+33014,it:decentralization_entity:udine,served_by,true
 33015,it:decentralization_entity:udine,served_by,true
 33016,it:decentralization_entity:udine,served_by,true
 33017,it:decentralization_entity:udine,served_by,true
@@ -2338,9 +2370,11 @@ postcode,area_source_id,relationship_type,is_primary
 36040,it:province:vicenza,served_by,true
 36042,it:province:vicenza,served_by,true
 36043,it:province:vicenza,served_by,true
+36044,it:province:vicenza,served_by,true
 36045,it:province:vicenza,served_by,true
 36046,it:province:vicenza,served_by,true
 36047,it:province:vicenza,served_by,true
+36048,it:province:vicenza,served_by,true
 36050,it:province:vicenza,served_by,true
 36051,it:province:vicenza,served_by,true
 36052,it:province:vicenza,served_by,true
@@ -2694,6 +2728,7 @@ postcode,area_source_id,relationship_type,is_primary
 41100,it:province:modena,served_by,true
 41121,it:province:modena,served_by,true
 41122,it:province:modena,served_by,true
+41123,it:province:modena,served_by,true
 41124,it:province:modena,served_by,true
 41125,it:province:modena,served_by,true
 41126,it:province:modena,served_by,true
@@ -2893,7 +2928,6 @@ postcode,area_source_id,relationship_type,is_primary
 47019,it:province:forli-cesena,served_by,true
 47020,it:province:forli-cesena,served_by,true
 47021,it:province:forli-cesena,served_by,true
-47023,it:province:forli-cesena,served_by,true
 47025,it:province:forli-cesena,served_by,true
 47027,it:province:forli-cesena,served_by,true
 47028,it:province:forli-cesena,served_by,true
@@ -2907,6 +2941,8 @@ postcode,area_source_id,relationship_type,is_primary
 47100,it:province:forli-cesena,served_by,true
 47121,it:province:forli-cesena,served_by,true
 47122,it:province:forli-cesena,served_by,true
+47521,it:province:forli-cesena,served_by,true
+47522,it:province:forli-cesena,served_by,true
 47814,it:province:rimini,served_by,true
 47822,it:province:rimini,served_by,true
 47824,it:province:rimini,served_by,true
@@ -2955,6 +2991,11 @@ postcode,area_source_id,relationship_type,is_primary
 48033,it:province:ravenna,served_by,true
 48034,it:province:ravenna,served_by,true
 48100,it:province:ravenna,served_by,true
+48121,it:province:ravenna,served_by,true
+48122,it:province:ravenna,served_by,true
+48123,it:province:ravenna,served_by,true
+48124,it:province:ravenna,served_by,true
+48125,it:province:ravenna,served_by,true
 50010,it:metropolitan_city:florence,served_by,true
 50012,it:metropolitan_city:florence,served_by,true
 50013,it:metropolitan_city:florence,served_by,true
@@ -3051,6 +3092,7 @@ postcode,area_source_id,relationship_type,is_primary
 52016,it:province:arezzo,served_by,true
 52017,it:province:arezzo,served_by,true
 52018,it:province:arezzo,served_by,true
+52019,it:province:arezzo,served_by,true
 52020,it:province:arezzo,served_by,true
 52021,it:province:arezzo,served_by,true
 52022,it:province:arezzo,served_by,true
@@ -3324,6 +3366,7 @@ postcode,area_source_id,relationship_type,is_primary
 61032,it:province:pesaro-and-urbino,served_by,true
 61033,it:province:pesaro-and-urbino,served_by,true
 61034,it:province:pesaro-and-urbino,served_by,true
+61036,it:province:pesaro-and-urbino,served_by,true
 61037,it:province:pesaro-and-urbino,served_by,true
 61038,it:province:pesaro-and-urbino,served_by,true
 61039,it:province:pesaro-and-urbino,served_by,true
@@ -3357,6 +3400,7 @@ postcode,area_source_id,relationship_type,is_primary
 62027,it:province:macerata,served_by,true
 62028,it:province:macerata,served_by,true
 62029,it:province:macerata,served_by,true
+62031,it:province:macerata,served_by,true
 62032,it:province:macerata,served_by,true
 62034,it:province:macerata,served_by,true
 62035,it:province:macerata,served_by,true
@@ -3672,6 +3716,7 @@ postcode,area_source_id,relationship_type,is_primary
 71045,it:province:foggia,served_by,true
 71047,it:province:foggia,served_by,true
 71048,it:province:foggia,served_by,true
+71051,it:province:foggia,served_by,true
 71100,it:province:foggia,served_by,true
 71121,it:province:foggia,served_by,true
 71122,it:province:foggia,served_by,true
@@ -3935,6 +3980,7 @@ postcode,area_source_id,relationship_type,is_primary
 82010,it:province:benevento,served_by,true
 82011,it:province:benevento,served_by,true
 82013,it:province:benevento,served_by,true
+82014,it:province:benevento,served_by,true
 82015,it:province:benevento,served_by,true
 82016,it:province:benevento,served_by,true
 82017,it:province:benevento,served_by,true

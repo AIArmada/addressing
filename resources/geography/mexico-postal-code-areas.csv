@@ -23897,8 +23897,8 @@ postcode,area_source_id,relationship_type,is_primary
 77566,mx:municipality:23005,served_by,true
 77567,mx:municipality:23005,served_by,true
 77569,mx:municipality:23005,served_by,true
-77580,mx:municipality:23005,served_by,true
-77586,mx:municipality:23005,served_by,true
+77580,mx:municipality:23011,served_by,true
+77586,mx:municipality:23011,served_by,true
 77600,mx:municipality:23001,served_by,true
 77609,mx:municipality:23001,served_by,true
 77610,mx:municipality:23001,served_by,true

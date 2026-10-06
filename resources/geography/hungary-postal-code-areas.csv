@@ -526,7 +526,6 @@ postcode,area_source_id,relationship_type,is_primary
 2941,hu:district:komarom,served_by,true
 2942,hu:district:komarom,served_by,true
 2943,hu:district:komarom,served_by,true
-2943,hu:district:kisber,served_by,false
 2944,hu:district:komarom,served_by,true
 2945,hu:district:kisber,served_by,true
 2946,hu:district:kisber,served_by,true
@@ -641,6 +640,7 @@ postcode,area_source_id,relationship_type,is_primary
 3240,hu:district:petervasara,served_by,true
 3242,hu:district:petervasara,served_by,true
 3243,hu:district:petervasara,served_by,true
+3244,hu:district:petervasara,served_by,true
 3245,hu:district:petervasara,served_by,true
 3246,hu:district:petervasara,served_by,true
 3247,hu:district:petervasara,served_by,true
@@ -825,6 +825,7 @@ postcode,area_source_id,relationship_type,is_primary
 3598,hu:district:tiszaujvaros,served_by,true
 3599,hu:district:tiszaujvaros,served_by,true
 3600,hu:district:ozd,served_by,true
+3603,hu:district:ozd,served_by,true
 3604,hu:district:ozd,served_by,true
 3608,hu:district:ozd,served_by,true
 3621,hu:district:ozd,served_by,true
@@ -2950,6 +2951,7 @@ postcode,area_source_id,relationship_type,is_primary
 9685,hu:district:vasvar,served_by,true
 9700,hu:district:szombathely,served_by,true
 9707,hu:district:szombathely,served_by,true
+9719,hu:district:szombathely,served_by,true
 9721,hu:district:szombathely,served_by,true
 9722,hu:district:szombathely,served_by,true
 9723,hu:district:koszeg,served_by,true
@@ -2984,8 +2986,7 @@ postcode,area_source_id,relationship_type,is_primary
 9761,hu:district:szombathely,served_by,true
 9762,hu:district:szombathely,served_by,true
 9763,hu:district:szombathely,served_by,true
-9764,hu:district:sarvar,served_by,true
-9764,hu:district:szombathely,served_by,false
+9764,hu:district:szombathely,served_by,true
 9766,hu:district:szombathely,served_by,true
 9771,hu:district:szombathely,served_by,true
 9772,hu:district:szombathely,served_by,true

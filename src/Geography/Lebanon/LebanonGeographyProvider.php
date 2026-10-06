@@ -37,10 +37,15 @@ class LebanonGeographyProvider implements CountryAddressAreaMetadataProvider, Co
     {
         $code = mb_trim($code);
 
-        // Bundled codes are base 4-digit; the 4-digit sector suffix
-        // (spaced LibanPost form or compact) carries no caza signal.
-        if (preg_match('/^(\d{4})\s?(\d{4})$/', $code, $matches) === 1) {
-            return [$code, $matches[1]];
+        // Bundled codes are base 4-digit plus the hyphenated Hazmiyeh
+        // row; the 4-digit sector suffix (hyphenated, spaced LibanPost
+        // form, or compact) keys the hyphenated row first, then the base.
+        if (preg_match('/^(\d{4})[\s-]?(\d{4})$/', $code, $matches) === 1) {
+            return array_values(array_unique([
+                $code,
+                $matches[1] . '-' . $matches[2],
+                $matches[1],
+            ]));
         }
 
         return [$code];

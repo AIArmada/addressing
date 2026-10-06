@@ -210,13 +210,13 @@ class FranceGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
             ['name' => 'Bourgogne-Franche-Comté', 'code' => 'BFC'],
             ['name' => 'Bretagne', 'code' => 'BRE'],
             ['name' => 'Centre-Val de Loire', 'code' => 'CVL'],
-            ['name' => 'Grand-Est', 'code' => 'GES'],
+            ['name' => 'Grand Est', 'code' => 'GES'],
             ['name' => 'Hauts-de-France', 'code' => 'HDF'],
             ['name' => 'Île-de-France', 'code' => 'IDF'],
             ['name' => 'Nouvelle-Aquitaine', 'code' => 'NAQ'],
             ['name' => 'Normandie', 'code' => 'NOR'],
             ['name' => 'Occitanie', 'code' => 'OCC'],
-            ['name' => 'Provence-Alpes-Côte-d’Azur', 'code' => 'PAC'],
+            ['name' => 'Provence-Alpes-Côte-d\'Azur', 'code' => 'PAC'],
             ['name' => 'Pays-de-la-Loire', 'code' => 'PDL'],
         ];
     }

@@ -1,17 +1,18 @@
 postcode,area_source_id,relationship_type,is_primary
-0110,nz:locality:woodhill,served_by,true
+0110,nz:locality:woodhill-whangarei,served_by,true
 0112,nz:locality:whau-valley,served_by,true
 0114,nz:locality:waro,served_by,true
 0116,nz:locality:ruakaka,served_by,true
+0118,nz:locality:one-tree-point,served_by,true
 0140,nz:locality:riverside,served_by,true
 0141,nz:locality:otangarei,served_by,true
 0142,nz:locality:sherwood-rise,served_by,true
 0143,nz:locality:morningside,served_by,true
 0144,nz:locality:tikipunga,served_by,true
-0145,nz:locality:kensington,served_by,true
+0145,nz:locality:kensington-whangarei,served_by,true
 0146,nz:locality:maungakaramea,served_by,true
-0147,nz:locality:woodhill,served_by,true
-0148,nz:locality:woodhill,served_by,true
+0147,nz:locality:woodhill-whangarei,served_by,true
+0148,nz:locality:woodhill-whangarei,served_by,true
 0149,nz:locality:riverside,served_by,true
 0150,nz:locality:hikurangi,served_by,true
 0151,nz:locality:ruakaka,served_by,true
@@ -35,6 +36,7 @@ postcode,area_source_id,relationship_type,is_primary
 0193,nz:locality:waiotira,served_by,true
 0200,nz:locality:opua,served_by,true
 0202,nz:locality:russell,served_by,true
+0204,nz:locality:haruru,served_by,true
 0210,nz:locality:kawakawa,served_by,true
 0211,nz:locality:moerewa,served_by,true
 0230,nz:locality:kerikeri,served_by,true
@@ -128,6 +130,7 @@ postcode,area_source_id,relationship_type,is_primary
 0610,nz:locality:te-atatu-south,served_by,true
 0612,nz:locality:mclaren-park,served_by,true
 0614,nz:locality:swanson,served_by,true
+0616,nz:locality:hobsonville,served_by,true
 0618,nz:locality:hobsonville,served_by,true
 0620,nz:locality:forrest-hill,served_by,true
 0622,nz:locality:belmont,served_by,true
@@ -184,6 +187,7 @@ postcode,area_source_id,relationship_type,is_primary
 0810,nz:locality:huapai,served_by,true
 0812,nz:locality:waimauku,served_by,true
 0814,nz:locality:west-harbour,served_by,true
+0816,nz:locality:waitakere,served_by,true
 0820,nz:locality:riverhead,served_by,true
 0830,nz:locality:parakai,served_by,true
 0840,nz:locality:helensville,served_by,true
@@ -234,6 +238,7 @@ postcode,area_source_id,relationship_type,is_primary
 0991,nz:locality:whangapara,served_by,true
 0992,nz:locality:silverdale,served_by,true
 0993,nz:locality:red-beach,served_by,true
+0994,nz:locality:puhoi,served_by,true
 1010,nz:locality:auckland,served_by,true
 1011,nz:locality:herne-bay,served_by,true
 1021,nz:locality:arch-hill,served_by,true
@@ -310,6 +315,7 @@ postcode,area_source_id,relationship_type,is_primary
 2014,nz:locality:shelly-park,served_by,true
 2016,nz:locality:east-tamaki,served_by,true
 2018,nz:locality:beachlands,served_by,true
+2019,nz:locality:flat-bush,served_by,true
 2022,nz:locality:mangere,served_by,true
 2023,nz:locality:wiri,served_by,true
 2024,nz:locality:mangere-east,served_by,true
@@ -325,6 +331,7 @@ postcode,area_source_id,relationship_type,is_primary
 2121,nz:locality:tuakau,served_by,true
 2122,nz:locality:waiau-pa,served_by,true
 2123,nz:locality:waiuku,served_by,true
+2124,nz:locality:paerata,served_by,true
 2140,nz:locality:pakuranga,served_by,true
 2141,nz:locality:east-tamaki,served_by,true
 2142,nz:locality:east-tamaki,served_by,true
@@ -360,8 +367,9 @@ postcode,area_source_id,relationship_type,is_primary
 2343,nz:locality:bombay,served_by,true
 2344,nz:locality:patumahoe,served_by,true
 2345,nz:locality:waiau-pa,served_by,true
+2402,nz:locality:pokeno,served_by,true
 2440,nz:locality:pokeno,served_by,true
-2441,nz:locality:meremere,served_by,true
+2441,nz:locality:meremere-waikato,served_by,true
 2471,nz:locality:kopuku,served_by,true
 2472,nz:locality:pokeno,served_by,true
 2473,nz:locality:kaiaua,served_by,true
@@ -415,6 +423,8 @@ postcode,area_source_id,relationship_type,is_primary
 3079,nz:locality:ruatahuna,served_by,true
 3081,nz:locality:tahorakui,served_by,true
 3083,nz:locality:tahorakui,served_by,true
+3096,nz:locality:hamurana,served_by,true
+3097,nz:locality:hamurana,served_by,true
 3110,nz:locality:tauranga,served_by,true
 3112,nz:locality:hairini,served_by,true
 3114,nz:locality:omokoroa-beach,served_by,true
@@ -456,10 +466,14 @@ postcode,area_source_id,relationship_type,is_primary
 3171,nz:locality:lower-kaimai,served_by,true
 3172,nz:locality:omokoroa-beach,served_by,true
 3173,nz:locality:oropi,served_by,true
+3174,nz:locality:te-puna,served_by,true
 3175,nz:locality:upper-papamoa,served_by,true
 3176,nz:locality:whakamarama,served_by,true
 3177,nz:locality:athenree,served_by,true
 3178,nz:locality:katikati,served_by,true
+3179,nz:locality:minden,served_by,true
+3180,nz:locality:whakamarama,served_by,true
+3181,nz:locality:whakamarama,served_by,true
 3182,nz:locality:te-puke,served_by,true
 3183,nz:locality:upper-papamoa,served_by,true
 3186,nz:locality:ohinepanea,served_by,true
@@ -511,6 +525,8 @@ postcode,area_source_id,relationship_type,is_primary
 3283,nz:locality:tamahere,served_by,true
 3284,nz:locality:eureka,served_by,true
 3285,nz:locality:aramiro,served_by,true
+3286,nz:locality:newstead,served_by,true
+3287,nz:locality:tauwhare,served_by,true
 3288,nz:locality:te-kowhai,served_by,true
 3289,nz:locality:whatawhata,served_by,true
 3290,nz:locality:temple-view,served_by,true
@@ -543,6 +559,8 @@ postcode,area_source_id,relationship_type,is_primary
 3380,nz:locality:waitoa,served_by,true
 3381,nz:locality:kuratau,served_by,true
 3382,nz:locality:turangi,served_by,true
+3384,nz:locality:wairakei,served_by,true
+3385,nz:locality:acacia-bay,served_by,true
 3391,nz:locality:manawaru,served_by,true
 3392,nz:locality:mangaiti,served_by,true
 3393,nz:locality:mangaiti,served_by,true
@@ -842,7 +860,7 @@ postcode,area_source_id,relationship_type,is_primary
 4353,nz:locality:eltham,served_by,true
 4360,nz:locality:merrilands,served_by,true
 4371,nz:locality:mangorei,served_by,true
-4372,nz:locality:hillsborough,served_by,true
+4372,nz:locality:hillsborough-new-plymouth,served_by,true
 4373,nz:locality:lepperton,served_by,true
 4374,nz:locality:oakura,served_by,true
 4375,nz:locality:okoki,served_by,true
@@ -880,8 +898,9 @@ postcode,area_source_id,relationship_type,is_primary
 4448,nz:locality:summerhill,served_by,true
 4470,nz:locality:ashhurst,served_by,true
 4471,nz:locality:aokautere,served_by,true
+4472,nz:locality:linton,served_by,true
 4473,nz:locality:carnarvon,served_by,true
-4474,nz:locality:tokomaru,served_by,true
+4474,nz:locality:tokomaru-horowhenua,served_by,true
 4475,nz:locality:kairanga,served_by,true
 4476,nz:locality:rongotea,served_by,true
 4477,nz:locality:mangawhata,served_by,true
@@ -890,13 +909,13 @@ postcode,area_source_id,relationship_type,is_primary
 4481,nz:locality:bunnythorpe,served_by,true
 4500,nz:locality:aramoho,served_by,true
 4501,nz:locality:gonville,served_by,true
-4510,nz:locality:waverley,served_by,true
+4510,nz:locality:waverley-south-taranaki,served_by,true
 4520,nz:locality:white-tank,served_by,true
 4540,nz:locality:wanganui,served_by,true
 4541,nz:locality:wanganui,served_by,true
 4542,nz:locality:wanganui-east,served_by,true
 4543,nz:locality:gonville,served_by,true
-4544,nz:locality:waverley,served_by,true
+4544,nz:locality:waverley-south-taranaki,served_by,true
 4545,nz:locality:white-tank,served_by,true
 4547,nz:locality:turakina-south,served_by,true
 4548,nz:locality:ratana,served_by,true
@@ -916,7 +935,7 @@ postcode,area_source_id,relationship_type,is_primary
 4586,nz:locality:kakatahi,served_by,true
 4587,nz:locality:nukumaru,served_by,true
 4588,nz:locality:tawhiwhi,served_by,true
-4591,nz:locality:nukuhau,served_by,true
+4591,nz:locality:waverley-south-taranaki,served_by,true
 4592,nz:locality:mangawhio,served_by,true
 4597,nz:locality:matukuroa,served_by,true
 4598,nz:locality:hurleyville,served_by,true
@@ -996,7 +1015,7 @@ postcode,area_source_id,relationship_type,is_primary
 4861,nz:locality:waiouru,served_by,true
 4862,nz:locality:sanson,served_by,true
 4863,nz:locality:bulls,served_by,true
-4864,nz:locality:tokomaru,served_by,true
+4864,nz:locality:tokomaru-horowhenua,served_by,true
 4865,nz:locality:rongotea,served_by,true
 4866,nz:locality:longburn,served_by,true
 4867,nz:locality:bunnythorpe,served_by,true
@@ -1103,6 +1122,8 @@ postcode,area_source_id,relationship_type,is_primary
 5574,nz:locality:waitarere,served_by,true
 5575,nz:locality:koputaroa,served_by,true
 5581,nz:locality:manakau,served_by,true
+5582,nz:locality:te-horo,served_by,true
+5583,nz:locality:manakau,served_by,true
 5710,nz:locality:featherston,served_by,true
 5711,nz:locality:martinborough,served_by,true
 5712,nz:locality:greytown,served_by,true
@@ -1115,11 +1136,11 @@ postcode,area_source_id,relationship_type,is_primary
 5772,nz:locality:pirinoa,served_by,true
 5773,nz:locality:cross-creek,served_by,true
 5781,nz:locality:pahautea,served_by,true
-5782,nz:locality:waipawa,served_by,true
+5782,nz:locality:tora,served_by,true
 5783,nz:locality:martinborough,served_by,true
 5784,nz:locality:hinakura,served_by,true
 5791,nz:locality:carterton,served_by,true
-5792,nz:locality:parkvale,served_by,true
+5792,nz:locality:parkvale-carterton,served_by,true
 5794,nz:locality:greytown,served_by,true
 5810,nz:locality:masterton,served_by,true
 5840,nz:locality:masterton,served_by,true
@@ -1169,7 +1190,7 @@ postcode,area_source_id,relationship_type,is_primary
 7007,nz:locality:murchison,served_by,true
 7010,nz:locality:nelson-east,served_by,true
 7011,nz:locality:stoke,served_by,true
-7020,nz:locality:richmond,served_by,true
+7020,nz:locality:richmond-tasman,served_by,true
 7022,nz:locality:brightwater,served_by,true
 7025,nz:locality:wakefield,served_by,true
 7040,nz:locality:nelson-east,served_by,true
@@ -1182,7 +1203,7 @@ postcode,area_source_id,relationship_type,is_primary
 7047,nz:locality:nelson-east,served_by,true
 7048,nz:locality:mapua,served_by,true
 7049,nz:locality:murchison,served_by,true
-7050,nz:locality:richmond,served_by,true
+7050,nz:locality:richmond-tasman,served_by,true
 7051,nz:locality:brightwater,served_by,true
 7052,nz:locality:wakefield,served_by,true
 7053,nz:locality:saint-arnaud,served_by,true
@@ -1192,7 +1213,7 @@ postcode,area_source_id,relationship_type,is_primary
 7072,nz:locality:lake-rotoroa,served_by,true
 7073,nz:locality:baton,served_by,true
 7077,nz:locality:matakitaki,served_by,true
-7081,nz:locality:richmond,served_by,true
+7081,nz:locality:richmond-tasman,served_by,true
 7091,nz:locality:brightwater,served_by,true
 7095,nz:locality:hiwipango,served_by,true
 7096,nz:locality:motupiko,served_by,true
@@ -1239,7 +1260,7 @@ postcode,area_source_id,relationship_type,is_primary
 7273,nz:locality:tuamarina,served_by,true
 7274,nz:locality:upcot,served_by,true
 7275,nz:locality:te-rou,served_by,true
-7276,nz:locality:avondale,served_by,true
+7276,nz:locality:avondale-marlborough,served_by,true
 7281,nz:locality:waikawa,served_by,true
 7282,nz:locality:manaroa,served_by,true
 7284,nz:locality:whakatahuri,served_by,true
@@ -1285,6 +1306,9 @@ postcode,area_source_id,relationship_type,is_primary
 7472,nz:locality:north-loburn,served_by,true
 7473,nz:locality:waikuku,served_by,true
 7474,nz:locality:north-loburn,served_by,true
+7475,nz:locality:swannanoa,served_by,true
+7476,nz:locality:eyrewell,served_by,true
+7477,nz:locality:sefton,served_by,true
 7481,nz:locality:amberley,served_by,true
 7482,nz:locality:waipara,served_by,true
 7483,nz:locality:omihi,served_by,true
@@ -1313,8 +1337,11 @@ postcode,area_source_id,relationship_type,is_primary
 7604,nz:locality:prebbleton,served_by,true
 7608,nz:locality:lincoln,served_by,true
 7610,nz:locality:woodend,served_by,true
+7612,nz:locality:pegasus,served_by,true
 7614,nz:locality:rolleston,served_by,true
+7615,nz:locality:rolleston,served_by,true
 7616,nz:locality:springston,served_by,true
+7618,nz:locality:west-melton,served_by,true
 7630,nz:locality:kaiapoi,served_by,true
 7632,nz:locality:leeston,served_by,true
 7640,nz:locality:lincoln,served_by,true
@@ -1335,6 +1362,8 @@ postcode,area_source_id,relationship_type,is_primary
 7674,nz:locality:springston-south,served_by,true
 7675,nz:locality:rolleston,served_by,true
 7676,nz:locality:templeton,served_by,true
+7677,nz:locality:burnham,served_by,true
+7678,nz:locality:rolleston,served_by,true
 7681,nz:locality:springfield,served_by,true
 7682,nz:locality:dunsandel,served_by,true
 7683,nz:locality:southbridge,served_by,true
@@ -1437,6 +1466,7 @@ postcode,area_source_id,relationship_type,is_primary
 7972,nz:locality:southburn,served_by,true
 7973,nz:locality:seadown,served_by,true
 7974,nz:locality:claremont,served_by,true
+7975,nz:locality:levels,served_by,true
 7977,nz:locality:waihaorunga,served_by,true
 7978,nz:locality:waimate,served_by,true
 7979,nz:locality:waihao-forks,served_by,true
@@ -1455,8 +1485,9 @@ postcode,area_source_id,relationship_type,is_primary
 8011,nz:locality:christchurch,served_by,true
 8013,nz:locality:christchurch,served_by,true
 8014,nz:locality:saint-albans,served_by,true
+8016,nz:locality:chatham-islands,served_by,true
 8022,nz:locality:cashmere-hills,served_by,true
-8023,nz:locality:hillsborough,served_by,true
+8023,nz:locality:hillsborough-christchurch,served_by,true
 8024,nz:locality:spreydon,served_by,true
 8025,nz:locality:halswell,served_by,true
 8041,nz:locality:fendalton,served_by,true
@@ -1485,7 +1516,7 @@ postcode,area_source_id,relationship_type,is_primary
 8243,nz:locality:spreydon,served_by,true
 8244,nz:locality:somerfield,served_by,true
 8245,nz:locality:halswell,served_by,true
-8246,nz:locality:hillsborough,served_by,true
+8246,nz:locality:hillsborough-christchurch,served_by,true
 8247,nz:locality:mount-pleasant,served_by,true
 8440,nz:locality:riccarton,served_by,true
 8441,nz:locality:hornby,served_by,true
@@ -1516,7 +1547,7 @@ postcode,area_source_id,relationship_type,is_primary
 9013,nz:locality:ocean-grove,served_by,true
 9014,nz:locality:broad-bay,served_by,true
 9016,nz:locality:waverley,served_by,true
-9018,nz:locality:sunnyvale,served_by,true
+9018,nz:locality:sunnyvale-dunedin,served_by,true
 9019,nz:locality:outram,served_by,true
 9022,nz:locality:maia,served_by,true
 9023,nz:locality:sawyers-bay,served_by,true
@@ -1654,9 +1685,9 @@ postcode,area_source_id,relationship_type,is_primary
 9588,nz:locality:raes-junction,served_by,true
 9591,nz:locality:beaumont,served_by,true
 9593,nz:locality:waitahuna,served_by,true
-9596,nz:locality:ngapuna,served_by,true
+9596,nz:locality:ngapuna-dunedin,served_by,true
 9597,nz:locality:rocklands,served_by,true
-9598,nz:locality:ngapuna,served_by,true
+9598,nz:locality:ngapuna-dunedin,served_by,true
 9600,nz:locality:te-anau,served_by,true
 9610,nz:locality:otautau,served_by,true
 9620,nz:locality:tuatapere,served_by,true
@@ -1706,7 +1737,7 @@ postcode,area_source_id,relationship_type,is_primary
 9792,nz:locality:mossburn,served_by,true
 9793,nz:locality:kingston,served_by,true
 9794,nz:locality:lumsden,served_by,true
-9810,nz:locality:waverley,served_by,true
+9810,nz:locality:waverley-invercargill,served_by,true
 9812,nz:locality:tisbury,served_by,true
 9814,nz:locality:bluff,served_by,true
 9816,nz:locality:wallacetown,served_by,true

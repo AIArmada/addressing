@@ -1,4 +1,6 @@
 postcode,area_source_id,relationship_type,is_primary
+L-1110,lu:commune:niederanven,served_by,false
+L-1110,lu:commune:sandweiler,served_by,true
 L-1111,lu:commune:luxembourg-city,served_by,true
 L-1112,lu:commune:luxembourg-city,served_by,true
 L-1113,lu:commune:luxembourg-city,served_by,true
@@ -133,6 +135,7 @@ L-1316,lu:commune:luxembourg-city,served_by,true
 L-1317,lu:commune:luxembourg-city,served_by,true
 L-1318,lu:commune:luxembourg-city,served_by,true
 L-1319,lu:commune:luxembourg-city,served_by,true
+L-1319,lu:commune:sandweiler,served_by,false
 L-1320,lu:commune:luxembourg-city,served_by,true
 L-1321,lu:commune:luxembourg-city,served_by,true
 L-1322,lu:commune:luxembourg-city,served_by,true
@@ -255,6 +258,7 @@ L-1483,lu:commune:strassen,served_by,true
 L-1484,lu:commune:luxembourg-city,served_by,true
 L-1490,lu:commune:luxembourg-city,served_by,true
 L-1499,lu:commune:luxembourg-city,served_by,true
+L-1507,lu:commune:niederanven,served_by,true
 L-1508,lu:commune:hesperange,served_by,true
 L-1509,lu:commune:luxembourg-city,served_by,true
 L-1510,lu:commune:luxembourg-city,served_by,true
@@ -307,6 +311,7 @@ L-1554,lu:commune:luxembourg-city,served_by,true
 L-1610,lu:commune:luxembourg-city,served_by,true
 L-1611,lu:commune:luxembourg-city,served_by,true
 L-1613,lu:commune:luxembourg-city,served_by,true
+L-1614,lu:commune:hesperange,served_by,true
 L-1615,lu:commune:luxembourg-city,served_by,true
 L-1616,lu:commune:luxembourg-city,served_by,true
 L-1617,lu:commune:luxembourg-city,served_by,true
@@ -326,6 +331,7 @@ L-1630,lu:commune:luxembourg-city,served_by,true
 L-1631,lu:commune:luxembourg-city,served_by,true
 L-1632,lu:commune:luxembourg-city,served_by,true
 L-1633,lu:commune:luxembourg-city,served_by,true
+L-1634,lu:commune:hesperange,served_by,false
 L-1634,lu:commune:luxembourg-city,served_by,true
 L-1635,lu:commune:luxembourg-city,served_by,true
 L-1636,lu:commune:luxembourg-city,served_by,true
@@ -392,6 +398,7 @@ L-1745,lu:commune:luxembourg-city,served_by,true
 L-1746,lu:commune:luxembourg-city,served_by,true
 L-1747,lu:commune:luxembourg-city,served_by,true
 L-1748,lu:commune:niederanven,served_by,true
+L-1748,lu:commune:sandweiler,served_by,false
 L-1749,lu:commune:hesperange,served_by,true
 L-1750,lu:commune:luxembourg-city,served_by,true
 L-1751,lu:commune:sandweiler,served_by,true
@@ -421,7 +428,9 @@ L-1839,lu:commune:luxembourg-city,served_by,true
 L-1840,lu:commune:luxembourg-city,served_by,true
 L-1841,lu:commune:luxembourg-city,served_by,true
 L-1842,lu:commune:hesperange,served_by,true
+L-1843,lu:commune:sandweiler,served_by,true
 L-1845,lu:commune:luxembourg-city,served_by,true
+L-1846,lu:commune:luxembourg-city,served_by,true
 L-1850,lu:commune:luxembourg-city,served_by,true
 L-1851,lu:commune:luxembourg-city,served_by,true
 L-1852,lu:commune:luxembourg-city,served_by,true
@@ -585,6 +594,7 @@ L-2213,lu:commune:luxembourg-city,served_by,true
 L-2214,lu:commune:luxembourg-city,served_by,true
 L-2215,lu:commune:luxembourg-city,served_by,true
 L-2220,lu:commune:luxembourg-city,served_by,true
+L-2220,lu:commune:sandweiler,served_by,false
 L-2221,lu:commune:luxembourg-city,served_by,true
 L-2222,lu:commune:luxembourg-city,served_by,true
 L-2223,lu:commune:luxembourg-city,served_by,true
@@ -606,6 +616,7 @@ L-2243,lu:commune:luxembourg-city,served_by,true
 L-2261,lu:commune:luxembourg-city,served_by,true
 L-2262,lu:commune:luxembourg-city,served_by,true
 L-2263,lu:commune:luxembourg-city,served_by,true
+L-2264,lu:commune:luxembourg-city,served_by,true
 L-2265,lu:commune:luxembourg-city,served_by,true
 L-2266,lu:commune:luxembourg-city,served_by,true
 L-2267,lu:commune:luxembourg-city,served_by,true
@@ -787,6 +798,7 @@ L-2614,lu:commune:luxembourg-city,served_by,true
 L-2615,lu:commune:luxembourg-city,served_by,true
 L-2616,lu:commune:luxembourg-city,served_by,true
 L-2617,lu:commune:luxembourg-city,served_by,true
+L-2618,lu:commune:luxembourg-city,served_by,true
 L-2619,lu:commune:luxembourg-city,served_by,true
 L-2620,lu:commune:luxembourg-city,served_by,true
 L-2621,lu:commune:luxembourg-city,served_by,true
@@ -800,6 +812,7 @@ L-2628,lu:commune:luxembourg-city,served_by,true
 L-2629,lu:commune:luxembourg-city,served_by,true
 L-2630,lu:commune:luxembourg-city,served_by,true
 L-2631,lu:commune:luxembourg-city,served_by,true
+L-2632,lu:commune:luxembourg-city,served_by,false
 L-2632,lu:commune:sandweiler,served_by,true
 L-2633,lu:commune:niederanven,served_by,true
 L-2634,lu:commune:luxembourg-city,served_by,true
@@ -864,7 +877,6 @@ L-2762,lu:commune:luxembourg-city,served_by,true
 L-2763,lu:commune:luxembourg-city,served_by,true
 L-2764,lu:commune:luxembourg-city,served_by,true
 L-3201,lu:commune:bettembourg,served_by,true
-L-3208,lu:commune:bettembourg,served_by,true
 L-3209,lu:commune:bettembourg,served_by,true
 L-3210,lu:commune:bettembourg,served_by,true
 L-3211,lu:commune:bettembourg,served_by,true
@@ -909,6 +921,7 @@ L-3257,lu:commune:bettembourg,served_by,true
 L-3258,lu:commune:bettembourg,served_by,true
 L-3259,lu:commune:bettembourg,served_by,true
 L-3260,lu:commune:bettembourg,served_by,true
+L-3260,lu:commune:roeser,served_by,false
 L-3261,lu:commune:bettembourg,served_by,true
 L-3265,lu:commune:bettembourg,served_by,true
 L-3266,lu:commune:bettembourg,served_by,true
@@ -1138,7 +1151,6 @@ L-3552,lu:commune:dudelange,served_by,true
 L-3553,lu:commune:dudelange,served_by,true
 L-3554,lu:commune:dudelange,served_by,true
 L-3555,lu:commune:dudelange,served_by,true
-L-3556,lu:commune:dudelange,served_by,true
 L-3560,lu:commune:dudelange,served_by,true
 L-3561,lu:commune:dudelange,served_by,true
 L-3562,lu:commune:dudelange,served_by,true
@@ -1174,7 +1186,6 @@ L-3598,lu:commune:dudelange,served_by,true
 L-3601,lu:commune:kayl,served_by,true
 L-3611,lu:commune:kayl,served_by,true
 L-3612,lu:commune:kayl,served_by,true
-L-3613,lu:commune:kayl,served_by,true
 L-3614,lu:commune:kayl,served_by,true
 L-3615,lu:commune:kayl,served_by,true
 L-3616,lu:commune:kayl,served_by,true
@@ -1366,7 +1377,6 @@ L-3919,lu:commune:mondercange,served_by,true
 L-3920,lu:commune:mondercange,served_by,true
 L-3921,lu:commune:mondercange,served_by,true
 L-3922,lu:commune:mondercange,served_by,true
-L-3923,lu:commune:mondercange,served_by,true
 L-3924,lu:commune:mondercange,served_by,true
 L-3925,lu:commune:mondercange,served_by,true
 L-3926,lu:commune:mondercange,served_by,true
@@ -1385,6 +1395,7 @@ L-3938,lu:commune:mondercange,served_by,true
 L-3939,lu:commune:mondercange,served_by,true
 L-3940,lu:commune:mondercange,served_by,true
 L-3941,lu:commune:mondercange,served_by,true
+L-3942,lu:commune:mondercange,served_by,true
 L-3943,lu:commune:mondercange,served_by,true
 L-3944,lu:commune:mondercange,served_by,true
 L-3945,lu:commune:mondercange,served_by,true
@@ -1397,10 +1408,6 @@ L-4002,lu:commune:esch-sur-alzette,served_by,true
 L-4003,lu:commune:esch-sur-alzette,served_by,true
 L-4004,lu:commune:esch-sur-alzette,served_by,true
 L-4005,lu:commune:esch-sur-alzette,served_by,true
-L-4006,lu:commune:esch-sur-alzette,served_by,true
-L-4007,lu:commune:esch-sur-alzette,served_by,true
-L-4008,lu:commune:esch-sur-alzette,served_by,true
-L-4009,lu:commune:esch-sur-alzette,served_by,true
 L-4010,lu:commune:esch-sur-alzette,served_by,true
 L-4011,lu:commune:esch-sur-alzette,served_by,true
 L-4012,lu:commune:esch-sur-alzette,served_by,true
@@ -1473,7 +1480,10 @@ L-4084,lu:commune:esch-sur-alzette,served_by,true
 L-4085,lu:commune:esch-sur-alzette,served_by,true
 L-4086,lu:commune:esch-sur-alzette,served_by,true
 L-4088,lu:commune:esch-sur-alzette,served_by,true
-L-4100,lu:commune:esch-sur-alzette,served_by,true
+L-4090,lu:commune:esch-sur-alzette,served_by,true
+L-4091,lu:commune:esch-sur-alzette,served_by,true
+L-4092,lu:commune:esch-sur-alzette,served_by,true
+L-4093,lu:commune:esch-sur-alzette,served_by,true
 L-4101,lu:commune:esch-sur-alzette,served_by,true
 L-4102,lu:commune:esch-sur-alzette,served_by,true
 L-4103,lu:commune:esch-sur-alzette,served_by,true
@@ -1585,7 +1595,6 @@ L-4255,lu:commune:esch-sur-alzette,served_by,true
 L-4256,lu:commune:esch-sur-alzette,served_by,true
 L-4260,lu:commune:esch-sur-alzette,served_by,true
 L-4261,lu:commune:esch-sur-alzette,served_by,true
-L-4262,lu:commune:esch-sur-alzette,served_by,true
 L-4263,lu:commune:esch-sur-alzette,served_by,true
 L-4264,lu:commune:esch-sur-alzette,served_by,true
 L-4265,lu:commune:esch-sur-alzette,served_by,true
@@ -1630,6 +1639,7 @@ L-4325,lu:commune:esch-sur-alzette,served_by,true
 L-4326,lu:commune:esch-sur-alzette,served_by,true
 L-4327,lu:commune:esch-sur-alzette,served_by,true
 L-4328,lu:commune:esch-sur-alzette,served_by,true
+L-4329,lu:commune:esch-sur-alzette,served_by,true
 L-4330,lu:commune:esch-sur-alzette,served_by,true
 L-4331,lu:commune:esch-sur-alzette,served_by,true
 L-4332,lu:commune:esch-sur-alzette,served_by,true
@@ -1662,6 +1672,7 @@ L-4363,lu:commune:esch-sur-alzette,served_by,true
 L-4364,lu:commune:esch-sur-alzette,served_by,true
 L-4365,lu:commune:esch-sur-alzette,served_by,true
 L-4366,lu:commune:esch-sur-alzette,served_by,true
+L-4367,lu:commune:esch-sur-alzette,served_by,false
 L-4367,lu:commune:sanem,served_by,true
 L-4368,lu:commune:sanem,served_by,true
 L-4369,lu:commune:esch-sur-alzette,served_by,true
@@ -1672,6 +1683,7 @@ L-4371,lu:commune:sanem,served_by,true
 L-4372,lu:commune:sanem,served_by,true
 L-4373,lu:commune:sanem,served_by,true
 L-4374,lu:commune:esch-sur-alzette,served_by,true
+L-4374,lu:commune:sanem,served_by,false
 L-4375,lu:commune:sanem,served_by,true
 L-4380,lu:commune:esch-sur-alzette,served_by,true
 L-4380,lu:commune:sanem,served_by,false
@@ -1782,6 +1794,7 @@ L-4493,lu:commune:sanem,served_by,true
 L-4494,lu:commune:sanem,served_by,true
 L-4498,lu:commune:sanem,served_by,true
 L-4499,lu:commune:reckange-sur-mess,served_by,true
+L-4499,lu:commune:sanem,served_by,false
 L-4501,lu:commune:differdange,served_by,true
 L-4502,lu:commune:differdange,served_by,true
 L-4503,lu:commune:differdange,served_by,true
@@ -1890,6 +1903,7 @@ L-4611,lu:commune:differdange,served_by,true
 L-4612,lu:commune:differdange,served_by,true
 L-4613,lu:commune:differdange,served_by,true
 L-4620,lu:commune:differdange,served_by,true
+L-4620,lu:commune:sanem,served_by,false
 L-4621,lu:commune:differdange,served_by,true
 L-4622,lu:commune:differdange,served_by,true
 L-4623,lu:commune:differdange,served_by,true
@@ -1915,6 +1929,7 @@ L-4642,lu:commune:differdange,served_by,true
 L-4643,lu:commune:differdange,served_by,true
 L-4644,lu:commune:differdange,served_by,true
 L-4645,lu:commune:differdange,served_by,true
+L-4645,lu:commune:kaerjeng,served_by,false
 L-4646,lu:commune:differdange,served_by,true
 L-4647,lu:commune:differdange,served_by,true
 L-4648,lu:commune:differdange,served_by,true
@@ -2501,6 +2516,7 @@ L-5823,lu:commune:hesperange,served_by,true
 L-5824,lu:commune:hesperange,served_by,true
 L-5825,lu:commune:hesperange,served_by,true
 L-5826,lu:commune:hesperange,served_by,true
+L-5827,lu:commune:hesperange,served_by,true
 L-5828,lu:commune:hesperange,served_by,true
 L-5829,lu:commune:hesperange,served_by,true
 L-5830,lu:commune:hesperange,served_by,true
@@ -2668,6 +2684,7 @@ L-6231,lu:commune:rosport-mompach,served_by,false
 L-6235,lu:commune:junglinster,served_by,true
 L-6238,lu:commune:consdorf,served_by,true
 L-6239,lu:commune:consdorf,served_by,true
+L-6240,lu:commune:bech,served_by,false
 L-6240,lu:commune:junglinster,served_by,true
 L-6243,lu:commune:bech,served_by,true
 L-6245,lu:commune:waldbillig,served_by,true
@@ -2689,6 +2706,7 @@ L-6340,lu:commune:reisdorf,served_by,true
 L-6350,lu:commune:beaufort,served_by,true
 L-6360,lu:commune:beaufort,served_by,true
 L-6360,lu:commune:berdorf,served_by,false
+L-6360,lu:commune:waldbillig,served_by,false
 L-6370,lu:commune:waldbillig,served_by,true
 L-6380,lu:commune:vallee-de-l-ernz,served_by,true
 L-6380,lu:commune:waldbillig,served_by,false
@@ -2853,6 +2871,7 @@ L-6684,lu:commune:mertert,served_by,true
 L-6685,lu:commune:mertert,served_by,true
 L-6686,lu:commune:mertert,served_by,true
 L-6687,lu:commune:mertert,served_by,true
+L-6688,lu:commune:grevenmacher,served_by,false
 L-6688,lu:commune:mertert,served_by,true
 L-6689,lu:commune:mertert,served_by,true
 L-6690,lu:commune:rosport-mompach,served_by,true
@@ -2871,7 +2890,6 @@ L-6717,lu:commune:grevenmacher,served_by,true
 L-6718,lu:commune:grevenmacher,served_by,true
 L-6719,lu:commune:grevenmacher,served_by,true
 L-6720,lu:commune:grevenmacher,served_by,true
-L-6721,lu:commune:grevenmacher,served_by,true
 L-6722,lu:commune:grevenmacher,served_by,true
 L-6723,lu:commune:grevenmacher,served_by,true
 L-6724,lu:commune:grevenmacher,served_by,true
@@ -3023,7 +3041,6 @@ L-6997,lu:commune:niederanven,served_by,true
 L-6998,lu:commune:niederanven,served_by,true
 L-6999,lu:commune:niederanven,served_by,true
 L-7201,lu:commune:walferdange,served_by,true
-L-7202,lu:commune:walferdange,served_by,true
 L-7209,lu:commune:walferdange,served_by,true
 L-7210,lu:commune:walferdange,served_by,true
 L-7211,lu:commune:walferdange,served_by,true
@@ -3213,6 +3230,7 @@ L-7456,lu:commune:lintgen,served_by,true
 L-7457,lu:commune:lintgen,served_by,true
 L-7458,lu:commune:lintgen,served_by,true
 L-7460,lu:commune:lintgen,served_by,true
+L-7461,lu:commune:larochette,served_by,true
 L-7462,lu:commune:mersch,served_by,true
 L-7463,lu:commune:mersch,served_by,true
 L-7464,lu:commune:mersch,served_by,true
@@ -3291,14 +3309,17 @@ L-7593,lu:commune:mersch,served_by,true
 L-7594,lu:commune:mersch,served_by,true
 L-7595,lu:commune:mersch,served_by,true
 L-7596,lu:commune:mersch,served_by,true
+L-7597,lu:commune:helperknapp,served_by,false
 L-7597,lu:commune:mersch,served_by,true
 L-7598,lu:commune:mersch,served_by,true
 L-7599,lu:commune:mersch,served_by,true
 L-7601,lu:commune:larochette,served_by,true
 L-7610,lu:commune:larochette,served_by,true
+L-7611,lu:commune:larochette,served_by,true
 L-7612,lu:commune:larochette,served_by,true
 L-7613,lu:commune:larochette,served_by,true
 L-7615,lu:commune:larochette,served_by,true
+L-7616,lu:commune:larochette,served_by,true
 L-7618,lu:commune:larochette,served_by,true
 L-7619,lu:commune:larochette,served_by,true
 L-7620,lu:commune:larochette,served_by,true
@@ -3360,6 +3381,7 @@ L-7733,lu:commune:colmar-berg,served_by,true
 L-7734,lu:commune:colmar-berg,served_by,true
 L-7735,lu:commune:colmar-berg,served_by,true
 L-7737,lu:commune:colmar-berg,served_by,true
+L-7738,lu:commune:colmar-berg,served_by,false
 L-7738,lu:commune:schieren,served_by,true
 L-7739,lu:commune:colmar-berg,served_by,true
 L-7740,lu:commune:colmar-berg,served_by,true
@@ -3408,7 +3430,6 @@ L-8001,lu:commune:strassen,served_by,true
 L-8002,lu:commune:strassen,served_by,true
 L-8005,lu:commune:bertrange,served_by,true
 L-8006,lu:commune:bertrange,served_by,true
-L-8007,lu:commune:bertrange,served_by,true
 L-8008,lu:commune:strassen,served_by,true
 L-8009,lu:commune:strassen,served_by,true
 L-8010,lu:commune:strassen,served_by,true
@@ -3420,6 +3441,7 @@ L-8014,lu:commune:strassen,served_by,true
 L-8015,lu:commune:strassen,served_by,true
 L-8016,lu:commune:strassen,served_by,true
 L-8017,lu:commune:strassen,served_by,true
+L-8018,lu:commune:bertrange,served_by,false
 L-8018,lu:commune:strassen,served_by,true
 L-8019,lu:commune:strassen,served_by,true
 L-8020,lu:commune:strassen,served_by,true
@@ -3659,7 +3681,6 @@ L-8296,lu:commune:kehlen,served_by,true
 L-8297,lu:commune:kehlen,served_by,true
 L-8298,lu:commune:kehlen,served_by,true
 L-8301,lu:commune:mamer,served_by,true
-L-8302,lu:commune:mamer,served_by,true
 L-8303,lu:commune:mamer,served_by,true
 L-8308,lu:commune:mamer,served_by,true
 L-8309,lu:commune:mamer,served_by,true
@@ -3995,6 +4016,7 @@ L-9149,lu:commune:erpeldange-sur-sure,served_by,true
 L-9150,lu:commune:esch-sur-sure,served_by,true
 L-9151,lu:commune:esch-sur-sure,served_by,true
 L-9153,lu:commune:bourscheid,served_by,true
+L-9153,lu:commune:esch-sur-sure,served_by,false
 L-9153,lu:commune:goesdorf,served_by,false
 L-9154,lu:commune:groussbus-wal,served_by,true
 L-9155,lu:commune:groussbus-wal,served_by,true
@@ -4023,6 +4045,7 @@ L-9178,lu:commune:feulen,served_by,true
 L-9179,lu:commune:feulen,served_by,true
 L-9180,lu:commune:feulen,served_by,true
 L-9181,lu:commune:esch-sur-sure,served_by,true
+L-9181,lu:commune:goesdorf,served_by,false
 L-9182,lu:commune:bourscheid,served_by,true
 L-9183,lu:commune:bourscheid,served_by,true
 L-9183,lu:commune:parc-hosingen,served_by,false
@@ -4037,7 +4060,6 @@ L-9191,lu:commune:bourscheid,served_by,true
 L-9191,lu:commune:erpeldange-sur-sure,served_by,false
 L-9201,lu:commune:diekirch,served_by,true
 L-9202,lu:commune:diekirch,served_by,true
-L-9203,lu:commune:diekirch,served_by,true
 L-9205,lu:commune:diekirch,served_by,true
 L-9206,lu:commune:diekirch,served_by,true
 L-9207,lu:commune:diekirch,served_by,true
@@ -4148,6 +4170,7 @@ L-9375,lu:commune:putscheid,served_by,true
 L-9376,lu:commune:parc-hosingen,served_by,true
 L-9377,lu:commune:parc-hosingen,served_by,true
 L-9378,lu:commune:bourscheid,served_by,true
+L-9378,lu:commune:diekirch,served_by,false
 L-9378,lu:commune:parc-hosingen,served_by,false
 L-9378,lu:commune:tandel,served_by,false
 L-9379,lu:commune:diekirch,served_by,true
@@ -4274,6 +4297,7 @@ L-9655,lu:commune:lac-de-la-haute-sure,served_by,true
 L-9656,lu:commune:lac-de-la-haute-sure,served_by,true
 L-9657,lu:commune:lac-de-la-haute-sure,served_by,true
 L-9659,lu:commune:esch-sur-sure,served_by,true
+L-9659,lu:commune:goesdorf,served_by,false
 L-9660,lu:commune:esch-sur-sure,served_by,true
 L-9662,lu:commune:lac-de-la-haute-sure,served_by,true
 L-9663,lu:commune:kiischpelt,served_by,true
@@ -4295,6 +4319,7 @@ L-9684,lu:commune:wincrange,served_by,true
 L-9687,lu:commune:boulaide,served_by,true
 L-9689,lu:commune:lac-de-la-haute-sure,served_by,true
 L-9690,lu:commune:lac-de-la-haute-sure,served_by,true
+L-9696,lu:commune:wiltz,served_by,false
 L-9696,lu:commune:winseler,served_by,true
 L-9701,lu:commune:clervaux,served_by,true
 L-9706,lu:commune:clervaux,served_by,true
@@ -4310,6 +4335,7 @@ L-9715,lu:commune:clervaux,served_by,true
 L-9737,lu:commune:clervaux,served_by,true
 L-9738,lu:commune:clervaux,served_by,true
 L-9740,lu:commune:wincrange,served_by,true
+L-9741,lu:commune:wincrange,served_by,true
 L-9742,lu:commune:wincrange,served_by,true
 L-9743,lu:commune:wincrange,served_by,true
 L-9744,lu:commune:wincrange,served_by,true
@@ -4396,6 +4422,7 @@ L-9968,lu:commune:clervaux,served_by,false
 L-9968,lu:commune:weiswampach,served_by,true
 L-9970,lu:commune:weiswampach,served_by,true
 L-9972,lu:commune:clervaux,served_by,true
+L-9974,lu:commune:weiswampach,served_by,false
 L-9974,lu:commune:wincrange,served_by,true
 L-9976,lu:commune:wincrange,served_by,true
 L-9980,lu:commune:troisvierges,served_by,true

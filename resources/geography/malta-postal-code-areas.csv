@@ -5575,7 +5575,6 @@ GZR 1560,mt:local_council:gzira,served_by,true
 GZR 1561,mt:local_council:gzira,served_by,true
 GZR 1562,mt:local_council:gzira,served_by,true
 GZR 1563,mt:local_council:gzira,served_by,true
-GZR 1564,mt:local_council:gzira,served_by,true
 GZR 1565,mt:local_council:gzira,served_by,true
 GZR 1566,mt:local_council:gzira,served_by,true
 GZR 1567,mt:local_council:gzira,served_by,true
@@ -12057,9 +12056,9 @@ MXK 2210,mt:local_council:marsaxlokk,served_by,true
 MXK 2220,mt:local_council:marsaxlokk,served_by,true
 MXK 3013,mt:local_council:marsaxlokk,served_by,true
 MXK 4080,mt:local_council:marsaxlokk,served_by,true
+MXK 4081,mt:local_council:marsaxlokk,served_by,true
 MXK 4082,mt:local_council:marsaxlokk,served_by,true
 MXK 4083,mt:local_council:marsaxlokk,served_by,true
-MXK 4084,mt:local_council:marsaxlokk,served_by,true
 MXK 9020,mt:local_council:marsaxlokk,served_by,true
 MXK 9021,mt:local_council:marsaxlokk,served_by,true
 MXK 9022,mt:local_council:marsaxlokk,served_by,true
@@ -16553,14 +16552,14 @@ RBT 4090,mt:local_council:rabat,served_by,true
 RBT 4100,mt:local_council:rabat,served_by,true
 RBT 4101,mt:local_council:rabat,served_by,true
 RBT 4103,mt:local_council:rabat,served_by,true
-RBT 4104,mt:local_council:rabat,served_by,true
-RBT 4105,mt:local_council:rabat,served_by,true
 RBT 4106,mt:local_council:rabat,served_by,true
 RBT 4107,mt:local_council:rabat,served_by,true
 RBT 4110,mt:local_council:rabat,served_by,true
 RBT 4111,mt:local_council:rabat,served_by,true
 RBT 4112,mt:local_council:rabat,served_by,true
 RBT 4113,mt:local_council:rabat,served_by,true
+RBT 4120,mt:local_council:rabat,served_by,true
+RBT 4121,mt:local_council:rabat,served_by,true
 RBT 4151,mt:local_council:rabat,served_by,true
 RBT 4152,mt:local_council:rabat,served_by,true
 RBT 4161,mt:local_council:rabat,served_by,true
@@ -23267,6 +23266,7 @@ XBX 1092,mt:local_council:ta-xbiex,served_by,true
 XBX 1093,mt:local_council:ta-xbiex,served_by,true
 XBX 1094,mt:local_council:ta-xbiex,served_by,true
 XBX 1095,mt:local_council:ta-xbiex,served_by,true
+XBX 1096,mt:local_council:ta-xbiex,served_by,true
 XBX 1098,mt:local_council:ta-xbiex,served_by,true
 XBX 1099,mt:local_council:ta-xbiex,served_by,true
 XBX 1100,mt:local_council:ta-xbiex,served_by,true

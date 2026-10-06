@@ -1,7 +1,9 @@
 postcode,area_source_id,relationship_type,is_primary
-1000,et:zone:oromia:north-shewa,served_by,true
-1000,et:city:addis-ababa,served_by,false
+1000,et:zone:oromia:north-shewa,served_by,false
+1000,et:city:addis-ababa,served_by,true
 1150,et:city:addis-ababa,served_by,true
+1150,et:zone:sheger-city,served_by,false
+1230,et:city:addis-ababa,served_by,true
 2040,et:zone:arsi,served_by,true
 2040,et:zone:bale,served_by,false
 2120,et:zone:west-arsi,served_by,true

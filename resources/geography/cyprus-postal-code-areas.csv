@@ -1,4 +1,5 @@
 postcode,area_source_id,relationship_type,is_primary
+1000,cy:locality:lefkosia,served_by,true
 1010,cy:locality:lefkosia,served_by,true
 1011,cy:locality:lefkosia,served_by,true
 1015,cy:locality:lefkosia,served_by,true
@@ -8,6 +9,7 @@ postcode,area_source_id,relationship_type,is_primary
 1021,cy:locality:lefkosia-kaimakli,served_by,true
 1022,cy:locality:lefkosia-kaimakli,served_by,true
 1025,cy:locality:lefkosia-kaimakli,served_by,true
+1025,cy:locality:lefkosia-omorfita,served_by,false
 1026,cy:locality:lefkosia-kaimakli,served_by,true
 1027,cy:locality:lefkosia-kaimakli,served_by,true
 1028,cy:locality:lefkosia-kaimakli,served_by,true
@@ -285,8 +287,8 @@ postcode,area_source_id,relationship_type,is_primary
 2720,cy:locality:akaki,served_by,true
 2721,cy:locality:argaki,served_by,true
 2722,cy:locality:astromeritis,served_by,true
-2723,cy:locality:kato-z-dia,served_by,true
-2724,cy:locality:pano-zodia,served_by,true
+2723,cy:locality:kato-zodeia,served_by,true
+2724,cy:locality:pano-zodeia,served_by,true
 2725,cy:locality:katokopia,served_by,true
 2726,cy:locality:kalo-chorio-kapouti,served_by,true
 2727,cy:locality:kyra,served_by,true
@@ -392,6 +394,7 @@ postcode,area_source_id,relationship_type,is_primary
 3011,cy:locality:lemesos,served_by,true
 3012,cy:locality:lemesos,served_by,true
 3013,cy:locality:lemesos,served_by,true
+3014,cy:locality:lemesos,served_by,true
 3015,cy:locality:lemesos,served_by,true
 3016,cy:locality:lemesos,served_by,true
 3017,cy:locality:lemesos,served_by,true
@@ -532,8 +535,8 @@ postcode,area_source_id,relationship_type,is_primary
 4525,cy:locality:moni,served_by,true
 4526,cy:locality:moni-agiou-georgiou-alamanou,served_by,true
 4527,cy:locality:mouttagiaka,served_by,true
-4528,cy:locality:akti-kyverniti,served_by,true
-4528,cy:locality:pentakomo,served_by,false
+4528,cy:locality:akti-kyverniti,served_by,false
+4528,cy:locality:pentakomo,served_by,true
 4529,cy:locality:pyrgos,served_by,true
 4530,cy:locality:foinikaria,served_by,true
 4531,cy:locality:mouttagiaka-touristiki-periochi,served_by,true
@@ -649,6 +652,7 @@ postcode,area_source_id,relationship_type,is_primary
 4877,cy:locality:sanatorio-kyperountas,served_by,true
 4878,cy:locality:pelendri,served_by,true
 4879,cy:locality:potamitissa,served_by,true
+5000,cy:locality:ammochostos,served_by,true
 5280,cy:locality:paralimni,served_by,true
 5281,cy:locality:paralimni,served_by,true
 5282,cy:locality:paralimni,served_by,true
@@ -673,7 +677,7 @@ postcode,area_source_id,relationship_type,is_primary
 5391,cy:locality:agia-thekla,served_by,true
 5500,cy:locality:achna,served_by,true
 5510,cy:locality:avgorou,served_by,true
-5520,cy:locality:agios-georgios-acheritou,served_by,true
+5520,cy:locality:agios-georgios-ammochostou,served_by,true
 5521,cy:locality:acheritou,served_by,true
 5522,cy:locality:vrysoules,served_by,true
 5523,cy:locality:dasaki-achnas,served_by,true
@@ -713,7 +717,7 @@ postcode,area_source_id,relationship_type,is_primary
 5651,cy:locality:agios-chariton,served_by,true
 5652,cy:locality:angastina,served_by,true
 5653,cy:locality:vitsada,served_by,true
-5654,cy:locality:kiados,served_by,true
+5654,cy:locality:tziaos,served_by,true
 5655,cy:locality:genagra,served_by,true
 5656,cy:locality:knodara,served_by,true
 5657,cy:locality:kornokipos,served_by,true
@@ -722,7 +726,6 @@ postcode,area_source_id,relationship_type,is_primary
 5660,cy:locality:trypimeni,served_by,true
 5661,cy:locality:psyllatos,served_by,true
 5700,cy:locality:trikomo,served_by,true
-5720,cy:locality:agios-georgios-ammochostou,served_by,true
 5721,cy:locality:agios-efstathios,served_by,true
 5722,cy:locality:agios-ilias,served_by,true
 5723,cy:locality:agios-theodoros-ammochostou,served_by,true
@@ -759,7 +762,7 @@ postcode,area_source_id,relationship_type,is_primary
 5825,cy:locality:galateia,served_by,true
 5826,cy:locality:koilanemos,served_by,true
 5827,cy:locality:koma-tou-gialou,served_by,true
-5828,cy:locality:komi,served_by,true
+5828,cy:locality:komi-kebir,served_by,true
 5829,cy:locality:leonarisso,served_by,true
 5830,cy:locality:lythragkomi,served_by,true
 5831,cy:locality:melanarga,served_by,true
@@ -793,6 +796,7 @@ postcode,area_source_id,relationship_type,is_primary
 6026,cy:locality:larnaka,served_by,true
 6027,cy:locality:larnaka,served_by,true
 6028,cy:locality:larnaka,served_by,true
+6029,cy:locality:larnaka,served_by,true
 6030,cy:locality:larnaka,served_by,true
 6031,cy:locality:larnaka,served_by,true
 6035,cy:locality:larnaka,served_by,true
@@ -858,7 +862,7 @@ postcode,area_source_id,relationship_type,is_primary
 7621,cy:locality:kosi,served_by,true
 7622,cy:locality:melouseia,served_by,true
 7623,cy:locality:petrofani,served_by,true
-7624,cy:locality:tremethousia,served_by,true
+7624,cy:locality:tremetousia,served_by,true
 7640,cy:locality:kornos,served_by,true
 7641,cy:locality:agia-anna,served_by,true
 7642,cy:locality:delikipos,served_by,true
@@ -919,6 +923,8 @@ postcode,area_source_id,relationship_type,is_primary
 8049,cy:locality:pafos,served_by,true
 8200,cy:locality:geroskipou,served_by,true
 8201,cy:locality:geroskipou,served_by,true
+8203,cy:locality:geroskipou,served_by,true
+8204,cy:locality:geroskipou,served_by,true
 8220,cy:locality:chlorakas,served_by,true
 8221,cy:locality:chlorakas,served_by,true
 8240,cy:locality:agia-marinouda,served_by,true
@@ -987,7 +993,7 @@ postcode,area_source_id,relationship_type,is_primary
 8626,cy:locality:kedares,served_by,true
 8627,cy:locality:kidasi,served_by,true
 8628,cy:locality:kelokedara,served_by,true
-8629,cy:locality:fylousa-chrysochous,served_by,true
+8629,cy:locality:fylousa-kelokedaron,served_by,true
 8630,cy:locality:praitori,served_by,true
 8631,cy:locality:mesana,served_by,true
 8640,cy:locality:pano-panagia,served_by,true
@@ -1002,6 +1008,8 @@ postcode,area_source_id,relationship_type,is_primary
 8649,cy:locality:moni-chrysorroiatissis,served_by,true
 8650,cy:locality:pentalia,served_by,true
 8651,cy:locality:statos-agios-fotios,served_by,true
+8652,cy:locality:agios-fotios,served_by,true
+8653,cy:locality:ampelitis,served_by,true
 8654,cy:locality:faleia,served_by,true
 8700,cy:locality:drouseia,served_by,true
 8701,cy:locality:androlikou,served_by,true
@@ -1042,7 +1050,7 @@ postcode,area_source_id,relationship_type,is_primary
 8808,cy:locality:meladeia,served_by,true
 8809,cy:locality:melandra,served_by,true
 8810,cy:locality:peristerona-pafou,served_by,true
-8811,cy:locality:fylousa-kelokedaron,served_by,true
+8811,cy:locality:fylousa-chrysochous,served_by,true
 8812,cy:locality:simou,served_by,true
 8813,cy:locality:trimithousa,served_by,true
 8814,cy:locality:sarama,served_by,true

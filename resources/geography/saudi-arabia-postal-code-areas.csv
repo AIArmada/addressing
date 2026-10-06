@@ -8886,9 +8886,9 @@ postcode,area_source_id,relationship_type,is_primary
 86292,sa:region:jizan,served_by,true
 86295,sa:region:jizan,served_by,true
 86296,sa:region:jizan,served_by,true
-86365,sa:region:al-madinah,served_by,true
-86366,sa:region:al-madinah,served_by,true
-86369,sa:region:al-madinah,served_by,true
+86365,sa:region:jizan,served_by,true
+86366,sa:region:jizan,served_by,true
+86369,sa:region:jizan,served_by,true
 86371,sa:region:jizan,served_by,true
 86374,sa:region:jizan,served_by,true
 86376,sa:region:jizan,served_by,true

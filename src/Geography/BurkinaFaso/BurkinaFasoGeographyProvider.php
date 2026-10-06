@@ -249,7 +249,7 @@ class BurkinaFasoGeographyProvider implements CountryAddressAreaMetadataProvider
             ['name' => 'Bazèga', 'code' => 'BAZ'],
             ['name' => 'Bougouriba', 'code' => 'BGR'],
             ['name' => 'Boulgou', 'code' => 'BLG'],
-            ['name' => 'Boulkiemde', 'code' => 'BLK'],
+            ['name' => 'Boulkiemdé', 'code' => 'BLK'],
             ['name' => 'Comoé', 'code' => 'COM'],
             ['name' => 'Djelgodji', 'code' => 'SOM'],
             ['name' => 'Djôrô', 'code' => '13'],

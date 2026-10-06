@@ -76,7 +76,7 @@ postcode,area_source_id,relationship_type,is_primary
 6600,ge:district:gulripshi,served_by,false
 6600,ge:district:ochamchire,served_by,false
 6600,ge:district:sokhumi,served_by,true
-6600,ge:municipality:gali,served_by,false
+6600,ge:district:gali,served_by,false
 7300,ge:district:java-district,served_by,false
 7300,ge:municipality:akhalgori,served_by,true
 7300,ge:municipality:eredvi,served_by,false

@@ -2,7 +2,6 @@ postcode,area_source_id,relationship_type,is_primary
 11111,sd:state:khartoum,served_by,true
 12217,sd:state:khartoum,served_by,true
 13315,sd:state:khartoum,served_by,true
-13315,sd:state:river-nile,served_by,false
 13321,sd:state:khartoum,served_by,true
 13323,sd:state:khartoum,served_by,true
 14419,sd:state:khartoum,served_by,true

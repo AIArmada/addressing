@@ -45,7 +45,7 @@ postcode,area_source_id,relationship_type,is_primary
 1123,mk:municipality:butel,served_by,true
 1125,mk:municipality:centar,served_by,true
 1126,mk:municipality:aerodrom,served_by,true
-1128,mk:municipality:petrovec,served_by,true
+1128,mk:municipality:ilinden,served_by,true
 1129,mk:municipality:kisela-voda,served_by,true
 1130,mk:municipality:centar,served_by,true
 1131,mk:municipality:centar,served_by,true

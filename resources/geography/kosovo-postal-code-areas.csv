@@ -85,7 +85,7 @@ postcode,area_source_id,relationship_type,is_primary
 40550,xk:municipality:mitrovica,served_by,true
 40600,xk:municipality:mitrovica,served_by,true
 40650,xk:municipality:zubin-potok,served_by,true
-40700,xk:municipality:mitrovica,served_by,true
+40700,xk:municipality:skenderaj,served_by,true
 41000,xk:municipality:skenderaj,served_by,true
 41050,xk:municipality:skenderaj,served_by,true
 42000,xk:municipality:vushtrri,served_by,true

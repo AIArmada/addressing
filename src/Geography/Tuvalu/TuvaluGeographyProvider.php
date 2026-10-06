@@ -108,7 +108,13 @@ class TuvaluGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
     public function areaNames(AddressCountry $country): array
     {
-        return [];
+        // B2: Nanumaga is the ISO 3166-2:TV + UPU official form;
+        // the bundled English name Nanumanga matches GeoNames.
+        return [
+            'tv:island_council:nanumanga' => [
+                ['name' => 'Nanumaga', 'name_type' => 'official'],
+            ],
+        ];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */

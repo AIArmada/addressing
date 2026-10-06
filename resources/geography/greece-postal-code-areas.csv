@@ -130,8 +130,8 @@ postcode,area_source_id,relationship_type,is_primary
 13677,gr:municipality:acharnes,served_by,true
 13678,gr:municipality:acharnes,served_by,true
 13679,gr:municipality:acharnes,served_by,true
-14121,gr:municipality:metamorfosi,served_by,true
-14122,gr:municipality:metamorfosi,served_by,true
+14121,gr:municipality:irakleio,served_by,true
+14122,gr:municipality:irakleio,served_by,true
 14123,gr:municipality:lykovrysi-pefki,served_by,true
 14231,gr:municipality:nea-ionia,served_by,true
 14232,gr:municipality:nea-ionia,served_by,true
@@ -604,7 +604,7 @@ postcode,area_source_id,relationship_type,is_primary
 49080,gr:municipality:south-corfu,served_by,true
 49081,gr:municipality:north-corfu,served_by,true
 49082,gr:municipality:paxi,served_by,true
-49083,gr:municipality:north-corfu,served_by,true
+49083,gr:municipality:central-corfu-and-diapontia-islands,served_by,true
 49084,gr:municipality:central-corfu-and-diapontia-islands,served_by,true
 49131,gr:municipality:central-corfu-and-diapontia-islands,served_by,true
 49132,gr:municipality:central-corfu-and-diapontia-islands,served_by,true

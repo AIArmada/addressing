@@ -503,8 +503,10 @@ postcode,area_source_id,relationship_type,is_primary
 2652,bg:municipality:dupnitsa,served_by,true
 2653,bg:municipality:dupnitsa,served_by,true
 2654,bg:municipality:bobov-dol,served_by,true
+2655,bg:municipality:nevestino,served_by,true
 2656,bg:municipality:bobov-dol,served_by,true
 2657,bg:municipality:bobov-dol,served_by,true
+2658,bg:municipality:nevestino,served_by,true
 2660,bg:municipality:boboshevo,served_by,true
 2661,bg:municipality:boboshevo,served_by,true
 2662,bg:municipality:boboshevo,served_by,true
@@ -589,17 +591,17 @@ postcode,area_source_id,relationship_type,is_primary
 2779,bg:municipality:belitsa,served_by,true
 2780,bg:municipality:belitsa,served_by,true
 2781,bg:municipality:belitsa,served_by,true
-2782,bg:municipality:razlog,served_by,true
 2782,bg:municipality:belitsa,served_by,false
+2782,bg:municipality:razlog,served_by,true
 2783,bg:municipality:belitsa,served_by,true
 2784,bg:municipality:belitsa,served_by,true
 2785,bg:municipality:belitsa,served_by,true
 2787,bg:municipality:belitsa,served_by,true
 2788,bg:municipality:belitsa,served_by,true
+2789,bg:municipality:belitsa,served_by,false
 2789,bg:municipality:yakoruda,served_by,true
 2790,bg:municipality:yakoruda,served_by,true
 2791,bg:municipality:belitsa,served_by,true
-2791,bg:municipality:yakoruda,served_by,false
 2792,bg:municipality:yakoruda,served_by,true
 2793,bg:municipality:yakoruda,served_by,true
 2794,bg:municipality:yakoruda,served_by,true
@@ -702,7 +704,6 @@ postcode,area_source_id,relationship_type,is_primary
 2900,bg:municipality:gotse-delchev,served_by,true
 2904,bg:municipality:gotse-delchev,served_by,true
 2905,bg:municipality:gotse-delchev,served_by,true
-2906,bg:municipality:gotse-delchev,served_by,true
 2914,bg:municipality:gotse-delchev,served_by,true
 2915,bg:municipality:gotse-delchev,served_by,true
 2916,bg:municipality:gotse-delchev,served_by,true
@@ -759,7 +760,6 @@ postcode,area_source_id,relationship_type,is_primary
 2971,bg:municipality:gotse-delchev,served_by,true
 2972,bg:municipality:gotse-delchev,served_by,true
 3000,bg:municipality:vratsa,served_by,true
-3036,bg:municipality:vratsa,served_by,true
 3038,bg:municipality:vratsa,served_by,true
 3039,bg:municipality:vratsa,served_by,true
 3040,bg:municipality:vratsa,served_by,true
@@ -831,7 +831,6 @@ postcode,area_source_id,relationship_type,is_primary
 3160,bg:municipality:mezdra,served_by,true
 3161,bg:municipality:mezdra,served_by,true
 3162,bg:municipality:mezdra,served_by,true
-3163,bg:municipality:mezdra,served_by,true
 3164,bg:municipality:mezdra,served_by,true
 3165,bg:municipality:mezdra,served_by,true
 3167,bg:municipality:mezdra,served_by,true
@@ -950,7 +949,6 @@ postcode,area_source_id,relationship_type,is_primary
 3518,bg:municipality:berkovitsa,served_by,true
 3519,bg:municipality:berkovitsa,served_by,true
 3520,bg:municipality:berkovitsa,served_by,true
-3521,bg:municipality:berkovitsa,served_by,true
 3522,bg:municipality:berkovitsa,served_by,true
 3523,bg:municipality:berkovitsa,served_by,true
 3524,bg:municipality:berkovitsa,served_by,true
@@ -1387,6 +1385,7 @@ postcode,area_source_id,relationship_type,is_primary
 4443,bg:municipality:pazardzhik,served_by,true
 4444,bg:municipality:pazardzhik,served_by,true
 4445,bg:municipality:pazardzhik,served_by,true
+4446,bg:municipality:septemvri,served_by,true
 4447,bg:municipality:pazardzhik,served_by,true
 4448,bg:municipality:pazardzhik,served_by,true
 4449,bg:municipality:pazardzhik,served_by,true
@@ -1396,6 +1395,7 @@ postcode,area_source_id,relationship_type,is_primary
 4453,bg:municipality:pazardzhik,served_by,true
 4454,bg:municipality:pazardzhik,served_by,true
 4455,bg:municipality:pazardzhik,served_by,true
+4456,bg:municipality:septemvri,served_by,true
 4458,bg:municipality:lesichovo,served_by,true
 4459,bg:municipality:lesichovo,served_by,true
 4461,bg:municipality:lesichovo,served_by,true
@@ -1411,7 +1411,6 @@ postcode,area_source_id,relationship_type,is_primary
 4473,bg:municipality:belovo,served_by,true
 4474,bg:municipality:septemvri,served_by,true
 4475,bg:municipality:septemvri,served_by,true
-4476,bg:municipality:belovo,served_by,true
 4477,bg:municipality:septemvri,served_by,true
 4480,bg:municipality:septemvri,served_by,true
 4481,bg:municipality:septemvri,served_by,true
@@ -1444,7 +1443,6 @@ postcode,area_source_id,relationship_type,is_primary
 4538,bg:municipality:panagyurishte,served_by,true
 4550,bg:municipality:peshtera,served_by,true
 4571,bg:municipality:batak,served_by,true
-4577,bg:municipality:peshtera,served_by,true
 4579,bg:municipality:bratsigovo,served_by,true
 4580,bg:municipality:batak,served_by,true
 4581,bg:municipality:batak,served_by,true
@@ -1593,6 +1591,7 @@ postcode,area_source_id,relationship_type,is_primary
 4835,bg:municipality:borino,served_by,true
 4836,bg:municipality:borino,served_by,true
 4837,bg:municipality:dospat,served_by,true
+4848,bg:municipality:smolyan,served_by,true
 4849,bg:municipality:devin,served_by,true
 4850,bg:municipality:chepelare,served_by,true
 4855,bg:municipality:chepelare,served_by,true
@@ -1605,6 +1604,7 @@ postcode,area_source_id,relationship_type,is_primary
 4872,bg:municipality:chepelare,served_by,true
 4877,bg:municipality:chepelare,served_by,true
 4878,bg:municipality:chepelare,served_by,true
+4888,bg:municipality:laki,served_by,true
 4889,bg:municipality:chepelare,served_by,true
 4890,bg:municipality:chepelare,served_by,true
 4891,bg:municipality:chepelare,served_by,true
@@ -1791,6 +1791,7 @@ postcode,area_source_id,relationship_type,is_primary
 5149,bg:municipality:lyaskovets,served_by,true
 5150,bg:municipality:strazhitsa,served_by,true
 5152,bg:municipality:strazhitsa,served_by,true
+5156,bg:municipality:zlataritsa,served_by,true
 5158,bg:municipality:strazhitsa,served_by,true
 5159,bg:municipality:strazhitsa,served_by,true
 5160,bg:municipality:strazhitsa,served_by,true
@@ -1902,6 +1903,7 @@ postcode,area_source_id,relationship_type,is_primary
 5391,bg:municipality:dryanovo,served_by,true
 5392,bg:municipality:dryanovo,served_by,true
 5397,bg:municipality:dryanovo,served_by,true
+5399,bg:municipality:dryanovo,served_by,true
 5400,bg:municipality:sevlievo,served_by,true
 5421,bg:municipality:sevlievo,served_by,true
 5422,bg:municipality:sevlievo,served_by,true
@@ -2041,8 +2043,6 @@ postcode,area_source_id,relationship_type,is_primary
 5673,bg:municipality:troyan,served_by,true
 5700,bg:municipality:teteven,served_by,true
 5720,bg:municipality:teteven,served_by,true
-5721,bg:municipality:teteven,served_by,true
-5722,bg:municipality:teteven,served_by,true
 5723,bg:municipality:teteven,served_by,true
 5724,bg:municipality:teteven,served_by,true
 5725,bg:municipality:teteven,served_by,true
@@ -2053,23 +2053,9 @@ postcode,area_source_id,relationship_type,is_primary
 5732,bg:municipality:teteven,served_by,true
 5733,bg:municipality:teteven,served_by,true
 5734,bg:municipality:yablanitsa,served_by,true
-5735,bg:municipality:yablanitsa,served_by,true
-5736,bg:municipality:teteven,served_by,true
-5737,bg:municipality:teteven,served_by,true
-5738,bg:municipality:teteven,served_by,true
-5739,bg:municipality:teteven,served_by,true
 5740,bg:municipality:teteven,served_by,true
 5741,bg:municipality:teteven,served_by,true
-5742,bg:municipality:teteven,served_by,true
-5743,bg:municipality:teteven,served_by,true
-5744,bg:municipality:teteven,served_by,true
-5745,bg:municipality:teteven,served_by,true
-5747,bg:municipality:teteven,served_by,true
-5748,bg:municipality:teteven,served_by,true
-5749,bg:municipality:teteven,served_by,true
 5750,bg:municipality:yablanitsa,served_by,true
-5751,bg:municipality:yablanitsa,served_by,true
-5752,bg:municipality:yablanitsa,served_by,true
 5753,bg:municipality:yablanitsa,served_by,true
 5760,bg:municipality:yablanitsa,served_by,true
 5761,bg:municipality:yablanitsa,served_by,true
@@ -2077,9 +2063,6 @@ postcode,area_source_id,relationship_type,is_primary
 5763,bg:municipality:yablanitsa,served_by,true
 5764,bg:municipality:yablanitsa,served_by,true
 5765,bg:municipality:yablanitsa,served_by,true
-5766,bg:municipality:yablanitsa,served_by,true
-5767,bg:municipality:yablanitsa,served_by,true
-5768,bg:municipality:yablanitsa,served_by,true
 5770,bg:municipality:lukovit,served_by,true
 5780,bg:municipality:lukovit,served_by,true
 5781,bg:municipality:lukovit,served_by,true
@@ -2300,8 +2283,8 @@ postcode,area_source_id,relationship_type,is_primary
 6187,bg:municipality:maglizh,served_by,true
 6188,bg:municipality:maglizh,served_by,true
 6189,bg:municipality:gurkovo,served_by,true
-6190,bg:municipality:nikolaevo,served_by,true
 6190,bg:municipality:gurkovo,served_by,false
+6190,bg:municipality:nikolaevo,served_by,true
 6191,bg:municipality:nikolaevo,served_by,true
 6192,bg:municipality:gurkovo,served_by,true
 6193,bg:municipality:gurkovo,served_by,true
@@ -2330,6 +2313,7 @@ postcode,area_source_id,relationship_type,is_primary
 6230,bg:municipality:chirpan,served_by,true
 6231,bg:municipality:chirpan,served_by,true
 6232,bg:municipality:bratya-daskalovi,served_by,true
+6233,bg:municipality:stara-zagora,served_by,true
 6234,bg:municipality:bratya-daskalovi,served_by,true
 6235,bg:municipality:bratya-daskalovi,served_by,true
 6236,bg:municipality:bratya-daskalovi,served_by,true
@@ -2597,7 +2581,6 @@ postcode,area_source_id,relationship_type,is_primary
 6598,bg:municipality:ivaylovgrad,served_by,true
 6599,bg:municipality:ivaylovgrad,served_by,true
 6600,bg:municipality:kardzhali,served_by,true
-6609,bg:municipality:kardzhali,served_by,true
 6611,bg:municipality:kardzhali,served_by,true
 6621,bg:municipality:kardzhali,served_by,true
 6622,bg:municipality:kardzhali,served_by,true
@@ -2609,6 +2592,7 @@ postcode,area_source_id,relationship_type,is_primary
 6628,bg:municipality:kardzhali,served_by,true
 6629,bg:municipality:kardzhali,served_by,true
 6630,bg:municipality:kardzhali,served_by,true
+6631,bg:municipality:kardzhali,served_by,true
 6632,bg:municipality:kardzhali,served_by,true
 6633,bg:municipality:kardzhali,served_by,true
 6634,bg:municipality:kardzhali,served_by,true
@@ -2761,8 +2745,8 @@ postcode,area_source_id,relationship_type,is_primary
 6797,bg:municipality:ardino,served_by,true
 6798,bg:municipality:ardino,served_by,true
 6799,bg:municipality:ardino,served_by,true
-6800,bg:municipality:momchilgrad,served_by,true
 6800,bg:municipality:kirkovo,served_by,false
+6800,bg:municipality:momchilgrad,served_by,true
 6809,bg:municipality:momchilgrad,served_by,true
 6810,bg:municipality:momchilgrad,served_by,true
 6811,bg:municipality:momchilgrad,served_by,true
@@ -2786,11 +2770,14 @@ postcode,area_source_id,relationship_type,is_primary
 6829,bg:municipality:momchilgrad,served_by,true
 6830,bg:municipality:momchilgrad,served_by,true
 6831,bg:municipality:momchilgrad,served_by,true
+6832,bg:municipality:momchilgrad,served_by,true
 6833,bg:municipality:momchilgrad,served_by,true
 6834,bg:municipality:momchilgrad,served_by,true
 6835,bg:municipality:momchilgrad,served_by,true
 6836,bg:municipality:momchilgrad,served_by,true
 6837,bg:municipality:momchilgrad,served_by,true
+6838,bg:municipality:momchilgrad,served_by,true
+6839,bg:municipality:dzhebel,served_by,true
 6840,bg:municipality:dzhebel,served_by,true
 6841,bg:municipality:dzhebel,served_by,true
 6842,bg:municipality:dzhebel,served_by,true
@@ -2813,6 +2800,7 @@ postcode,area_source_id,relationship_type,is_primary
 6860,bg:municipality:kirkovo,served_by,true
 6861,bg:municipality:kirkovo,served_by,true
 6862,bg:municipality:kirkovo,served_by,true
+6863,bg:municipality:kirkovo,served_by,true
 6865,bg:municipality:kirkovo,served_by,true
 6867,bg:municipality:kirkovo,served_by,true
 6868,bg:municipality:kirkovo,served_by,true
@@ -2831,6 +2819,7 @@ postcode,area_source_id,relationship_type,is_primary
 6883,bg:municipality:kirkovo,served_by,true
 6884,bg:municipality:kirkovo,served_by,true
 6885,bg:municipality:kirkovo,served_by,true
+6886,bg:municipality:kirkovo,served_by,true
 6887,bg:municipality:kirkovo,served_by,true
 6888,bg:municipality:kirkovo,served_by,true
 6890,bg:municipality:kirkovo,served_by,true
@@ -2838,6 +2827,7 @@ postcode,area_source_id,relationship_type,is_primary
 6893,bg:municipality:kirkovo,served_by,true
 6894,bg:municipality:kirkovo,served_by,true
 6896,bg:municipality:kirkovo,served_by,true
+6897,bg:municipality:kirkovo,served_by,true
 6898,bg:municipality:kirkovo,served_by,true
 6899,bg:municipality:kirkovo,served_by,true
 6900,bg:municipality:krumovgrad,served_by,true
@@ -2946,7 +2936,6 @@ postcode,area_source_id,relationship_type,is_primary
 7091,bg:municipality:ivanovo,served_by,true
 7092,bg:municipality:ivanovo,served_by,true
 7100,bg:municipality:byala,served_by,true
-7101,bg:municipality:byala,served_by,true
 7119,bg:municipality:byala,served_by,true
 7120,bg:municipality:byala,served_by,true
 7121,bg:municipality:byala,served_by,true
@@ -3305,6 +3294,7 @@ postcode,area_source_id,relationship_type,is_primary
 7915,bg:municipality:omurtag,served_by,true
 7916,bg:municipality:omurtag,served_by,true
 7917,bg:municipality:omurtag,served_by,true
+7918,bg:municipality:omurtag,served_by,true
 7919,bg:municipality:omurtag,served_by,true
 7920,bg:municipality:omurtag,served_by,true
 7921,bg:municipality:omurtag,served_by,true
@@ -3410,7 +3400,6 @@ postcode,area_source_id,relationship_type,is_primary
 8130,bg:municipality:sozopol,served_by,true
 8140,bg:municipality:sozopol,served_by,true
 8142,bg:municipality:sozopol,served_by,true
-8143,bg:municipality:sozopol,served_by,true
 8145,bg:municipality:primorsko,served_by,true
 8146,bg:municipality:sozopol,served_by,true
 8147,bg:municipality:primorsko,served_by,true
@@ -3427,6 +3416,11 @@ postcode,area_source_id,relationship_type,is_primary
 8159,bg:municipality:burgas,served_by,true
 8160,bg:municipality:sozopol,served_by,true
 8161,bg:municipality:sozopol,served_by,true
+8162,bg:municipality:malko-tarnovo,served_by,true
+8163,bg:municipality:malko-tarnovo,served_by,true
+8165,bg:municipality:malko-tarnovo,served_by,true
+8166,bg:municipality:malko-tarnovo,served_by,true
+8170,bg:municipality:malko-tarnovo,served_by,true
 8180,bg:municipality:primorsko,served_by,true
 8182,bg:municipality:primorsko,served_by,true
 8183,bg:municipality:primorsko,served_by,true
@@ -3462,7 +3456,6 @@ postcode,area_source_id,relationship_type,is_primary
 8255,bg:municipality:nesebar,served_by,true
 8256,bg:municipality:nesebar,served_by,true
 8257,bg:municipality:nesebar,served_by,true
-8258,bg:municipality:nesebar,served_by,true
 8260,bg:municipality:tsarevo,served_by,true
 8271,bg:municipality:tsarevo,served_by,true
 8272,bg:municipality:tsarevo,served_by,true
@@ -3476,6 +3469,7 @@ postcode,area_source_id,relationship_type,is_primary
 8281,bg:municipality:tsarevo,served_by,true
 8282,bg:municipality:tsarevo,served_by,true
 8283,bg:municipality:tsarevo,served_by,true
+8289,bg:municipality:primorsko,served_by,true
 8300,bg:municipality:sredets,served_by,true
 8313,bg:municipality:sredets,served_by,true
 8314,bg:municipality:sredets,served_by,true
@@ -3501,6 +3495,7 @@ postcode,area_source_id,relationship_type,is_primary
 8336,bg:municipality:sredets,served_by,true
 8337,bg:municipality:sredets,served_by,true
 8338,bg:municipality:sredets,served_by,true
+8339,bg:municipality:sredets,served_by,true
 8340,bg:municipality:sredets,served_by,true
 8341,bg:municipality:sredets,served_by,true
 8342,bg:municipality:sredets,served_by,true
@@ -3509,11 +3504,7 @@ postcode,area_source_id,relationship_type,is_primary
 8345,bg:municipality:sredets,served_by,true
 8347,bg:municipality:sredets,served_by,true
 8348,bg:municipality:sredets,served_by,true
-8350,bg:municipality:malko-tarnovo,served_by,true
-8357,bg:municipality:malko-tarnovo,served_by,true
 8358,bg:municipality:malko-tarnovo,served_by,true
-8359,bg:municipality:malko-tarnovo,served_by,true
-8360,bg:municipality:malko-tarnovo,served_by,true
 8361,bg:municipality:malko-tarnovo,served_by,true
 8363,bg:municipality:malko-tarnovo,served_by,true
 8364,bg:municipality:malko-tarnovo,served_by,true
@@ -3521,7 +3512,6 @@ postcode,area_source_id,relationship_type,is_primary
 8367,bg:municipality:malko-tarnovo,served_by,true
 8368,bg:municipality:malko-tarnovo,served_by,true
 8369,bg:municipality:malko-tarnovo,served_by,true
-8370,bg:municipality:malko-tarnovo,served_by,true
 8400,bg:municipality:karnobat,served_by,true
 8427,bg:municipality:karnobat,served_by,true
 8428,bg:municipality:karnobat,served_by,true
@@ -3753,8 +3743,6 @@ postcode,area_source_id,relationship_type,is_primary
 8757,bg:municipality:elhovo,served_by,true
 8758,bg:municipality:bolyarovo,served_by,true
 8800,bg:municipality:sliven,served_by,true
-8839,bg:municipality:sliven,served_by,true
-8840,bg:municipality:sliven,served_by,true
 8841,bg:municipality:sliven,served_by,true
 8843,bg:municipality:sliven,served_by,true
 8844,bg:municipality:sliven,served_by,true
@@ -3864,6 +3852,7 @@ postcode,area_source_id,relationship_type,is_primary
 9000,bg:municipality:varna,served_by,true
 9006,bg:municipality:varna,served_by,true
 9007,bg:municipality:varna,served_by,true
+9024,bg:municipality:varna,served_by,true
 9100,bg:municipality:dolni-chiflik,served_by,true
 9101,bg:municipality:varna:byala,served_by,true
 9102,bg:municipality:varna,served_by,true
@@ -4092,8 +4081,6 @@ postcode,area_source_id,relationship_type,is_primary
 9431,bg:municipality:dobrichka,served_by,true
 9432,bg:municipality:dobrichka,served_by,true
 9433,bg:municipality:dobrichka,served_by,true
-9434,bg:municipality:dobrichka,served_by,true
-9435,bg:municipality:dobrichka,served_by,true
 9450,bg:municipality:tervel,served_by,true
 9469,bg:municipality:tervel,served_by,true
 9471,bg:municipality:tervel,served_by,true
@@ -4117,6 +4104,8 @@ postcode,area_source_id,relationship_type,is_primary
 9491,bg:municipality:tervel,served_by,true
 9492,bg:municipality:tervel,served_by,true
 9493,bg:municipality:tervel,served_by,true
+9495,bg:municipality:dobrichka,served_by,true
+9496,bg:municipality:dobrichka,served_by,true
 9497,bg:municipality:tervel,served_by,true
 9498,bg:municipality:tervel,served_by,true
 9499,bg:municipality:tervel,served_by,true
@@ -4172,7 +4161,6 @@ postcode,area_source_id,relationship_type,is_primary
 9630,bg:municipality:balchik,served_by,true
 9631,bg:municipality:balchik,served_by,true
 9632,bg:municipality:balchik,served_by,true
-9633,bg:municipality:balchik,served_by,true
 9634,bg:municipality:balchik,served_by,true
 9635,bg:municipality:balchik,served_by,true
 9637,bg:municipality:balchik,served_by,true

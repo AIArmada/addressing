@@ -104,8 +104,9 @@ postcode,area_source_id,relationship_type,is_primary
 94614,ir:province:north-khorasan,served_by,true
 94714,ir:province:north-khorasan,served_by,true
 96714,ir:province:south-khorasan,served_by,true
-96914,ir:province:south-khorasan,served_by,true
+96914,ir:province:razavi-khorasan,served_by,true
 97514,ir:province:yazd,served_by,true
 97614,ir:province:south-khorasan,served_by,true
 97716,ir:province:south-khorasan,served_by,true
+97716,ir:province:razavi-khorasan,served_by,false
 98914,ir:province:sistan-and-baluchestan,served_by,true

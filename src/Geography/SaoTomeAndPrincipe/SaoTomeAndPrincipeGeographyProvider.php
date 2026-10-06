@@ -175,7 +175,7 @@ class SaoTomeAndPrincipeGeographyProvider implements CountryAddressAreaMetadataP
             ['name' => 'Água Grande', 'code' => '01'],
             ['name' => 'Cantagalo', 'code' => '02'],
             ['name' => 'Caué', 'code' => '03'],
-            ['name' => 'Lemba', 'code' => '04'],
+            ['name' => 'Lembá', 'code' => '04'],
             ['name' => 'Lobata', 'code' => '05'],
             ['name' => 'Mé-Zóchi', 'code' => '06'],
             ['name' => 'Príncipe', 'code' => 'P'],

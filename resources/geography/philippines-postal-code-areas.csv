@@ -1,5 +1,4 @@
 postcode,area_source_id,relationship_type,is_primary
-0905,ph:province:albay,served_by,true
 1000,ph:region:national-capital-region,served_by,true
 1001,ph:region:national-capital-region,served_by,true
 1002,ph:region:national-capital-region,served_by,true
@@ -20,7 +19,6 @@ postcode,area_source_id,relationship_type,is_primary
 1017,ph:region:national-capital-region,served_by,true
 1018,ph:region:national-capital-region,served_by,true
 1045,ph:region:national-capital-region,served_by,true
-1099,ph:province:cebu,served_by,true
 1100,ph:region:national-capital-region,served_by,true
 1101,ph:region:national-capital-region,served_by,true
 1102,ph:region:national-capital-region,served_by,true
@@ -313,6 +311,7 @@ postcode,area_source_id,relationship_type,is_primary
 2211,ph:province:zambales,served_by,true
 2212,ph:province:zambales,served_by,true
 2213,ph:province:zambales,served_by,true
+2222,ph:province:zambales,served_by,true
 2300,ph:province:tarlac,served_by,true
 2301,ph:province:tarlac,served_by,true
 2302,ph:province:tarlac,served_by,true
@@ -403,7 +402,6 @@ postcode,area_source_id,relationship_type,is_primary
 2518,ph:province:la-union,served_by,true
 2519,ph:province:la-union,served_by,true
 2520,ph:province:la-union,served_by,true
-2566,ph:province:cebu,served_by,true
 2600,ph:province:benguet,served_by,true
 2601,ph:province:benguet,served_by,true
 2602,ph:province:benguet,served_by,true
@@ -898,7 +896,6 @@ postcode,area_source_id,relationship_type,is_primary
 4515,ph:province:albay,served_by,true
 4516,ph:province:albay,served_by,true
 4517,ph:province:albay,served_by,true
-4532,ph:province:surigao-del-norte,served_by,true
 4600,ph:province:camarines-norte,served_by,true
 4601,ph:province:camarines-norte,served_by,true
 4602,ph:province:camarines-norte,served_by,true
@@ -1192,8 +1189,6 @@ postcode,area_source_id,relationship_type,is_primary
 6051,ph:province:cebu,served_by,true
 6052,ph:province:cebu,served_by,true
 6053,ph:province:cebu,served_by,true
-6088,ph:province:cebu,served_by,true
-6099,ph:province:cebu,served_by,true
 6100,ph:province:negros-occidental,served_by,true
 6101,ph:province:negros-occidental,served_by,true
 6102,ph:province:negros-occidental,served_by,true
@@ -1612,21 +1607,12 @@ postcode,area_source_id,relationship_type,is_primary
 8100,ph:province:davao-del-norte,served_by,true
 8101,ph:province:davao-del-norte,served_by,true
 8102,ph:province:davao-del-norte,served_by,true
-8103,ph:province:davao-de-oro,served_by,true
 8104,ph:province:davao-del-norte,served_by,true
 8105,ph:province:davao-del-norte,served_by,true
 8106,ph:province:davao-del-norte,served_by,true
 8107,ph:province:davao-del-norte,served_by,true
-8108,ph:province:davao-de-oro,served_by,true
-8109,ph:province:davao-de-oro,served_by,true
-8110,ph:province:davao-de-oro,served_by,true
-8111,ph:province:davao-de-oro,served_by,true
 8112,ph:province:davao-del-norte,served_by,true
 8113,ph:province:davao-del-norte,served_by,true
-8114,ph:province:davao-de-oro,served_by,true
-8115,ph:province:davao-de-oro,served_by,true
-8116,ph:province:davao-de-oro,served_by,true
-8117,ph:province:davao-de-oro,served_by,true
 8118,ph:province:davao-del-norte,served_by,true
 8119,ph:province:davao-del-norte,served_by,true
 8120,ph:province:davao-del-norte,served_by,true
@@ -1877,9 +1863,9 @@ postcode,area_source_id,relationship_type,is_primary
 9607,ph:province:maguindanao-del-sur,served_by,true
 9608,ph:province:maguindanao-del-sur,served_by,true
 9609,ph:province:maguindanao-del-sur,served_by,true
-9610,ph:province:maguindanao-del-norte,served_by,true
+9610,ph:province:maguindanao-del-sur,served_by,true
 9611,ph:province:maguindanao-del-sur,served_by,true
-9612,ph:province:maguindanao-del-norte,served_by,true
+9612,ph:province:maguindanao-del-sur,served_by,true
 9613,ph:province:maguindanao-del-norte,served_by,true
 9614,ph:province:maguindanao-del-norte,served_by,true
 9615,ph:province:maguindanao-del-norte,served_by,true

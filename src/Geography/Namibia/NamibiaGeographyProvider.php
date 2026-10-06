@@ -190,7 +190,7 @@ class NamibiaGeographyProvider implements CountryAddressAreaMetadataProvider, Co
         return [
             ['name' => 'Erongo', 'code' => 'ER'],
             ['name' => 'Hardap', 'code' => 'HA'],
-            ['name' => 'Karas', 'code' => 'KA'],
+            ['name' => 'ǁKaras', 'code' => 'KA'],
             ['name' => 'Kavango East', 'code' => 'KE'],
             ['name' => 'Kavango West', 'code' => 'KW'],
             ['name' => 'Khomas', 'code' => 'KH'],

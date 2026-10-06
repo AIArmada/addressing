@@ -147,6 +147,26 @@ class GermanyGeographyProvider implements CountryAddressAreaMetadataProvider, Co
             'de:state:thuringen' => [
                 ['name' => 'Thuringia', 'name_type' => 'alternative'],
             ],
+            // B19: canonical district names are German endonyms; keep the
+            // English exonyms as alternatives.
+            'de:district:cleves' => [
+                ['name' => 'Cleves', 'name_type' => 'alternative'],
+            ],
+            'de:district:cologne' => [
+                ['name' => 'Cologne', 'name_type' => 'alternative'],
+            ],
+            'de:district:hanover' => [
+                ['name' => 'Hanover', 'name_type' => 'alternative'],
+            ],
+            'de:district:munich' => [
+                ['name' => 'Munich', 'name_type' => 'alternative'],
+            ],
+            'de:district:bayern:munich' => [
+                ['name' => 'Munich', 'name_type' => 'alternative'],
+            ],
+            'de:district:nuremberg' => [
+                ['name' => 'Nuremberg', 'name_type' => 'alternative'],
+            ],
         ];
     }
 

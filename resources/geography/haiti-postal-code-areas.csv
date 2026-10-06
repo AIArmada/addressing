@@ -6,8 +6,10 @@ HT1113,ht:arrondissement:cap-haitien,served_by,true
 HT1114,ht:arrondissement:cap-haitien,served_by,true
 HT1120,ht:arrondissement:cap-haitien,served_by,true
 HT1130,ht:arrondissement:cap-haitien,served_by,true
+HT1131,ht:arrondissement:cap-haitien,served_by,true
 HT1210,ht:arrondissement:acul-du-nord,served_by,true
 HT1211,ht:arrondissement:acul-du-nord,served_by,true
+HT1212,ht:arrondissement:acul-du-nord,served_by,true
 HT1220,ht:arrondissement:acul-du-nord,served_by,true
 HT1221,ht:arrondissement:acul-du-nord,served_by,true
 HT1230,ht:arrondissement:acul-du-nord,served_by,true
@@ -46,6 +48,7 @@ HT2321,ht:arrondissement:trou-du-nord,served_by,true
 HT2330,ht:arrondissement:trou-du-nord,served_by,true
 HT2331,ht:arrondissement:trou-du-nord,served_by,true
 HT2332,ht:arrondissement:trou-du-nord,served_by,true
+HT2333,ht:arrondissement:trou-du-nord,served_by,true
 HT2340,ht:arrondissement:trou-du-nord,served_by,true
 HT2410,ht:arrondissement:vallieres,served_by,true
 HT2411,ht:arrondissement:vallieres,served_by,true
@@ -63,10 +66,14 @@ HT3210,ht:arrondissement:saint-louis-du-nord,served_by,true
 HT3211,ht:arrondissement:saint-louis-du-nord,served_by,true
 HT3212,ht:arrondissement:saint-louis-du-nord,served_by,true
 HT3220,ht:arrondissement:saint-louis-du-nord,served_by,true
+HT3223,ht:arrondissement:saint-louis-du-nord,served_by,true
 HT3310,ht:arrondissement:mole-saint-nicolas,served_by,true
+HT3311,ht:arrondissement:mole-saint-nicolas,served_by,true
+HT3312,ht:arrondissement:mole-saint-nicolas,served_by,true
 HT3320,ht:arrondissement:mole-saint-nicolas,served_by,true
 HT3330,ht:arrondissement:mole-saint-nicolas,served_by,true
 HT3340,ht:arrondissement:mole-saint-nicolas,served_by,true
+HT3341,ht:arrondissement:mole-saint-nicolas,served_by,true
 HT4110,ht:arrondissement:gonaives,served_by,true
 HT4111,ht:arrondissement:gonaives,served_by,true
 HT4120,ht:arrondissement:gonaives,served_by,true
@@ -81,6 +88,7 @@ HT4320,ht:arrondissement:saint-marc,served_by,true
 HT4321,ht:arrondissement:saint-marc,served_by,true
 HT4322,ht:arrondissement:saint-marc,served_by,true
 HT4323,ht:arrondissement:saint-marc,served_by,true
+HT4330,ht:arrondissement:saint-marc,served_by,true
 HT4410,ht:arrondissement:dessalines,served_by,true
 HT4420,ht:arrondissement:dessalines,served_by,true
 HT4421,ht:arrondissement:dessalines,served_by,true
@@ -110,6 +118,7 @@ HT5412,ht:arrondissement:cerca-la-source,served_by,true
 HT5420,ht:arrondissement:cerca-la-source,served_by,true
 HT6110,ht:arrondissement:port-au-prince,served_by,true
 HT6111,ht:arrondissement:port-au-prince,served_by,true
+HT6112,ht:arrondissement:port-au-prince,served_by,true
 HT6113,ht:arrondissement:port-au-prince,served_by,true
 HT6114,ht:arrondissement:port-au-prince,served_by,true
 HT6115,ht:arrondissement:port-au-prince,served_by,true
@@ -153,6 +162,7 @@ HT6320,ht:arrondissement:croix-des-bouquets,served_by,true
 HT6330,ht:arrondissement:croix-des-bouquets,served_by,true
 HT6331,ht:arrondissement:croix-des-bouquets,served_by,true
 HT6340,ht:arrondissement:croix-des-bouquets,served_by,true
+HT6350,ht:arrondissement:croix-des-bouquets,served_by,true
 HT6410,ht:arrondissement:arcahaie,served_by,true
 HT6411,ht:arrondissement:arcahaie,served_by,true
 HT6420,ht:arrondissement:arcahaie,served_by,true
@@ -201,6 +211,7 @@ HT8310,ht:arrondissement:aquin,served_by,true
 HT8311,ht:arrondissement:aquin,served_by,true
 HT8312,ht:arrondissement:aquin,served_by,true
 HT8313,ht:arrondissement:aquin,served_by,true
+HT8316,ht:arrondissement:aquin,served_by,true
 HT8320,ht:arrondissement:aquin,served_by,true
 HT8330,ht:arrondissement:aquin,served_by,true
 HT8410,ht:arrondissement:coteaux,served_by,true

@@ -229,7 +229,7 @@ postcode,area_source_id,relationship_type,is_primary
 21100,do:municipality:san-jose-de-los-llanos,served_by,true
 21200,do:municipality:ramon-santana,served_by,true
 21300,do:municipality:consuelo,served_by,true
-21400,do:municipality:ingenio-quisqueya,served_by,true
+21400,do:municipality:quisqueya,served_by,true
 22000,do:municipality:la-romana,served_by,true
 22001,do:municipality:la-romana,served_by,true
 22002,do:municipality:la-romana,served_by,true

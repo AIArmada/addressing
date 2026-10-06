@@ -92,7 +92,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Cyprus | CY | 6 | 6 | 758 | dual 1+2 | administrative: district; postal: district > locality | postal_locality | ← | Complete — 6 districts + 752 localities (GeoNames postal dump; Keryneia 57 codes included) |
 | Czech Republic | CZ | 14 | 14 | 90 | 2 | administrative: region > district | district | ← | Complete — 13 regions + Praha + 76 districts; Praha childless |
 | Denmark | DK | 5 | 5 | 103 | 2 | administrative: region > municipality | municipality | ← | Complete — 5 regions + 98 municipalities (List of municipalities of Denmark; LAU codes) |
-| Djibouti | DJ | 6 | 6 | 26 | 2 | administrative: region > subprefecture | subprefecture | ← | Complete — 5 regions + Djibouti City + 20 sub-prefectures (3/2/4/1/4/6; town-article parenting; Adailou spelling) |
+| Djibouti | DJ | 6 | 6 | 26 | 2 | administrative: region > subprefecture | subprefecture | ← | Complete — 5 regions + Djibouti City + 20 sub-prefectures (3/1/4/1/4/7; town-article parenting; Adailou spelling; Lac Assal -> Tadjourah per census/UPU/GeoNames) |
 | Dominica | DM | 10 | 10 | 10 | 1 | administrative: parish | — | none | L1 — no admin tier-2; 10 parishes terminal|
 | Dominican Republic | DO | 10 | 10 | 200 | dual 2+2 | administrative: region > province; postal: region > municipality (refined by province) | postal_locality, province | ← | Complete — 10 regions + 31 provinces + DN + 158 municipalities (528 codes; DN codes link L2) |
 | DR Congo | CD | 26 | 26 | 171 | 2 | administrative: province > territory | territory | ← | Complete — 26 provinces + 145 territories (post-2015 mapping; Kinshasa terminal) |
@@ -113,7 +113,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | French Southern Territories | TF | 5 | 5 | 5 | 1 | administrative: district | — | none | L1 — uninhabited; 5 districts terminal|
 | Gabon | GA | 9 | 9 | 58 | 2 | administrative: province > department | department | ← | Complete — 9 provinces + 49 departments (per-province bullets (Cap Esterias deleted 2013 excluded)) |
 | Gambia | GM | 7 | 7 | 49 | 2 | administrative: city / region > district | district | none | Complete — 5 regions + Banjul + Kanifing + 42 districts (divisions renamed regions 2007; Kanifing first-level city) |
-| Georgia | GE | 12 | 12 | 97 | 2 | administrative: autonomous_republic / region / city > municipality / district / city | municipality | ← | Complete — 9 regions + 2 ARs + Tbilisi + 65 municipalities + 16 districts + 4 cities (Geostat table; Abkhazia/SO units are Georgia formal claim, incl. 10 Tbilisi districts) |
+| Georgia | GE | 12 | 12 | 97 | 2 | administrative: autonomous_republic / region / city > municipality / district / city | municipality | ← | Complete — 9 regions + 2 ARs + Tbilisi + 64 municipalities + 17 districts + 4 cities (Geostat table; Abkhazia/SO units are Georgia formal claim, incl. 10 Tbilisi districts) |
 | Germany | DE | 16 | 16 | 417 | 2 | administrative: state > district | district | ← | Complete — 16 states + 401 districts split rural/urban (294 Landkreise + 107 kreisfreie Städte; source Form column; Aachen/Hanover/Saarbrücken ride rural as district-level Kommunalverbände) |
 | Ghana | GH | 16 | 16 | 277 | 2 | administrative: region > district | district | → | Complete — 16 regions + 261 assemblies (6 metropolitan + 113 municipal + 142 district) |
 | Greece | GR | 14 | 14 | 346 | 2 | administrative: administrative_region > municipality | municipality | ← | Complete — 14 regions + 332 municipalities (List of municipalities of Greece 2011, incl. 2019 splits; Athos has none) |
@@ -223,7 +223,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Senegal | SN | 14 | 14 | 60 | 2 | administrative: region > department | department | ← | Complete — 14 regions + 46 departments (Departments of Senegal) |
 | Serbia | RS | 32 | 32 | 189 | 2 | administrative: city / district / province > municipality / city / city_municipality | municipality | ← | Complete — 32 districts + 117 municipalities + 23 cities + 17 Belgrade city-municipalities (Municipalities and cities of Serbia; Kosovo under XK) |
 | Seychelles | SC | 27 | 27 | 27 | 1 | administrative: district | — | none | L1 — 27 districts, only tier (terminal, no L2) |
-| Sierra Leone | SL | 5 | 5 | 21 | 2 | administrative: province / area > district | district | none | Complete — 5 provinces + 16 districts (District/Province table) |
+| Sierra Leone | SL | 5 | 5 | 21 | 2 | administrative: province / area > district | district | none | Complete — 4 provinces + Western Area + 16 districts (District/Province table; ISO 3166-2:SL) |
 | Singapore | SG | 5 | 5 | 174 | dual 2+2 | postal: postal_district > postal_sector; administrative: region > planning_area | planning_area, postal_district, postal_sector, region | after country | Complete; postcodes via OneMap |
 | Slovakia | SK | 8 | 8 | 87 | 2 | administrative: region > district | district | ← | Complete — 8 regions + 79 districts (Districts of Slovakia) |
 | Slovenia | SI | 212 | 212 | 212 | 1 | administrative: municipality / urban_municipality | — | ← | L1 — 200 municipalities + 12 urban (grouped role); no admin tier-2 |

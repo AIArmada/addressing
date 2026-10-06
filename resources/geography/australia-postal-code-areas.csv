@@ -11,9 +11,10 @@ postcode,area_source_id,relationship_type,is_primary
 0815,au:city:city-of-darwin,served_by,true
 0820,au:city:city-of-darwin,served_by,true
 0821,au:city:city-of-darwin,served_by,true
-0822,au:city:city-of-darwin,served_by,false
+0822,au:city:city-of-palmerston,served_by,false
 0822,au:municipality:litchfield-municipality,served_by,false
 0822,au:region:east-arnhem-region,served_by,true
+0822,au:region:groote-archipelago-region,served_by,false
 0822,au:region:roper-gulf-region,served_by,false
 0822,au:region:tiwi-islands-region,served_by,false
 0822,au:region:victoria-daly-region,served_by,false
@@ -23,6 +24,7 @@ postcode,area_source_id,relationship_type,is_primary
 0822,au:shire:coomalie-shire,served_by,false
 0822,au:shire:wagait-shire,served_by,false
 0822,au:territory:northern-territory,served_by,false
+0822,au:town:town-of-katherine,served_by,false
 0828,au:city:city-of-darwin,served_by,true
 0828,au:municipality:litchfield-municipality,served_by,false
 0828,au:territory:northern-territory,served_by,false
@@ -54,10 +56,11 @@ postcode,area_source_id,relationship_type,is_primary
 0854,au:region:roper-gulf-region,served_by,true
 0860,au:region:barkly-region,served_by,true
 0861,au:region:barkly-region,served_by,true
-0862,au:region:barkly-region,served_by,false
-0862,au:region:roper-gulf-region,served_by,true
+0862,au:region:barkly-region,served_by,true
+0862,au:region:roper-gulf-region,served_by,false
 0870,au:town:town-of-alice-springs,served_by,true
 0871,au:town:town-of-alice-springs,served_by,true
+0872,au:council:anangu-pitjantjatjara-yankunytjatjara,served_by,false
 0872,au:region:barkly-region,served_by,false
 0872,au:region:central-desert-region,served_by,false
 0872,au:region:macdonnell-region,served_by,true
@@ -72,7 +75,7 @@ postcode,area_source_id,relationship_type,is_primary
 0880,au:region:east-arnhem-region,served_by,false
 0880,au:territory:northern-territory,served_by,true
 0881,au:territory:northern-territory,served_by,true
-0885,au:territory:northern-territory,served_by,true
+0885,au:region:groote-archipelago-region,served_by,true
 0886,au:region:west-arnhem-region,served_by,true
 0906,au:city:city-of-darwin,served_by,true
 0907,au:city:city-of-darwin,served_by,true
@@ -717,8 +720,8 @@ postcode,area_source_id,relationship_type,is_primary
 2333,au:shire:upper-hunter-shire,served_by,false
 2334,au:city:city-of-cessnock,served_by,true
 2334,au:city:city-of-maitland,served_by,false
-2335,au:city:city-of-cessnock,served_by,true
-2335,au:council:singleton-council,served_by,false
+2335,au:city:city-of-cessnock,served_by,false
+2335,au:council:singleton-council,served_by,true
 2336,au:shire:muswellbrook-shire,served_by,false
 2336,au:shire:upper-hunter-shire,served_by,true
 2337,au:shire:upper-hunter-shire,served_by,true
@@ -796,7 +799,6 @@ postcode,area_source_id,relationship_type,is_primary
 2403,au:shire:inverell-shire,served_by,true
 2404,au:shire:gwydir-shire,served_by,true
 2405,au:shire:moree-plains-shire,served_by,true
-2406,au:region:goondiwindi-region,served_by,false
 2406,au:shire:moree-plains-shire,served_by,true
 2406,au:shire:shire-of-balonne,served_by,false
 2408,au:shire:gwydir-shire,served_by,true
@@ -1032,7 +1034,6 @@ postcode,area_source_id,relationship_type,is_primary
 2629,au:region:snowy-monaro-regional-council,served_by,true
 2630,au:region:snowy-monaro-regional-council,served_by,true
 2631,au:region:snowy-monaro-regional-council,served_by,true
-2631,au:shire:bega-valley-shire,served_by,false
 2632,au:region:snowy-monaro-regional-council,served_by,true
 2632,au:shire:bega-valley-shire,served_by,false
 2633,au:region:snowy-monaro-regional-council,served_by,true
@@ -1314,6 +1315,7 @@ postcode,area_source_id,relationship_type,is_primary
 2868,au:shire:cabonne-shire,served_by,true
 2869,au:shire:narromine-shire,served_by,false
 2869,au:shire:parkes-shire,served_by,true
+2870,au:shire:cabonne-shire,served_by,false
 2870,au:shire:forbes-shire,served_by,false
 2870,au:shire:parkes-shire,served_by,true
 2871,au:shire:forbes-shire,served_by,true
@@ -1865,6 +1867,7 @@ postcode,area_source_id,relationship_type,is_primary
 3478,au:shire:shire-of-northern-grampians,served_by,true
 3480,au:shire:shire-of-buloke,served_by,true
 3480,au:shire:shire-of-northern-grampians,served_by,false
+3480,au:shire:shire-of-yarriambiack,served_by,false
 3482,au:shire:shire-of-buloke,served_by,true
 3483,au:shire:shire-of-buloke,served_by,true
 3485,au:shire:shire-of-buloke,served_by,false
@@ -2657,8 +2660,8 @@ postcode,area_source_id,relationship_type,is_primary
 4581,au:region:gympie-region,served_by,true
 4600,au:region:gympie-region,served_by,true
 4601,au:region:gympie-region,served_by,true
-4605,au:region:gympie-region,served_by,false
 4605,au:region:south-burnett-region,served_by,true
+4605,au:shire:aboriginal-shire-of-cherbourg,served_by,false
 4606,au:region:south-burnett-region,served_by,true
 4608,au:region:south-burnett-region,served_by,true
 4610,au:region:south-burnett-region,served_by,true
@@ -2678,7 +2681,6 @@ postcode,area_source_id,relationship_type,is_primary
 4630,au:region:bundaberg-region,served_by,false
 4630,au:region:north-burnett-region,served_by,true
 4650,au:region:fraser-coast-region,served_by,true
-4650,au:region:gympie-region,served_by,false
 4655,au:region:fraser-coast-region,served_by,true
 4659,au:region:fraser-coast-region,served_by,true
 4660,au:region:bundaberg-region,served_by,true
@@ -2747,6 +2749,7 @@ postcode,area_source_id,relationship_type,is_primary
 4738,au:region:isaac-region,served_by,false
 4738,au:region:mackay-region,served_by,true
 4739,au:region:isaac-region,served_by,true
+4740,au:region:gladstone-region,served_by,false
 4740,au:region:mackay-region,served_by,true
 4741,au:region:gladstone-region,served_by,false
 4741,au:region:isaac-region,served_by,false
@@ -2788,6 +2791,7 @@ postcode,area_source_id,relationship_type,is_primary
 4816,au:shire:aboriginal-shire-of-palm-island,served_by,false
 4816,au:shire:shire-of-flinders,served_by,false
 4816,au:shire:shire-of-hinchinbrook,served_by,false
+4816,au:shire:shire-of-mckinlay,served_by,false
 4817,au:city:city-of-townsville,served_by,true
 4817,au:region:charters-towers-region,served_by,false
 4818,au:city:city-of-townsville,served_by,true
@@ -3033,7 +3037,7 @@ postcode,area_source_id,relationship_type,is_primary
 5141,au:council:adelaide-hills-council,served_by,true
 5142,au:council:adelaide-hills-council,served_by,true
 5144,au:council:adelaide-hills-council,served_by,true
-5150,au:city:city-of-burnside,served_by,true
+5150,au:city:city-of-mitcham,served_by,true
 5151,au:council:adelaide-hills-council,served_by,true
 5152,au:council:adelaide-hills-council,served_by,true
 5153,au:city:city-of-onkaparinga,served_by,false
@@ -3107,6 +3111,7 @@ postcode,area_source_id,relationship_type,is_primary
 5254,au:council:mid-murray-council,served_by,false
 5254,au:rural_city:rural-city-of-murray-bridge,served_by,true
 5255,au:council:alexandrina-council,served_by,true
+5255,au:rural_city:rural-city-of-murray-bridge,served_by,false
 5256,au:council:alexandrina-council,served_by,true
 5259,au:council:coorong-district-council,served_by,true
 5259,au:rural_city:rural-city-of-murray-bridge,served_by,false
@@ -3127,7 +3132,7 @@ postcode,area_source_id,relationship_type,is_primary
 5271,au:council:naracoorte-lucindale-council,served_by,true
 5271,au:council:tatiara-district-council,served_by,false
 5272,au:council:naracoorte-lucindale-council,served_by,true
-5273,au:council:kingston-district-council,served_by,true
+5273,au:council:naracoorte-lucindale-council,served_by,true
 5275,au:council:district-council-of-robe,served_by,false
 5275,au:council:kingston-district-council,served_by,true
 5276,au:council:district-council-of-robe,served_by,true
@@ -3225,6 +3230,7 @@ postcode,area_source_id,relationship_type,is_primary
 5433,au:council:flinders-ranges-council,served_by,true
 5434,au:council:flinders-ranges-council,served_by,true
 5434,au:state:south-australia,served_by,false
+5440,au:council:district-council-of-peterborough,served_by,false
 5440,au:state:south-australia,served_by,true
 5451,au:council:district-council-of-clare-and-gilbert-valleys,served_by,true
 5452,au:council:district-council-of-clare-and-gilbert-valleys,served_by,true
@@ -3306,6 +3312,7 @@ postcode,area_source_id,relationship_type,is_primary
 5607,au:state:south-australia,served_by,false
 5608,au:city:city-of-whyalla,served_by,true
 5609,au:city:city-of-whyalla,served_by,true
+5611,au:council:district-council-of-kimba,served_by,false
 5611,au:state:south-australia,served_by,true
 5630,au:council:district-council-of-lower-eyre-peninsula,served_by,true
 5631,au:council:district-council-of-lower-eyre-peninsula,served_by,true
@@ -3330,6 +3337,7 @@ postcode,area_source_id,relationship_type,is_primary
 5680,au:council:district-council-of-streaky-bay,served_by,true
 5680,au:state:south-australia,served_by,false
 5690,au:council:district-council-of-ceduna,served_by,true
+5690,au:council:maralinga-tjarutja,served_by,false
 5690,au:state:south-australia,served_by,false
 5700,au:city:city-of-port-augusta,served_by,true
 5701,au:council:district-council-of-mount-remarkable,served_by,true
@@ -3996,8 +4004,6 @@ postcode,area_source_id,relationship_type,is_primary
 7030,au:city:city-of-glenorchy,served_by,false
 7030,au:council:brighton-council,served_by,true
 7030,au:council:central-highlands-council,served_by,false
-7030,au:council:derwent-valley-council,served_by,false
-7030,au:council:northern-midlands-council,served_by,false
 7030,au:council:southern-midlands-council,served_by,false
 7050,au:city:city-of-hobart,served_by,false
 7050,au:council:kingborough-council,served_by,true
@@ -4064,8 +4070,8 @@ postcode,area_source_id,relationship_type,is_primary
 7213,au:council:northern-midlands-council,served_by,true
 7214,au:council:break-o-day-council,served_by,true
 7214,au:council:dorset-council,served_by,false
-7215,au:council:break-o-day-council,served_by,false
-7215,au:council:glamorganspring-bay-council,served_by,true
+7215,au:council:break-o-day-council,served_by,true
+7215,au:council:glamorganspring-bay-council,served_by,false
 7216,au:council:break-o-day-council,served_by,true
 7248,au:city:city-of-launceston,served_by,true
 7249,au:city:city-of-launceston,served_by,true
@@ -4141,9 +4147,7 @@ postcode,area_source_id,relationship_type,is_primary
 7466,au:council:west-coast-council,served_by,true
 7467,au:council:west-coast-council,served_by,true
 7468,au:council:west-coast-council,served_by,true
-7469,au:council:circular-head-council,served_by,true
-7469,au:council:waratahwynyard-council,served_by,false
-7469,au:council:west-coast-council,served_by,false
+7469,au:council:west-coast-council,served_by,true
 7470,au:council:west-coast-council,served_by,true
 8001,au:city:city-of-melbourne,served_by,true
 8002,au:city:city-of-melbourne,served_by,true

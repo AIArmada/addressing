@@ -427,6 +427,7 @@ postcode,area_source_id,relationship_type,is_primary
 11400,my:subdistrict:district:pulau-pinang:timur-laut:air-itam,served_by,false
 11400,my:subdistrict:district:pulau-pinang:timur-laut:mukim-13,served_by,false
 11409,my:subdistrict:district:pulau-pinang:timur-laut:bandar-george-town,served_by,true
+11460,my:subdistrict:district:pulau-pinang:timur-laut:bandar-george-town,served_by,true
 11500,my:subdistrict:district:pulau-pinang:timur-laut:air-itam,served_by,true
 11600,my:subdistrict:district:pulau-pinang:timur-laut:jelutong,served_by,true
 11609,my:subdistrict:district:pulau-pinang:timur-laut:jelutong,served_by,true
@@ -494,7 +495,6 @@ postcode,area_source_id,relationship_type,is_primary
 14390,my:subdistrict:district:kedah:bandar-baharu:sungai-kechil-ilir,served_by,false
 14400,my:subdistrict:district:pulau-pinang:seberang-perai-tengah:kubang-semang,served_by,true
 14400,my:subdistrict:district:pulau-pinang:seberang-perai-tengah:mukim-5,served_by,false
-14700,my:subdistrict:district:pulau-pinang:seberang-perai-tengah:perai,served_by,true
 15000,my:subdistrict:district:kelantan:kota-bharu:kota-bharu,served_by,true
 15050,my:subdistrict:district:kelantan:kota-bharu:kota-bharu,served_by,true
 15100,my:subdistrict:district:kelantan:kota-bharu:kota-bharu,served_by,true
@@ -507,6 +507,7 @@ postcode,area_source_id,relationship_type,is_primary
 15159,my:subdistrict:district:kelantan:kota-bharu:baru-kubang-kerian,served_by,false
 15160,my:subdistrict:district:kelantan:kota-bharu:kota-bharu,served_by,true
 15200,my:subdistrict:district:kelantan:kota-bharu:kota-bharu,served_by,true
+15250,my:subdistrict:district:kelantan:kota-bharu:kota-bharu,served_by,true
 15300,my:subdistrict:district:kelantan:kota-bharu:kota-bharu,served_by,true
 15350,my:subdistrict:district:kelantan:kota-bharu:kota-bharu,served_by,true
 15400,my:subdistrict:district:kelantan:kota-bharu:kota-bharu,served_by,true
@@ -790,6 +791,8 @@ postcode,area_source_id,relationship_type,is_primary
 21020,my:subdistrict:district:terengganu:kuala-terengganu:kuala-terengganu,served_by,true
 21030,my:subdistrict:district:terengganu:kuala-terengganu:kuala-terengganu,served_by,true
 21040,my:subdistrict:district:terengganu:kuala-terengganu:kuala-terengganu,served_by,true
+21040,my:subdistrict:district:terengganu:marang:jerung,served_by,false
+21040,my:subdistrict:district:terengganu:marang:bukit-payung,served_by,false
 21050,my:subdistrict:district:terengganu:kuala-terengganu:kuala-terengganu,served_by,true
 21060,my:subdistrict:district:terengganu:kuala-terengganu:kuala-terengganu,served_by,true
 21070,my:subdistrict:district:terengganu:kuala-terengganu:kuala-terengganu,served_by,true
@@ -998,6 +1001,7 @@ postcode,area_source_id,relationship_type,is_primary
 25990,my:subdistrict:district:pahang:kuantan:kuantan,served_by,true
 26000,my:subdistrict:district:pahang:kuantan:kuantan,served_by,true
 26010,my:subdistrict:district:pahang:kuantan:kuantan,served_by,true
+26020,my:subdistrict:district:pahang:kuantan:kuantan,served_by,true
 26030,my:subdistrict:district:pahang:kuantan:gambang,served_by,true
 26040,my:subdistrict:district:pahang:kuantan:kuantan,served_by,true
 26050,my:subdistrict:district:pahang:kuantan:bukit-goh,served_by,true
@@ -1564,6 +1568,7 @@ postcode,area_source_id,relationship_type,is_primary
 40728,my:subdistrict:district:selangor:petaling:shah-alam,served_by,true
 40730,my:subdistrict:district:selangor:petaling:shah-alam,served_by,true
 40732,my:subdistrict:district:selangor:petaling:shah-alam,served_by,true
+40750,my:subdistrict:district:selangor:petaling:shah-alam,served_by,true
 40800,my:subdistrict:district:selangor:petaling:shah-alam,served_by,true
 40800,my:subdistrict:district:selangor:petaling:bukit-raja,served_by,false
 40802,my:subdistrict:district:selangor:petaling:shah-alam,served_by,true
@@ -1607,6 +1612,7 @@ postcode,area_source_id,relationship_type,is_primary
 41301,my:subdistrict:district:selangor:klang:klang,served_by,false
 41400,my:subdistrict:district:selangor:klang:bandar-klang,served_by,true
 41400,my:subdistrict:district:selangor:klang:klang,served_by,false
+41450,my:subdistrict:district:selangor:klang:bandar-klang,served_by,true
 41500,my:subdistrict:district:selangor:klang:bandar-klang,served_by,true
 41500,my:subdistrict:district:selangor:klang:klang,served_by,false
 41506,my:subdistrict:district:selangor:klang:bandar-klang,served_by,true
@@ -1658,6 +1664,7 @@ postcode,area_source_id,relationship_type,is_primary
 42000,my:subdistrict:district:selangor:klang:port-swettenham,served_by,true
 42000,my:subdistrict:district:selangor:klang:bandar-sultan-sulaiman,served_by,false
 42000,my:subdistrict:district:selangor:klang:pekan-pandamaran,served_by,false
+42005,my:subdistrict:district:selangor:klang:port-swettenham,served_by,true
 42007,my:subdistrict:district:selangor:klang:port-swettenham,served_by,true
 42008,my:subdistrict:district:selangor:klang:port-swettenham,served_by,true
 42009,my:subdistrict:district:selangor:klang:port-swettenham,served_by,true
@@ -1670,8 +1677,6 @@ postcode,area_source_id,relationship_type,is_primary
 42209,my:subdistrict:district:selangor:klang:pekan-kapar,served_by,true
 42209,my:subdistrict:district:selangor:klang:kapar,served_by,false
 42300,my:district:selangor:kuala-selangor,served_by,true
-42425,my:subdistrict:district:selangor:kuala-langat:bandar-telok-panglima-garang,served_by,true
-42425,my:subdistrict:district:selangor:kuala-langat:telok-panglima-garang,served_by,false
 42450,my:subdistrict:district:selangor:petaling:shah-alam,served_by,true
 42500,my:subdistrict:district:selangor:kuala-langat:bandar-telok-panglima-garang,served_by,true
 42500,my:subdistrict:district:selangor:kuala-langat:telok-panglima-garang,served_by,false
@@ -1697,9 +1702,8 @@ postcode,area_source_id,relationship_type,is_primary
 42700,my:subdistrict:district:selangor:kuala-langat:pekan-telok-datok,served_by,false
 42800,my:subdistrict:district:selangor:kuala-langat:tanjong-sepat,served_by,true
 42800,my:subdistrict:district:selangor:kuala-langat:pekan-batu,served_by,false
-42900,my:district:selangor:klang,served_by,true
-42907,my:district:selangor:klang,served_by,true
-42920,my:district:selangor:klang,served_by,true
+42920,my:subdistrict:district:selangor:klang:pulau-indah,served_by,true
+42920,my:subdistrict:district:selangor:klang:klang,served_by,false
 42940,my:district:selangor:klang,served_by,true
 42960,my:district:selangor:kuala-langat,served_by,true
 42999,my:district:selangor:kuala-langat,served_by,true
@@ -1861,6 +1865,8 @@ postcode,area_source_id,relationship_type,is_primary
 46564,my:subdistrict:district:selangor:petaling:petaling-jaya,served_by,true
 46582,my:subdistrict:district:selangor:petaling:petaling-jaya,served_by,true
 46598,my:subdistrict:district:selangor:petaling:petaling-jaya,served_by,true
+46620,my:subdistrict:district:selangor:petaling:petaling-jaya,served_by,true
+46661,my:subdistrict:district:selangor:petaling:petaling-jaya,served_by,true
 46662,my:subdistrict:district:selangor:petaling:petaling-jaya,served_by,true
 46667,my:subdistrict:district:selangor:petaling:petaling-jaya,served_by,true
 46668,my:subdistrict:district:selangor:petaling:petaling-jaya,served_by,true
@@ -1955,6 +1961,7 @@ postcode,area_source_id,relationship_type,is_primary
 47500,my:subdistrict:district:selangor:petaling:bandar-sunway,served_by,false
 47507,my:subdistrict:district:selangor:petaling:subang-jaya,served_by,true
 47510,my:subdistrict:district:selangor:petaling:subang-jaya,served_by,true
+47580,my:subdistrict:district:selangor:petaling:subang-jaya,served_by,true
 47600,my:subdistrict:district:selangor:petaling:subang-jaya,served_by,true
 47601,my:subdistrict:district:selangor:petaling:subang-jaya,served_by,true
 47610,my:subdistrict:district:selangor:petaling:subang-jaya,served_by,true
@@ -2253,6 +2260,7 @@ postcode,area_source_id,relationship_type,is_primary
 53990,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 54000,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 54050,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
+54080,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 54100,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 54200,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 54200,my:subdistrict:state:wilayah-persekutuan-kuala-lumpur:setiawangsa,served_by,false
@@ -2304,6 +2312,7 @@ postcode,area_source_id,relationship_type,is_primary
 58100,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 58200,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 58209,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
+58400,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 58700,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 58990,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 59000,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
@@ -2312,6 +2321,7 @@ postcode,area_source_id,relationship_type,is_primary
 59200,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 59200,my:subdistrict:state:wilayah-persekutuan-kuala-lumpur:lembah-pantai,served_by,false
 59206,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
+59400,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 59700,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 59800,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
 59990,my:state:wilayah-persekutuan-kuala-lumpur,served_by,true
@@ -2623,6 +2633,7 @@ postcode,area_source_id,relationship_type,is_primary
 72120,my:subdistrict:district:negeri-sembilan:jempol:serting,served_by,false
 72127,my:subdistrict:district:negeri-sembilan:jempol:bandar-seri-jempol,served_by,true
 72129,my:subdistrict:district:negeri-sembilan:jempol:bandar-seri-jempol,served_by,true
+72130,my:subdistrict:district:negeri-sembilan:jempol:bandar-seri-jempol,served_by,true
 72200,my:subdistrict:district:negeri-sembilan:jempol:batu-kikir,served_by,true
 72200,my:subdistrict:district:negeri-sembilan:kuala-pilah:bukit-gelugor,served_by,false
 72200,my:subdistrict:district:negeri-sembilan:jempol:serting-tengah,served_by,false
@@ -2818,6 +2829,7 @@ postcode,area_source_id,relationship_type,is_primary
 76450,my:subdistrict:district:melaka:melaka-tengah:paya-rumput,served_by,false
 76450,my:subdistrict:district:melaka:melaka-tengah:pekan-paya-rumput,served_by,false
 76460,my:subdistrict:district:melaka:alor-gajah:tebong,served_by,true
+76470,my:subdistrict:district:melaka:melaka-tengah:melaka,served_by,true
 77000,my:subdistrict:district:melaka:jasin:bandar-jasin,served_by,true
 77000,my:subdistrict:district:melaka:jasin:jasin,served_by,false
 77000,my:subdistrict:district:melaka:jasin:kesang-pajak,served_by,false
@@ -2911,6 +2923,7 @@ postcode,area_source_id,relationship_type,is_primary
 80050,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
 80100,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
 80110,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
+80120,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
 80150,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
 80200,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
 80250,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
@@ -3004,9 +3017,11 @@ postcode,area_source_id,relationship_type,is_primary
 81030,my:subdistrict:district:johor:kulai:kelapa-sawit,served_by,false
 81040,my:subdistrict:district:johor:kulai:bandar-kulai,served_by,true
 81050,my:subdistrict:district:johor:kulai:bandar-kulai,served_by,true
+81060,my:subdistrict:district:johor:kulai:bandar-kulai,served_by,true
 81100,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
 81110,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
 81120,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
+81150,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
 81200,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
 81250,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
 81300,my:subdistrict:district:johor:johor-bahru:johor-bahru,served_by,true
@@ -3083,6 +3098,8 @@ postcode,area_source_id,relationship_type,is_primary
 83700,my:subdistrict:district:johor:batu-pahat:yong-peng,served_by,true
 83700,my:subdistrict:district:johor:batu-pahat:kampung-bahru,served_by,false
 83710,my:subdistrict:district:johor:batu-pahat:yong-peng,served_by,true
+83720,my:subdistrict:district:johor:batu-pahat:yong-peng,served_by,true
+83740,my:subdistrict:district:johor:batu-pahat:yong-peng,served_by,true
 84000,my:subdistrict:district:johor:muar:bandar,served_by,true
 84000,my:subdistrict:district:johor:muar:ayer-hitam,served_by,false
 84000,my:subdistrict:district:johor:muar:jalan-bakri,served_by,false
@@ -3095,6 +3112,7 @@ postcode,area_source_id,relationship_type,is_primary
 84030,my:subdistrict:district:johor:muar:bandar,served_by,true
 84040,my:subdistrict:district:johor:muar:bandar,served_by,true
 84050,my:subdistrict:district:johor:muar:bandar,served_by,true
+84060,my:subdistrict:district:johor:muar:bandar,served_by,true
 84100,my:subdistrict:district:johor:muar:bandar,served_by,true
 84150,my:subdistrict:district:johor:muar:bandar-parit-jawa,served_by,true
 84150,my:subdistrict:district:johor:muar:parit-jawa,served_by,false
@@ -3129,6 +3147,7 @@ postcode,area_source_id,relationship_type,is_primary
 85000,my:subdistrict:district:johor:segamat:buloh-kasap,served_by,false
 85000,my:subdistrict:district:johor:segamat:gemereh,served_by,false
 85000,my:subdistrict:district:johor:segamat:sermin,served_by,false
+85007,my:subdistrict:district:johor:segamat:segamat,served_by,true
 85010,my:subdistrict:district:johor:segamat:bandar-buloh-kasap,served_by,true
 85010,my:subdistrict:district:johor:segamat:buloh-kasap,served_by,false
 85020,my:subdistrict:district:johor:segamat:segamat,served_by,true
@@ -3148,6 +3167,7 @@ postcode,area_source_id,relationship_type,is_primary
 86000,my:subdistrict:district:johor:kluang:bandar-kluang,served_by,true
 86000,my:subdistrict:district:johor:kluang:kluang,served_by,false
 86007,my:subdistrict:district:johor:kluang:bandar-kluang,served_by,true
+86009,my:subdistrict:district:johor:kluang:bandar-kluang,served_by,true
 86100,my:subdistrict:district:johor:batu-pahat:ayer-hitam,served_by,true
 86200,my:subdistrict:district:johor:kluang:simpang-rengam,served_by,true
 86200,my:subdistrict:district:johor:kluang:ulu-benut,served_by,false
@@ -3441,16 +3461,21 @@ postcode,area_source_id,relationship_type,is_primary
 89050,my:subdistrict:district:sabah:kudat:pekan-sikuati,served_by,false
 89050,my:subdistrict:district:sabah:kudat:pekan-karakit,served_by,false
 89050,my:subdistrict:district:sabah:kota-marudu:langkon,served_by,false
-89050,my:subdistrict:district:sabah:kota-marudu:tandek,served_by,false
 89057,my:subdistrict:district:sabah:kudat:pekan-kudat,served_by,true
 89058,my:subdistrict:district:sabah:kudat:pekan-kudat,served_by,true
 89059,my:subdistrict:district:sabah:kudat:pekan-kudat,served_by,true
+89070,my:subdistrict:district:sabah:kudat:pekan-kudat,served_by,true
 89100,my:subdistrict:district:sabah:kota-marudu:pekan-kota-marudu,served_by,true
 89100,my:subdistrict:district:sabah:kota-marudu:bandau,served_by,false
 89100,my:subdistrict:district:sabah:pitas:pekan-pitas,served_by,false
+89100,my:subdistrict:district:sabah:kota-marudu:tandek,served_by,false
 89107,my:subdistrict:district:sabah:kota-marudu:pekan-kota-marudu,served_by,true
 89108,my:subdistrict:district:sabah:kota-marudu:pekan-kota-marudu,served_by,true
 89109,my:subdistrict:district:sabah:kota-marudu:pekan-kota-marudu,served_by,true
+89130,my:subdistrict:district:sabah:kota-marudu:pingan-pingan,served_by,true
+89137,my:subdistrict:district:sabah:kota-marudu:pingan-pingan,served_by,true
+89138,my:subdistrict:district:sabah:kota-marudu:pingan-pingan,served_by,true
+89139,my:subdistrict:district:sabah:kota-marudu:pingan-pingan,served_by,true
 89150,my:subdistrict:district:sabah:kota-belud:pekan-kota-belud,served_by,true
 89150,my:subdistrict:district:sabah:kota-belud:pekan-nabalu,served_by,false
 89157,my:subdistrict:district:sabah:kota-belud:pekan-kota-belud,served_by,true
@@ -3776,6 +3801,7 @@ postcode,area_source_id,relationship_type,is_primary
 94000,my:subdistrict:district:sarawak:bau:siniawan,served_by,false
 94007,my:subdistrict:district:sarawak:bau:bau,served_by,true
 94009,my:subdistrict:district:sarawak:bau:bau,served_by,true
+94111,my:subdistrict:district:sarawak:lundu:lundu,served_by,true
 94200,my:subdistrict:district:sarawak:siburan:siburan,served_by,true
 94300,my:subdistrict:district:sarawak:kota-samarahan:kota-samarahan,served_by,true
 94500,my:subdistrict:district:sarawak:lundu:lundu,served_by,true
@@ -3799,6 +3825,8 @@ postcode,area_source_id,relationship_type,is_primary
 94950,my:subdistrict:district:sarawak:pusa:pusa,served_by,true
 95000,my:subdistrict:district:sarawak:sri-aman:sri-aman,served_by,true
 95000,my:subdistrict:district:sarawak:pantu:pantu,served_by,false
+95000,my:subdistrict:district:sarawak:pantu:lachau,served_by,false
+95000,my:subdistrict:district:sarawak:pantu:sungai-tenggang,served_by,false
 95007,my:subdistrict:district:sarawak:sri-aman:sri-aman,served_by,true
 95008,my:subdistrict:district:sarawak:sri-aman:sri-aman,served_by,true
 95009,my:subdistrict:district:sarawak:sri-aman:sri-aman,served_by,true
@@ -3820,7 +3848,6 @@ postcode,area_source_id,relationship_type,is_primary
 96009,my:subdistrict:district:sarawak:sibu:sibu,served_by,true
 96010,my:subdistrict:district:sarawak:sibu:sibu-jaya,served_by,true
 96100,my:subdistrict:district:sarawak:sarikei:sarikei,served_by,true
-96100,my:subdistrict:district:sarawak:pakan:pakan,served_by,false
 96107,my:subdistrict:district:sarawak:sarikei:sarikei,served_by,true
 96108,my:subdistrict:district:sarawak:sarikei:sarikei,served_by,true
 96109,my:subdistrict:district:sarawak:sarikei:sarikei,served_by,true
@@ -3838,7 +3865,7 @@ postcode,area_source_id,relationship_type,is_primary
 96507,my:subdistrict:district:sarawak:meradong:bintangor,served_by,true
 96508,my:subdistrict:district:sarawak:meradong:bintangor,served_by,true
 96509,my:subdistrict:district:sarawak:meradong:bintangor,served_by,true
-96510,my:subdistrict:district:sarawak:meradong:bintangor,served_by,true
+96510,my:subdistrict:district:sarawak:pakan:pakan,served_by,true
 96600,my:subdistrict:district:sarawak:julau:julau,served_by,true
 96700,my:subdistrict:district:sarawak:kanowit:kanowit,served_by,true
 96707,my:subdistrict:district:sarawak:kanowit:kanowit,served_by,true
@@ -3871,6 +3898,7 @@ postcode,area_source_id,relationship_type,is_primary
 98009,my:subdistrict:district:sarawak:miri:miri,served_by,true
 98050,my:subdistrict:district:sarawak:marudi:marudi,served_by,true
 98050,my:subdistrict:district:sarawak:marudi:pekan-bario,served_by,false
+98050,my:subdistrict:district:sarawak:beluru:beluru,served_by,false
 98057,my:subdistrict:district:sarawak:marudi:marudi,served_by,true
 98058,my:subdistrict:district:sarawak:marudi:marudi,served_by,true
 98059,my:subdistrict:district:sarawak:marudi:marudi,served_by,true

@@ -577,8 +577,8 @@ postcode,area_source_id,relationship_type,is_primary
 07806,de:district:saale-orla-kreis,served_by,true
 07819,de:district:saale-orla-kreis,served_by,true
 07907,de:district:saale-orla-kreis,served_by,true
-07919,de:district:saale-orla-kreis,served_by,true
-07919,de:district:vogtlandkreis,served_by,false
+07919,de:district:saale-orla-kreis,served_by,false
+07919,de:district:vogtlandkreis,served_by,true
 07922,de:district:saale-orla-kreis,served_by,true
 07924,de:district:saale-orla-kreis,served_by,true
 07926,de:district:saale-orla-kreis,served_by,true
@@ -1048,8 +1048,8 @@ postcode,area_source_id,relationship_type,is_primary
 12524,de:district:berlin,served_by,true
 12526,de:district:berlin,served_by,true
 12527,de:district:berlin,served_by,true
-12529,de:district:berlin,served_by,true
-12529,de:district:dahme-spreewald,served_by,false
+12529,de:district:berlin,served_by,false
+12529,de:district:dahme-spreewald,served_by,true
 12552,de:district:berlin,served_by,true
 12555,de:district:berlin,served_by,true
 12557,de:district:berlin,served_by,true
@@ -1747,8 +1747,8 @@ postcode,area_source_id,relationship_type,is_primary
 21447,de:district:luneburg,served_by,true
 21449,de:district:luneburg,served_by,true
 21462,de:district:stormarn,served_by,true
-21465,de:district:herzogtum-lauenburg,served_by,true
-21465,de:district:stormarn,served_by,false
+21465,de:district:herzogtum-lauenburg,served_by,false
+21465,de:district:stormarn,served_by,true
 21481,de:district:herzogtum-lauenburg,served_by,true
 21483,de:district:herzogtum-lauenburg,served_by,true
 21493,de:district:herzogtum-lauenburg,served_by,true
@@ -1836,6 +1836,7 @@ postcode,area_source_id,relationship_type,is_primary
 22102,de:district:hamburg,served_by,true
 22111,de:district:hamburg,served_by,true
 22113,de:district:hamburg,served_by,true
+22113,de:district:stormarn,served_by,false
 22115,de:district:hamburg,served_by,true
 22117,de:district:hamburg,served_by,true
 22119,de:district:hamburg,served_by,true
@@ -2874,7 +2875,7 @@ postcode,area_source_id,relationship_type,is_primary
 29611,de:district:heidekreis,served_by,true
 29612,de:district:heidekreis,served_by,true
 29614,de:district:heidekreis,served_by,true
-29633,de:district:munster,served_by,true
+29633,de:district:heidekreis,served_by,true
 29640,de:district:heidekreis,served_by,true
 29643,de:district:heidekreis,served_by,true
 29646,de:district:heidekreis,served_by,true
@@ -3276,7 +3277,7 @@ postcode,area_source_id,relationship_type,is_primary
 33769,de:district:gutersloh,served_by,true
 33775,de:district:gutersloh,served_by,true
 33788,de:district:gutersloh,served_by,true
-33790,de:district:halle,served_by,true
+33790,de:district:gutersloh,served_by,true
 33801,de:district:gutersloh,served_by,true
 33803,de:district:gutersloh,served_by,true
 33813,de:district:lippe,served_by,true
@@ -3404,7 +3405,7 @@ postcode,area_source_id,relationship_type,is_primary
 35088,de:district:waldeck-frankenberg,served_by,true
 35091,de:district:marburg-biedenkopf,served_by,true
 35094,de:district:marburg-biedenkopf,served_by,true
-35096,de:district:weimar,served_by,true
+35096,de:district:marburg-biedenkopf,served_by,true
 35099,de:district:waldeck-frankenberg,served_by,true
 35102,de:district:marburg-biedenkopf,served_by,true
 35104,de:district:waldeck-frankenberg,served_by,true
@@ -3687,7 +3688,7 @@ postcode,area_source_id,relationship_type,is_primary
 37601,de:district:holzminden,served_by,true
 37603,de:district:holzminden,served_by,true
 37619,de:district:holzminden,served_by,true
-37620,de:district:halle,served_by,true
+37620,de:district:holzminden,served_by,true
 37627,de:district:holzminden,served_by,true
 37632,de:district:holzminden,served_by,true
 37633,de:district:holzminden,served_by,true
@@ -4676,7 +4677,7 @@ postcode,area_source_id,relationship_type,is_primary
 49143,de:district:osnabruck,served_by,true
 49152,de:district:osnabruck,served_by,true
 49163,de:district:osnabruck,served_by,true
-49170,de:district:hagen,served_by,true
+49170,de:district:osnabruck,served_by,true
 49176,de:district:osnabruck,served_by,true
 49179,de:district:osnabruck,served_by,true
 49186,de:district:osnabruck,served_by,true
@@ -4738,7 +4739,7 @@ postcode,area_source_id,relationship_type,is_primary
 49610,de:district:osnabruck,served_by,true
 49624,de:district:cloppenburg,served_by,true
 49626,de:district:osnabruck,served_by,true
-49632,de:district:essen,served_by,true
+49632,de:district:cloppenburg,served_by,true
 49635,de:district:osnabruck,served_by,true
 49637,de:district:osnabruck,served_by,true
 49638,de:district:osnabruck,served_by,true
@@ -4826,7 +4827,7 @@ postcode,area_source_id,relationship_type,is_primary
 50582,de:district:dortmund,served_by,true
 50583,de:district:cologne,served_by,true
 50585,de:district:cologne,served_by,true
-50586,de:district:berlin,served_by,true
+50586,de:district:cologne,served_by,true
 50587,de:district:cologne,served_by,true
 50588,de:district:cologne,served_by,true
 50589,de:district:cologne,served_by,true
@@ -5324,8 +5325,8 @@ postcode,area_source_id,relationship_type,is_primary
 55234,de:district:alzey-worms,served_by,true
 55237,de:district:alzey-worms,served_by,true
 55239,de:district:alzey-worms,served_by,true
-55246,de:district:mainz,served_by,true
-55252,de:district:mainz,served_by,true
+55246,de:district:wiesbaden,served_by,true
+55252,de:district:wiesbaden,served_by,true
 55257,de:district:mainz-bingen,served_by,true
 55262,de:district:mainz-bingen,served_by,true
 55263,de:district:mainz-bingen,served_by,true
@@ -5347,7 +5348,7 @@ postcode,area_source_id,relationship_type,is_primary
 55411,de:district:mainz-bingen,served_by,true
 55413,de:district:mainz-bingen,served_by,true
 55422,de:district:mainz-bingen,served_by,true
-55424,de:district:munster,served_by,true
+55424,de:district:mainz-bingen,served_by,true
 55425,de:district:mainz-bingen,served_by,true
 55430,de:district:rhein-hunsruck-kreis,served_by,true
 55432,de:district:rhein-hunsruck-kreis,served_by,true
@@ -6215,7 +6216,7 @@ postcode,area_source_id,relationship_type,is_primary
 64625,de:district:bergstrasse,served_by,true
 64646,de:district:bergstrasse,served_by,true
 64653,de:district:bergstrasse,served_by,true
-64658,de:district:bayern:furth,served_by,true
+64658,de:district:bergstrasse,served_by,true
 64665,de:district:darmstadt-dieburg,served_by,true
 64668,de:district:bergstrasse,served_by,true
 64673,de:district:bergstrasse,served_by,true
@@ -6238,7 +6239,7 @@ postcode,area_source_id,relationship_type,is_primary
 64807,de:district:darmstadt-dieburg,served_by,true
 64823,de:district:darmstadt-dieburg,served_by,true
 64832,de:district:darmstadt-dieburg,served_by,true
-64839,de:district:munster,served_by,true
+64839,de:district:darmstadt-dieburg,served_by,true
 64846,de:district:darmstadt-dieburg,served_by,true
 64850,de:district:darmstadt-dieburg,served_by,true
 64853,de:district:darmstadt-dieburg,served_by,true
@@ -6630,7 +6631,7 @@ postcode,area_source_id,relationship_type,is_primary
 67575,de:district:alzey-worms,served_by,true
 67577,de:district:alzey-worms,served_by,true
 67578,de:district:alzey-worms,served_by,true
-67580,de:district:hamm,served_by,true
+67580,de:district:alzey-worms,served_by,true
 67582,de:district:alzey-worms,served_by,true
 67583,de:district:mainz-bingen,served_by,true
 67585,de:district:mainz-bingen,served_by,true
@@ -6782,7 +6783,7 @@ postcode,area_source_id,relationship_type,is_primary
 68775,de:district:rhein-neckar-kreis,served_by,true
 68782,de:district:rhein-neckar-kreis,served_by,true
 68789,de:district:rhein-neckar-kreis,served_by,true
-68794,de:district:oberhausen,served_by,true
+68794,de:district:karlsruhe,served_by,true
 68799,de:district:rhein-neckar-kreis,served_by,true
 68804,de:district:rhein-neckar-kreis,served_by,true
 68809,de:district:rhein-neckar-kreis,served_by,true
@@ -8635,7 +8636,7 @@ postcode,area_source_id,relationship_type,is_primary
 84091,de:district:kelheim,served_by,true
 84092,de:district:landshut,served_by,true
 84094,de:district:kelheim,served_by,true
-84095,de:district:bayern:furth,served_by,true
+84095,de:district:landshut,served_by,true
 84097,de:district:kelheim,served_by,true
 84098,de:district:landshut,served_by,true
 84100,de:district:landshut,served_by,true
@@ -9057,10 +9058,10 @@ postcode,area_source_id,relationship_type,is_primary
 86687,de:district:donau-ries,served_by,true
 86688,de:district:donau-ries,served_by,true
 86690,de:district:donau-ries,served_by,true
-86692,de:district:munster,served_by,true
+86692,de:district:donau-ries,served_by,true
 86694,de:district:donau-ries,served_by,true
 86695,de:district:augsburg,served_by,true
-86697,de:district:oberhausen,served_by,true
+86697,de:district:neuburg-schrobenhausen,served_by,true
 86698,de:district:donau-ries,served_by,true
 86700,de:district:donau-ries,served_by,true
 86701,de:district:neuburg-schrobenhausen,served_by,true
@@ -9098,7 +9099,7 @@ postcode,area_source_id,relationship_type,is_primary
 86845,de:district:augsburg,served_by,true
 86850,de:district:augsburg,served_by,true
 86853,de:district:augsburg,served_by,true
-86854,de:district:amberg,served_by,true
+86854,de:district:unterallgau,served_by,true
 86856,de:district:augsburg,served_by,true
 86857,de:district:landsberg,served_by,true
 86859,de:district:landsberg,served_by,true
@@ -9951,8 +9952,8 @@ postcode,area_source_id,relationship_type,is_primary
 92631,de:district:weiden-in-der-oberpfalz,served_by,true
 92632,de:district:weiden-in-der-oberpfalz,served_by,true
 92633,de:district:weiden-in-der-oberpfalz,served_by,true
-92637,de:district:neustadt-an-der-waldnaab,served_by,true
-92637,de:district:weiden-in-der-oberpfalz,served_by,false
+92637,de:district:neustadt-an-der-waldnaab,served_by,false
+92637,de:district:weiden-in-der-oberpfalz,served_by,true
 92648,de:district:neustadt-an-der-waldnaab,served_by,true
 92655,de:district:neustadt-an-der-waldnaab,served_by,true
 92660,de:district:neustadt-an-der-waldnaab,served_by,true
@@ -10078,7 +10079,7 @@ postcode,area_source_id,relationship_type,is_primary
 93411,de:district:cham,served_by,true
 93413,de:district:cham,served_by,true
 93426,de:district:cham,served_by,true
-93437,de:district:bayern:furth,served_by,true
+93437,de:district:cham,served_by,true
 93444,de:district:cham,served_by,true
 93449,de:district:cham,served_by,true
 93453,de:district:cham,served_by,true
@@ -10211,7 +10212,7 @@ postcode,area_source_id,relationship_type,is_primary
 94375,de:district:straubing-bogen,served_by,true
 94377,de:district:straubing-bogen,served_by,true
 94379,de:district:straubing-bogen,served_by,true
-94405,de:district:landau,served_by,true
+94405,de:district:dingolfing-landau,served_by,true
 94419,de:district:dingolfing-landau,served_by,true
 94424,de:district:rottal-inn,served_by,true
 94428,de:district:dingolfing-landau,served_by,true

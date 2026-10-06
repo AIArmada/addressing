@@ -22,6 +22,7 @@ postcode,area_source_id,relationship_type,is_primary
 1229,bd:district:dhaka,served_by,true
 1230,bd:district:dhaka,served_by,true
 1232,bd:district:dhaka,served_by,true
+1236,bd:district:dhaka,served_by,true
 1310,bd:district:dhaka,served_by,true
 1311,bd:district:dhaka,served_by,true
 1312,bd:district:dhaka,served_by,true
@@ -132,6 +133,7 @@ postcode,area_source_id,relationship_type,is_primary
 1702,bd:district:gazipur,served_by,true
 1703,bd:district:gazipur,served_by,true
 1704,bd:district:gazipur,served_by,true
+1706,bd:district:gazipur,served_by,true
 1710,bd:district:gazipur,served_by,true
 1711,bd:district:gazipur,served_by,true
 1712,bd:district:gazipur,served_by,true
@@ -245,6 +247,9 @@ postcode,area_source_id,relationship_type,is_primary
 2203,bd:district:mymensingh,served_by,true
 2204,bd:district:mymensingh,served_by,true
 2205,bd:district:mymensingh,served_by,true
+2206,bd:district:mymensingh,served_by,true
+2207,bd:district:mymensingh,served_by,true
+2208,bd:district:mymensingh,served_by,true
 2210,bd:district:mymensingh,served_by,true
 2216,bd:district:mymensingh,served_by,true
 2220,bd:district:mymensingh,served_by,true
@@ -350,6 +355,7 @@ postcode,area_source_id,relationship_type,is_primary
 3114,bd:district:sylhet,served_by,true
 3116,bd:district:sylhet,served_by,true
 3117,bd:district:sylhet,served_by,true
+3118,bd:district:sylhet,served_by,true
 3120,bd:district:sylhet,served_by,true
 3121,bd:district:sylhet,served_by,true
 3122,bd:district:sylhet,served_by,true
@@ -469,8 +475,10 @@ postcode,area_source_id,relationship_type,is_primary
 3502,bd:district:cumilla,served_by,true
 3503,bd:district:cumilla,served_by,true
 3504,bd:district:cumilla,served_by,true
+3505,bd:district:cumilla,served_by,true
 3510,bd:district:cumilla,served_by,true
 3511,bd:district:cumilla,served_by,true
+3512,bd:district:cumilla,served_by,true
 3516,bd:district:cumilla,served_by,true
 3517,bd:district:cumilla,served_by,true
 3518,bd:district:cumilla,served_by,true
@@ -489,6 +497,7 @@ postcode,area_source_id,relationship_type,is_primary
 3544,bd:district:cumilla,served_by,true
 3545,bd:district:cumilla,served_by,true
 3546,bd:district:cumilla,served_by,true
+3547,bd:district:cumilla,served_by,true
 3550,bd:district:cumilla,served_by,true
 3551,bd:district:cumilla,served_by,true
 3552,bd:district:cumilla,served_by,true
@@ -498,6 +507,7 @@ postcode,area_source_id,relationship_type,is_primary
 3570,bd:district:cumilla,served_by,true
 3571,bd:district:cumilla,served_by,true
 3572,bd:district:cumilla,served_by,true
+3573,bd:district:cumilla,served_by,true
 3580,bd:district:cumilla,served_by,true
 3581,bd:district:cumilla,served_by,true
 3582,bd:district:cumilla,served_by,true
@@ -549,6 +559,8 @@ postcode,area_source_id,relationship_type,is_primary
 3723,bd:district:lakshmipur,served_by,true
 3724,bd:district:lakshmipur,served_by,true
 3725,bd:district:lakshmipur,served_by,true
+3726,bd:district:lakshmipur,served_by,true
+3727,bd:district:lakshmipur,served_by,true
 3730,bd:district:lakshmipur,served_by,true
 3731,bd:district:lakshmipur,served_by,true
 3732,bd:district:lakshmipur,served_by,true
@@ -557,12 +569,14 @@ postcode,area_source_id,relationship_type,is_primary
 3802,bd:district:noakhali,served_by,true
 3803,bd:district:noakhali,served_by,true
 3804,bd:district:noakhali,served_by,true
+3805,bd:district:noakhali,served_by,true
 3806,bd:district:noakhali,served_by,true
 3807,bd:district:noakhali,served_by,true
 3808,bd:district:noakhali,served_by,true
 3809,bd:district:noakhali,served_by,true
 3811,bd:district:noakhali,served_by,true
 3812,bd:district:noakhali,served_by,true
+3813,bd:district:noakhali,served_by,true
 3820,bd:district:noakhali,served_by,true
 3821,bd:district:noakhali,served_by,true
 3822,bd:district:noakhali,served_by,true
@@ -702,6 +716,7 @@ postcode,area_source_id,relationship_type,is_primary
 4353,bd:district:chattogram,served_by,true
 4354,bd:district:chattogram,served_by,true
 4355,bd:district:chattogram,served_by,true
+4357,bd:district:chattogram,served_by,true
 4360,bd:district:chattogram,served_by,true
 4361,bd:district:chattogram,served_by,true
 4363,bd:district:chattogram,served_by,true
@@ -756,6 +771,7 @@ postcode,area_source_id,relationship_type,is_primary
 4610,bd:district:bandarban,served_by,true
 4620,bd:district:bandarban,served_by,true
 4630,bd:district:bandarban,served_by,true
+4640,bd:district:bandarban,served_by,true
 4641,bd:district:bandarban,served_by,true
 4650,bd:district:bandarban,served_by,true
 4660,bd:district:bandarban,served_by,true
@@ -896,15 +912,18 @@ postcode,area_source_id,relationship_type,is_primary
 5942,bd:district:joypurhat,served_by,true
 6000,bd:district:rajshahi,served_by,true
 6100,bd:district:rajshahi,served_by,true
+6200,bd:district:rajshahi,served_by,true
 6201,bd:district:rajshahi,served_by,true
 6202,bd:district:rajshahi,served_by,true
 6203,bd:district:rajshahi,served_by,true
 6204,bd:district:rajshahi,served_by,true
 6205,bd:district:rajshahi,served_by,true
 6206,bd:district:rajshahi,served_by,true
+6207,bd:district:rajshahi,served_by,true
 6210,bd:district:rajshahi,served_by,true
 6211,bd:district:rajshahi,served_by,true
 6212,bd:district:rajshahi,served_by,true
+6213,bd:district:rajshahi,served_by,true
 6220,bd:district:rajshahi,served_by,true
 6230,bd:district:rajshahi,served_by,true
 6240,bd:district:rajshahi,served_by,true
@@ -940,9 +959,11 @@ postcode,area_source_id,relationship_type,is_primary
 6430,bd:district:natore,served_by,true
 6431,bd:district:natore,served_by,true
 6432,bd:district:natore,served_by,true
+6433,bd:district:natore,served_by,true
 6440,bd:district:natore,served_by,true
 6450,bd:district:natore,served_by,true
 6500,bd:district:naogaon,served_by,true
+6501,bd:district:naogaon,served_by,true
 6510,bd:district:naogaon,served_by,true
 6511,bd:district:naogaon,served_by,true
 6512,bd:district:naogaon,served_by,true
@@ -1150,6 +1171,7 @@ postcode,area_source_id,relationship_type,is_primary
 8204,bd:district:barishal,served_by,true
 8205,bd:district:barishal,served_by,true
 8206,bd:district:barishal,served_by,true
+8207,bd:district:barishal,served_by,true
 8210,bd:district:barishal,served_by,true
 8211,bd:district:barishal,served_by,true
 8212,bd:district:barishal,served_by,true
@@ -1157,6 +1179,7 @@ postcode,area_source_id,relationship_type,is_primary
 8214,bd:district:barishal,served_by,true
 8215,bd:district:barishal,served_by,true
 8216,bd:district:barishal,served_by,true
+8217,bd:district:barishal,served_by,true
 8220,bd:district:barishal,served_by,true
 8221,bd:district:barishal,served_by,true
 8222,bd:district:barishal,served_by,true
@@ -1240,6 +1263,7 @@ postcode,area_source_id,relationship_type,is_primary
 8602,bd:district:patuakhali,served_by,true
 8603,bd:district:patuakhali,served_by,true
 8610,bd:district:patuakhali,served_by,true
+8611,bd:district:patuakhali,served_by,true
 8620,bd:district:patuakhali,served_by,true
 8621,bd:district:patuakhali,served_by,true
 8622,bd:district:patuakhali,served_by,true

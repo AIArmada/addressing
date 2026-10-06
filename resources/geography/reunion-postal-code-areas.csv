@@ -17,7 +17,6 @@ postcode,area_source_id,relationship_type,is_primary
 97425,re:commune:les-avirons,served_by,true
 97426,re:commune:les-trois-bassins,served_by,true
 97427,re:commune:l-etang-sale,served_by,true
-97428,re:commune:saint-paul,served_by,true
 97429,re:commune:petite-ile,served_by,true
 97430,re:commune:le-tampon,served_by,true
 97431,re:commune:la-plaine-des-palmistes,served_by,true
@@ -36,3 +35,4 @@ postcode,area_source_id,relationship_type,is_primary
 97460,re:commune:saint-paul,served_by,true
 97470,re:commune:saint-benoit,served_by,true
 97480,re:commune:saint-joseph,served_by,true
+97490,re:commune:saint-denis,served_by,true

@@ -681,8 +681,8 @@ postcode,area_source_id,relationship_type,is_primary
 20516,id:regency:1207,served_by,true
 20517,id:regency:1207,served_by,true
 20518,id:regency:1207,served_by,true
-20524,id:regency:1207,,true
-20525,id:regency:1207,,true
+20524,id:regency:1271,,true
+20525,id:regency:1271,,true
 20551,id:regency:1207,served_by,true
 20552,id:regency:1207,served_by,true
 20553,id:regency:1207,served_by,true
@@ -2562,7 +2562,6 @@ postcode,area_source_id,relationship_type,is_primary
 34617,id:regency:1805,,true
 34618,id:regency:1805,,true
 34619,id:regency:1805,,true
-34663,id:regency:1805,served_by,true
 34681,id:regency:1805,,true
 34682,id:regency:1805,,true
 34683,id:regency:1812,,true
@@ -7326,7 +7325,7 @@ postcode,area_source_id,relationship_type,is_primary
 83663,id:regency:5203,served_by,true
 83671,id:regency:5203,served_by,true
 83672,id:regency:5203,served_by,true
-84111,id:regency:5206,served_by,true
+84111,id:regency:5272,served_by,true
 84112,id:regency:5272,served_by,true
 84113,id:regency:5272,served_by,true
 84114,id:regency:5272,served_by,true
@@ -8024,7 +8023,7 @@ postcode,area_source_id,relationship_type,is_primary
 92652,id:regency:7307,,true
 92653,id:regency:7307,,true
 92654,id:regency:7307,,true
-92661,id:regency:7302,,true
+92661,id:regency:7307,,true
 92662,id:regency:7307,,true
 92671,id:regency:7307,,true
 92711,id:regency:7308,served_by,true
@@ -8978,7 +8977,7 @@ postcode,area_source_id,relationship_type,is_primary
 98862,id:regency:9406,served_by,true
 98863,id:regency:9406,served_by,true
 98864,id:regency:9408,served_by,true
-98865,id:regency:9403,served_by,true
+98865,id:regency:9406,served_by,true
 98868,id:regency:9407,served_by,true
 98911,id:regency:9402,,true
 98912,id:regency:9402,,true
@@ -9088,7 +9087,7 @@ postcode,area_source_id,relationship_type,is_primary
 99671,id:regency:9303,served_by,true
 99672,id:regency:9303,served_by,true
 99673,id:regency:9304,served_by,true
-99674,id:regency:9303,served_by,true
+99674,id:regency:9302,served_by,true
 99675,id:regency:9303,served_by,true
 99676,id:regency:9304,served_by,true
 99677,id:regency:9304,served_by,true
@@ -9243,7 +9242,6 @@ postcode,area_source_id,relationship_type,is_primary
 52116,id:regency:3376,served_by,true
 52142,id:regency:3376,served_by,true
 52145,id:regency:3376,served_by,true
-52191,id:regency:3328,served_by,true
 53322,id:regency:3303,served_by,true
 53351,id:regency:3303,served_by,true
 54152,id:regency:3306,served_by,true

@@ -1,5 +1,5 @@
 postcode,area_source_id,relationship_type,is_primary
-00002,fi:municipality:hattula,served_by,true
+00002,fi:city:helsinki,served_by,true
 00100,fi:city:helsinki,served_by,true
 00101,fi:city:pieksamaki,served_by,true
 00102,fi:city:helsinki,served_by,true

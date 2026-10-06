@@ -31,7 +31,7 @@ postcode,area_source_id,relationship_type,is_primary
 015100,cn:prefecture_city:bayannur,served_by,true
 015200,cn:prefecture_city:bayannur,served_by,true
 015300,cn:prefecture_city:bayannur,served_by,true
-015400,cn:prefecture_city:ordos,served_by,true
+015400,cn:prefecture_city:bayannur,served_by,true
 015500,cn:prefecture_city:bayannur,served_by,true
 016000,cn:prefecture_city:wuhai,served_by,true
 016100,cn:prefecture_city:ordos,served_by,true
@@ -132,9 +132,9 @@ postcode,area_source_id,relationship_type,is_primary
 037600,cn:prefecture_city:shuozhou,served_by,true
 038100,cn:prefecture_city:datong,served_by,true
 038200,cn:prefecture_city:datong,served_by,true
-038300,cn:prefecture_city:jinzhong,served_by,true
+038300,cn:prefecture_city:shuozhou,served_by,true
 038400,cn:prefecture_city:shuozhou,served_by,true
-040000,cn:prefecture_city:linfen,served_by,true
+041000,cn:prefecture_city:linfen,served_by,true
 041200,cn:prefecture_city:linfen,served_by,true
 041300,cn:prefecture_city:linfen,served_by,true
 041400,cn:prefecture_city:linfen,served_by,true
@@ -157,7 +157,7 @@ postcode,area_source_id,relationship_type,is_primary
 044000,cn:prefecture_city:yuncheng,served_by,true
 044100,cn:prefecture_city:yuncheng,served_by,true
 044200,cn:prefecture_city:yuncheng,served_by,true
-044300,cn:prefecture_city:shuozhou,served_by,true
+044300,cn:prefecture_city:yuncheng,served_by,true
 044400,cn:prefecture_city:yuncheng,served_by,true
 044500,cn:prefecture_city:yuncheng,served_by,true
 044600,cn:prefecture_city:yuncheng,served_by,true
@@ -217,6 +217,7 @@ postcode,area_source_id,relationship_type,is_primary
 054600,cn:prefecture_city:xingtai,served_by,true
 054700,cn:prefecture_city:xingtai,served_by,true
 054800,cn:prefecture_city:xingtai,served_by,true
+054900,cn:prefecture_city:xingtai,served_by,true
 055100,cn:prefecture_city:xingtai,served_by,true
 055200,cn:prefecture_city:xingtai,served_by,true
 055300,cn:prefecture_city:xingtai,served_by,true
@@ -237,7 +238,6 @@ postcode,area_source_id,relationship_type,is_primary
 057500,cn:prefecture_city:handan,served_by,true
 057600,cn:prefecture_city:handan,served_by,true
 057700,cn:prefecture_city:handan,served_by,true
-057800,cn:prefecture_city:xingtai,served_by,true
 061000,cn:prefecture_city:cangzhou,served_by,true
 061100,cn:prefecture_city:cangzhou,served_by,true
 061200,cn:prefecture_city:cangzhou,served_by,true
@@ -369,7 +369,7 @@ postcode,area_source_id,relationship_type,is_primary
 118100,cn:prefecture_city:dandong,served_by,true
 118200,cn:prefecture_city:dandong,served_by,true
 118300,cn:prefecture_city:dandong,served_by,true
-121000,cn:prefecture_city:dalian,served_by,true
+121000,cn:prefecture_city:jinzhou,served_by,true
 121100,cn:prefecture_city:jinzhou,served_by,true
 121200,cn:prefecture_city:jinzhou,served_by,true
 121300,cn:prefecture_city:jinzhou,served_by,true
@@ -496,6 +496,7 @@ postcode,area_source_id,relationship_type,is_primary
 157400,cn:prefecture_city:mudanjiang,served_by,true
 157500,cn:prefecture_city:mudanjiang,served_by,true
 157600,cn:prefecture_city:mudanjiang,served_by,true
+158100,cn:prefecture_city:jixi,served_by,true
 161000,cn:prefecture_city:qiqihar,served_by,true
 161100,cn:prefecture_city:qiqihar,served_by,true
 161200,cn:prefecture_city:qiqihar,served_by,true
@@ -633,7 +634,7 @@ postcode,area_source_id,relationship_type,is_primary
 235200,cn:prefecture_city:suzhou-anhui,served_by,true
 235300,cn:prefecture_city:suzhou-anhui,served_by,true
 236000,cn:prefecture_city:fuyang,served_by,true
-236200,cn:prefecture_city:suzhou-anhui,served_by,true
+236200,cn:prefecture_city:fuyang,served_by,true
 236300,cn:prefecture_city:fuyang,served_by,true
 236400,cn:prefecture_city:fuyang,served_by,true
 236500,cn:prefecture_city:fuyang,served_by,true
@@ -667,7 +668,7 @@ postcode,area_source_id,relationship_type,is_primary
 243000,cn:prefecture_city:ma-anshan,served_by,true
 243100,cn:prefecture_city:ma-anshan,served_by,true
 244000,cn:prefecture_city:tongling,served_by,true
-244100,cn:prefecture_city:anqing,served_by,true
+244100,cn:prefecture_city:tongling,served_by,true
 245000,cn:prefecture_city:huangshan,served_by,true
 245100,cn:prefecture_city:chizhou,served_by,true
 245200,cn:prefecture_city:huangshan,served_by,true
@@ -682,7 +683,7 @@ postcode,area_source_id,relationship_type,is_primary
 246400,cn:prefecture_city:anqing,served_by,true
 246500,cn:prefecture_city:anqing,served_by,true
 246600,cn:prefecture_city:anqing,served_by,true
-246700,cn:prefecture_city:anqing,served_by,true
+246700,cn:prefecture_city:tongling,served_by,true
 247100,cn:prefecture_city:chizhou,served_by,true
 247200,cn:prefecture_city:chizhou,served_by,true
 250000,cn:prefecture_city:jinan,served_by,true
@@ -795,7 +796,7 @@ postcode,area_source_id,relationship_type,is_primary
 274600,cn:prefecture_city:heze,served_by,true
 274700,cn:prefecture_city:heze,served_by,true
 274900,cn:prefecture_city:heze,served_by,true
-276000,cn:prefecture_city:dezhou,served_by,true
+276000,cn:prefecture_city:linyi,served_by,true
 276100,cn:prefecture_city:linyi,served_by,true
 276200,cn:prefecture_city:linyi,served_by,true
 276300,cn:prefecture_city:linyi,served_by,true
@@ -855,7 +856,7 @@ postcode,area_source_id,relationship_type,is_primary
 317000,cn:prefecture_city:taizhou-zhejiang,served_by,true
 317100,cn:prefecture_city:taizhou-zhejiang,served_by,true
 317200,cn:prefecture_city:taizhou-zhejiang,served_by,true
-317300,cn:prefecture_city:lishui,served_by,true
+317300,cn:prefecture_city:taizhou-zhejiang,served_by,true
 317500,cn:prefecture_city:taizhou-zhejiang,served_by,true
 317600,cn:prefecture_city:taizhou-zhejiang,served_by,true
 318000,cn:prefecture_city:taizhou-zhejiang,served_by,true
@@ -960,7 +961,7 @@ postcode,area_source_id,relationship_type,is_primary
 342300,cn:prefecture_city:ganzhou,served_by,true
 342400,cn:prefecture_city:ganzhou,served_by,true
 342500,cn:prefecture_city:ganzhou,served_by,true
-342600,cn:prefecture_city:ji-an,served_by,true
+342600,cn:prefecture_city:ganzhou,served_by,true
 342700,cn:prefecture_city:ganzhou,served_by,true
 342800,cn:prefecture_city:ganzhou,served_by,true
 343000,cn:prefecture_city:ji-an,served_by,true
@@ -1306,6 +1307,7 @@ postcode,area_source_id,relationship_type,is_primary
 461300,cn:prefecture_city:zhoukou,served_by,true
 461500,cn:prefecture_city:xuchang,served_by,true
 461600,cn:prefecture_city:xuchang,served_by,true
+461700,cn:prefecture_city:xuchang,served_by,true
 462000,cn:prefecture_city:luohe,served_by,true
 462100,cn:prefecture_city:zhumadian,served_by,true
 462300,cn:prefecture_city:luohe,served_by,true
@@ -1532,7 +1534,7 @@ postcode,area_source_id,relationship_type,is_primary
 541000,cn:prefecture_city:guilin,served_by,true
 541100,cn:prefecture_city:guilin,served_by,true
 541200,cn:prefecture_city:guilin,served_by,true
-541300,cn:prefecture_city:wuzhou,served_by,true
+541300,cn:prefecture_city:guilin,served_by,true
 541400,cn:prefecture_city:guilin,served_by,true
 541500,cn:prefecture_city:guilin,served_by,true
 541600,cn:prefecture_city:guilin,served_by,true
@@ -1882,7 +1884,7 @@ postcode,area_source_id,relationship_type,is_primary
 657300,cn:prefecture_city:zhaotong,served_by,true
 657400,cn:prefecture_city:zhaotong,served_by,true
 657500,cn:prefecture_city:zhaotong,served_by,true
-657600,cn:prefecture_city:kunming,served_by,true
+657600,cn:prefecture_city:zhaotong,served_by,true
 657700,cn:prefecture_city:zhaotong,served_by,true
 657800,cn:prefecture_city:zhaotong,served_by,true
 657900,cn:prefecture_city:zhaotong,served_by,true
@@ -1902,8 +1904,9 @@ postcode,area_source_id,relationship_type,is_primary
 663400,cn:autonomous_prefecture:wenshan,served_by,true
 663500,cn:autonomous_prefecture:wenshan,served_by,true
 663600,cn:autonomous_prefecture:wenshan,served_by,true
+665000,cn:prefecture_city:pu-er,served_by,true
+666100,cn:autonomous_prefecture:xishuangbanna,served_by,true
 671000,cn:autonomous_prefecture:dali,served_by,true
-671100,cn:prefecture_city:yuxi,served_by,true
 671200,cn:autonomous_prefecture:dali,served_by,true
 671300,cn:autonomous_prefecture:dali,served_by,true
 671400,cn:autonomous_prefecture:nujiang,served_by,true
@@ -1914,7 +1917,7 @@ postcode,area_source_id,relationship_type,is_primary
 672600,cn:autonomous_prefecture:dali,served_by,true
 672700,cn:autonomous_prefecture:dali,served_by,true
 673200,cn:autonomous_prefecture:nujiang,served_by,true
-673400,cn:prefecture_city:baoshan,served_by,true
+673400,cn:autonomous_prefecture:nujiang,served_by,true
 673500,cn:autonomous_prefecture:nujiang,served_by,true
 674100,cn:prefecture_city:lijiang,served_by,true
 674200,cn:prefecture_city:lijiang,served_by,true
@@ -1966,7 +1969,7 @@ postcode,area_source_id,relationship_type,is_primary
 712000,cn:prefecture_city:xianyang,served_by,true
 712100,cn:prefecture_city:xianyang,served_by,true
 712200,cn:prefecture_city:xianyang,served_by,true
-713100,cn:prefecture_city:weinan,served_by,true
+713100,cn:prefecture_city:xianyang,served_by,true
 713200,cn:prefecture_city:xianyang,served_by,true
 713300,cn:prefecture_city:xianyang,served_by,true
 713400,cn:prefecture_city:xianyang,served_by,true
@@ -2156,8 +2159,8 @@ postcode,area_source_id,relationship_type,is_primary
 810300,cn:autonomous_prefecture:haibei,served_by,true
 810400,cn:autonomous_prefecture:haibei,served_by,true
 810500,cn:prefecture_city:haidong,served_by,true
-810600,cn:prefecture_city:xining,served_by,true
-810700,cn:prefecture_city:xining,served_by,true
+810600,cn:prefecture_city:haidong,served_by,true
+810700,cn:prefecture_city:haidong,served_by,true
 810800,cn:prefecture_city:haidong,served_by,true
 810900,cn:prefecture_city:haidong,served_by,true
 811100,cn:prefecture_city:haidong,served_by,true
@@ -2229,6 +2232,7 @@ postcode,area_source_id,relationship_type,is_primary
 836600,cn:prefecture:altay,served_by,true
 836700,cn:prefecture:altay,served_by,true
 836800,cn:prefecture:altay,served_by,true
+838000,cn:prefecture_city:turpan,served_by,true
 839000,cn:prefecture_city:hami,served_by,true
 839200,cn:prefecture_city:hami,served_by,true
 839300,cn:prefecture_city:hami,served_by,true

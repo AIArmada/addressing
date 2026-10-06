@@ -234,7 +234,6 @@ E9E,ca:municipality:1325022,served_by,true
 E9G,ca:municipality:1324019,served_by,true
 E9H,ca:municipality:1324018,served_by,true
 G0A,ca:province:quebec,served_by,true
-G0B,ca:province:quebec,served_by,true
 G0C,ca:province:quebec,served_by,true
 G0E,ca:province:quebec,served_by,true
 G0G,ca:province:quebec,served_by,true
@@ -455,7 +454,6 @@ H4V,ca:municipality:2466058,served_by,true
 H4W,ca:municipality:2466058,served_by,true
 H4X,ca:municipality:2466047,served_by,true
 H4Y,ca:municipality:2466087,served_by,true
-H4Z,ca:municipality:2466023,served_by,true
 H5A,ca:municipality:2466023,served_by,true
 H5B,ca:municipality:2466023,served_by,true
 H7A,ca:municipality:2465005,served_by,true
@@ -588,6 +586,7 @@ J5J,ca:municipality:2475028,served_by,true
 J5K,ca:municipality:2475005,served_by,true
 J5L,ca:municipality:2475017,served_by,true
 J5M,ca:municipality:2463048,served_by,true
+J5N,ca:municipality:2473035,served_by,true
 J5R,ca:municipality:2467015,served_by,true
 J5T,ca:municipality:2452007,served_by,true
 J5V,ca:municipality:2451015,served_by,true
@@ -791,6 +790,7 @@ L2W,ca:municipality:3526053,served_by,true
 L3B,ca:municipality:3526032,served_by,true
 L3C,ca:municipality:3526032,served_by,true
 L3K,ca:municipality:3526011,served_by,true
+L3L,ca:municipality:3519028,served_by,true
 L3M,ca:municipality:3526065,served_by,true
 L3P,ca:municipality:3519036,served_by,true
 L3R,ca:municipality:3519036,served_by,true
@@ -1242,7 +1242,14 @@ R4L,ca:municipality:4610052,served_by,true
 R5A,ca:municipality:4602075,served_by,true
 R5G,ca:municipality:4602044,served_by,true
 R5H,ca:municipality:4602061,served_by,true
+R5J,ca:municipality:4602069,served_by,true
 R5K,ca:municipality:4602069,served_by,true
+R5L,ca:municipality:4612047,served_by,true
+R5M,ca:municipality:4612047,served_by,true
+R5N,ca:municipality:4612047,served_by,true
+R5P,ca:municipality:4612047,served_by,true
+R5R,ca:municipality:4612047,served_by,true
+R5T,ca:municipality:4612047,served_by,true
 R6M,ca:municipality:4603053,served_by,true
 R6W,ca:municipality:4603050,served_by,true
 R7A,ca:municipality:4607062,served_by,true
@@ -1286,6 +1293,9 @@ S6K,ca:municipality:4707039,served_by,true
 S6V,ca:municipality:4715066,served_by,true
 S6W,ca:municipality:4715066,served_by,true
 S6X,ca:municipality:4715066,served_by,true
+S7A,ca:municipality:4715019,served_by,true
+S7B,ca:municipality:4711066,served_by,true
+S7C,ca:municipality:4711066,served_by,true
 S7H,ca:municipality:4711066,served_by,true
 S7J,ca:municipality:4711066,served_by,true
 S7K,ca:municipality:4711066,served_by,true
@@ -1420,6 +1430,7 @@ T6T,ca:municipality:4811061,served_by,true
 T6V,ca:municipality:4811061,served_by,true
 T6W,ca:municipality:4811061,served_by,true
 T6X,ca:municipality:4811061,served_by,true
+T6Y,ca:municipality:4811061,served_by,true
 T7A,ca:municipality:4811031,served_by,true
 T7E,ca:municipality:4814024,served_by,true
 T7N,ca:municipality:4813019,served_by,true
@@ -1611,6 +1622,8 @@ V7V,ca:municipality:5915055,served_by,true
 V7W,ca:municipality:5915055,served_by,true
 V7X,ca:municipality:5915022,served_by,true
 V7Y,ca:municipality:5915022,served_by,true
+V7Z,ca:municipality:5929011,served_by,true
+V7Z,ca:municipality:5929022,served_by,false
 V8A,ca:municipality:5927008,served_by,true
 V8B,ca:municipality:5931006,served_by,true
 V8C,ca:municipality:5949005,served_by,true

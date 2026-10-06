@@ -1558,11 +1558,11 @@ postcode,area_source_id,relationship_type,is_primary
 240302,kh:district:chong-kal,served_by,true
 240303,kh:district:chong-kal,served_by,true
 240304,kh:district:chong-kal,served_by,true
-240401,kh:district:samraong,served_by,true
-240402,kh:district:samraong,served_by,true
-240403,kh:district:samraong,served_by,true
-240404,kh:district:samraong,served_by,true
-240405,kh:district:samraong,served_by,true
+240401,kh:municipality:samraong,served_by,true
+240402,kh:municipality:samraong,served_by,true
+240403,kh:municipality:samraong,served_by,true
+240404,kh:municipality:samraong,served_by,true
+240405,kh:municipality:samraong,served_by,true
 240501,kh:district:trapeang-prasat,served_by,true
 240502,kh:district:trapeang-prasat,served_by,true
 240503,kh:district:trapeang-prasat,served_by,true

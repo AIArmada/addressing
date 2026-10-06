@@ -11,7 +11,7 @@ postcode,area_source_id,relationship_type,is_primary
 1010,ch:district:lausanne,served_by,true
 1011,ch:district:lausanne,served_by,true
 1012,ch:district:lausanne,served_by,true
-1015,ch:district:lausanne,served_by,true
+1015,ch:district:ouest-lausannois,served_by,true
 1018,ch:district:lausanne,served_by,true
 1020,ch:district:ouest-lausannois,served_by,true
 1022,ch:district:ouest-lausannois,served_by,true
@@ -369,8 +369,8 @@ postcode,area_source_id,relationship_type,is_primary
 1587,ch:district:broye-vully,served_by,true
 1588,ch:district:broye-vully,served_by,true
 1589,ch:district:broye-vully,served_by,true
-1595,ch:district:bern-mittelland,served_by,false
 1595,ch:district:broye-vully,served_by,true
+1595,ch:district:see-lac,served_by,false
 1607,ch:district:lavaux-oron,served_by,true
 1608,ch:district:glane,served_by,false
 1608,ch:district:lavaux-oron,served_by,true
@@ -575,7 +575,6 @@ postcode,area_source_id,relationship_type,is_primary
 1906,ch:district:martigny,served_by,true
 1907,ch:district:martigny,served_by,true
 1908,ch:district:martigny,served_by,true
-1911,ch:district:conthey,served_by,false
 1911,ch:district:martigny,served_by,true
 1912,ch:district:martigny,served_by,true
 1913,ch:district:martigny,served_by,true
@@ -607,8 +606,8 @@ postcode,area_source_id,relationship_type,is_primary
 1950,ch:district:sion,served_by,true
 1955,ch:district:conthey,served_by,true
 1957,ch:district:conthey,served_by,true
-1958,ch:district:sierre,served_by,false
-1958,ch:district:sion,served_by,true
+1958,ch:district:sierre,served_by,true
+1958,ch:district:sion,served_by,false
 1961,ch:district:herens,served_by,true
 1962,ch:district:sion,served_by,true
 1963,ch:district:conthey,served_by,true
@@ -703,7 +702,6 @@ postcode,area_source_id,relationship_type,is_primary
 2322,ch:district:la-chaux-de-fonds,served_by,true
 2325,ch:district:la-chaux-de-fonds,served_by,true
 2333,ch:district:jura-bernois,served_by,true
-2333,ch:district:la-chaux-de-fonds,served_by,false
 2336,ch:district:franches-montagnes,served_by,true
 2338,ch:district:franches-montagnes,served_by,true
 2340,ch:district:franches-montagnes,served_by,true
@@ -791,7 +789,8 @@ postcode,area_source_id,relationship_type,is_primary
 2735,ch:district:jura-bernois,served_by,true
 2736,ch:district:jura-bernois,served_by,true
 2738,ch:district:jura-bernois,served_by,true
-2740,ch:district:jura-bernois,served_by,true
+2740,ch:district:jura-bernois,served_by,false
+2740,ch:district:moutier-district,served_by,true
 2742,ch:district:jura-bernois,served_by,true
 2743,ch:district:jura-bernois,served_by,true
 2744,ch:district:jura-bernois,served_by,true
@@ -1321,8 +1320,8 @@ postcode,area_source_id,relationship_type,is_primary
 3991,ch:district:ostlich-raron,served_by,true
 3992,ch:district:ostlich-raron,served_by,true
 3993,ch:district:ostlich-raron,served_by,true
-3994,ch:district:goms,served_by,false
-3994,ch:district:ostlich-raron,served_by,true
+3994,ch:district:goms,served_by,true
+3994,ch:district:ostlich-raron,served_by,false
 3995,ch:district:goms,served_by,true
 3996,ch:district:goms,served_by,true
 3997,ch:district:goms,served_by,true
@@ -2180,7 +2179,6 @@ postcode,area_source_id,relationship_type,is_primary
 6821,ch:district:lugano,served_by,true
 6822,ch:district:lugano,served_by,true
 6823,ch:district:lugano,served_by,true
-6825,ch:district:lugano,served_by,false
 6825,ch:district:mendrisio,served_by,true
 6826,ch:district:mendrisio,served_by,true
 6827,ch:district:lugano,served_by,true

@@ -8,11 +8,11 @@ postcode,area_source_id,relationship_type,is_primary
 0026,no:municipality:oslo,served_by,true
 0028,no:municipality:oslo,served_by,true
 0030,no:municipality:oslo,served_by,true
-0031,no:municipality:oslo,served_by,true
 0032,no:municipality:oslo,served_by,true
 0033,no:municipality:oslo,served_by,true
 0034,no:municipality:oslo,served_by,true
 0037,no:municipality:oslo,served_by,true
+0040,no:municipality:oslo,served_by,true
 0045,no:municipality:oslo,served_by,true
 0048,no:municipality:oslo,served_by,true
 0050,no:municipality:oslo,served_by,true
@@ -41,7 +41,6 @@ postcode,area_source_id,relationship_type,is_primary
 0123,no:municipality:oslo,served_by,true
 0124,no:municipality:oslo,served_by,true
 0125,no:municipality:oslo,served_by,true
-0128,no:municipality:oslo,served_by,true
 0129,no:municipality:oslo,served_by,true
 0130,no:municipality:oslo,served_by,true
 0131,no:municipality:oslo,served_by,true
@@ -288,6 +287,7 @@ postcode,area_source_id,relationship_type,is_primary
 0517,no:municipality:oslo,served_by,true
 0518,no:municipality:oslo,served_by,true
 0520,no:municipality:oslo,served_by,true
+0540,no:municipality:oslo,served_by,true
 0550,no:municipality:oslo,served_by,true
 0551,no:municipality:oslo,served_by,true
 0552,no:municipality:oslo,served_by,true
@@ -745,6 +745,7 @@ postcode,area_source_id,relationship_type,is_primary
 1423,no:municipality:nordre-follo,served_by,true
 1424,no:municipality:nordre-follo,served_by,true
 1425,no:municipality:nordre-follo,served_by,true
+1426,no:municipality:as,served_by,true
 1429,no:municipality:as,served_by,true
 1430,no:municipality:as,served_by,true
 1431,no:municipality:as,served_by,true
@@ -1279,7 +1280,6 @@ postcode,area_source_id,relationship_type,is_primary
 2401,no:municipality:elverum,served_by,true
 2402,no:municipality:elverum,served_by,true
 2403,no:municipality:elverum,served_by,true
-2404,no:municipality:elverum,served_by,true
 2405,no:municipality:elverum,served_by,true
 2406,no:municipality:elverum,served_by,true
 2407,no:municipality:elverum,served_by,true
@@ -1338,7 +1338,6 @@ postcode,area_source_id,relationship_type,is_primary
 2501,no:municipality:tynset,served_by,true
 2510,no:municipality:tynset,served_by,true
 2512,no:municipality:tynset,served_by,true
-2513,no:municipality:tynset,served_by,true
 2540,no:municipality:tolga,served_by,true
 2541,no:municipality:tolga,served_by,true
 2542,no:municipality:tolga,served_by,true
@@ -1372,7 +1371,6 @@ postcode,area_source_id,relationship_type,is_primary
 2617,no:municipality:lillehammer,served_by,true
 2618,no:municipality:lillehammer,served_by,true
 2619,no:municipality:lillehammer,served_by,true
-2620,no:municipality:ringsaker,served_by,true
 2621,no:municipality:lillehammer,served_by,true
 2622,no:municipality:lillehammer,served_by,true
 2623,no:municipality:lillehammer,served_by,true
@@ -1397,10 +1395,8 @@ postcode,area_source_id,relationship_type,is_primary
 2642,no:municipality:nord-fron,served_by,true
 2643,no:municipality:nord-fron,served_by,true
 2644,no:municipality:nord-fron,served_by,true
-2645,no:municipality:sor-fron,served_by,true
 2646,no:municipality:sor-fron,served_by,true
 2647,no:municipality:sor-fron,served_by,true
-2648,no:municipality:sor-fron,served_by,true
 2649,no:municipality:gausdal,served_by,true
 2651,no:municipality:gausdal,served_by,true
 2652,no:municipality:gausdal,served_by,true
@@ -1429,9 +1425,7 @@ postcode,area_source_id,relationship_type,is_primary
 2676,no:municipality:sel,served_by,true
 2677,no:municipality:sel,served_by,true
 2678,no:municipality:sel,served_by,true
-2679,no:municipality:sel,served_by,true
 2680,no:municipality:vaga,served_by,true
-2681,no:municipality:vaga,served_by,true
 2682,no:municipality:vaga,served_by,true
 2683,no:municipality:vaga,served_by,true
 2684,no:municipality:vaga,served_by,true
@@ -1467,7 +1461,6 @@ postcode,area_source_id,relationship_type,is_primary
 2806,no:municipality:gjovik,served_by,true
 2807,no:municipality:gjovik,served_by,true
 2808,no:municipality:gjovik,served_by,true
-2809,no:municipality:gjovik,served_by,true
 2810,no:municipality:gjovik,served_by,true
 2811,no:municipality:gjovik,served_by,true
 2812,no:municipality:gjovik,served_by,true
@@ -1695,7 +1688,6 @@ postcode,area_source_id,relationship_type,is_primary
 3165,no:municipality:faerder,served_by,true
 3166,no:municipality:tonsberg,served_by,true
 3167,no:municipality:horten,served_by,true
-3168,no:municipality:sandefjord,served_by,true
 3170,no:municipality:tonsberg,served_by,true
 3171,no:municipality:tonsberg,served_by,true
 3172,no:municipality:tonsberg,served_by,true
@@ -1722,7 +1714,6 @@ postcode,area_source_id,relationship_type,is_primary
 3194,no:municipality:horten,served_by,true
 3195,no:municipality:horten,served_by,true
 3196,no:municipality:horten,served_by,true
-3197,no:municipality:horten,served_by,true
 3199,no:municipality:horten,served_by,true
 3201,no:municipality:sandefjord,served_by,true
 3202,no:municipality:sandefjord,served_by,true
@@ -1768,7 +1759,6 @@ postcode,area_source_id,relationship_type,is_primary
 3242,no:municipality:sandefjord,served_by,true
 3243,no:municipality:sandefjord,served_by,true
 3244,no:municipality:sandefjord,served_by,true
-3245,no:municipality:sandefjord,served_by,true
 3246,no:municipality:sandefjord,served_by,true
 3247,no:municipality:sandefjord,served_by,true
 3248,no:municipality:sandefjord,served_by,true
@@ -1894,7 +1884,6 @@ postcode,area_source_id,relationship_type,is_primary
 3524,no:municipality:ringerike,served_by,true
 3525,no:municipality:ringerike,served_by,true
 3526,no:municipality:ringerike,served_by,true
-3527,no:municipality:gran,served_by,true
 3528,no:municipality:sor-aurdal,served_by,true
 3529,no:municipality:hole,served_by,true
 3530,no:municipality:hole,served_by,true
@@ -1920,7 +1909,6 @@ postcode,area_source_id,relationship_type,is_primary
 3561,no:municipality:hemsedal,served_by,true
 3570,no:municipality:al,served_by,true
 3571,no:municipality:al,served_by,true
-3575,no:municipality:hol,served_by,true
 3576,no:municipality:hol,served_by,true
 3577,no:municipality:hol,served_by,true
 3579,no:municipality:al,served_by,true
@@ -2046,7 +2034,6 @@ postcode,area_source_id,relationship_type,is_primary
 3783,no:municipality:kragero,served_by,true
 3785,no:municipality:skien,served_by,true
 3786,no:municipality:skien,served_by,true
-3787,no:municipality:skien,served_by,true
 3788,no:municipality:kragero,served_by,true
 3789,no:municipality:kragero,served_by,true
 3790,no:municipality:kragero,served_by,true
@@ -2214,6 +2201,7 @@ postcode,area_source_id,relationship_type,is_primary
 4071,no:municipality:randaberg,served_by,true
 4072,no:municipality:randaberg,served_by,true
 4073,no:municipality:randaberg,served_by,true
+4075,no:municipality:stavanger,served_by,true
 4076,no:municipality:stavanger,served_by,true
 4077,no:municipality:stavanger,served_by,true
 4078,no:municipality:stavanger,served_by,true
@@ -2289,6 +2277,7 @@ postcode,area_source_id,relationship_type,is_primary
 4234,no:municipality:suldal,served_by,true
 4235,no:municipality:suldal,served_by,true
 4237,no:municipality:suldal,served_by,true
+4238,no:municipality:suldal,served_by,true
 4239,no:municipality:suldal,served_by,true
 4240,no:municipality:suldal,served_by,true
 4244,no:municipality:suldal,served_by,true
@@ -2531,7 +2520,6 @@ postcode,area_source_id,relationship_type,is_primary
 4666,no:municipality:kristiansand,served_by,true
 4670,no:municipality:kristiansand,served_by,true
 4671,no:municipality:kristiansand,served_by,true
-4672,no:municipality:kristiansand,served_by,true
 4673,no:municipality:kristiansand,served_by,true
 4674,no:municipality:kristiansand,served_by,true
 4675,no:municipality:kristiansand,served_by,true
@@ -2814,8 +2802,6 @@ postcode,area_source_id,relationship_type,is_primary
 5210,no:municipality:bjornafjorden,served_by,true
 5211,no:municipality:bjornafjorden,served_by,true
 5212,no:municipality:bjornafjorden,served_by,true
-5213,no:municipality:bjornafjorden,served_by,true
-5214,no:municipality:bjornafjorden,served_by,true
 5215,no:municipality:bjornafjorden,served_by,true
 5216,no:municipality:bjornafjorden,served_by,true
 5217,no:municipality:bjornafjorden,served_by,true
@@ -2839,6 +2825,7 @@ postcode,area_source_id,relationship_type,is_primary
 5239,no:municipality:bergen,served_by,true
 5243,no:municipality:bergen,served_by,true
 5244,no:municipality:bergen,served_by,true
+5245,no:municipality:bergen,served_by,true
 5251,no:municipality:bergen,served_by,true
 5252,no:municipality:bergen,served_by,true
 5253,no:municipality:bergen,served_by,true
@@ -3282,7 +3269,6 @@ postcode,area_source_id,relationship_type,is_primary
 5978,no:municipality:gulen,served_by,true
 5979,no:municipality:gulen,served_by,true
 5981,no:municipality:masfjorden,served_by,true
-5982,no:municipality:masfjorden,served_by,true
 5983,no:municipality:masfjorden,served_by,true
 5984,no:municipality:masfjorden,served_by,true
 5985,no:municipality:masfjorden,served_by,true
@@ -3349,7 +3335,6 @@ postcode,area_source_id,relationship_type,is_primary
 6075,no:municipality:heroy,served_by,true
 6076,no:municipality:heroy,served_by,true
 6078,no:municipality:sande,served_by,true
-6079,no:municipality:heroy,served_by,true
 6080,no:municipality:heroy,served_by,true
 6082,no:municipality:sande,served_by,true
 6083,no:municipality:sande,served_by,true
@@ -3378,7 +3363,6 @@ postcode,area_source_id,relationship_type,is_primary
 6120,no:municipality:volda,served_by,true
 6121,no:municipality:volda,served_by,true
 6133,no:municipality:volda,served_by,true
-6134,no:municipality:volda,served_by,true
 6138,no:municipality:vanylven,served_by,true
 6139,no:municipality:vanylven,served_by,true
 6140,no:municipality:vanylven,served_by,true
@@ -3459,7 +3443,6 @@ postcode,area_source_id,relationship_type,is_primary
 6315,no:municipality:rauma,served_by,true
 6320,no:municipality:rauma,served_by,true
 6330,no:municipality:rauma,served_by,true
-6331,no:municipality:rauma,served_by,true
 6339,no:municipality:rauma,served_by,true
 6350,no:municipality:rauma,served_by,true
 6360,no:municipality:rauma,served_by,true
@@ -3509,7 +3492,6 @@ postcode,area_source_id,relationship_type,is_primary
 6431,no:municipality:hustadvika,served_by,true
 6433,no:municipality:hustadvika,served_by,true
 6434,no:municipality:molde,served_by,true
-6435,no:municipality:molde,served_by,true
 6436,no:municipality:molde,served_by,true
 6440,no:municipality:hustadvika,served_by,true
 6443,no:municipality:hustadvika,served_by,true
@@ -3543,7 +3525,6 @@ postcode,area_source_id,relationship_type,is_primary
 6502,no:municipality:kristiansund,served_by,true
 6503,no:municipality:kristiansund,served_by,true
 6504,no:municipality:kristiansund,served_by,true
-6506,no:municipality:kristiansund,served_by,true
 6507,no:municipality:kristiansund,served_by,true
 6508,no:municipality:kristiansund,served_by,true
 6509,no:municipality:kristiansund,served_by,true
@@ -3573,7 +3554,6 @@ postcode,area_source_id,relationship_type,is_primary
 6546,no:municipality:kristiansund,served_by,true
 6547,no:municipality:kristiansund,served_by,true
 6548,no:municipality:kristiansund,served_by,true
-6549,no:municipality:kristiansund,served_by,true
 6570,no:municipality:smola,served_by,true
 6571,no:municipality:smola,served_by,true
 6590,no:municipality:aure,served_by,true
@@ -3587,7 +3567,6 @@ postcode,area_source_id,relationship_type,is_primary
 6614,no:municipality:sunndal,served_by,true
 6620,no:municipality:sunndal,served_by,true
 6622,no:municipality:sunndal,served_by,true
-6623,no:municipality:sunndal,served_by,true
 6627,no:municipality:tingvoll,served_by,true
 6628,no:municipality:tingvoll,served_by,true
 6629,no:municipality:tingvoll,served_by,true
@@ -3632,7 +3611,6 @@ postcode,area_source_id,relationship_type,is_primary
 6700,no:municipality:kinn,served_by,true
 6701,no:municipality:kinn,served_by,true
 6702,no:municipality:kinn,served_by,true
-6703,no:municipality:kinn,served_by,true
 6704,no:municipality:kinn,served_by,true
 6707,no:municipality:kinn,served_by,true
 6708,no:municipality:stad,served_by,true
@@ -3717,7 +3695,6 @@ postcode,area_source_id,relationship_type,is_primary
 6841,no:municipality:sunnfjord,served_by,true
 6843,no:municipality:sunnfjord,served_by,true
 6844,no:municipality:sunnfjord,served_by,true
-6845,no:municipality:sogndal,served_by,true
 6847,no:municipality:sunnfjord,served_by,true
 6848,no:municipality:sogndal,served_by,true
 6849,no:municipality:sogndal,served_by,true
@@ -3821,7 +3798,6 @@ postcode,area_source_id,relationship_type,is_primary
 6994,no:municipality:hoyanger,served_by,true
 6995,no:municipality:hoyanger,served_by,true
 6996,no:municipality:hoyanger,served_by,true
-6997,no:municipality:hoyanger,served_by,true
 7003,no:municipality:trondheim,served_by,true
 7004,no:municipality:trondheim,served_by,true
 7005,no:municipality:trondheim,served_by,true
@@ -3877,6 +3853,7 @@ postcode,area_source_id,relationship_type,is_primary
 7058,no:municipality:trondheim,served_by,true
 7059,no:municipality:trondheim,served_by,true
 7060,no:municipality:trondheim,served_by,true
+7061,no:municipality:trondheim,served_by,true
 7066,no:municipality:trondheim,served_by,true
 7067,no:municipality:trondheim,served_by,true
 7068,no:municipality:trondheim,served_by,true
@@ -3921,7 +3898,6 @@ postcode,area_source_id,relationship_type,is_primary
 7140,no:municipality:orland,served_by,true
 7142,no:municipality:orland,served_by,true
 7150,no:municipality:orland,served_by,true
-7151,no:municipality:orland,served_by,true
 7152,no:municipality:orland,served_by,true
 7153,no:municipality:orland,served_by,true
 7156,no:municipality:orkland,served_by,true
@@ -4014,7 +3990,6 @@ postcode,area_source_id,relationship_type,is_primary
 7329,no:municipality:orkland,served_by,true
 7331,no:municipality:orkland,served_by,true
 7332,no:municipality:orkland,served_by,true
-7333,no:municipality:orkland,served_by,true
 7334,no:municipality:orkland,served_by,true
 7335,no:municipality:orkland,served_by,true
 7336,no:municipality:orkland,served_by,true
@@ -4077,7 +4052,6 @@ postcode,area_source_id,relationship_type,is_primary
 7422,no:municipality:trondheim,served_by,true
 7424,no:municipality:trondheim,served_by,true
 7425,no:municipality:trondheim,served_by,true
-7426,no:municipality:trondheim,served_by,true
 7427,no:municipality:trondheim,served_by,true
 7428,no:municipality:trondheim,served_by,true
 7429,no:municipality:trondheim,served_by,true
@@ -4110,7 +4084,6 @@ postcode,area_source_id,relationship_type,is_primary
 7456,no:municipality:trondheim,served_by,true
 7457,no:municipality:trondheim,served_by,true
 7458,no:municipality:trondheim,served_by,true
-7459,no:municipality:trondheim,served_by,true
 7462,no:municipality:trondheim,served_by,true
 7463,no:municipality:trondheim,served_by,true
 7464,no:municipality:trondheim,served_by,true
@@ -4409,7 +4382,6 @@ postcode,area_source_id,relationship_type,is_primary
 8114,no:municipality:beiarn,served_by,true
 8118,no:municipality:beiarn,served_by,true
 8120,no:municipality:gildeskal,served_by,true
-8128,no:municipality:beiarn,served_by,true
 8130,no:municipality:gildeskal,served_by,true
 8134,no:municipality:gildeskal,served_by,true
 8135,no:municipality:gildeskal,served_by,true
@@ -4522,7 +4494,6 @@ postcode,area_source_id,relationship_type,is_primary
 8370,no:municipality:vestvagoy,served_by,true
 8372,no:municipality:vestvagoy,served_by,true
 8373,no:municipality:vestvagoy,served_by,true
-8374,no:municipality:vestvagoy,served_by,true
 8376,no:municipality:vestvagoy,served_by,true
 8377,no:municipality:vestvagoy,served_by,true
 8378,no:municipality:vestvagoy,served_by,true
@@ -4553,7 +4524,6 @@ postcode,area_source_id,relationship_type,is_primary
 8414,no:municipality:hadsel,served_by,true
 8415,no:municipality:sortland,served_by,true
 8416,no:municipality:sortland,served_by,true
-8419,no:municipality:sortland,served_by,true
 8426,no:municipality:oksnes,served_by,true
 8428,no:municipality:oksnes,served_by,true
 8430,no:municipality:oksnes,served_by,true
@@ -4700,6 +4670,7 @@ postcode,area_source_id,relationship_type,is_primary
 8830,no:municipality:donna,served_by,true
 8842,no:municipality:nordland:heroy,served_by,true
 8844,no:municipality:nordland:heroy,served_by,true
+8845,no:municipality:nordland:heroy,served_by,true
 8850,no:municipality:nordland:heroy,served_by,true
 8851,no:municipality:nordland:heroy,served_by,true
 8852,no:municipality:nordland:heroy,served_by,true
@@ -4707,6 +4678,7 @@ postcode,area_source_id,relationship_type,is_primary
 8860,no:municipality:alstahaug,served_by,true
 8861,no:municipality:alstahaug,served_by,true
 8865,no:municipality:alstahaug,served_by,true
+8866,no:municipality:alstahaug,served_by,true
 8870,no:municipality:vevelstad,served_by,true
 8880,no:municipality:alstahaug,served_by,true
 8890,no:municipality:leirfjord,served_by,true
@@ -4825,6 +4797,10 @@ postcode,area_source_id,relationship_type,is_primary
 9169,no:municipality:kvaenangen,served_by,true
 9170,no:arctic_region:svalbard,served_by,true
 9171,no:arctic_region:svalbard,served_by,true
+9173,no:arctic_region:svalbard,served_by,true
+9174,no:arctic_region:svalbard,served_by,true
+9175,no:arctic_region:svalbard,served_by,true
+9176,no:arctic_region:svalbard,served_by,true
 9178,no:arctic_region:svalbard,served_by,true
 9180,no:municipality:skjervoy,served_by,true
 9181,no:municipality:nordreisa,served_by,true
@@ -4878,7 +4854,6 @@ postcode,area_source_id,relationship_type,is_primary
 9286,no:municipality:tromso,served_by,true
 9287,no:municipality:tromso,served_by,true
 9288,no:municipality:tromso,served_by,true
-9290,no:municipality:tromso,served_by,true
 9291,no:municipality:tromso,served_by,true
 9292,no:municipality:tromso,served_by,true
 9293,no:municipality:tromso,served_by,true
@@ -4927,7 +4902,6 @@ postcode,area_source_id,relationship_type,is_primary
 9387,no:municipality:senja,served_by,true
 9388,no:municipality:senja,served_by,true
 9389,no:municipality:senja,served_by,true
-9391,no:municipality:senja,served_by,true
 9392,no:municipality:senja,served_by,true
 9393,no:municipality:senja,served_by,true
 9395,no:municipality:senja,served_by,true
@@ -4967,7 +4941,6 @@ postcode,area_source_id,relationship_type,is_primary
 9453,no:municipality:ibestad,served_by,true
 9454,no:municipality:ibestad,served_by,true
 9455,no:municipality:ibestad,served_by,true
-9456,no:municipality:ibestad,served_by,true
 9470,no:municipality:gratangen,served_by,true
 9471,no:municipality:gratangen,served_by,true
 9475,no:municipality:kvaefjord,served_by,true
@@ -5051,6 +5024,7 @@ postcode,area_source_id,relationship_type,is_primary
 9624,no:municipality:hammerfest,served_by,true
 9650,no:municipality:hammerfest,served_by,true
 9651,no:municipality:hammerfest,served_by,true
+9653,no:municipality:hammerfest,served_by,true
 9657,no:municipality:hammerfest,served_by,true
 9664,no:municipality:hammerfest,served_by,true
 9670,no:municipality:masoy,served_by,true
