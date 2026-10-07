@@ -257,7 +257,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | United Arab Emirates | AE | 7 | 7 | 7 | 1 | administrative: emirate | — | none | L1; no official tier-2 |
 | United Kingdom | GB | 4 | 4 | 117 | 2 | administrative: nation > county / council_area / county_borough / district | county | below | Complete — 4 nations + 48 ENG ceremonial counties + 32 SCT council areas + 11 WLS counties + 11 WLS county boroughs + 11 NI districts |
 | United States | US | 56 | 56 | 3199 | 2 | administrative: state > county | county | US → | Complete — 56 + 3,143 counties (Census flavors); PR/DC exclusions; AA/AE/AP/UM global-only |
-| US Minor Outlying Islands | UM | 9 | 9 | 9 | 1 | administrative: island | — | none | L1 — uninhabited; 9 islands terminal|
+| US Minor Outlying Islands | UM | 9 | 9 | 9 | 1 | administrative: island | — | below | L1 — uninhabited; 9 islands terminal; single-code overlay 96898 (Wake station) |
 | US Virgin Islands | VI | 3 | 3 | 23 | 2 | administrative: district > subdistrict | subdistrict | US → | Complete — 3 districts + 20 subdistricts (Source: Wikipedia Districts and sub-districts of the USVI (MediaWiki API, Sep 2026). 20 census subdistricts; town sub-rows excluded; East End parent-scoped.) |
 | Uruguay | UY | 19 | 19 | 144 | 2 | administrative: department > municipality | municipality | ← | Complete — 19 departments + 125 municipalities (Source: Wikipedia Municipalities of Uruguay (MediaWiki API, Sep 2026); official 125 total.) |
 | Uzbekistan | UZ | 14 | 14 | 220 | 2 | administrative: region / republic / city > tuman / city | tuman | ← | Complete — 12 regions + republic + city; 175 tumanlar + 31 regional-subordination cities; ASCII apostrophes; Namangan city districts excluded (L3) |

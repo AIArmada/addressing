@@ -6283,10 +6283,19 @@ hierarchy. It is selected with
 `SeedCountryGeographiesAction::execute('SO')` after countries are seeded.
 The 89 districts ship as level-2 areas under their regions.
 
-Somalia has no operational postcode system; the UPU paper format
-(`AA NNNNN` right of the locality) was never taken into use.
-Addresses print P.O. box lines, the locality, and country; any
-supplied code prints on its own line.
+Somalia's postcode format is attested three ways: the UPU sheet
+defines `AA NNNNN` right of the locality (2-letter region
+abbreviation + 5 digits, e.g. JH 09010 Kismayu), the live
+Google address data carries the matching `[A-Z]{2} ?\d{5}`
+pattern (JH 09010, AD 11010), and commerceguys carries the same
+shape. Google's 18-region abbreviation table maps 18/18 to the
+bundled ISO region codes, proving that table internally
+consistent; only JH 09010 is corroborated as a real example
+(UPU + Google zipex). Operational use is unconfirmed and no
+allocation list is published, so the verdict is `admin-ready`
+(see the Somalia parked note): addresses print P.O. box lines,
+the locality, and country; any supplied code prints on its own
+line.
 
 Revisit 2026-10-03 (2 renames, `gate_so.py` ALL PASS):
 `Lower/Middle Shebelle` → `Lower/Middle Shabelle` (ISO en-ref +
@@ -6298,10 +6307,14 @@ zero diffs; the article intro's "72 districts" is stale prose, the
 explicit table sums to 89). Kept deliberately: `Woqooyi Galbeed`
 (ISO vs the table's Somaliland rename `Maroodi Jeex`),
 `Hiran`/`Nugal` (oracle display vs ISO so Hiiraan/Nugaal).
-Verdict stays none: the UPU somEn profile (09/2004) documents a
-paper-only scheme never taken into use, the UPU Sep-2025 list
-carries Somalia on do-not-require, GeoNames has no SO postal dump
-(404), and directories agree.
+Overturned 2026-10-07 to admin-ready (was none): the UPU somEn
+AA NNNNN format is corroborated by the live Google SO pattern and
+a third carrying of the same `[A-Z]{2} ?\d{5}` shape
+(commerceguys), but no allocation list is published, operational
+use is unconfirmed, and GeoNames has no SO postal dump (404).
+Admin (18 regions + 89 districts) is bundled, so only the
+postcode→area links are queued — see the Somalia parked note in
+[18-postal-overlays](18-postal-overlays.md).
 ## South Sudan
 
 The bundled `SouthSudanGeographyProvider` supplies the 10 states
@@ -9049,12 +9062,22 @@ hierarchy. It is selected with
 seeded. The islands are uninhabited (military and wildlife
 stations) and terminal.
 
-Addresses print the station and island lines with no postcode.
+Wake station mail routes via US ZIP 96898 (the Google UM entry
+pins this single code with a USPS posturl; UPU umiEn confirms
+the islands follow the US postal system with no UM domestic
+system). The single-code overlay is code-only per the Niue
+precedent: other islands are uninhabited with no delivery.
 
 Revisit 2026-10-03 (verify-only, zero changes; `gate_um.py` ALL
 PASS): 9/9 ISO 3166-2:UM codes exact; UPU umiEn confirms the
 islands follow the US postal system (state code UM) with no
 permanent population and no UM domestic system.
+
+Revisit 2026-10-07 (Stage 2: UM 96898 single-code overlay added,
+verdict `none` → `complete`, `gate_um.py` updated to the
+single-code contract; SO `none` → `admin-ready` with parked
+note — UPU somEn + Google SO pattern agree on `AA NNNNN`,
+allocation unlisted).
 
 ## Puerto Rico
 

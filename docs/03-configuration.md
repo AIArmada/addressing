@@ -18,7 +18,9 @@ The package publishes a `config/addressing.php` file with these sections:
 `addressing.database.tables.*` is the only table-name configuration source.
 Runtime models, integrations, and migrations resolve names through
 `AddressingTableResolver`; configure this map (via the published config file)
-before deploying. Table names have no `env()` overrides.
+before deploying. Table names have no `env()` overrides. The map configures
+the default physical table; per-instance names (e.g. self-join aliases) take
+precedence when set.
 
 The default map is:
 
@@ -180,7 +182,6 @@ Typed relationships have their own `source`. A manual relationship and a provide
 ```php
 'defaults' => [
     'country_code' => env('ADDRESS_DEFAULT_COUNTRY_CODE'),
-    'locale' => env('ADDRESS_DEFAULT_LOCALE'),
 ],
 ```
 
@@ -239,3 +240,20 @@ of being bundled. Register for a OneMap account, then set `ONEMAP_EMAIL` and
 its reported expiry, refreshes it once on a 401, and retries 429/5xx
 responses with backoff. OneMap usage requires attribution; see
 `05-country-data.md`.
+
+## Reference Pipelines
+
+```php
+'reference' => [
+    'cldr_path' => env('ADDRESSING_CLDR_PATH'),
+    'cldr_version' => env('ADDRESSING_CLDR_VERSION'),
+],
+```
+
+`address:reference:cldr` diffs `states.json` against a local
+[cldr-json](https://github.com/unicode-org/cldr-json) checkout. Point
+`cldr_path` at the directory that directly contains `cldr-core/` (or pass
+`--cldr` per run). Set `cldr_version` to the checked-out cldr-core version
+after the first green run; later runs refuse checkouts that disagree, so
+drift reports stay reproducible. See
+[reference pipelines](19-reference-pipelines.md).

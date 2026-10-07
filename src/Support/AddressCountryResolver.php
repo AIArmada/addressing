@@ -44,7 +44,7 @@ final class AddressCountryResolver
             return $query->where('iso2', mb_strtoupper($value))->first();
         }
 
-        return null;
+        return $query->whereRaw('LOWER(name) = ?', [mb_strtolower($value)])->first();
     }
 
     public function resolveId(mixed $country): ?string

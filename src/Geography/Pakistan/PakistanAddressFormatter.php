@@ -6,7 +6,7 @@ namespace AIArmada\Addressing\Geography\Pakistan;
 
 use AIArmada\Addressing\Contracts\CountryAddressFormatter;
 use AIArmada\Addressing\Data\AddressData;
-use AIArmada\Addressing\Support\AddressLineFilter;
+use AIArmada\Addressing\Support\AddressFormatRenderer;
 
 final class PakistanAddressFormatter implements CountryAddressFormatter
 {
@@ -17,48 +17,7 @@ final class PakistanAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        $lines = AddressLineFilter::present([
-            $address->line1,
-            $address->line2,
-            $address->line3,
-        ]);
-
         // UPU: 5-digit postcode right of locality, dash-separated.
-        $city = self::textOrNull($address->city);
-        $state = self::textOrNull($address->state);
-        $postcode = self::textOrNull($address->postcode);
-
-        if ($postcode !== null) {
-            $locality = $city ?? $state;
-
-            $lines[] = $locality !== null ? $locality . '-' . $postcode : $postcode;
-        } else {
-            if ($city !== null) {
-                $lines[] = $city;
-            }
-
-            if ($state !== null) {
-                $lines[] = $state;
-            }
-        }
-
-        if ($address->country !== null && $address->country !== '') {
-            $lines[] = $address->country;
-        } elseif ($address->countryCode !== null && $address->countryCode !== '') {
-            $lines[] = mb_strtoupper($address->countryCode) === 'PK' ? 'Pakistan' : $address->countryCode;
-        }
-
-        return implode("\n", $lines);
-    }
-
-    private static function textOrNull(?string $value): ?string
-    {
-        if ($value === null) {
-            return null;
-        }
-
-        $value = mb_trim($value);
-
-        return $value === '' ? null : $value;
+        return AddressFormatRenderer::format('PK', $address);
     }
 }

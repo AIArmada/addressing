@@ -15,6 +15,7 @@ return new class extends Migration
 
         Schema::create(AddressingTableResolver::resolve('resolution_gaps'), function (Blueprint $table) use ($jsonColumnType): void {
             $table->uuid('id')->primary();
+            $table->nullableUuidMorphs('owner');
             $table->string('source', 50);
             $table->string('country_code', 2);
             $table->string('role', 50);
@@ -30,7 +31,7 @@ return new class extends Migration
             $table->string('matched_by')->nullable();
             $table->timestampTz('matched_at')->nullable();
             $table->timestamps();
-            $table->unique(['source', 'country_code', 'role', 'normalized'], 'resolution_gaps_upsert_unique');
+            $table->unique(['owner_type', 'owner_id', 'source', 'country_code', 'role', 'normalized'], 'resolution_gaps_upsert_unique');
             $table->index(['country_code', 'status', 'last_seen_at'], 'resolution_gaps_report_index');
             $table->index(['status', 'reason'], 'resolution_gaps_status_reason_index');
         });

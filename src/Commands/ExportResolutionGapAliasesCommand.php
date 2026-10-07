@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Commands;
 
 use AIArmada\Addressing\Actions\ExportResolutionGapAliasesAction;
+use AIArmada\Addressing\Data\ExportResolutionGapAliasesResultData;
+use AIArmada\CommerceSupport\Support\OwnerContext;
 use Illuminate\Console\Command;
 use ReflectionClass;
 
@@ -26,7 +28,12 @@ class ExportResolutionGapAliasesCommand extends Command
             return self::FAILURE;
         }
 
-        $result = $export->execute($country, prune: (bool) $this->option('prune'));
+        // Privileged developer curation: consolidate matched gaps across every owner.
+        $result = OwnerContext::withOwner(null, fn (): ExportResolutionGapAliasesResultData => $export->execute(
+            $country,
+            prune: (bool) $this->option('prune'),
+            allOwners: true,
+        ));
 
         foreach ($result->warnings as $warning) {
             $this->warn($warning);

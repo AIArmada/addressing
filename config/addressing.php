@@ -966,7 +966,6 @@ return [
 
     'defaults' => [
         'country_code' => env('ADDRESS_DEFAULT_COUNTRY_CODE'),
-        'locale' => env('ADDRESS_DEFAULT_LOCALE'),
     ],
 
     'seed' => [
@@ -986,5 +985,12 @@ return [
         'password' => env('ONEMAP_PASSWORD'),
         'timeout' => 10,
         'retries' => 2,
+    ],
+
+    'reference' => [
+        // Local unicode-org/cldr-json checkout: the directory containing cldr-core/.
+        'cldr_path' => env('ADDRESSING_CLDR_PATH'),
+        // Pinned cldr-core version; the diff refuses checkouts that disagree.
+        'cldr_version' => env('ADDRESSING_CLDR_VERSION'),
     ],
 ];

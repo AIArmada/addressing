@@ -8,6 +8,10 @@ use AIArmada\Addressing\Models\ResolutionGap;
 
 final class IgnoreResolutionGapAction
 {
+    /**
+     * Runs inside the caller's owner scope; model guards reject writes
+     * from any other context.
+     */
     public function execute(ResolutionGap $gap): ResolutionGap
     {
         if ($gap->status === 'ignored') {

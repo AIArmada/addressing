@@ -1,0 +1,12053 @@
+{
+  "AD": {
+    "display": "Andorra",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AE": {
+    "display": "United Arab Emirates",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AF": {
+    "display": "Afghanistan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "state",
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "if": "postcode",
+        "unless": "state",
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AG": {
+    "display": "Antigua and Barbuda",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AI": {
+    "display": "Anguilla",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AL": {
+    "display": "Albania",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AM": {
+    "display": "Armenia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AO": {
+    "display": "Angola",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AR": {
+    "display": "Argentina",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AS": {
+    "display": "American Samoa",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!AS:!dup:city"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!AS:!dup:city"
+        ],
+        "join": [
+          "state:!AS",
+          {
+            "lit": "AS"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "city",
+        "unless": "state:!AS:!dup:city",
+        "join": [
+          "city",
+          {
+            "lit": "AS"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "state:!AS",
+        "unless": "city",
+        "join": [
+          "state:!AS",
+          {
+            "lit": "AS"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state:!AS"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AT": {
+    "display": "Austria",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AU": {
+    "display": "Australia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "join": [
+          "city",
+          "state:abbr",
+          "postcode"
+        ],
+        "sep": "  "
+      },
+      {
+        "country": true
+      }
+    ],
+    "abbreviations": {
+      "Australian Capital Territory": "ACT",
+      "New South Wales": "NSW",
+      "Northern Territory": "NT",
+      "Queensland": "QLD",
+      "South Australia": "SA",
+      "Tasmania": "TAS",
+      "Victoria": "VIC",
+      "Western Australia": "WA"
+    }
+  },
+  "AW": {
+    "display": "Aruba",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AX": {
+    "display": "Aland Islands",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "AZ": {
+    "display": "Azerbaijan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BA": {
+    "display": "Bosnia and Herzegovina",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BB": {
+    "display": "Barbados",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city:!dup:state",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "unless": "state",
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BD": {
+    "display": "Bangladesh",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3",
+          "components:thana"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          },
+          "postcode"
+        ],
+        "sep": " - "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BE": {
+    "display": "Belgium",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BF": {
+    "display": "Burkina Faso",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BG": {
+    "display": "Bulgaria",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BH": {
+    "display": "Bahrain",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BI": {
+    "display": "Burundi",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BJ": {
+    "display": "Benin",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BL": {
+    "display": "Saint-Barthelemy",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BM": {
+    "display": "Bermuda",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city:!dup:state",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "unless": "state",
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BN": {
+    "display": "Brunei Darussalam",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3",
+          "components:kampung",
+          "components:kampong",
+          "components:mukim"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BO": {
+    "display": "Bolivia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BQ": {
+    "display": "Bonaire, Sint Eustatius and Saba",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BR": {
+    "display": "Brazil",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "join": [
+          "city",
+          "state:abbr"
+        ],
+        "sep": " - "
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ],
+    "abbreviations": {
+      "Acre": "AC",
+      "Alagoas": "AL",
+      "Amapá": "AP",
+      "Amazonas": "AM",
+      "Bahia": "BA",
+      "Ceará": "CE",
+      "Distrito Federal": "DF",
+      "Espírito Santo": "ES",
+      "Goiás": "GO",
+      "Maranhão": "MA",
+      "Mato Grosso": "MT",
+      "Mato Grosso do Sul": "MS",
+      "Minas Gerais": "MG",
+      "Pará": "PA",
+      "Paraíba": "PB",
+      "Paraná": "PR",
+      "Pernambuco": "PE",
+      "Piauí": "PI",
+      "Rio de Janeiro": "RJ",
+      "Rio Grande do Norte": "RN",
+      "Rio Grande do Sul": "RS",
+      "Rondônia": "RO",
+      "Roraima": "RR",
+      "Santa Catarina": "SC",
+      "São Paulo": "SP",
+      "Sergipe": "SE",
+      "Tocantins": "TO"
+    }
+  },
+  "BS": {
+    "display": "The Bahamas",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BT": {
+    "display": "Bhutan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BW": {
+    "display": "Botswana",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BY": {
+    "display": "Belarus",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "BZ": {
+    "display": "Belize",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CA": {
+    "display": "Canada",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "join": [
+          "city",
+          "state:abbr",
+          "postcode:upper"
+        ],
+        "sep": " "
+      },
+      {
+        "country": true
+      }
+    ],
+    "abbreviations": {
+      "Alberta": "AB",
+      "British Columbia": "BC",
+      "Manitoba": "MB",
+      "New Brunswick": "NB",
+      "Newfoundland and Labrador": "NL",
+      "Northwest Territories": "NT",
+      "Nova Scotia": "NS",
+      "Nunavut": "NU",
+      "Ontario": "ON",
+      "Prince Edward Island": "PE",
+      "Quebec": "QC",
+      "Québec": "QC",
+      "Saskatchewan": "SK",
+      "Yukon": "YT"
+    }
+  },
+  "CD": {
+    "display": "Democratic Republic of the Congo",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "unless": "state",
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CF": {
+    "display": "Central African Republic",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CG": {
+    "display": "Congo",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CH": {
+    "display": "Switzerland",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CI": {
+    "display": "Ivory Coast",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CL": {
+    "display": "Chile",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CM": {
+    "display": "Cameroon",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CN": {
+    "display": "China",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "unless": "state",
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CO": {
+    "display": "Colombia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CR": {
+    "display": "Costa Rica",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CU": {
+    "display": "Cuba",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CV": {
+    "display": "Cape Verde",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CY": {
+    "display": "Cyprus",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "CZ": {
+    "display": "Czech Republic",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "DE": {
+    "display": "Germany",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "DJ": {
+    "display": "Djibouti",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "DK": {
+    "display": "Denmark",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "DM": {
+    "display": "Dominica",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "DO": {
+    "display": "Dominican Republic",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "DZ": {
+    "display": "Algeria",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "EC": {
+    "display": "Ecuador",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " - "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " - "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "EE": {
+    "display": "Estonia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "EG": {
+    "display": "Egypt",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "ER": {
+    "display": "Eritrea",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "ES": {
+    "display": "Spain",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "ET": {
+    "display": "Ethiopia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "FI": {
+    "display": "Finland",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "FJ": {
+    "display": "Fiji Islands",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "FM": {
+    "display": "Micronesia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!FM:!dup:city"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!FM:!dup:city"
+        ],
+        "join": [
+          "state:!FM",
+          {
+            "lit": "FM"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "city",
+        "unless": "state:!FM:!dup:city",
+        "join": [
+          "city",
+          {
+            "lit": "FM"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "state:!FM",
+        "unless": "city",
+        "join": [
+          "state:!FM",
+          {
+            "lit": "FM"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state:!FM"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "FO": {
+    "display": "Faroe Islands",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "FR": {
+    "display": "France",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GA": {
+    "display": "Gabon",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GB": {
+    "display": "United Kingdom",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": "postcode",
+        "each": [
+          "postcode:upper"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GD": {
+    "display": "Grenada",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GE": {
+    "display": "Georgia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GF": {
+    "display": "French Guiana",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GG": {
+    "display": "Guernsey",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GH": {
+    "display": "Ghana",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GL": {
+    "display": "Greenland",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GM": {
+    "display": "The Gambia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GN": {
+    "display": "Guinea",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GP": {
+    "display": "Guadeloupe",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GQ": {
+    "display": "Equatorial Guinea",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GR": {
+    "display": "Greece",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GT": {
+    "display": "Guatemala",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " - "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " - "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GU": {
+    "display": "Guam",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!GU:!dup:city"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!GU:!dup:city"
+        ],
+        "join": [
+          "state:!GU",
+          {
+            "lit": "GU"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "city",
+        "unless": "state:!GU:!dup:city",
+        "join": [
+          "city",
+          {
+            "lit": "GU"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "state:!GU",
+        "unless": "city",
+        "join": [
+          "state:!GU",
+          {
+            "lit": "GU"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state:!GU"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GW": {
+    "display": "Guinea-Bissau",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "GY": {
+    "display": "Guyana",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "HK": {
+    "display": "Hong Kong",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "HN": {
+    "display": "Honduras",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "HR": {
+    "display": "Croatia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "HT": {
+    "display": "Haiti",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "HU": {
+    "display": "Hungary",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "ID": {
+    "display": "Indonesia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3",
+          "components:kelurahan",
+          "components:desa",
+          "components:kecamatan"
+        ]
+      },
+      {
+        "if": "city",
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": "city",
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "IE": {
+    "display": "Ireland",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "IM": {
+    "display": "Isle of Man",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "IN": {
+    "display": "India",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "IQ": {
+    "display": "Iraq",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state"
+        ],
+        "join": [
+          "city",
+          "state"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": "city",
+        "unless": "state",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": "state",
+        "unless": "city",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "IR": {
+    "display": "Iran",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "IS": {
+    "display": "Iceland",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "IT": {
+    "display": "Italy",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          },
+          "components:province_code:upper"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "JE": {
+    "display": "Jersey",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "JM": {
+    "display": "Jamaica",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "JO": {
+    "display": "Jordan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "JP": {
+    "display": "Japan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "join": [
+          "city",
+          "state"
+        ],
+        "sep": ", "
+      },
+      {
+        "join": [
+          "postcode",
+          "country"
+        ],
+        "sep": " "
+      }
+    ]
+  },
+  "KE": {
+    "display": "Kenya",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "each": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "KG": {
+    "display": "Kyrgyzstan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "KH": {
+    "display": "Cambodia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city:!dup:state",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "unless": "state",
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "KI": {
+    "display": "Kiribati",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "KM": {
+    "display": "Comoros",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "KN": {
+    "display": "Saint Kitts and Nevis",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "KP": {
+    "display": "North Korea",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "KR": {
+    "display": "South Korea",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "unless": "state",
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "KW": {
+    "display": "Kuwait",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "KY": {
+    "display": "Cayman Islands",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": "  "
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city:!dup:state",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": "  "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "unless": "state",
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": "  "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "KZ": {
+    "display": "Kazakhstan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "LA": {
+    "display": "Laos",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "LB": {
+    "display": "Lebanon",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "LC": {
+    "display": "Saint Lucia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "LI": {
+    "display": "Liechtenstein",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "LK": {
+    "display": "Sri Lanka",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "LR": {
+    "display": "Liberia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "LS": {
+    "display": "Lesotho",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "LT": {
+    "display": "Lithuania",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "LU": {
+    "display": "Luxembourg",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "LV": {
+    "display": "Latvia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "LY": {
+    "display": "Libya",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MA": {
+    "display": "Morocco",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MC": {
+    "display": "Monaco",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MD": {
+    "display": "Moldova",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "ME": {
+    "display": "Montenegro",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MF": {
+    "display": "Saint-Martin (French part)",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MG": {
+    "display": "Madagascar",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MH": {
+    "display": "Marshall Islands",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!MH:!dup:city"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!MH:!dup:city"
+        ],
+        "join": [
+          "state:!MH",
+          {
+            "lit": "MH"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "city",
+        "unless": "state:!MH:!dup:city",
+        "join": [
+          "city",
+          {
+            "lit": "MH"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "state:!MH",
+        "unless": "city",
+        "join": [
+          "state:!MH",
+          {
+            "lit": "MH"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state:!MH"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MK": {
+    "display": "North Macedonia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "ML": {
+    "display": "Mali",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MM": {
+    "display": "Myanmar",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MN": {
+    "display": "Mongolia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city:!dup:state",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "unless": "state",
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MQ": {
+    "display": "Martinique",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MR": {
+    "display": "Mauritania",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MS": {
+    "display": "Montserrat",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MT": {
+    "display": "Malta",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MU": {
+    "display": "Mauritius",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MV": {
+    "display": "Maldives",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MW": {
+    "display": "Malawi",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MX": {
+    "display": "Mexico",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode",
+          {
+            "join": [
+              "city",
+              "state:abbr"
+            ],
+            "sep": ", "
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ],
+    "abbreviations": {
+      "Aguascalientes": "AGS",
+      "Baja California": "BC",
+      "Baja California Sur": "BCS",
+      "Campeche": "CAMP",
+      "Chiapas": "CHIS",
+      "Chihuahua": "CHIH",
+      "Ciudad de México": "CDMX",
+      "Coahuila de Zaragoza": "COAH",
+      "Colima": "COL",
+      "Durango": "DGO",
+      "Estado de México": "EDOMEX",
+      "Guanajuato": "GTO",
+      "Guerrero": "GRO",
+      "Hidalgo": "HGO",
+      "Jalisco": "JAL",
+      "Michoacán de Ocampo": "MICH",
+      "Morelos": "MOR",
+      "Nayarit": "NAY",
+      "Nuevo León": "NL",
+      "Oaxaca": "OAX",
+      "Puebla": "PUE",
+      "Querétaro": "QRO",
+      "Quintana Roo": "Q. ROO",
+      "San Luis Potosí": "SLP",
+      "Sinaloa": "SIN",
+      "Sonora": "SON",
+      "Tabasco": "TAB",
+      "Tamaulipas": "TAMPS",
+      "Tlaxcala": "TLAX",
+      "Veracruz de Ignacio de la Llave": "VER",
+      "Yucatán": "YUC",
+      "Zacatecas": "ZAC"
+    }
+  },
+  "MY": {
+    "display": "Malaysia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3",
+          "components:mukim",
+          "components:subdistrict",
+          "components:district"
+        ]
+      },
+      {
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "MZ": {
+    "display": "Mozambique",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "NA": {
+    "display": "Namibia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "NC": {
+    "display": "New Caledonia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "NE": {
+    "display": "Niger",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "NG": {
+    "display": "Nigeria",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "NI": {
+    "display": "Nicaragua",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "NL": {
+    "display": "Netherlands",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode:upper",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "sep": "  "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "NO": {
+    "display": "Norway",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "NP": {
+    "display": "Nepal",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "NR": {
+    "display": "Nauru",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "NU": {
+    "display": "Niue",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "NZ": {
+    "display": "New Zealand",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "OM": {
+    "display": "Oman",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "each": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PA": {
+    "display": "Panama",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PE": {
+    "display": "Peru",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PF": {
+    "display": "French Polynesia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PG": {
+    "display": "Papua New Guinea",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PH": {
+    "display": "Philippines",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state",
+          "state:in:metro manila,national capital region,national capital region (metro manila),ncr"
+        ],
+        "join": [
+          "postcode",
+          {
+            "join": [
+              "city",
+              "state"
+            ],
+            "sep": ", "
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "unless": "state:in:metro manila,national capital region,national capital region (metro manila),ncr",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "unless": "state:in:metro manila,national capital region,national capital region (metro manila),ncr",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city:!dup:state",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "unless": "state",
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PK": {
+    "display": "Pakistan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          },
+          "postcode"
+        ],
+        "sep": "-"
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PL": {
+    "display": "Poland",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PM": {
+    "display": "Saint Pierre and Miquelon",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PR": {
+    "display": "Puerto Rico",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!PR:!dup:city"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!PR:!dup:city"
+        ],
+        "join": [
+          "state:!PR",
+          {
+            "lit": "PR"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "city",
+        "unless": "state:!PR:!dup:city",
+        "join": [
+          "city",
+          {
+            "lit": "PR"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "state:!PR",
+        "unless": "city",
+        "join": [
+          "state:!PR",
+          {
+            "lit": "PR"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state:!PR"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PS": {
+    "display": "Palestine",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PT": {
+    "display": "Portugal",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PW": {
+    "display": "Palau",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!PW:!dup:city"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!PW:!dup:city"
+        ],
+        "join": [
+          "state:!PW",
+          {
+            "lit": "PW"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "city",
+        "unless": "state:!PW:!dup:city",
+        "join": [
+          "city",
+          {
+            "lit": "PW"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "state:!PW",
+        "unless": "city",
+        "join": [
+          "state:!PW",
+          {
+            "lit": "PW"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state:!PW"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "PY": {
+    "display": "Paraguay",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "QA": {
+    "display": "Qatar",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "RE": {
+    "display": "Reunion",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "RO": {
+    "display": "Romania",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "RS": {
+    "display": "Serbia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "RU": {
+    "display": "Russia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "RW": {
+    "display": "Rwanda",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SA": {
+    "display": "Saudi Arabia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "each": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SB": {
+    "display": "Solomon Islands",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SC": {
+    "display": "Seychelles",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SD": {
+    "display": "Sudan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "each": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SE": {
+    "display": "Sweden",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SG": {
+    "display": "Singapore",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city:!singapore"
+        ]
+      },
+      {
+        "each": [
+          "state:!singapore"
+        ]
+      },
+      {
+        "join": [
+          "country",
+          "postcode"
+        ],
+        "sep": " "
+      }
+    ]
+  },
+  "SH": {
+    "display": "Saint Helena",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SI": {
+    "display": "Slovenia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SK": {
+    "display": "Slovakia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SL": {
+    "display": "Sierra Leone",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SM": {
+    "display": "San Marino",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SN": {
+    "display": "Senegal",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SO": {
+    "display": "Somalia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SR": {
+    "display": "Suriname",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SS": {
+    "display": "South Sudan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "ST": {
+    "display": "Sao Tome and Principe",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SV": {
+    "display": "El Salvador",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SY": {
+    "display": "Syria",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "SZ": {
+    "display": "Eswatini",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TC": {
+    "display": "Turks and Caicos Islands",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TD": {
+    "display": "Chad",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TF": {
+    "display": "French Southern Territories",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TG": {
+    "display": "Togo",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TH": {
+    "display": "Thailand",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state"
+        ],
+        "join": [
+          "city",
+          "state"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": "city",
+        "unless": "state",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": "state",
+        "unless": "city",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TJ": {
+    "display": "Tajikistan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TL": {
+    "display": "Timor-Leste",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city",
+          "state:!dup:city"
+        ],
+        "join": [
+          {
+            "join": [
+              "city",
+              "state"
+            ],
+            "sep": " - "
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unlessAll": [
+          "city",
+          "state:!dup:city"
+        ],
+        "join": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TM": {
+    "display": "Turkmenistan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TN": {
+    "display": "Tunisia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TO": {
+    "display": "Tonga",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TR": {
+    "display": "Türkiye",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city",
+          "state"
+        ],
+        "join": [
+          "postcode",
+          {
+            "join": [
+              "city",
+              "state"
+            ],
+            "sep": "/"
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "unless": "state",
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TT": {
+    "display": "Trinidad and Tobago",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TV": {
+    "display": "Tuvalu",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TW": {
+    "display": "Taiwan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "TZ": {
+    "display": "Tanzania",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "UA": {
+    "display": "Ukraine",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "UG": {
+    "display": "Uganda",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": "postcode",
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
+        ],
+        "sep": " "
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "UM": {
+    "display": "United States Minor Outlying Islands",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "US": {
+    "display": "United States",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "join": [
+          "city",
+          "state:abbr",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "country": true
+      }
+    ],
+    "abbreviations": {
+      "Alabama": "AL",
+      "Alaska": "AK",
+      "American Samoa": "AS",
+      "Arizona": "AZ",
+      "Arkansas": "AR",
+      "California": "CA",
+      "Colorado": "CO",
+      "Connecticut": "CT",
+      "Delaware": "DE",
+      "District of Columbia": "DC",
+      "Florida": "FL",
+      "Georgia": "GA",
+      "Guam": "GU",
+      "Hawaii": "HI",
+      "Idaho": "ID",
+      "Illinois": "IL",
+      "Indiana": "IN",
+      "Iowa": "IA",
+      "Kansas": "KS",
+      "Kentucky": "KY",
+      "Louisiana": "LA",
+      "Maine": "ME",
+      "Maryland": "MD",
+      "Massachusetts": "MA",
+      "Michigan": "MI",
+      "Minnesota": "MN",
+      "Mississippi": "MS",
+      "Missouri": "MO",
+      "Montana": "MT",
+      "Nebraska": "NE",
+      "Nevada": "NV",
+      "New Hampshire": "NH",
+      "New Jersey": "NJ",
+      "New Mexico": "NM",
+      "New York": "NY",
+      "North Carolina": "NC",
+      "North Dakota": "ND",
+      "Northern Mariana Islands": "MP",
+      "Ohio": "OH",
+      "Oklahoma": "OK",
+      "Oregon": "OR",
+      "Pennsylvania": "PA",
+      "Puerto Rico": "PR",
+      "Rhode Island": "RI",
+      "South Carolina": "SC",
+      "South Dakota": "SD",
+      "Tennessee": "TN",
+      "Texas": "TX",
+      "Utah": "UT",
+      "Vermont": "VT",
+      "Virgin Islands": "VI",
+      "United States Virgin Islands": "VI",
+      "Virginia": "VA",
+      "Washington": "WA",
+      "West Virginia": "WV",
+      "Wisconsin": "WI",
+      "Wyoming": "WY",
+      "Armed Forces Americas": "AA",
+      "Armed Forces of the Americas": "AA",
+      "Armed Forces Europe": "AE",
+      "Armed Forces Pacific": "AP"
+    }
+  },
+  "UY": {
+    "display": "Uruguay",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " – "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " – "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "UZ": {
+    "display": "Uzbekistan",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "VC": {
+    "display": "Saint Vincent and the Grenadines",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "VE": {
+    "display": "Venezuela",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "VI": {
+    "display": "Virgin Islands (US)",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!VI:!dup:city"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "city",
+          "state:!VI:!dup:city"
+        ],
+        "join": [
+          "state:!VI",
+          {
+            "lit": "VI"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "city",
+        "unless": "state:!VI:!dup:city",
+        "join": [
+          "city",
+          {
+            "lit": "VI"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "state:!VI",
+        "unless": "city",
+        "join": [
+          "state:!VI",
+          {
+            "lit": "VI"
+          },
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state:!VI"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "VN": {
+    "display": "Vietnam",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state",
+          "city"
+        ],
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "unless": "state",
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "VU": {
+    "display": "Vanuatu",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "WF": {
+    "display": "Wallis and Futuna Islands",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "WS": {
+    "display": "Samoa",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "XK": {
+    "display": "Kosovo",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "YE": {
+    "display": "Yemen",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "YT": {
+    "display": "Mayotte",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "postcode",
+          "state"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "ZA": {
+    "display": "South Africa",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "if": "state",
+        "unless": "postcode",
+        "each": [
+          "state"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "ZM": {
+    "display": "Zambia",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  },
+  "ZW": {
+    "display": "Zimbabwe",
+    "lines": [
+      {
+        "each": [
+          "line1",
+          "line2",
+          "line3"
+        ]
+      },
+      {
+        "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
+          "state:!dup:city"
+        ]
+      },
+      {
+        "each": [
+          "postcode"
+        ]
+      },
+      {
+        "country": true
+      }
+    ]
+  }
+}

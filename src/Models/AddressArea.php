@@ -20,7 +20,6 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  * @property string $id
  * @property string|null $parent_id
  * @property string|null $country_id
- * @property string|null $parent_id
  * @property string $country_code
  * @property string $type
  * @property int|null $level
@@ -84,9 +83,18 @@ class AddressArea extends Model
         'metadata',
     ];
 
+    /**
+     * Resolve the configured table name, honoring per-instance overrides.
+     *
+     * The $this->table fallback is load-bearing, not a convenience: Laravel
+     * assigns the inner table an alias via setTable() for self-join existence
+     * queries, and ignoring it makes the generated SQL join the outer table
+     * instead of the alias. Hydrated instances also retain the resolved name
+     * here, matching stock Eloquent behavior.
+     */
     public function getTable(): string
     {
-        return AddressingTableResolver::resolve('areas');
+        return $this->table ?? AddressingTableResolver::resolve('areas');
     }
 
     /**
@@ -136,22 +144,24 @@ class AddressArea extends Model
     /** @return BelongsToMany<AddressArea, $this> */
     public function relatedAreas(): BelongsToMany
     {
-        return $this->belongsToMany(
-            ModelResolver::areaClass(),
-            AddressingTableResolver::resolve('area_relationships'),
-            'parent_address_area_id',
-            'child_address_area_id',
-        )->withPivot(['relationship_type', 'hierarchy_type', 'source', 'valid_from', 'valid_until', 'metadata']);
+        return $this->newSelfAreaLink('parent_address_area_id', 'child_address_area_id', 'relatedAreas');
     }
 
     /** @return BelongsToMany<AddressArea, $this> */
     public function ancestors(): BelongsToMany
     {
+        return $this->newSelfAreaLink('child_address_area_id', 'parent_address_area_id', 'ancestors');
+    }
+
+    /** @return BelongsToMany<AddressArea, $this> */
+    private function newSelfAreaLink(string $foreignPivotKey, string $relatedPivotKey, string $relation): BelongsToMany
+    {
         return $this->belongsToMany(
             ModelResolver::areaClass(),
             AddressingTableResolver::resolve('area_relationships'),
-            'child_address_area_id',
-            'parent_address_area_id',
+            $foreignPivotKey,
+            $relatedPivotKey,
+            relation: $relation,
         )->withPivot(['relationship_type', 'hierarchy_type', 'source', 'valid_from', 'valid_until', 'metadata']);
     }
 
@@ -183,10 +193,8 @@ class AddressArea extends Model
     /**
      * Constrain areas to those under a live ancestor relationship link.
      *
-     * Queries the pivot table directly: whereHas('ancestors') targets a
-     * self-referencing BelongsToMany whose existence query joins the
-     * outer table instead of the aliased inner table, so it never
-     * matches. Never filter ancestors through relation existence.
+     * Filters the pivot by relationship type (default contains) and validity
+     * window without joining the parent area row.
      */
     public function scopeWhereAncestorLink(
         Builder $query,

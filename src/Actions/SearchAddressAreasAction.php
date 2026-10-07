@@ -51,7 +51,7 @@ final class SearchAddressAreasAction
         $areaClass = ModelResolver::areaClass();
         $escapeClause = LikeSearch::escapeClause($areaClass::query()->getConnection());
 
-        return $areaClass::query()
+        $results = $areaClass::query()
             ->where('is_active', true)
             ->when($countryCode !== null, fn (Builder $builder): Builder => $builder->where('country_code', mb_strtoupper($countryCode)))
             ->when($type !== null, fn (Builder $builder): Builder => $builder->where('type', $type))
@@ -89,6 +89,54 @@ final class SearchAddressAreasAction
             ->orderBy('name')
             ->limit(max(1, min($limit, 100)))
             ->get();
+
+        $this->logGapOnMiss($query, $countryCode, $role, $type, $parentId, $hierarchyType, $postalCode, $results);
+
+        return $results;
+    }
+
+    /**
+     * Record unfiltered misses as corpus telemetry. Filter-scoped searches
+     * carry their own narrowing intent, so misses there are not corpus gaps.
+     *
+     * @param  Collection<int, AddressArea>  $results
+     */
+    private function logGapOnMiss(
+        string $query,
+        ?string $countryCode,
+        ?string $role,
+        ?string $type,
+        ?string $parentId,
+        ?string $hierarchyType,
+        ?string $postalCode,
+        Collection $results,
+    ): void {
+        if ($results->isNotEmpty()) {
+            return;
+        }
+
+        if ($countryCode === null || mb_strlen(mb_trim($countryCode)) !== 2) {
+            return;
+        }
+
+        if (mb_strlen($query) < 3 || mb_strlen($query) > 255) {
+            return;
+        }
+
+        if ($role !== null && (mb_trim($role) === '' || mb_strlen($role) > 50)) {
+            return;
+        }
+
+        if ($type !== null || $parentId !== null || $hierarchyType !== null || $postalCode !== null) {
+            return;
+        }
+
+        $this->container->make(LogAddressResolutionGapAction::class)->execute(
+            'search',
+            $countryCode,
+            $role ?? 'area',
+            $query,
+        );
     }
 
     /** @return list<string> */

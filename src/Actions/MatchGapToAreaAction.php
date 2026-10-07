@@ -21,6 +21,11 @@ final class MatchGapToAreaAction
         private readonly CountryAddressProfileResolver $profiles,
     ) {}
 
+    /**
+     * Runs inside the caller's owner scope: the gap is re-read with a lock,
+     * so matching a tenant gap needs that tenant's context and matching a
+     * global gap needs explicit global context.
+     */
     public function execute(ResolutionGap $gap, AddressArea $area, ?string $matchedBy = null): ResolutionGap
     {
         if ($gap->status !== 'open') {

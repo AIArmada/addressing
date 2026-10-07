@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Commands;
 
 use AIArmada\Addressing\Actions\ExportResolutionGapAliasesAction;
 use AIArmada\Addressing\Models\ResolutionGap;
+use AIArmada\CommerceSupport\Support\OwnerContext;
 use Carbon\CarbonImmutable;
 use Illuminate\Console\Command;
 use InvalidArgumentException;
@@ -54,39 +55,43 @@ class ReportResolutionGapsCommand extends Command
 
         $limit = max(1, (int) $this->option('limit'));
 
-        $gaps = ResolutionGap::query()
-            ->when($country !== null, fn ($query) => $query->where('country_code', $country))
-            ->when($reason !== null, fn ($query) => $query->where('reason', $reason))
-            ->when($status !== null, fn ($query) => $query->where('status', $status))
-            ->where('last_seen_at', '>=', CarbonImmutable::now()->subDays($days))
-            ->orderByDesc('hits')
-            ->orderByDesc('last_seen_at')
-            ->limit($limit)
-            ->get(['source', 'country_code', 'role', 'value', 'reason', 'status', 'hits', 'last_seen_at']);
+        // Privileged ops curation: one consolidated cross-tenant report.
+        return OwnerContext::withOwner(null, function () use ($export, $country, $reason, $status, $days, $limit): int {
+            $gaps = ResolutionGap::query()
+                ->withoutOwnerScope()
+                ->when($country !== null, fn ($query) => $query->where('country_code', $country))
+                ->when($reason !== null, fn ($query) => $query->where('reason', $reason))
+                ->when($status !== null, fn ($query) => $query->where('status', $status))
+                ->where('last_seen_at', '>=', CarbonImmutable::now()->subDays($days))
+                ->orderByDesc('hits')
+                ->orderByDesc('last_seen_at')
+                ->limit($limit)
+                ->get(['source', 'country_code', 'role', 'value', 'reason', 'status', 'hits', 'last_seen_at']);
 
-        if ($gaps->isEmpty()) {
-            $this->info('No resolution gaps found.');
-        } else {
-            $this->table(
-                ['Value', 'Country', 'Role', 'Reason', 'Status', 'Hits', 'Last seen'],
-                $gaps->map(static fn (ResolutionGap $gap): array => [
-                    (string) $gap->value,
-                    (string) $gap->country_code,
-                    (string) $gap->role,
-                    (string) $gap->reason,
-                    (string) $gap->status,
-                    (int) $gap->hits,
-                    $gap->last_seen_at?->toDateTimeString() ?? '—',
-                ])->all(),
-            );
-        }
+            if ($gaps->isEmpty()) {
+                $this->info('No resolution gaps found.');
+            } else {
+                $this->table(
+                    ['Value', 'Country', 'Role', 'Reason', 'Status', 'Hits', 'Last seen'],
+                    $gaps->map(static fn (ResolutionGap $gap): array => [
+                        (string) $gap->value,
+                        (string) $gap->country_code,
+                        (string) $gap->role,
+                        (string) $gap->reason,
+                        (string) $gap->status,
+                        (int) $gap->hits,
+                        $gap->last_seen_at?->toDateTimeString() ?? '—',
+                    ])->all(),
+                );
+            }
 
-        $this->line(sprintf(
-            'Matched but not yet in providers: %d',
-            $this->promotionBacklog($export, $country),
-        ));
+            $this->line(sprintf(
+                'Matched but not yet in providers: %d',
+                $this->promotionBacklog($export, $country),
+            ));
 
-        return self::SUCCESS;
+            return self::SUCCESS;
+        });
     }
 
     private function promotionBacklog(ExportResolutionGapAliasesAction $export, ?string $country): int
@@ -94,6 +99,7 @@ class ReportResolutionGapsCommand extends Command
         $countries = $country !== null
             ? [$country]
             : ResolutionGap::query()
+                ->withoutOwnerScope()
                 ->where('status', 'matched')
                 ->distinct()
                 ->pluck('country_code')
@@ -104,7 +110,7 @@ class ReportResolutionGapsCommand extends Command
 
         foreach ($countries as $countryCode) {
             try {
-                $backlog += $export->execute($countryCode)->candidateCount();
+                $backlog += $export->execute($countryCode, allOwners: true)->candidateCount();
             } catch (InvalidArgumentException) {
                 continue;
             }

@@ -37,7 +37,9 @@ countries use it and why the rest do not.
   built set.
 - Single national codes shared by many rows import code-only (no
   links): the code does not discriminate areas (Niue, Nauru,
-  Turks and Caicos, Anguilla).
+  Turks and Caicos, Anguilla). US Minor Outlying Islands 96898 is
+  likewise code-only: it serves Wake station alone while the other
+  islands are uninhabited.
 - Shared codes take primary = office-holding / admin-center commune
   (documented per country below); catch-alls with no office holder
   take the largest commune.
@@ -162,6 +164,23 @@ countries use it and why the rest do not.
     current vintage, or reuse terms are available. GeoNames has no LS
     export and third-party lists still conflict (Leribe 300 vs 9730);
     MapAnet crawl returns zero records.
+  - Somalia: overturned from `none` 2026-10-07 — the UPU sheet
+    (https://www.upu.int/UPU/media/upu/PostalEntitiesFiles/addressingUnit/somEn.pdf)
+    defines a 7-character postcode (2-letter region abbreviation + 5
+    digits, e.g. JH 09010 Kismayu) and the live Google address data
+    (https://chromium-i18n.appspot.com/ssl-address/data/SO) carries the
+    matching pattern `[A-Z]{2} ?\d{5}` (examples JH 09010, AD 11010)
+    with an 18-region table. Region abbreviations (AD/BK/BN/BR/BY/GG/
+    GD/HR/JD/JH/MD/NG/SG/SD/SH/SL/TG/WG) map to ISO codes
+    AW/BK/BN/BR/BY/GA/GE/HI/JD/JH/MU/NU/SA/SD/SH/SO/TO/WO per the
+    Google sub_keys/sub_isoids pairing (18/18 match the bundled
+    states), proving that table internally consistent; only JH 09010
+    is corroborated as a real example (UPU + Google zipex). The
+    `[A-Z]{2} ?\d{5}` shape itself is triply attested (UPU +
+    Google + commerceguys). Operational use is unconfirmed and no
+    allocation list is published; needs the district-level 5-digit
+    allocation. Admin (18 regions + 89 districts) is already
+    bundled, so only links are queued.
 ## Built datasets
 
 | Country | Code | Codes | Links | Source |
@@ -323,6 +342,7 @@ countries use it and why the rest do not.
 | Ukraine | UA | 26579 | 26581 | B15 re-adjudication (1313 ops; 92 -> 2 multis; gate_ua ALL PASS): 85 worker multi drops applied after per-code reform-wholly + unique-anchor integrator check, 4 specials infobox-verified (Kurylivka-41671, Bubnivka-32011, Holoskiv-32340, Hrushiv-81016), 607 singles moves applied after 16/16 sample; HELD genuine cross-raion 82563 Stryi+Sambir (Matkiv-82563) + 47431 Ternopil+Kremenets (Pahinya/Karnachivka-47431); FLIPPED 90124 to Khust-sole (Irshavskyi councils, reform-wholly); row-error proofs Kalynove-Borshchuvate-93279, Mayak-53542, Luchka-42600/42547. Original bundling:  GeoNames 29571 rows joined to HDX COD-AB v05 KATOTTG settlements (29.7k admin4, name match within oblast; 22369 exact + fuzzy/aggr; GN coords 17% placeholder/wrong incl. oblast-level batches e.g. all-47xxx stamped Pidhaitsi coords, so names primary, coords only name-confirmed: pip4 3276, pip2c 1096, OSM settlement nodes 181, Nominatim 8, hromada/council 24, old-raion priors 1411, uk.wikipedia infobox+coords + postcode-neighbor tiebreaks for 38 residuals incl. Vatutine/Novomoskovsk/Katerynopil-class 2023-25 renames; 7 far-mismatch exacts fixed to neighbor raion: Stanyshivka→Vyshhorod, Makariv-08738→Obukhiv, Oleksiivka-37411→Lubny, Druzhba-town→Shostka, Rakovo→Tiachiv, Vynohradne→Kalmiuske, Yurkivtsi-30217→Shepetivka; 95 same-oblast boundary codes dual-linked, majority primary; no Crimea/Sevastopol rows in GN dump) |
 | United Kingdom | GB | 2943 | 3750 | B13 re-verification: ONS NSPL Aug-2026 unit-postcode LAD/ward/usertype → ceremonial county/council via Lieutenancies Act Sch 1 (unitary table + Tees-centreline point-vs-river split: TS17/TS2 dual, TS15→NYorks, TS16/TS18–TS23→Durham, TS8→NYorks; London boroughs→Greater London, City separate, Scilly→Cornwall) × GeoNames GB place votes (3002 outwards) + 46 live postcodes.io arrays (reproduce new sets; old postcodes.io-derivation claim falsified — missing legs are pre-2020 units, builder bug); primaries = geocoded-live-unit plurality (358 flips); +E22 (Tower Hamlets)→GLondon, +MK20 (Milton Keynes)→Bucks fills; 61 drops vindicated (37 dead incl truncated EC1/W1/SW1/WC1 + retired W1M/WD1/WD2, BN91 ungeocoded-live, 23 Crown GY/IM/JE as own countries) + 10 NSPL-live holds (GIR/IM99/CH90/EN77/LS78/PO24/S94/SN80/SR43/TW98) + 33 micro-hold legs + 8 razor primaries (NG20/WA3/BT75/CW3/LA6/MK19/PH12/WV9) |
 | United States | US | 40977 | 40977 | GeoNames USPS ZIP dump joined on county FIPS (00501–99950; DC 277 ZIPs linked at district; 11 stale-CT-county rows remapped to planning regions via CT OPM town crosswalk incl. Mansfield/Willington to Capitol; Yakutat 99689 to borough 02282; 96860/96863 kept on Honolulu over FPO dupes; 509 military APO/FPO/DPO ZIPs + 2 MH ZIPs excluded; cross-county secondaries need licensed USPS city file; 8-ZIP Nominatim spot-check incl. 99553/90210/10001/20001/60601/96860 matches). B21 (2026-10-06): verify-only, 0 fixes — 3143/3143 GEOIDs == Census 2024, 0 orphans, 0/40977 state-join mismatches, 33226/33642 county-join; holds: HUD 404/USPS wall, territory scope, 71 county-ambiguous |
+| US Minor Outlying Islands | UM | 1 | 0 | UPU umiEn establishes the form (islands follow the US postal system, no UM domestic system); Google UM entry pins the value 96898 (USPS posturl), consistent with USPS-derived Wake Island directory records — single-code overlay, code-only per Niue precedent (Wake-only in practice; other islands uninhabited) |
 | US Virgin Islands | VI | 16 | 16 | GeoNames USPS ZIP dump, island-attributed (00801–00851 at district level; subdistrict split + PO-only status need licensed USPS city file); ZIP+4 strips to 5-digit base at lookup |
 | Uruguay | UY | 124 | 351 | Correo listadoCP (124 codes == bundled set exactly; 1943 locality rows) + GeoNames UY.zip (1964 rows, 122 codes; 20100 Punta del Este town + 27500 India Muerta zone are Correo-official, GN-stale) + UPU worked-address anchors (15600 Pando, 11600/12900 Montevideo, 70200 Rosario, 75000 Mercedes, 80300 Ecilda Paullier, 90000 Canelones, 15400 Santa Lucía del Este): 88 multis re-adjudicated by locality majority — 8 primaries flipped (37000 tupambae→CL-dept zero-support bug, 50200→Belén, 15700→Toledo, 30100→Solís de Mataojo, 91200→San Bautista, 91500→Sauce, 12400+12500 D→G), 11 zero-support legs dropped (55000→Barros Blancos cross-country join bug, 15000→Toledo, 15300/15900→Empalme Olmos, 15800→Nicolich/Pando, 37100→Las Cañas, 12800→D, 91500→CdC/EO, 12500→D), 14 legs added (11 new-municipio secondaries incl. paysandu:cerro-chato, 37000→Las Cañas per OSM 37000, 12400/12500→G); 15800+12800 collapse to singles, 12400+34100 go dual; open-log #15 retry Oct-2026 (IDEUy pip + CE circuits + INE): 5 flips (12100→F, 12000→D, 35200→Cerro Chato, 60200→Quebracho) + 7 drops (12000-E, 20500-Lascano/Maldonado, 33000-Vergara, 50000-Belén, 70000-Tarariras, 60200-dept) + 16 adds (8 MVD slivers, Soca, Conchillas, TT-dept, Chapicuy, CChato-PA); 351 legs, 93 multis; 3 holds stay (Tupambaé, San Jacinto, Carmelo) |
 | Uzbekistan | UZ | 2140 | 2140 | Mapanet full crawl (205 leaves, 0 gaps after retries; 2137 codes 100000–231620 + 3 verified city mains: 140100 Samarqand + 190100 Termiz via my.gov.uz state portal, 230100 Nukus via regulation.gov.uz postal doc; all regions carry exactly one 2-digit prefix, Tashkent city 162 codes at L1 with own coding per UPU); zones mapped to tuman/city via district-center tables (Wikipedia region pages + statoids) with transliteration + splits: Kuyganyor→Andijon, Boʻz→Boʻston, Oqoltin→Ulugʻnor, Oqtosh→Narpay, Farhod→Xovos, Dehqonobod→Guliston-t, Paxtaobod→Sardoba-t (dual zones), Sayhun→Sayxunobod, Qarluq≈Korlik→Oltinsoy, Uxum→Forish, Muruntau→Tomdi (mine in Tamdy per Wikipedia), Kizil-tog→Angren city (part of city per mapcarta/OSM), Quvasoy villages→city (city includes rural communities per Wikipedia); Ingichka→Kattaqoʻrgʻon-t + Kogon/Xiva center rows split to cities; Karakuduk 120708 dropped (lone prefix anomaly in Navoiy); 71 L2 uncovered (12 Tashkent-city tumans by design; gaps: 8 cities incl. Shahrisabz/Ohangaron/Yangiyol/Xonobod/Shirin/Nurafshon/Gozgon/Zarafshon + 51 tumans incl. all of Fargʻona-t/Soʻx/Rishton/Oltiariq/Toshloq/Uchkoʻprik/Yozyovon/Oʻzbekiston/Buvayda, Termiz-t/Muzrabot/Shoʻrchi/Uzun, Urgut/Toyloq/Payariq/Paxtachi, Yakkabogʻ/Shahrisabz-t/Nishon/Mirishkor/Kokdala, Zomin/Zarbdor/Zafarobod, Paxtaobod/Shahrixon/Xoʻjaobod/Jalaquduq/Izboskan-An, Toʻrtkoʻl/Xoʻjayli/Taxtakoʻpir/Shumanay/Bozatov/Taxiatosh, Norin/Yangiqoʻrgʻon, Peshku/Qorovulbozor, Bekobod/Boʻstonliq/Parkent/Piskent/Qibray/Toshkent/Yangiyoʻl/Yuqorichirchiq/Oʻrtachirchiq, Yangiariq/Yangibozor/Xiva-t); UPU anchors 100000/100123/220605 present. M6 revisit: 120501–120505 Sardoba-t→Oqoltin-t (decree Sardoba PAB scope + OSM town containment; Oqoltin-t covered, 71 L2 uncovered); max-code + Mehnatobod errata fixed; 4-way code-set Venn (PCB 183-zone + MITC decree + Mapanet re-crawl) corroborates 2137/2140, 29/30 sampled attributions agree; gap list mostly falls (466 PCB+decree codes inventoried) but fills deferred to a voter-machinery pass; `gate_uz.py` ALL PASS |
@@ -541,7 +561,7 @@ $result = app(ImportPostalCodesAction::class)->execute($source);
 | Slovakia | SK | complete | L2: district (79) |
 | Slovenia | SI | complete | L1: municipality,urban_municipality (212) |
 | Solomon Islands | SB | none | L2: ward (183) |
-| Somalia | SO | none | L2: district (89) |
+| Somalia | SO | admin-ready | L2: district (89); AA+NNNNN format per UPU somEn + live Google SO pattern, no published allocation |
 | South Africa | ZA | complete | L2: city_municipality,district_municipality (52) |
 | South Korea | KR | complete | L2: city,county,district (228) |
 | South Sudan | SS | none | L2: county (84) |
@@ -565,7 +585,7 @@ $result = app(ImportPostalCodesAction::class)->execute($source);
 | Turks and Caicos | TC | complete | L1: district (6) |
 | Tuvalu | TV | none | L1: island_council,town_council (8) |
 | Türkiye | TR | complete | L2: district (973) |
-| US Minor Outlying Islands | UM | none | L1: island (9) |
+| US Minor Outlying Islands | UM | complete | L1: island (9) |
 | US Virgin Islands | VI | complete | L1: district (3) |
 | Uganda | UG | admin-ready | L2: city,district (146); 5-digit system adopted per UPU 1.2026 but no published allocation list — 2019 draft stale (22321 Bugalo draft vs Nabbingo adopted), E-Posta API auth-walled, no GeoNames dump |
 | Ukraine | UA | complete | L2: raion (136) |

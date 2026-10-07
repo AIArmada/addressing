@@ -22,7 +22,11 @@ final class ExportResolutionGapAliasesAction
         private readonly Container $container,
     ) {}
 
-    public function execute(string $countryCode, bool $prune = false): ExportResolutionGapAliasesResultData
+    /**
+     * Runs inside the caller's owner scope by default. Pass $allOwners from
+     * privileged CLI curation to consolidate matched gaps across every owner.
+     */
+    public function execute(string $countryCode, bool $prune = false, bool $allOwners = false): ExportResolutionGapAliasesResultData
     {
         $countryCode = mb_strtoupper(mb_trim($countryCode));
         $providers = $this->providersForCountry($countryCode);
@@ -83,6 +87,7 @@ final class ExportResolutionGapAliasesAction
         $emitted = [];
 
         $gaps = ResolutionGap::query()
+            ->when($allOwners, fn ($query) => $query->withoutOwnerScope())
             ->where('country_code', $countryCode)
             ->where('status', 'matched')
             ->whereNotNull('matched_area_id')

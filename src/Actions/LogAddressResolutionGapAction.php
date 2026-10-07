@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Models\ResolutionGap;
+use AIArmada\CommerceSupport\Support\OwnerContext;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
@@ -91,11 +92,29 @@ final class LogAddressResolutionGapAction
             ]);
         }
 
+        $attempt = fn (): ResolutionGap => DB::transaction(fn (): ResolutionGap => $this->upsert($source, $countryCode, $role, $value, $reason, $normalized, $context));
+
         try {
-            return DB::transaction(fn (): ResolutionGap => $this->upsert($source, $countryCode, $role, $value, $reason, $normalized, $context));
+            return $this->runWithinOwnerContext($attempt);
         } catch (UniqueConstraintViolationException) {
-            return DB::transaction(fn (): ResolutionGap => $this->upsert($source, $countryCode, $role, $value, $reason, $normalized, $context));
+            return $this->runWithinOwnerContext($attempt);
         }
+    }
+
+    /**
+     * Gaps are telemetry: callers with a resolved owner stay in that scope,
+     * while unauthenticated misses (public widgets, import probes) land as
+     * global rows inside explicit global context so audit tooling still sees them.
+     *
+     * @param  callable(): ResolutionGap  $attempt
+     */
+    private function runWithinOwnerContext(callable $attempt): ResolutionGap
+    {
+        if (OwnerContext::resolve() !== null) {
+            return $attempt();
+        }
+
+        return OwnerContext::withOwner(null, $attempt);
     }
 
     public static function normalize(string $value): string
@@ -116,6 +135,7 @@ final class LogAddressResolutionGapAction
         ?array $context,
     ): ResolutionGap {
         $gap = ResolutionGap::query()
+            ->forOwner(OwnerContext::resolve(), false)
             ->where('source', $source)
             ->where('country_code', $countryCode)
             ->where('role', $role)

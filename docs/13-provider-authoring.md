@@ -198,9 +198,19 @@ PHP casts numeric-string array keys to `int`, so `stateAreaMappings()` returns i
 
 ## Formatter layouts
 
-Every provider ships a `CountryAddressFormatter` whose layout must be researched from the UPU addressing sheet for the country (`upu.int/UPU/media/upu/PostalEntitiesFiles/addressingUnit/<cc>En.pdf`), cross-checked against the national post or the UPU POST*CODE database. Training-data knowledge of postcode formats is not sufficient: Djibouti and Burkina Faso both have live 5-digit systems that secondary sources miss, and several UPU sheets contradict Wikipedia. No-postcode claims need two sources.
+Every provider ships a thin `CountryAddressFormatter` shell that delegates to `AddressFormatRenderer` with the country's entry in `resources/data/address-formats.json`. The layout must still be researched from the UPU addressing sheet for the country (`upu.int/UPU/media/upu/PostalEntitiesFiles/addressingUnit/<cc>En.pdf`), cross-checked against the national post or the UPU POST*CODE database. Training-data knowledge of postcode formats is not sufficient: Djibouti and Burkina Faso both have live 5-digit systems that secondary sources miss, and several UPU sheets contradict Wikipedia. No-postcode claims need two sources. Note the UPU source in the shell's one-line comment.
 
-Pick the closest layout pattern and note the UPU source in a one-line comment:
+A format entry is `{display, lines[], abbreviations?}`:
+
+- `{"each": [...]}` spreads each present field onto its own line.
+- `{"join": [...], "sep": " "}` joins present fields onto one line (skipped when all blank).
+- `{"country": true}` prints the resolved country line.
+- `"if"` (every listed field present), `"unless"` (no listed field present), and `"unlessAll"` (not every listed field present) gate a line. Elements accept plain fields or nested specs.
+- Fields are `line1/2/3`, `city`, `state`, `postcode`, `country`, with chainable `:ops`: `abbr` (state map lookup), `upper`, `components:KEY`, `!literal` (skip-if-equal), `!dup:FIELD` (skip-if-equal-to-field), `in:A,B` (keep-if-member, case-insensitive).
+- Nested `{"join": ...}` groups, `{"alt": [...]}` first-present picks, and `{"lit": "..."}` literals compose inside joins.
+- A line uses exactly one of `country`/`each`/`join`: when several keys are present, `country` wins, then `each`, then `join`. Unknown fields, ops, and malformed lines throw `InvalidArgumentException` instead of silently dropping output.
+
+Pick the closest layout pattern:
 
 - **Left** (`{postcode} {locality}`): Laos, Kyrgyzstan, most of Europe. Country prefixes (`HR-`, `LT-`, `AX-`) and spacing (`NNN NN`) pass through exactly as supplied.
 - **Right** (`{locality} {postcode}`): Cambodia (province-anchored), Bhutan, Lebanon, Lesotho, Zambia. Latvia adds a comma (`RIGA, LV-1050`).
@@ -209,7 +219,7 @@ Pick the closest layout pattern and note the UPU source in a one-line comment:
 - **Own line above**: Albania, Nicaragua, Oman, Peru, Saudi Arabia, Sudan.
 - **None**: Hong Kong, North Korea, most of Africa. Print any supplied code on its own line; never drop user data.
 
-Pass-through rules: formatters print postcodes exactly as supplied — they never add, strip, or validate prefixes and spacing. City/state twins that compare equal print once (`sameText` guard). The country line uses the short display name from `resources/data/countries.json` (`Iran`, not `IRAN (ISLAMIC REP.)`), except where the database spelling is unusable on mail (Isle of Man prints `Isle of Man`, not `Man (Isle of)`). Resolve it as supplied `country`, then the seeded country name, then the formatter's hardcoded display name for its own code; the raw ISO code is the last resort, used only when no provider knows the code. When the model cannot represent part of the UPU line (Serbia's street-level PAK, Gabon's trailing office code), document the gap in the formatter comment and the country's [05-country-data](05-country-data.md) section instead of fabricating it.
+Pass-through rules: formatters print postcodes exactly as supplied — they never add, strip, or validate prefixes and interior spacing (edge padding is trimmed). City/state twins that compare equal print once (`state:!dup:city`). The country line resolves supplied `country` → the entry's `display` name (own code) → the raw code. On the persistence path the normalizer overwrites `country` with the seeded `countries.json` name, so `display` only shows when no country row resolves (seeded HK prints `Hong Kong S.A.R.`). Exactly five entries deviate from `countries.json` — `BN`, `HK`, `IM`, `PS`, `TR` — because the UPU sheet prints the short form; keep those in sync when either source changes. When the model cannot represent part of the UPU line (Serbia's street-level PAK, Gabon's trailing office code), document the gap in the shell comment and the country's [05-country-data](05-country-data.md) section instead of fabricating it.
 
 ## Bundling postcodes
 

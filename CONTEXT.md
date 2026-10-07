@@ -40,14 +40,14 @@ keywords:
 - Direction guard (mechanical, see `tests/src/CommerceSupport/Architecture/CommerceSupportArchitectureTest.php`): addressing `require` stays at support + package-tools, and `src/` never imports consumer namespaces (`Customers`, `Persons`, `Orders`, `Events`). Never depend back.
 - `Address` + `HasAddresses` is the canonical path for owner-scoped reusable attachments. Customers attach typed billing/shipping pivots and resolve defaults through `primaryAddress()`; the customer package no longer maintains a parallel address model or table.
 - Reference geography (`countries`, `states`, `cities`, areas, postcodes, and links) is global; instance addresses, pivots, and snapshots remain owner-scoped. Use `OwnerQuery` for raw queries against the instance tier.
-- `AddressingTableResolver` is the sole table-name resolver for runtime readers and migrations; it reads `addressing.database.tables.*`.
+- `AddressingTableResolver` is the sole table-name resolver for runtime readers and migrations; it reads `addressing.database.tables.*`. It resolves the configured default — per-instance names such as self-join aliases take precedence in `getTable()`.
 - If admin UI changes too, audit `filament-addressing`.
 - Update `docs/*.md` in the same pass when public behavior or config changes.
 
 ## Decide fast
 - Use when: Storing, validating, formatting, attaching, or importing addresses / geographic areas.
 - Skip when: Tenant/org identity — see organizations; contact points — see contacting.
-- Owner/security: `Address`, `Addressable`, and `AddressSnapshot` are owner-scoped; geography reference data remains global. The attaching model and address must be resolved in the same owner context.
+- Owner/security: `Address`, `Addressable`, `AddressSnapshot`, and `ResolutionGap` are owner-scoped (gaps fall back to global rows for unauthenticated producers); geography reference data remains global. The attaching model and address must be resolved in the same owner context.
 
 ## Key surfaces
 - Models: `Address`, `Addressable`, `AddressSnapshot`, `AddressCountry`, `AddressArea`, `AddressAreaAssignment`, `AddressAreaName`, `AddressAreaPostalCode`, `AddressAreaRelationship`, `AddressAreaRole`, `AddressAreaStateLink`, `City`, `PostalCode`, `ResolutionGap`, `State`

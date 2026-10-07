@@ -24,6 +24,8 @@ use AIArmada\Addressing\Actions\SeedAddressStatesAction;
 use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 use AIArmada\Addressing\Actions\SeedPostalCodesAction;
 use AIArmada\Addressing\Actions\SyncAddressAreaAssignmentsAction;
+use AIArmada\Addressing\Commands\DiffCldrSubdivisionsCommand;
+use AIArmada\Addressing\Commands\DiffGoogleAddressReferenceCommand;
 use AIArmada\Addressing\Commands\ExportResolutionGapAliasesCommand;
 use AIArmada\Addressing\Commands\ImportAddressAreasCommand;
 use AIArmada\Addressing\Commands\ReportResolutionGapsCommand;
@@ -55,6 +57,8 @@ final class AddressingServiceProvider extends PackageServiceProvider
                 ImportAddressAreasCommand::class,
                 ReportResolutionGapsCommand::class,
                 ExportResolutionGapAliasesCommand::class,
+                DiffGoogleAddressReferenceCommand::class,
+                DiffCldrSubdivisionsCommand::class,
             );
     }
 

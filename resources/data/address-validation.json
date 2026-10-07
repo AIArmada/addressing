@@ -1,0 +1,2389 @@
+{
+  "AC": {
+    "pattern": "ASCN 1ZZ",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "AD": {
+    "pattern": "AD[1-7]0\\d",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "AE": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "AF": {
+    "pattern": "\\d{4}(\\d{2})?",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "published PPDD + PPDDZZ delivery zones per Afghan Post finder"
+  },
+  "AG": {
+    "pattern": null,
+    "required": [
+      "line1"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "AI": {
+    "pattern": "(?:AI-)?2640",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "AL": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "AM": {
+    "pattern": "(?:37)?\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "AR": {
+    "pattern": "((?:[A-HJ-NP-Z])?\\d{4})([A-Z]{3})?",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city",
+      "postcode"
+    ]
+  },
+  "AS": {
+    "pattern": "(96799)(?:[ \\-](\\d{4}))?",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "AT": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "AU": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "AX": {
+    "pattern": "(AX-)?22\\d{3}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "stored with AX- prefix; full user input also AX-prefixed"
+  },
+  "AZ": {
+    "pattern": "(AZ )?\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "stored with AZ prefix"
+  },
+  "BA": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "BB": {
+    "pattern": "BB\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "BD": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "BE": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "BF": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "La Poste BF finder 467-code set"
+  },
+  "BG": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "BH": {
+    "pattern": "(?:^|\\b)(?:1[0-2]|[1-9])\\d{2}(?:$|\\b)",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "BJ": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "BL": {
+    "pattern": "9[78][01]\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "BM": {
+    "pattern": "[A-Z]{2} ?[A-Z0-9]{2}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "BN": {
+    "pattern": "[A-Z]{2} ?\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "BO": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "BR": {
+    "pattern": "\\d{5}-?\\d{3}",
+    "required": [
+      "line1",
+      "state",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "BS": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "BT": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "BY": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "CA": {
+    "pattern": "[ABCEGHJKLMNPRSTVXY]\\d[ABCEGHJ-NPRSTV-Z]( ?\\d[ABCEGHJ-NPRSTV-Z]\\d)?",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "note": "stored outward-only (FSA); full codes accepted"
+  },
+  "CC": {
+    "pattern": "6799",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "CH": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": []
+  },
+  "CI": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "CL": {
+    "pattern": "\\d{7}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "CN": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "state"
+    ]
+  },
+  "CO": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "CR": {
+    "pattern": "\\d{4,5}|\\d{3}-\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "CU": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "CV": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "CX": {
+    "pattern": "6798",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "CY": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "CZ": {
+    "pattern": "\\d{3} ?\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "DE": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "DJ": {
+    "pattern": "77\\d{3}",
+    "required": [
+      "line1"
+    ],
+    "upper": [],
+    "note": "UPU DJI profile 05/2020 ten-code set; required minimal (line1 universal)"
+  },
+  "DK": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "DO": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "DZ": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "EC": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ]
+  },
+  "EE": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "EG": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "EH": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "ES": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "ET": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "FI": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "FK": {
+    "pattern": "FIQQ 1ZZ",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ]
+  },
+  "FM": {
+    "pattern": "(9694[1-4])(?:[ \\-](\\d{4}))?",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city",
+      "state"
+    ]
+  },
+  "FO": {
+    "pattern": "(FO-)?\\d{3}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "stored with FO- prefix"
+  },
+  "FR": {
+    "pattern": "\\d{2} ?\\d{3}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "GB": {
+    "pattern": "GIR ?0AA|(?:(?:AB|AL|B|BA|BB|BD|BF|BH|BL|BN|BR|BS|BT|BX|CA|CB|CF|CH|CM|CO|CR|CT|CV|CW|DA|DD|DE|DG|DH|DL|DN|DT|DY|E|EC|EH|EN|EX|FK|FY|G|GL|GY|GU|HA|HD|HG|HP|HR|HS|HU|HX|IG|IM|IP|IV|JE|KA|KT|KW|KY|L|LA|LD|LE|LL|LN|LS|LU|M|ME|MK|ML|N|NE|NG|NN|NP|NR|NW|OL|OX|PA|PE|PH|PL|PO|PR|RG|RH|RM|S|SA|SE|SG|SK|SL|SM|SN|SO|SP|SR|SS|ST|SW|SY|TA|TD|TF|TN|TQ|TR|TS|TW|UB|W|WA|WC|WD|WF|WN|WR|WS|WV|YO|ZE)(?:\\d[\\dA-Z]?( ?\\d[ABD-HJLN-UW-Z]{2})?))|BFPO ?\\d{1,4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ],
+    "note": "stored outward-only; full codes accepted"
+  },
+  "GE": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "GF": {
+    "pattern": "9[78]3\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "GG": {
+    "pattern": "GY\\d[\\dA-Z]?( ?\\d[ABD-HJLN-UW-Z]{2})?",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ],
+    "note": "stored outward-only; full codes accepted"
+  },
+  "GI": {
+    "pattern": "GX11 1AA",
+    "required": [
+      "line1"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "GL": {
+    "pattern": "39\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "GN": {
+    "pattern": "\\d{3}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "GP": {
+    "pattern": "9[78][01]\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "GR": {
+    "pattern": "\\d{3} ?\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "GS": {
+    "pattern": "SIQQ 1ZZ",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ]
+  },
+  "GT": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "GU": {
+    "pattern": "(969(?:[12]\\d|3[0-2]))(?:[ \\-](\\d{4}))?",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ],
+    "note": "CG range missed 96930 (UPU 96910-96931 + USPS village ZIPs incl 96932)"
+  },
+  "GW": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "HK": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "state"
+    ],
+    "upper": [
+      "state"
+    ]
+  },
+  "HM": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "HN": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "HR": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "HT": {
+    "pattern": "(HT)?\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "stored with HT prefix"
+  },
+  "HU": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "ID": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "IE": {
+    "pattern": "[ACDEFHKNPRTVWXY0-9]{3}( ?[ACDEFHKNPRTVWXY0-9]{4})?",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "stored routing-key-only; full Eircodes accepted; BGIJLM OQSUZ never valid"
+  },
+  "IM": {
+    "pattern": "IM\\d[\\dA-Z]?( ?\\d[ABD-HJLN-UW-Z]{2})?",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ],
+    "note": "stored outward-only; full codes accepted"
+  },
+  "IN": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "IO": {
+    "pattern": "BBND 1ZZ",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ]
+  },
+  "IQ": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "IR": {
+    "pattern": "\\d{5}(-?\\d{5})?",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "bundle stores 5-digit routing prefixes; full 10-digit accepted"
+  },
+  "IS": {
+    "pattern": "\\d{3}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "IT": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "JE": {
+    "pattern": "JE\\d[\\dA-Z]?( ?\\d[ABD-HJLN-UW-Z]{2})?",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ],
+    "note": "stored outward-only; full codes accepted"
+  },
+  "JM": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "JO": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "JP": {
+    "pattern": "\\d{3}-?\\d{4}",
+    "required": [
+      "line1",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "state"
+    ]
+  },
+  "KE": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "KG": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "KH": {
+    "pattern": "\\d{5,6}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "KI": {
+    "pattern": "(KI)?\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city",
+      "state"
+    ],
+    "note": "MICTTD official table; bare input gains KI at lookup"
+  },
+  "KM": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "KN": {
+    "pattern": "(KN)?\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "post.kn zone/district PDF; bare input gains KN at lookup"
+  },
+  "KP": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "KR": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "postcode"
+    ]
+  },
+  "KW": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "KY": {
+    "pattern": "KY\\d-\\d{4}",
+    "required": [
+      "line1",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "KZ": {
+    "pattern": "\\d{6}|[A-Z0-9]{7}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "LA": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "LB": {
+    "pattern": "(?:\\d{4})(?:[ -]?(?:\\d{4}))?",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "hyphenated 8-digit published (Hazmiyeh 1107-2090); CG space-only"
+  },
+  "LC": {
+    "pattern": "LC\\d{2} ?\\d{3}",
+    "required": [
+      "line1"
+    ],
+    "upper": [],
+    "note": "compact input gains the official space at lookup; required minimal (line1 universal)"
+  },
+  "LI": {
+    "pattern": "948[5-9]|949[0-8]",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "LK": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "LR": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "LS": {
+    "pattern": "\\d{3}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "LT": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "LU": {
+    "pattern": "(L-)?\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "stored with L- prefix"
+  },
+  "LV": {
+    "pattern": "LV-\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "MA": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "MC": {
+    "pattern": "980\\d{2}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "MD": {
+    "pattern": "(MD-)?\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "stored with MD- prefix"
+  },
+  "ME": {
+    "pattern": "8\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "MF": {
+    "pattern": "9[78][01]\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "MG": {
+    "pattern": "\\d{3}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "MH": {
+    "pattern": "(969[67]\\d)(?:[ \\-](\\d{4}))?",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city",
+      "state"
+    ]
+  },
+  "MK": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "MM": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "MN": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "MO": {
+    "pattern": null,
+    "required": [
+      "line1"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "MP": {
+    "pattern": "(9695[012])(?:[ \\-](\\d{4}))?",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "MQ": {
+    "pattern": "9[78]2\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "MR": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "MS": {
+    "pattern": "(MSR)?\\d{4}",
+    "required": [
+      "line1"
+    ],
+    "upper": [],
+    "note": "bare domestic input gains MSR at lookup; required minimal (line1 universal)"
+  },
+  "MT": {
+    "pattern": "[A-Z]{3} ?\\d{2,4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ]
+  },
+  "MU": {
+    "pattern": "(?:[AR]\\d{4}|\\d{5})",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ],
+    "note": "R/A island prefixes per Mauritius Post live harvest"
+  },
+  "MV": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "MW": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "Government Gazette Malawi Postcodes 2019"
+  },
+  "MX": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "state",
+      "postcode"
+    ]
+  },
+  "MY": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "MZ": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "NA": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "NC": {
+    "pattern": "988\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "NE": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "NF": {
+    "pattern": "2899",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "NG": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "NI": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "NL": {
+    "pattern": "\\d{4}( ?[A-Z]{2})?",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "stored digits-only; full codes accepted"
+  },
+  "NO": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "NP": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "NR": {
+    "pattern": "NRU68",
+    "required": [
+      "line1",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ],
+    "note": "UPU single-code list"
+  },
+  "NU": {
+    "pattern": "9974",
+    "required": [
+      "line1"
+    ],
+    "upper": [],
+    "note": "UPU single-code list; required minimal (line1 universal)"
+  },
+  "NZ": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "OM": {
+    "pattern": "(?:PC )?\\d{3}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "PA": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "PE": {
+    "pattern": "[0-2]\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "PF": {
+    "pattern": "987\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "PG": {
+    "pattern": "\\d{3}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "PH": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "PK": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "PL": {
+    "pattern": "\\d{2}-\\d{3}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "PM": {
+    "pattern": "9[78]5\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "PN": {
+    "pattern": "PCRN 1ZZ",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ]
+  },
+  "PR": {
+    "pattern": "(00[679]\\d{2})(?:[ \\-](\\d{4}))?",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "PS": {
+    "pattern": "P\\d{3}",
+    "required": [
+      "line1"
+    ],
+    "upper": [],
+    "note": "Ministry P3 postal-zone table, Instruction 1/2022 ranges; required minimal (line1 universal)"
+  },
+  "PT": {
+    "pattern": "\\d{4}-\\d{3}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "PW": {
+    "pattern": "(969(?:39|40))(?:[ \\-](\\d{4}))?",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city",
+      "state"
+    ]
+  },
+  "PY": {
+    "pattern": "\\d{4}(\\d{2})?",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ],
+    "note": "6-digit since Jun 2018 (Google + bundle); pre-2018 4-digit still accepted"
+  },
+  "QA": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "RE": {
+    "pattern": "9[78]4\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "RO": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "RS": {
+    "pattern": "\\d{5,6}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "RU": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "RW": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "SA": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "SC": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "state"
+    ]
+  },
+  "SD": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "SE": {
+    "pattern": "\\d{3} ?\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "SG": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "SH": {
+    "pattern": "(?:ASCN|STHL|TDCU) ?1ZZ",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ],
+    "note": "TDCU 1ZZ per UPU single-code list; CG missed it; compact accepted"
+  },
+  "SI": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "SJ": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "SK": {
+    "pattern": "\\d{3} ?\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "SM": {
+    "pattern": "4789\\d",
+    "required": [
+      "line1",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "SN": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "SO": {
+    "pattern": "[A-Z]{2} ?\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city",
+      "state"
+    ]
+  },
+  "SR": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "state"
+    ]
+  },
+  "SV": {
+    "pattern": "(CP )?\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city",
+      "state",
+      "postcode"
+    ],
+    "note": "stored without CP prefix"
+  },
+  "SY": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "SZ": {
+    "pattern": "[HLMS]\\d{3}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city",
+      "postcode"
+    ]
+  },
+  "TA": {
+    "pattern": "TDCU 1ZZ",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "TC": {
+    "pattern": "TKCA 1ZZ",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "postcode"
+    ]
+  },
+  "TH": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "state"
+    ]
+  },
+  "TJ": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "TM": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "TN": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "TR": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "TT": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1"
+    ],
+    "upper": [],
+    "note": "6-digit since Dec 2021 (Google zipex 500234); required minimal (line1 universal)"
+  },
+  "TV": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city",
+      "state"
+    ]
+  },
+  "TW": {
+    "pattern": "\\d{3}(?:\\d{2,3})?",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "TZ": {
+    "pattern": "\\d{4,5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "UA": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "UM": {
+    "pattern": "96898",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city",
+      "state"
+    ]
+  },
+  "US": {
+    "pattern": "(\\d{5})(?:[ \\-](\\d{4}))?",
+    "required": [
+      "line1",
+      "city",
+      "state",
+      "postcode"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "UY": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "UZ": {
+    "pattern": "\\d{6}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "VA": {
+    "pattern": "00120",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "VC": {
+    "pattern": "VC\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "VE": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  },
+  "VG": {
+    "pattern": "VG\\d{4}",
+    "required": [
+      "line1"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "VI": {
+    "pattern": "(008(?:(?:[0-4]\\d)|(?:5[01])))(?:[ \\-](\\d{4}))?",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "VN": {
+    "pattern": "\\d{5}\\d?",
+    "required": [
+      "line1",
+      "city",
+      "state"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "WF": {
+    "pattern": "986\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "WS": {
+    "pattern": "WS\\d{4}",
+    "required": [
+      "line1"
+    ],
+    "upper": [],
+    "note": "Samoa Post official list; required minimal (line1 universal)"
+  },
+  "XK": {
+    "pattern": "[1-7]\\d{4}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "YT": {
+    "pattern": "976\\d{2}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "line1",
+      "line2",
+      "line3",
+      "city"
+    ]
+  },
+  "ZA": {
+    "pattern": "\\d{4}",
+    "required": [
+      "line1",
+      "city",
+      "postcode"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "ZM": {
+    "pattern": "\\d{5}",
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city"
+    ]
+  },
+  "ZW": {
+    "pattern": null,
+    "required": [
+      "line1",
+      "city"
+    ],
+    "upper": [
+      "city",
+      "state"
+    ]
+  }
+}

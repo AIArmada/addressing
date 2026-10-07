@@ -543,6 +543,16 @@ $allAncestors = app(AddressAreaHierarchyResolver::class)->ancestorsOf(
 // Nearest first: district, state, ... for this provider's hierarchy.
 ~~~
 
+Relation existence works on the `ancestors()` and `relatedAreas()`
+self-links (`whereHas`, `has`, `withCount`, `doesntHave`), but
+`AddressArea::whereAncestorLink()` stays the right filter for containment:
+it defaults to the `contains` relationship type and applies validity dates,
+while raw relation existence matches any link type with no date filtering
+and requires the linked area row to exist. (`whereAncestorLinkMissing()`
+instead rejects any incoming link row regardless of type or dates, so it is
+not the complement of a live-link check.) Use the scopes for hierarchy
+questions, the relations for graph questions.
+
 ## Resolution gaps
 
 External sources (place pickers, geocoders, imports) return names that do not
@@ -563,11 +573,16 @@ app(LogAddressResolutionGapAction::class)->execute(
 );
 ~~~
 
-Logging upserts on `(source, country_code, role, normalized)`: repeats bump
-`hits` and refresh the `context` sample instead of duplicating rows.
-Normalization is minimal (lowercase + collapsed whitespace); provider-specific
-translation stays in the integration. Use the `state` role for state-level
-misses. Gaps are global reference data with no owner scoping.
+Logging upserts on `(owner, source, country_code, role, normalized)`: repeats
+bump `hits` and refresh the `context` sample instead of duplicating rows.
+Each owner curates their own gap stream; callers without a resolved owner
+(public widgets, import probes) land as global rows inside explicit global
+context so audit tooling still sees them. The area search action is a
+built-in producer: unfiltered misses with a country and a 3+ character query
+log automatically under `source: search` (filter-scoped searches carry their
+own narrowing intent, so misses there are not corpus gaps). Normalization is
+minimal (lowercase + collapsed whitespace); provider-specific translation
+stays in the integration. Use the `state` role for state-level misses.
 
 A package admin matches open gaps to the correct area (Filament adapter or
 action below). Matching creates a `manual` alias, so geography reseeds
@@ -595,6 +610,12 @@ Report the most-hit gaps and the promotion backlog:
 ~~~bash
 php artisan address:resolution-gaps --country=ID --days=30 --reason=unmatched --status=open --limit=20
 ~~~
+
+The report is privileged ops curation: it consolidates gaps across every
+owner (plus global rows) in one view. The Filament resource instead shows
+the current owner plus global rows. `ExportResolutionGapAliasesAction`
+likewise runs inside the caller's owner scope; only the CLI commands pass
+`allOwners: true` to promote aliases curated by any owner.
 
 Periodically promote admin-matched aliases back into providers so fresh
 installs seed complete data. The export emits copy-paste-ready `areaNames()`
@@ -909,6 +930,36 @@ $address = app(NormalizeAddressDataAction::class)->normalize([
 echo $address->line1; // "123 Jalan Ampang"
 echo $address->postcode; // "50450"
 ```
+
+## Validation
+
+```php
+use AIArmada\Addressing\Actions\NormalizeAddressDataAction;
+use AIArmada\Addressing\Actions\ValidateAddressAction;
+use AIArmada\Addressing\Rules\ValidPostalCode;
+
+// Ensure countryCode is set (normalize() keeps it canonical), then validate.
+$address = app(NormalizeAddressDataAction::class)->normalize($input);
+$violations = app(ValidateAddressAction::class)->execute($address);
+// ['postcode' => 'The postcode [ABCDE] is not a valid MY postcode.']
+// Empty array when valid.
+
+// Postcode-only checks (presence stays the `required` rule's job):
+Validator::make($input, [
+    'postcode' => ['required', new ValidPostalCode('MY')],
+]);
+```
+
+Profiles live in `resources/data/address-validation.json` (212 countries:
+postcode pattern, required `AddressData` fields, informational uppercase
+fields). Patterns are commerceguys shapes curated to the bundled storage
+forms — outward-only, prefixed, and prefix-level stores validate alongside
+full user input — and every bundled postcode (836,694 rows) matches its
+country's pattern. `state`/`city` requirements accept the stored id or the
+text; resolve the text before formatting, since formatters print only what
+the DTO carries. Known countries without a profile pass unconstrained,
+while unknown codes fail once countries are seeded. Formatters never
+validate; they print supplied codes exactly as given.
 
 ## AddressDataCast
 
