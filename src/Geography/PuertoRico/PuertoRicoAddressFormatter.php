@@ -17,7 +17,7 @@ final class PuertoRicoAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: US ZIP on the locality line: LOCALITY PR ZIP.
+        // USPS Pub 28 s224 + UPU PRI: barrio detail above; last line `CITY PR ZIP`.
         return AddressFormatRenderer::format('PR', $address);
     }
 }

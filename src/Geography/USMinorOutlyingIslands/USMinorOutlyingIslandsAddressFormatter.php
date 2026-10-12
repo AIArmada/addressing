@@ -17,7 +17,7 @@ final class USMinorOutlyingIslandsAddressFormatter implements CountryAddressForm
 
     public function format(AddressData $address): string
     {
-        // UPU umiEn: no UM domestic system (Wake station mail routes via US ZIP 96898); prints any supplied code on its own line below.
+        // USPS Pub 28 s22/App B: single last line `CITY ST ZIP` (Wake Island 96898).
         return AddressFormatRenderer::format('UM', $address);
     }
 }

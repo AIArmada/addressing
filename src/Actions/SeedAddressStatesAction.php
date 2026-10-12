@@ -12,7 +12,10 @@ use RuntimeException;
 
 class SeedAddressStatesAction
 {
-    public function execute(?array $states = null): array
+    /**
+     * @param  ?callable(string, int, int, ?string=): void  $progress
+     */
+    public function execute(?array $states = null, ?callable $progress = null): array
     {
         if ($states === null) {
             $path = __DIR__ . '/../../resources/data/states.json';
@@ -38,8 +41,13 @@ class SeedAddressStatesAction
             ->keyBy(fn ($state): string => self::naturalKey($state->country_id, $state->code, $state->name));
 
         $inserts = [];
+        $total = count($states);
 
-        foreach ($states as $row) {
+        foreach ($states as $index => $row) {
+            if ($progress !== null) {
+                $progress('states', $index + 1, $total);
+            }
+
             if (! isset($row['name'], $row['country_code'])) {
                 $skipped++;
 
@@ -99,6 +107,10 @@ class SeedAddressStatesAction
 
         foreach (array_chunk(array_values($inserts), 1000) as $insertChunk) {
             $stateClass::query()->insert($insertChunk);
+        }
+
+        if ($progress !== null && $total === 0) {
+            $progress('states', 0, 0);
         }
 
         return compact('created', 'updated', 'skipped');

@@ -17,7 +17,7 @@ final class NewZealandAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 4 digits left of the locality.
+        // UPU NZL: 4 digits RIGHT of the town/city (`WELLINGTON 6011`).
         return AddressFormatRenderer::format('NZ', $address);
     }
 }

@@ -12,7 +12,10 @@ use RuntimeException;
 
 class SeedAddressCitiesAction
 {
-    public function execute(?array $cities = null): array
+    /**
+     * @param  ?callable(string, int, int, ?string=): void  $progress
+     */
+    public function execute(?array $cities = null, ?callable $progress = null): array
     {
         if ($cities === null) {
             $path = __DIR__ . '/../../resources/data/cities.json';
@@ -36,6 +39,8 @@ class SeedAddressCitiesAction
         $created = 0;
         $updated = 0;
         $skipped = 0;
+        $total = count($cities);
+        $done = 0;
 
         foreach (array_chunk($cities, 2000) as $chunk) {
             $existingByKey = $cityClass::query()
@@ -110,6 +115,16 @@ class SeedAddressCitiesAction
             if ($inserts !== []) {
                 $cityClass::query()->insert(array_values($inserts));
             }
+
+            $done += count($chunk);
+
+            if ($progress !== null) {
+                $progress('cities', $done, $total);
+            }
+        }
+
+        if ($progress !== null && $total === 0) {
+            $progress('cities', 0, 0);
         }
 
         return compact('created', 'updated', 'skipped');

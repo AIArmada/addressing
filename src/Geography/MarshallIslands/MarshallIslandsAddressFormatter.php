@@ -17,7 +17,7 @@ final class MarshallIslandsAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: US ZIP on the locality line: MAJURO MH 96960.
+        // USPS Pub 28 s224 + UPU MHL: atoll detail above; last line `CITY MH ZIP`.
         return AddressFormatRenderer::format('MH', $address);
     }
 }

@@ -17,7 +17,7 @@ final class BahamasAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: no postcode system; prints any supplied code on its own line.
+        // UPU BHS 10/2025: no postcode system; island joins the locality with a comma.
         return AddressFormatRenderer::format('BS', $address);
     }
 }

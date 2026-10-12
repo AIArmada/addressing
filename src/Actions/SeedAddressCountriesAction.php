@@ -9,7 +9,10 @@ use RuntimeException;
 
 class SeedAddressCountriesAction
 {
-    public function execute(): array
+    /**
+     * @param  ?callable(string, int, int, ?string=): void  $progress
+     */
+    public function execute(?callable $progress = null): array
     {
         $path = __DIR__ . '/../../resources/data/countries.json';
 
@@ -22,8 +25,13 @@ class SeedAddressCountriesAction
         $created = 0;
         $updated = 0;
         $skipped = 0;
+        $total = count($raw);
 
-        foreach ($raw as $row) {
+        foreach ($raw as $index => $row) {
+            if ($progress !== null) {
+                $progress('countries', $index + 1, $total);
+            }
+
             if (! isset($row['iso2'], $row['name'])) {
                 $skipped++;
 
@@ -63,6 +71,10 @@ class SeedAddressCountriesAction
                     $skipped++;
                 }
             }
+        }
+
+        if ($progress !== null && $total === 0) {
+            $progress('countries', 0, 0);
         }
 
         return compact('created', 'updated', 'skipped');

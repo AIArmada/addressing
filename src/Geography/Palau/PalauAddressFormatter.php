@@ -17,7 +17,7 @@ final class PalauAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: US ZIP on the locality line: KOROR PW 96940.
+        // USPS Pub 28 s224 + UPU PLW: island detail above; last line `CITY PW ZIP`.
         return AddressFormatRenderer::format('PW', $address);
     }
 }

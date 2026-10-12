@@ -27,10 +27,10 @@ class SeedAddressingAction
      */
     public function execute(?callable $progress = null): array
     {
-        $countries = $this->seedCountries->execute();
-        $references = $this->seedCountryReferences->execute();
-        $states = $this->seedStates->execute();
-        $cities = $this->seedCities->execute($this->citySeedRows());
+        $countries = $this->seedCountries->execute($progress);
+        $references = $this->seedCountryReferences->execute($progress);
+        $states = $this->seedStates->execute(null, $progress);
+        $cities = $this->seedCities->execute($this->citySeedRows(), $progress);
         $geographies = $this->seedGeographies->execute(null, $progress);
         $postalCodes = config('addressing.seed.postal_codes', true)
             ? $this->seedPostalCodes->execute(null, $progress)

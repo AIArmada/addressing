@@ -17,7 +17,7 @@ final class SaudiArabiaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 5-digit postcode above the locality name.
+        // SPL National Address: city line above the postcode (`RIYADH` / `13337`).
         return AddressFormatRenderer::format('SA', $address);
     }
 }

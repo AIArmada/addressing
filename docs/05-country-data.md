@@ -2633,12 +2633,15 @@ hardening. Keeps: cross-prefecture
 498-0000/871-0000 multis, Toyone 431-4121
 cross-border delivery, 235/235 sample.
 
-Japanese addresses are formatted per the UPU western layout: street
-lines, `{city}, {prefecture}`, and `{postcode} {country}` on the last
-line — all three detailed UPU examples join code and country
-(`231-0012 JAPAN`); the schematic's split lines are the outlier.
-Prefecture, city, town, village, and ward need no type labels (the
-accepted collective and kind terms).
+Japanese addresses are formatted per the western letter layout:
+street lines, `{city}, {prefecture} {postcode}` on one line (nested
+join, MX-style), country alone last. USPS Pub 28 A3 bars postcodes
+from the last line, and Japan Post's western order joins the code to
+the prefecture. The earlier `{postcode} {country}` last line
+misread the domestic 〒-envelope convention (`〒100-0012 JAPAN`) as
+letter order; corrected 2026-10-08. Prefecture, city, town, village,
+and ward need no type labels (the accepted collective and kind
+terms).
 
 ## United States
 

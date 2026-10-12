@@ -17,7 +17,7 @@ final class VenezuelaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 4 digits right of the locality (extended NNNN-A passes through).
+        // IPOSTEL: `city postcode, state` on one line (`Caracas 1010, Distrito Capital`).
         return AddressFormatRenderer::format('VE', $address);
     }
 }

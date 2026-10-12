@@ -17,7 +17,7 @@ final class GuatemalaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 5 digits left of the locality with a hyphen (bare form also seen).
+        // UPU GTM: postcode + municipality, department comma-joined (dash only sometimes).
         return AddressFormatRenderer::format('GT', $address);
     }
 }

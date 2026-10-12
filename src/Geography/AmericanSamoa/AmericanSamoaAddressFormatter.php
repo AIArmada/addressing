@@ -17,7 +17,7 @@ final class AmericanSamoaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: US ZIP on the locality line: LOCALITY AS 96799.
+        // USPS Pub 28 s224 + UPU ASM: district detail above; last line `CITY AS ZIP`.
         return AddressFormatRenderer::format('AS', $address);
     }
 }

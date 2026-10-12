@@ -12,7 +12,7 @@ for how to add a level.
 
 Current shape: 228 providers — 5 dual-hierarchy, 1 depth-4, 3 depth-3, 174 depth-2,
 45 depth-1.
-All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39 US →8 above6 below27 with country1 after country1), 48 codeless.
+All 228 providers ship a formatter: 180 print a postcode (←96 ← state1 →41 US →8 above5 below27 with country1 after country1), 48 codeless.
 
 ## Legend
 
@@ -28,7 +28,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
   left of the locality, `→` code right of it, `US →` US-system
   `LOCALITY ST ZIP` line, `above`/`below` code on its own line
   above/below the locality, `← state` code left of the state or
-  province (Afghanistan), `with country` code on the country line
+  province (Djibouti), `with country` code on the country line
   left of the country name (Japan), `after country` code after the
   country line (Singapore), `none` no postcode system (a supplied
   code prints on its own line).
@@ -40,7 +40,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 
 | Country | Code | States | Mapped | Rows | Depth | Hierarchy | Roles | Fmt | Status |
 |---|---|---:|:---:|:---:|:---:|---|---|---|---|
-| Afghanistan | AF | 34 | 34 | 435 | 2 | administrative: province > district | district | ← state | Complete — 34 provinces + 401 districts (OCHA COD-AB v03, Jun 2025; UN p-codes; govt counts vary 398–407 by vintage) |
+| Afghanistan | AF | 34 | 34 | 435 | 2 | administrative: province > district | district | ← | Complete — 34 provinces + 401 districts (OCHA COD-AB v03, Jun 2025; UN p-codes; govt counts vary 398–407 by vintage) |
 | Aland | AX | 16 | 16 | 16 | 1 | administrative: municipality | — | ← | L1 — no admin tier-2; L1 already municipal level |
 | Albania | AL | 12 | 12 | 73 | 2 | administrative: county > municipality | municipality | above | Complete — 12 counties + 61 municipalities (12 county pages; main table lacks county column) |
 | Algeria | DZ | 69 | 69 | 617 | 2 | administrative: wilaya > daira | daira | ← | Complete — 69 wilayas + 548 dairas per décrets 91-306/26-253; communes excluded |
@@ -92,7 +92,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Cyprus | CY | 6 | 6 | 758 | dual 1+2 | administrative: district; postal: district > locality | postal_locality | ← | Complete — 6 districts + 752 localities (GeoNames postal dump; Keryneia 57 codes included) |
 | Czech Republic | CZ | 14 | 14 | 90 | 2 | administrative: region > district | district | ← | Complete — 13 regions + Praha + 76 districts; Praha childless |
 | Denmark | DK | 5 | 5 | 103 | 2 | administrative: region > municipality | municipality | ← | Complete — 5 regions + 98 municipalities (List of municipalities of Denmark; LAU codes) |
-| Djibouti | DJ | 6 | 6 | 26 | 2 | administrative: region > subprefecture | subprefecture | ← | Complete — 5 regions + Djibouti City + 20 sub-prefectures (3/1/4/1/4/7; town-article parenting; Adailou spelling; Lac Assal -> Tadjourah per census/UPU/GeoNames) |
+| Djibouti | DJ | 6 | 6 | 26 | 2 | administrative: region > subprefecture | subprefecture | ← state | Complete — 5 regions + Djibouti City + 20 sub-prefectures (3/1/4/1/4/7; town-article parenting; Adailou spelling; Lac Assal -> Tadjourah per census/UPU/GeoNames) |
 | Dominica | DM | 10 | 10 | 10 | 1 | administrative: parish | — | none | L1 — no admin tier-2; 10 parishes terminal|
 | Dominican Republic | DO | 10 | 10 | 200 | dual 2+2 | administrative: region > province; postal: region > municipality (refined by province) | postal_locality, province | ← | Complete — 10 regions + 31 provinces + DN + 158 municipalities (528 codes; DN codes link L2) |
 | DR Congo | CD | 26 | 26 | 171 | 2 | administrative: province > territory | territory | ← | Complete — 26 provinces + 145 territories (post-2015 mapping; Kinshasa terminal) |
@@ -184,7 +184,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Nepal | NP | 7 | 7 | 84 | 2 | administrative: province > district | district | → | Complete — 7 provinces + 77 districts (7 per-province tables) |
 | Netherlands | NL | 12 | 12 | 354 | 2 | administrative: province > municipality | municipality | ← | Complete — 12 provinces + 342 municipalities (Municipalities of the Netherlands; CBS codes; 3 specials under BQ) |
 | New Caledonia | NC | 3 | 3 | 36 | 2 | administrative: province > commune | commune | ← | Complete — 3 provinces + 33 communes (Administrative divisions of New Caledonia; Poya spans N/S, parented South) |
-| New Zealand | NZ | 17 | 17 | 1285 | dual 2+2 | administrative: region > district / city / council; postal: region > locality (refined by district) | district, postal_locality | ← | Complete — 17 regions + 67 territorial authorities (7 cross-boundary parented by largest share) + 1201 postal localities (1737 codes) |
+| New Zealand | NZ | 17 | 17 | 1285 | dual 2+2 | administrative: region > district / city / council; postal: region > locality (refined by district) | district, postal_locality | → | Complete — 17 regions + 67 territorial authorities (7 cross-boundary parented by largest share) + 1201 postal localities (1737 codes) |
 | Nicaragua | NI | 17 | 17 | 170 | 2 | administrative: department / autonomous_region > municipality | municipality | above | Complete — 17 departments + 153 municipalities (Source: es.wikipedia Anexo:Municipios de Nicaragua (MediaWiki API, Sep 2026); en.wiki table has only 151.) |
 | Niger | NE | 8 | 8 | 79 | 2 | administrative: region / urban_community > department / commune | department | ← | Complete — 7 regions + Niamey + 66 departments + 5 Niamey communes (per-region bullets + Niamey article) |
 | Nigeria | NG | 37 | 37 | 811 | 2 | administrative: state > lga | lga | → | Complete — 37 states + 768 LGAs + 6 FCT area councils; post-2023 names; LCDAs excluded |
@@ -219,7 +219,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | Samoa | WS | 11 | 11 | 353 | 2 | administrative: district > village | village | → | Complete — 11 districts + 342 census villages (Matautu/Mulivai twins disambiguated; 12 parent-scoped) |
 | San Marino | SM | 9 | 9 | 9 | 1 | administrative: municipality | — | ← | L1 — no admin tier-2; L1 already municipal level |
 | Sao Tome and Principe | ST | 7 | 7 | 7 | 1 | administrative: district / autonomous_region | — | none | L1 — 6 districts + Príncipe AR; districts terminal (localidades not admin) |
-| Saudi Arabia | SA | 13 | 13 | 152 | 2 | administrative: region > governorate | governorate | above | Complete — 13 regions + 139 governorates (per-region tables incl. ill rows; = infobox 139) |
+| Saudi Arabia | SA | 13 | 13 | 152 | 2 | administrative: region > governorate | governorate | below | Complete — 13 regions + 139 governorates (per-region tables incl. ill rows; = infobox 139) |
 | Senegal | SN | 14 | 14 | 60 | 2 | administrative: region > department | department | ← | Complete — 14 regions + 46 departments (Departments of Senegal) |
 | Serbia | RS | 32 | 32 | 189 | 2 | administrative: city / district / province > municipality / city / city_municipality | municipality | ← | Complete — 32 districts + 117 municipalities + 23 cities + 17 Belgrade city-municipalities (Municipalities and cities of Serbia; Kosovo under XK) |
 | Seychelles | SC | 27 | 27 | 27 | 1 | administrative: district | — | none | L1 — 27 districts, only tier (terminal, no L2) |
@@ -257,7 +257,7 @@ All 228 providers ship a formatter: 180 print a postcode (←97 ← state1 →39
 | United Arab Emirates | AE | 7 | 7 | 7 | 1 | administrative: emirate | — | none | L1; no official tier-2 |
 | United Kingdom | GB | 4 | 4 | 117 | 2 | administrative: nation > county / council_area / county_borough / district | county | below | Complete — 4 nations + 48 ENG ceremonial counties + 32 SCT council areas + 11 WLS counties + 11 WLS county boroughs + 11 NI districts |
 | United States | US | 56 | 56 | 3199 | 2 | administrative: state > county | county | US → | Complete — 56 + 3,143 counties (Census flavors); PR/DC exclusions; AA/AE/AP/UM global-only |
-| US Minor Outlying Islands | UM | 9 | 9 | 9 | 1 | administrative: island | — | below | L1 — uninhabited; 9 islands terminal; single-code overlay 96898 (Wake station) |
+| US Minor Outlying Islands | UM | 9 | 9 | 9 | 1 | administrative: island | — | → | L1 — uninhabited; 9 islands terminal; single-code overlay 96898 (Wake station) |
 | US Virgin Islands | VI | 3 | 3 | 23 | 2 | administrative: district > subdistrict | subdistrict | US → | Complete — 3 districts + 20 subdistricts (Source: Wikipedia Districts and sub-districts of the USVI (MediaWiki API, Sep 2026). 20 census subdistricts; town sub-rows excluded; East End parent-scoped.) |
 | Uruguay | UY | 19 | 19 | 144 | 2 | administrative: department > municipality | municipality | ← | Complete — 19 departments + 125 municipalities (Source: Wikipedia Municipalities of Uruguay (MediaWiki API, Sep 2026); official 125 total.) |
 | Uzbekistan | UZ | 14 | 14 | 220 | 2 | administrative: region / republic / city > tuman / city | tuman | ← | Complete — 12 regions + republic + city; 175 tumanlar + 31 regional-subordination cities; ASCII apostrophes; Namangan city districts excluded (L3) |

@@ -17,7 +17,7 @@ final class IranAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 10 digits on their own line below the province.
+        // UPU IRN: locality first, then street, province, postcode on its own line.
         return AddressFormatRenderer::format('IR', $address);
     }
 }

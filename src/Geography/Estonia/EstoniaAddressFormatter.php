@@ -17,7 +17,7 @@ final class EstoniaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 5 digits left of the locality name.
+        // Omniva + UPU EST: postcode left of the locality OR the county (alternate, never both).
         return AddressFormatRenderer::format('EE', $address);
     }
 }

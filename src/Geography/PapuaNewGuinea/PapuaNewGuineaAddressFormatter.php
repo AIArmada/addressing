@@ -17,7 +17,7 @@ final class PapuaNewGuineaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 3 digits right of the locality: PORT MORESBY 111.
+        // UPU PNG: city + postcode + province on one line (`BOROKO 111 NCD`).
         return AddressFormatRenderer::format('PG', $address);
     }
 }

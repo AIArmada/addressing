@@ -17,7 +17,7 @@ final class NicaraguaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 5 digits on their own line above the municipality.
+        // UPU NIC: 5 digits own line above `municipality, department` (`Managua, Managua`).
         return AddressFormatRenderer::format('NI', $address);
     }
 }

@@ -17,7 +17,7 @@ final class MicronesiaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: US ZIP on the locality line: POHNPEI FM 96941.
+        // USPS Pub 28 s224 + UPU FSM: island/state detail above; last line `CITY FM ZIP`.
         return AddressFormatRenderer::format('FM', $address);
     }
 }

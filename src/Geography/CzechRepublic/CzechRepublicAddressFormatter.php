@@ -17,7 +17,7 @@ final class CzechRepublicAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 5 digits as NNN NN left of the locality (Prague district suffix passes through).
+        // UPU CZE: NNN NN left of the locality with TWO spaces (AU/NL precedent).
         return AddressFormatRenderer::format('CZ', $address);
     }
 }

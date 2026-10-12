@@ -109,8 +109,23 @@
         ]
       },
       {
-        "each": [
+        "if": [
+          "postcode",
           "city"
+        ],
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "postcode",
+          "city"
+        ],
+        "each": [
+          "state:!dup:city"
         ]
       },
       {
@@ -118,6 +133,7 @@
           "postcode",
           "state"
         ],
+        "unless": "city",
         "join": [
           "postcode",
           "state"
@@ -125,17 +141,25 @@
         "sep": " "
       },
       {
-        "if": "state",
-        "unless": "postcode",
-        "each": [
+        "if": "postcode",
+        "unless": [
+          "city",
           "state"
+        ],
+        "each": [
+          "postcode"
         ]
       },
       {
-        "if": "postcode",
-        "unless": "state",
+        "unless": "postcode",
         "each": [
-          "postcode"
+          "city"
+        ]
+      },
+      {
+        "unless": "postcode",
+        "each": [
+          "state:!dup:city"
         ]
       },
       {
@@ -388,26 +412,11 @@
           "state:!AS:!dup:city"
         ],
         "each": [
-          "city"
+          "state:!AS"
         ]
       },
       {
-        "if": [
-          "city",
-          "state:!AS:!dup:city"
-        ],
-        "join": [
-          "state:!AS",
-          {
-            "lit": "AS"
-          },
-          "postcode"
-        ],
-        "sep": " "
-      },
-      {
         "if": "city",
-        "unless": "state:!AS:!dup:city",
         "join": [
           "city",
           {
@@ -873,8 +882,7 @@
         "each": [
           "line1",
           "line2",
-          "line3",
-          "components:thana"
+          "line3"
         ]
       },
       {
@@ -1374,8 +1382,6 @@
           "line1",
           "line2",
           "line3",
-          "components:kampung",
-          "components:kampong",
           "components:mukim"
         ]
       },
@@ -1536,13 +1542,18 @@
         ]
       },
       {
-        "each": [
-          "city"
-        ]
+        "if": "city",
+        "join": [
+          "city",
+          "state:!dup:city"
+        ],
+        "sep": ", "
       },
       {
+        "if": "state",
+        "unless": "city",
         "each": [
-          "state:!dup:city"
+          "state"
         ]
       },
       {
@@ -2270,13 +2281,18 @@
         ]
       },
       {
-        "each": [
+        "if": "state",
+        "join": [
+          "state",
           "city"
-        ]
+        ],
+        "sep": ", "
       },
       {
+        "if": "city",
+        "unless": "state",
         "each": [
-          "state:!dup:city"
+          "city"
         ]
       },
       {
@@ -2305,6 +2321,9 @@
           "city"
         ],
         "join": [
+          {
+            "lit": "CP"
+          },
           "postcode",
           "city"
         ],
@@ -2326,6 +2345,9 @@
         ],
         "unless": "city",
         "join": [
+          {
+            "lit": "CP"
+          },
           "postcode",
           "state"
         ],
@@ -2337,9 +2359,13 @@
           "city",
           "state"
         ],
-        "each": [
+        "join": [
+          {
+            "lit": "CP"
+          },
           "postcode"
-        ]
+        ],
+        "sep": " "
       },
       {
         "unless": "postcode",
@@ -2515,7 +2541,7 @@
           "postcode",
           "city"
         ],
-        "sep": " "
+        "sep": "  "
       },
       {
         "if": [
@@ -2536,7 +2562,7 @@
           "postcode",
           "state"
         ],
-        "sep": " "
+        "sep": "  "
       },
       {
         "if": "postcode",
@@ -2618,11 +2644,21 @@
       {
         "if": [
           "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "each": [
           "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
         ],
         "join": [
           "postcode",
-          "city"
+          "state"
         ],
         "sep": " "
       },
@@ -2631,19 +2667,10 @@
           "postcode",
           "city"
         ],
-        "each": [
-          "state:!dup:city"
-        ]
-      },
-      {
-        "if": [
-          "postcode",
-          "state"
-        ],
-        "unless": "city",
+        "unless": "state",
         "join": [
           "postcode",
-          "state"
+          "city"
         ],
         "sep": " "
       },
@@ -2962,46 +2989,17 @@
         ]
       },
       {
-        "if": [
-          "postcode",
-          "city"
-        ],
-        "join": [
-          "postcode",
-          "city"
-        ],
-        "sep": " "
-      },
-      {
-        "if": [
-          "postcode",
-          "city"
-        ],
-        "each": [
-          "state:!dup:city"
-        ]
-      },
-      {
-        "if": [
-          "postcode",
-          "state"
-        ],
-        "unless": "city",
-        "join": [
-          "postcode",
-          "state"
-        ],
-        "sep": " "
-      },
-      {
         "if": "postcode",
-        "unless": [
-          "city",
-          "state"
+        "join": [
+          "postcode",
+          {
+            "alt": [
+              "city",
+              "state"
+            ]
+          }
         ],
-        "each": [
-          "postcode"
-        ]
+        "sep": " "
       },
       {
         "unless": "postcode",
@@ -3304,26 +3302,11 @@
           "state:!FM:!dup:city"
         ],
         "each": [
-          "city"
+          "state:!FM"
         ]
       },
       {
-        "if": [
-          "city",
-          "state:!FM:!dup:city"
-        ],
-        "join": [
-          "state:!FM",
-          {
-            "lit": "FM"
-          },
-          "postcode"
-        ],
-        "sep": " "
-      },
-      {
         "if": "city",
-        "unless": "state:!FM:!dup:city",
         "join": [
           "city",
           {
@@ -4186,22 +4169,32 @@
       {
         "if": [
           "postcode",
-          "city"
+          "city",
+          "state:!dup:city"
         ],
         "join": [
           "postcode",
-          "city"
+          {
+            "join": [
+              "city",
+              "state:!dup:city"
+            ],
+            "sep": ", "
+          }
         ],
-        "sep": " - "
+        "sep": " "
       },
       {
         "if": [
           "postcode",
           "city"
         ],
-        "each": [
-          "state:!dup:city"
-        ]
+        "unless": "state:!dup:city",
+        "join": [
+          "postcode",
+          "city"
+        ],
+        "sep": " "
       },
       {
         "if": [
@@ -4213,7 +4206,7 @@
           "postcode",
           "state"
         ],
-        "sep": " - "
+        "sep": " "
       },
       {
         "if": "postcode",
@@ -4258,26 +4251,11 @@
           "state:!GU:!dup:city"
         ],
         "each": [
-          "city"
+          "state:!GU"
         ]
       },
       {
-        "if": [
-          "city",
-          "state:!GU:!dup:city"
-        ],
-        "join": [
-          "state:!GU",
-          {
-            "lit": "GU"
-          },
-          "postcode"
-        ],
-        "sep": " "
-      },
-      {
         "if": "city",
-        "unless": "state:!GU:!dup:city",
         "join": [
           "city",
           {
@@ -4727,9 +4705,9 @@
           "line1",
           "line2",
           "line3",
-          "components:kelurahan",
-          "components:desa",
-          "components:kecamatan"
+          "components:urban_village",
+          "components:village",
+          "components:district"
         ]
       },
       {
@@ -4897,6 +4875,11 @@
     "lines": [
       {
         "each": [
+          "city"
+        ]
+      },
+      {
+        "each": [
           "line1",
           "line2",
           "line3"
@@ -4904,12 +4887,7 @@
       },
       {
         "each": [
-          "city"
-        ]
-      },
-      {
-        "each": [
-          "state:!dup:city"
+          "state"
         ]
       },
       {
@@ -5167,16 +5145,18 @@
       {
         "join": [
           "city",
-          "state"
+          {
+            "join": [
+              "state",
+              "postcode"
+            ],
+            "sep": " "
+          }
         ],
         "sep": ", "
       },
       {
-        "join": [
-          "postcode",
-          "country"
-        ],
-        "sep": " "
+        "country": true
       }
     ]
   },
@@ -5375,10 +5355,20 @@
       {
         "if": [
           "postcode",
+          "state",
+          "city:!dup:state"
+        ],
+        "each": [
           "city"
+        ]
+      },
+      {
+        "if": [
+          "postcode",
+          "state"
         ],
         "join": [
-          "city",
+          "state",
           "postcode"
         ],
         "sep": " "
@@ -5388,18 +5378,9 @@
           "postcode",
           "city"
         ],
-        "each": [
-          "state:!dup:city"
-        ]
-      },
-      {
-        "if": [
-          "postcode",
-          "state"
-        ],
-        "unless": "city",
+        "unless": "state",
         "join": [
-          "state",
+          "city",
           "postcode"
         ],
         "sep": " "
@@ -5423,7 +5404,7 @@
       {
         "unless": "postcode",
         "each": [
-          "state:!dup:city"
+          "state"
         ]
       },
       {
@@ -6836,26 +6817,11 @@
           "state:!MH:!dup:city"
         ],
         "each": [
-          "city"
+          "state:!MH"
         ]
       },
       {
-        "if": [
-          "city",
-          "state:!MH:!dup:city"
-        ],
-        "join": [
-          "state:!MH",
-          {
-            "lit": "MH"
-          },
-          "postcode"
-        ],
-        "sep": " "
-      },
-      {
         "if": "city",
-        "unless": "state:!MH:!dup:city",
         "join": [
           "city",
           {
@@ -7630,18 +7596,15 @@
         "each": [
           "line1",
           "line2",
-          "line3",
-          "components:mukim",
-          "components:subdistrict",
-          "components:district"
+          "line3"
         ]
       },
       {
         "join": [
           "postcode",
-          "city"
+          "components:postcode_partner"
         ],
-        "sep": " "
+        "sep": ", "
       },
       {
         "each": [
@@ -7651,7 +7614,14 @@
       {
         "country": true
       }
-    ]
+    ],
+    "summary": {
+      "join": [
+        "components:locality",
+        "components:postcode_partner",
+        "state"
+      ]
+    }
   },
   "MZ": {
     "display": "Mozambique",
@@ -7975,14 +7945,11 @@
         ]
       },
       {
-        "each": [
-          "city"
-        ]
-      },
-      {
-        "each": [
-          "state:!dup:city"
-        ]
+        "join": [
+          "city",
+          "state"
+        ],
+        "sep": ", "
       },
       {
         "country": true
@@ -8282,8 +8249,8 @@
           "city"
         ],
         "join": [
-          "postcode",
-          "city"
+          "city",
+          "postcode"
         ],
         "sep": " "
       },
@@ -8303,8 +8270,8 @@
         ],
         "unless": "city",
         "join": [
-          "postcode",
-          "state"
+          "state",
+          "postcode"
         ],
         "sep": " "
       },
@@ -8327,7 +8294,7 @@
       {
         "unless": "postcode",
         "each": [
-          "state"
+          "state:!dup:city"
         ]
       },
       {
@@ -8442,18 +8409,10 @@
         ],
         "join": [
           "postcode",
-          "city"
+          "city",
+          "state:!dup:city"
         ],
         "sep": " "
-      },
-      {
-        "if": [
-          "postcode",
-          "city"
-        ],
-        "each": [
-          "state:!dup:city"
-        ]
       },
       {
         "if": [
@@ -8486,7 +8445,7 @@
       {
         "unless": "postcode",
         "each": [
-          "state"
+          "state:!dup:city"
         ]
       },
       {
@@ -8511,18 +8470,10 @@
         ],
         "join": [
           "city",
-          "postcode"
+          "postcode",
+          "state:!dup:city"
         ],
         "sep": " "
-      },
-      {
-        "if": [
-          "postcode",
-          "city"
-        ],
-        "each": [
-          "state:!dup:city"
-        ]
       },
       {
         "if": [
@@ -8832,26 +8783,11 @@
           "state:!PR:!dup:city"
         ],
         "each": [
-          "city"
+          "state:!PR"
         ]
       },
       {
-        "if": [
-          "city",
-          "state:!PR:!dup:city"
-        ],
-        "join": [
-          "state:!PR",
-          {
-            "lit": "PR"
-          },
-          "postcode"
-        ],
-        "sep": " "
-      },
-      {
         "if": "city",
-        "unless": "state:!PR:!dup:city",
         "join": [
           "city",
           {
@@ -9042,26 +8978,11 @@
           "state:!PW:!dup:city"
         ],
         "each": [
-          "city"
+          "state:!PW"
         ]
       },
       {
-        "if": [
-          "city",
-          "state:!PW:!dup:city"
-        ],
-        "join": [
-          "state:!PW",
-          {
-            "lit": "PW"
-          },
-          "postcode"
-        ],
-        "sep": " "
-      },
-      {
         "if": "city",
-        "unless": "state:!PW:!dup:city",
         "join": [
           "city",
           {
@@ -9476,17 +9397,17 @@
       },
       {
         "each": [
-          "postcode"
-        ]
-      },
-      {
-        "each": [
           {
             "alt": [
               "city",
               "state"
             ]
           }
+        ]
+      },
+      {
+        "each": [
+          "postcode"
         ]
       },
       {
@@ -10920,17 +10841,56 @@
         ]
       },
       {
-        "if": "postcode",
+        "if": [
+          "city",
+          "state",
+          "postcode"
+        ],
         "join": [
           {
-            "alt": [
+            "join": [
               "city",
-              "state"
-            ]
+              "state:!dup:city"
+            ],
+            "sep": ", "
           },
           "postcode"
         ],
         "sep": " "
+      },
+      {
+        "if": [
+          "city",
+          "postcode"
+        ],
+        "unless": "state",
+        "join": [
+          "city",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": [
+          "state",
+          "postcode"
+        ],
+        "unless": "city",
+        "join": [
+          "state",
+          "postcode"
+        ],
+        "sep": " "
+      },
+      {
+        "if": "postcode",
+        "unless": [
+          "city",
+          "state"
+        ],
+        "each": [
+          "postcode"
+        ]
       },
       {
         "unless": "postcode",
@@ -11099,19 +11059,12 @@
         ]
       },
       {
-        "each": [
-          "city"
-        ]
-      },
-      {
-        "each": [
-          "state:!dup:city"
-        ]
-      },
-      {
-        "each": [
+        "join": [
+          "city",
+          "state:!dup:city",
           "postcode"
-        ]
+        ],
+        "sep": " "
       },
       {
         "country": true
@@ -11384,9 +11337,28 @@
       },
       {
         "if": [
+          "city",
           "postcode",
-          "city"
+          "state"
         ],
+        "join": [
+          {
+            "join": [
+              "city",
+              "postcode"
+            ],
+            "sep": " "
+          },
+          "state"
+        ],
+        "sep": ", "
+      },
+      {
+        "if": [
+          "city",
+          "postcode"
+        ],
+        "unless": "state",
         "join": [
           "city",
           "postcode"
@@ -11395,12 +11367,15 @@
       },
       {
         "if": [
-          "postcode",
-          "city"
+          "city",
+          "state"
         ],
-        "each": [
-          "state:!dup:city"
-        ]
+        "unless": "postcode",
+        "join": [
+          "city",
+          "state"
+        ],
+        "sep": ", "
       },
       {
         "if": [
@@ -11409,10 +11384,20 @@
         ],
         "unless": "city",
         "join": [
-          "state",
-          "postcode"
+          "postcode",
+          "state"
         ],
-        "sep": " "
+        "sep": ", "
+      },
+      {
+        "if": "city",
+        "unless": [
+          "postcode",
+          "state"
+        ],
+        "each": [
+          "city"
+        ]
       },
       {
         "if": "postcode",
@@ -11425,15 +11410,13 @@
         ]
       },
       {
-        "unless": "postcode",
+        "if": "state",
+        "unless": [
+          "city",
+          "postcode"
+        ],
         "each": [
-          "city"
-        ]
-      },
-      {
-        "unless": "postcode",
-        "each": [
-          "state:!dup:city"
+          "state"
         ]
       },
       {
@@ -11457,26 +11440,11 @@
           "state:!VI:!dup:city"
         ],
         "each": [
-          "city"
+          "state:!VI"
         ]
       },
       {
-        "if": [
-          "city",
-          "state:!VI:!dup:city"
-        ],
-        "join": [
-          "state:!VI",
-          {
-            "lit": "VI"
-          },
-          "postcode"
-        ],
-        "sep": " "
-      },
-      {
         "if": "city",
-        "unless": "state:!VI:!dup:city",
         "join": [
           "city",
           {

@@ -17,7 +17,7 @@ final class FrenchPolynesiaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 987xx left of the locality (French system).
+        // UPU PYF: postcode + municipality + island on one line (`98709 MAHINA TAHITI`).
         return AddressFormatRenderer::format('PF', $address);
     }
 }

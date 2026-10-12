@@ -17,7 +17,7 @@ final class TaiwanAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // Chunghwa Post: 6-digit 3+3 postcode right of the locality name.
+        // Chunghwa Post: `district, city postcode` (`Da-an District, Taipei City 106409`).
         return AddressFormatRenderer::format('TW', $address);
     }
 }

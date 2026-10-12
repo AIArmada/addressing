@@ -199,6 +199,10 @@ final class SeedPostalCodesAction
             }
         }
 
+        if ($progress !== null && $total === 0) {
+            $progress('codes', 0, 0);
+        }
+
         return ['created' => $created, 'updated' => $updated, 'skipped' => $skipped];
     }
 
@@ -272,6 +276,10 @@ final class SeedPostalCodesAction
             if ($progress !== null) {
                 $progress('links', min(($index + 1) * self::CHUNK_SIZE, $total), $total);
             }
+        }
+
+        if ($progress !== null && $total === 0) {
+            $progress('links', 0, 0);
         }
 
         return $total;

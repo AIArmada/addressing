@@ -17,7 +17,7 @@ final class CostaRicaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 5 digits on their own line above the country name.
+        // UPU CRI: province, canton, district comma-joined on one line; 5 digits own line above country.
         return AddressFormatRenderer::format('CR', $address);
     }
 }

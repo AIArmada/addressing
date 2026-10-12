@@ -17,7 +17,7 @@ final class USVirginIslandsAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: US ZIP on the locality line: LOCALITY VI ZIP.
+        // USPS Pub 28 s224 + UPU VIR: island detail above; last line `CITY VI ZIP`.
         return AddressFormatRenderer::format('VI', $address);
     }
 }

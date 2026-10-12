@@ -17,9 +17,8 @@ final class AfghanistanAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: locality on its own line, then the 6-digit postcode left
-        // of the province (`100208 KABUL` in every example; new system
-        // from 1 October 2024, province-encoded).
+        // UPU AFG 07/2025: 6-digit postcode joins the district/city; province
+        // on its own line (urban `100208 KABUL`, rural `106401 PAGHMAN / KABUL`).
         return AddressFormatRenderer::format('AF', $address);
     }
 }

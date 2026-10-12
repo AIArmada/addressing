@@ -17,9 +17,11 @@ final class JapanAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU western layout: locality and prefecture share one line and
-        // the NNN-NNNN postcode shares the last line with the country
-        // (`231-0012 JAPAN` in all three detailed UPU examples).
+        // Western letter layout: `{city}, {prefecture} {postcode}` on one
+        // line, country alone last. USPS Pub 28 A3 bars postcodes from the
+        // last line, and Japan Post's western order joins the code to the
+        // prefecture; the joined `NNN-NNNN JAPAN` shape is the domestic
+        // 〒-envelope convention, not letter order.
         return AddressFormatRenderer::format('JP', $address);
     }
 }

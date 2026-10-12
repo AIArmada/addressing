@@ -28,6 +28,15 @@ use InvalidArgumentException;
  * and {"lit": "..."} literals compose inside joins. Unknown fields, ops,
  * and malformed lines throw InvalidArgumentException instead of
  * silently dropping output.
+ *
+ * summaryParts() returns the short location behind cards, lists, and API
+ * payloads: the full address minus street lines, postcode, and country.
+ * A definition with an explicit "summary": {"join": [...]} spec resolves
+ * it verbatim, rejecting street/postcode/country leaves as authoring
+ * bugs; every other country falls back to the resolved non-street,
+ * non-postcode, non-country pieces of its block lines, in line order,
+ * with line gates honored. Adjacent case-insensitive duplicates
+ * collapse in both paths.
  */
 final class AddressFormatRenderer
 {
@@ -118,6 +127,198 @@ final class AddressFormatRenderer
         $firedLines = $fired;
 
         return implode("\n", $lines);
+    }
+
+    /**
+     * @return list<string>
+     */
+    public static function summaryParts(string $countryCode, AddressData $address): array
+    {
+        $code = mb_strtoupper(mb_trim($countryCode));
+        $definitions = self::definitions();
+
+        if (! isset($definitions[$code])) {
+            throw new InvalidArgumentException("No address format definition for [{$code}].");
+        }
+
+        $definition = $definitions[$code];
+
+        if (array_key_exists('summary', $definition)) {
+            return self::explicitSummary($definition['summary'], $address, $definition, $code);
+        }
+
+        $parts = [];
+
+        foreach ($definition['lines'] as $index => $line) {
+            if (isset($line['if']) && ! self::allPresent((array) $line['if'], $address, $definition, $code)) {
+                continue;
+            }
+
+            if (isset($line['unless']) && self::anyPresent((array) $line['unless'], $address, $definition, $code)) {
+                continue;
+            }
+
+            if (isset($line['unlessAll']) && self::allPresent((array) $line['unlessAll'], $address, $definition, $code)) {
+                continue;
+            }
+
+            if (isset($line['country'])) {
+                continue;
+            }
+
+            if (isset($line['each'])) {
+                if (! is_array($line['each'])) {
+                    throw new InvalidArgumentException("Address format line [{$index}] for [{$code}] needs each as a field list.");
+                }
+
+                $fields = $line['each'];
+            } else {
+                if (! isset($line['join']) || ! is_array($line['join'])) {
+                    throw new InvalidArgumentException("Address format line [{$index}] for [{$code}] needs each, join, or country.");
+                }
+
+                $fields = $line['join'];
+            }
+
+            foreach ($fields as $field) {
+                foreach (self::resolveSummaryField($field, $address, $definition, $code) as $value) {
+                    $parts[] = $value;
+                }
+            }
+        }
+
+        return self::dedupeAdjacent($parts);
+    }
+
+    /**
+     * @return list<string>
+     */
+    private static function explicitSummary(mixed $summary, AddressData $address, array $definition, string $code): array
+    {
+        if (! is_array($summary) || ! isset($summary['join']) || ! is_array($summary['join'])) {
+            throw new InvalidArgumentException("Address format summary for [{$code}] needs a join field list.");
+        }
+
+        $parts = [];
+
+        foreach ($summary['join'] as $field) {
+            self::assertSummaryField($field, $code);
+
+            $value = self::resolve($field, $address, $definition, $code);
+
+            if ($value !== null) {
+                $parts[] = $value;
+            }
+        }
+
+        return self::dedupeAdjacent($parts);
+    }
+
+    /**
+     * Explicit specs stay inside the summary contract (no street,
+     * postcode, or country leaves): a violating spec is an authoring
+     * bug and fails loudly instead of leaking into one-liners.
+     */
+    private static function assertSummaryField(string | array $field, string $code): void
+    {
+        if (is_string($field)) {
+            $base = explode(':', $field, 2)[0];
+
+            if (in_array($base, ['line1', 'line2', 'line3', 'postcode', 'country'], true)) {
+                throw new InvalidArgumentException("Address format summary for [{$code}] must not reference [{$base}].");
+            }
+
+            return;
+        }
+
+        if (isset($field['alt']) && is_array($field['alt'])) {
+            foreach ($field['alt'] as $option) {
+                self::assertSummaryField($option, $code);
+            }
+        }
+
+        if (isset($field['join']) && is_array($field['join'])) {
+            foreach ($field['join'] as $nested) {
+                self::assertSummaryField($nested, $code);
+            }
+        }
+    }
+
+    /**
+     * Resolve one fallback summary field, skipping street, postcode, and
+     * country leaves at any nesting depth. Nested joins split into parts
+     * so a postcode joined beside a town never leaks into the summary.
+     *
+     * @return list<string>
+     */
+    private static function resolveSummaryField(string | array $field, AddressData $address, array $definition, string $code): array
+    {
+        if (is_string($field)) {
+            $base = explode(':', $field, 2)[0];
+
+            if (in_array($base, ['line1', 'line2', 'line3', 'postcode', 'country'], true)) {
+                return [];
+            }
+
+            $value = self::resolve($field, $address, $definition, $code);
+
+            return $value === null ? [] : [$value];
+        }
+
+        if (isset($field['lit'])) {
+            return [];
+        }
+
+        if (isset($field['alt'])) {
+            if (! is_array($field['alt'])) {
+                throw new InvalidArgumentException('Address format group needs alt as an option list.');
+            }
+
+            foreach ($field['alt'] as $option) {
+                $values = self::resolveSummaryField($option, $address, $definition, $code);
+
+                if ($values !== []) {
+                    return $values;
+                }
+            }
+
+            return [];
+        }
+
+        if (! isset($field['join']) || ! is_array($field['join'])) {
+            throw new InvalidArgumentException('Address format group needs lit, alt, or join.');
+        }
+
+        $values = [];
+
+        foreach ($field['join'] as $nested) {
+            foreach (self::resolveSummaryField($nested, $address, $definition, $code) as $value) {
+                $values[] = $value;
+            }
+        }
+
+        return $values;
+    }
+
+    /**
+     * @param  list<string>  $parts
+     * @return list<string>
+     */
+    private static function dedupeAdjacent(array $parts): array
+    {
+        $deduped = [];
+
+        foreach ($parts as $part) {
+            $previous = end($deduped);
+
+            if ($previous !== false && mb_strtolower($previous) === mb_strtolower($part)) {
+                continue;
+            }
+
+            $deduped[] = $part;
+        }
+
+        return $deduped;
     }
 
     /**

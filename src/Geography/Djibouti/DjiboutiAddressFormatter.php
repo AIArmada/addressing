@@ -17,7 +17,7 @@ final class DjiboutiAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 5 digits left of the locality name.
+        // UPU DJI: postcode joins the REGION (`77601 TADJOURAH`); locality on its own line above.
         return AddressFormatRenderer::format('DJ', $address);
     }
 }

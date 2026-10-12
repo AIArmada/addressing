@@ -17,7 +17,7 @@ final class CubaAddressFormatter implements CountryAddressFormatter
 
     public function format(AddressData $address): string
     {
-        // UPU: 5 digits with CP prefix left of the locality (prefix supplied as-is).
+        // UPU CUB: `CP 10600 CIUDAD HABANA`; CP is domestic usage, baked into the format.
         return AddressFormatRenderer::format('CU', $address);
     }
 }
