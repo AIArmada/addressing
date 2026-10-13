@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('role', 50);
             $table->string('value');
             $table->string('normalized');
+            $table->char('dedupe_hash', 64);
             $table->string('reason', 20)->default('unmatched');
             $table->unsignedBigInteger('hits')->default(1);
             $table->timestampTz('first_seen_at')->nullable();
@@ -31,7 +32,7 @@ return new class extends Migration
             $table->string('matched_by')->nullable();
             $table->timestampTz('matched_at')->nullable();
             $table->timestamps();
-            $table->unique(['owner_type', 'owner_id', 'source', 'country_code', 'role', 'normalized'], 'resolution_gaps_upsert_unique');
+            $table->unique('dedupe_hash', 'resolution_gaps_upsert_unique');
             $table->index(['country_code', 'status', 'last_seen_at'], 'resolution_gaps_report_index');
             $table->index(['status', 'reason'], 'resolution_gaps_status_reason_index');
         });

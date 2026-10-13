@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Data\ResolveSingaporePostalCodesResultData;
-use AIArmada\Addressing\Models\PostalCode;
+use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\Addressing\Support\OneMapClient;
 use AIArmada\Addressing\Support\OneMapPostalCodeSource;
 use InvalidArgumentException;
@@ -37,7 +37,7 @@ final class ResolveSingaporePostalCodesAction
         }
 
         if ($missing !== []) {
-            $cached = PostalCode::query()
+            $cached = ModelResolver::postalCodeClass()::query()
                 ->where('country_code', 'SG')
                 ->whereIn('code', $missing)
                 ->where('is_active', true)
@@ -66,7 +66,7 @@ final class ResolveSingaporePostalCodesAction
                 ));
             }
 
-            $imported = PostalCode::query()
+            $imported = ModelResolver::postalCodeClass()::query()
                 ->where('country_code', 'SG')
                 ->whereIn('code', $missing)
                 ->where('is_active', true)

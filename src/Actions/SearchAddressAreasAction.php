@@ -18,6 +18,9 @@ final class SearchAddressAreasAction
     /** @var array<string, ?class-string> */
     private array $postalCodeNormalizers = [];
 
+    /** @var array<array-key, mixed>|null */
+    private ?array $configuredProviders = null;
+
     public function __construct(private readonly Container $container) {}
 
     /**
@@ -149,6 +152,12 @@ final class SearchAddressAreasAction
         }
 
         $countryCode = mb_strtoupper(mb_trim($countryCode));
+        $configured = config('addressing.geography.providers', []);
+
+        if ($this->configuredProviders !== $configured) {
+            $this->configuredProviders = is_array($configured) ? $configured : [];
+            $this->postalCodeNormalizers = [];
+        }
 
         if (! array_key_exists($countryCode, $this->postalCodeNormalizers)) {
             $this->postalCodeNormalizers[$countryCode] = $this->resolvePostalCodeNormalizer($countryCode);

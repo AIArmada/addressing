@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Support;
 
-use AIArmada\Addressing\Models\Addressable;
 use AIArmada\CommerceSupport\Support\OwnerContext;
 use AIArmada\CommerceSupport\Support\OwnerQuery;
 use AIArmada\CommerceSupport\Support\OwnerScope;
@@ -19,7 +18,7 @@ final class AddressOwnerGuard
 {
     public static function applyToRelation(MorphToMany $relation): MorphToMany
     {
-        $config = Addressable::ownerScopeConfig();
+        $config = ModelResolver::addressableClass()::ownerScopeConfig();
 
         if (! $config->enabled) {
             return $relation;
@@ -62,7 +61,7 @@ final class AddressOwnerGuard
 
     public static function assertAddressableIsWritable(mixed $addressableType, mixed $addressableId): void
     {
-        if (! Addressable::ownerScopeConfig()->enabled) {
+        if (! ModelResolver::addressableClass()::ownerScopeConfig()->enabled) {
             return;
         }
 
@@ -89,48 +88,17 @@ final class AddressOwnerGuard
             return;
         }
 
-        if (method_exists($modelClass, 'eventOwnerRelation')) {
-            $addressable = $modelClass::query()
-                ->withoutGlobalScope('event_owner')
-                ->whereKey($addressableId)
-                ->first();
+        // Models without HasOwner enforce their own boundary through global
+        // scopes (for example owner-via-parent scopes in consumer packages).
+        // A normally scoped existence check therefore proves writability for
+        // the resolved owner without addressing knowing the consumer's scope.
+        // Explicit global context is privileged system work and may attach
+        // to any existing model.
+        $query = OwnerContext::isExplicitGlobal()
+            ? $modelClass::query()->withoutGlobalScopes()
+            : $modelClass::query();
 
-            if (! $addressable instanceof Model) {
-                throw new AuthorizationException(self::inaccessibleMessage());
-            }
-
-            if (! method_exists($addressable, 'event')) {
-                throw new AuthorizationException(self::inaccessibleMessage());
-            }
-
-            $event = $addressable->event()
-                ->getQuery()
-                ->withoutGlobalScope(OwnerScope::class)
-                ->first();
-
-            if (! $event instanceof Model) {
-                throw new AuthorizationException(self::inaccessibleMessage());
-            }
-
-            $owner = OwnerContext::resolve();
-
-            if ($owner === null) {
-                if (! OwnerContext::isExplicitGlobal()) {
-                    throw new AuthorizationException(self::inaccessibleMessage());
-                }
-
-                return;
-            }
-
-            if ($event->getAttribute('owner_type') !== $owner->getMorphClass()
-                || (string) $event->getAttribute('owner_id') !== (string) $owner->getKey()) {
-                throw new AuthorizationException(self::inaccessibleMessage());
-            }
-
-            return;
-        }
-
-        if (! $modelClass::query()->whereKey($addressableId)->exists()) {
+        if (! $query->whereKey($addressableId)->exists()) {
             throw new AuthorizationException(self::inaccessibleMessage());
         }
     }

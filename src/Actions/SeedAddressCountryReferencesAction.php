@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Actions;
 
-use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\CommerceSupport\Actions\SeedCurrenciesAction;
 use AIArmada\CommerceSupport\Actions\SeedTimezonesAction;
 use AIArmada\CommerceSupport\Models\Currency;
@@ -75,7 +75,7 @@ class SeedAddressCountryReferencesAction
             return;
         }
 
-        $countryIds = AddressCountry::query()
+        $countryIds = ModelResolver::countryClass()::query()
             ->whereIn('iso2', $countryCodes)
             ->pluck('id');
 
@@ -97,7 +97,7 @@ class SeedAddressCountryReferencesAction
     private function syncCurrencies(array $countries, ?callable $progress = null, int $total = 0, int $offset = 0): int
     {
         $currencyIds = Currency::query()->pluck('id', 'code');
-        $countryIds = AddressCountry::query()->pluck('id', 'iso2');
+        $countryIds = ModelResolver::countryClass()::query()->pluck('id', 'iso2');
         $created = 0;
 
         foreach ($countries as $index => $country) {
@@ -132,7 +132,7 @@ class SeedAddressCountryReferencesAction
     private function syncTimezones(array $countries, ?callable $progress = null, int $total = 0, int $offset = 0): int
     {
         $timezoneIds = Timezone::query()->pluck('id', 'name');
-        $countryIds = AddressCountry::query()->pluck('id', 'iso2');
+        $countryIds = ModelResolver::countryClass()::query()->pluck('id', 'iso2');
         $created = 0;
 
         foreach ($countries as $index => $country) {

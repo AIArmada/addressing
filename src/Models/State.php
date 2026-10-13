@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Database\Factories\StateFactory;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,6 +27,7 @@ use Illuminate\Support\Facades\DB;
  */
 class State extends Model
 {
+    use HasFactory;
     use HasUuids;
 
     protected static function booted(): void
@@ -83,5 +86,10 @@ class State extends Model
             'latitude' => 'float',
             'longitude' => 'float',
         ];
+    }
+
+    protected static function newFactory(): StateFactory
+    {
+        return StateFactory::new();
     }
 }

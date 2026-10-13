@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Support;
 
-use AIArmada\Addressing\Models\AddressArea;
-use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Models\City;
 use AIArmada\Addressing\Models\State;
 use Illuminate\Support\Str;
@@ -75,7 +73,7 @@ final class LocationSlugSegments
             return null;
         }
 
-        $resolved = AddressArea::query()->whereKey($areaId)->value('name');
+        $resolved = ModelResolver::areaClass()::query()->whereKey($areaId)->value('name');
 
         return is_string($resolved) && mb_trim($resolved) !== '' ? $resolved : null;
     }
@@ -128,7 +126,7 @@ final class LocationSlugSegments
         $countryId = self::uuidValue($address['country_id'] ?? null);
 
         if ($countryId !== null) {
-            $resolved = AddressCountry::query()->whereKey($countryId)->value('iso2');
+            $resolved = ModelResolver::countryClass()::query()->whereKey($countryId)->value('iso2');
 
             if (is_string($resolved) && mb_trim($resolved) !== '') {
                 return mb_trim($resolved);

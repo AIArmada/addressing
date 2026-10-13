@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Database\Factories\CityFactory;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\GeographyReferenceCleanup;
 use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +27,7 @@ use Illuminate\Support\Facades\DB;
  */
 class City extends Model
 {
+    use HasFactory;
     use HasUuids;
 
     protected static function booted(): void
@@ -62,6 +65,9 @@ class City extends Model
         return $this->belongsTo(ModelResolver::stateClass(), 'state_id');
     }
 
+    /**
+     * @return BelongsTo<AddressCountry, $this>
+     */
     public function country(): BelongsTo
     {
         return $this->belongsTo(ModelResolver::countryClass(), 'country_id');
@@ -73,5 +79,10 @@ class City extends Model
             'latitude' => 'float',
             'longitude' => 'float',
         ];
+    }
+
+    protected static function newFactory(): CityFactory
+    {
+        return CityFactory::new();
     }
 }

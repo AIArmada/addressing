@@ -9,15 +9,14 @@ use AIArmada\Addressing\Data\ImportPostalCodeFailureData;
 use AIArmada\Addressing\Data\ImportPostalCodesResultData;
 use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Models\AddressAreaPostalCode;
-use AIArmada\Addressing\Models\AddressCountry;
-use AIArmada\Addressing\Models\PostalCode;
+use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Support\Facades\DB;
 
 final class ImportPostalCodesAction
 {
     public function execute(PostalCodeSource $source): ImportPostalCodesResultData
     {
-        $countryCodes = AddressCountry::query()
+        $countryCodes = ModelResolver::countryClass()::query()
             ->pluck('iso2')
             ->map(static fn ($iso2): string => mb_strtoupper((string) $iso2))
             ->flip()
@@ -58,7 +57,7 @@ final class ImportPostalCodesAction
                     $areaKey = $countryCode . "\0" . ($item->areaSource ?? $source->key()) . "\0" . $item->areaSourceId;
 
                     if (! array_key_exists($areaKey, $areasByKey)) {
-                        $areasByKey[$areaKey] = AddressArea::query()
+                        $areasByKey[$areaKey] = ModelResolver::areaClass()::query()
                             ->where('country_code', $countryCode)
                             ->where('source', $item->areaSource ?? $source->key())
                             ->where('source_id', $item->areaSourceId)
@@ -79,12 +78,12 @@ final class ImportPostalCodesAction
                     'source_id' => $item->sourceId,
                 ]);
 
-                $postalCode = PostalCode::query()->updateOrCreate(
+                $postalCode = ModelResolver::postalCodeClass()::query()->updateOrCreate(
                     ['country_code' => $countryCode, 'code' => $code],
                     ['is_active' => true, 'metadata' => $metadata],
                 );
 
-                $existingCoverage = AddressAreaPostalCode::query()
+                $existingCoverage = ModelResolver::areaPostalCodeClass()::query()
                     ->where('source', $item->source)
                     ->where('source_id', $item->sourceId)
                     ->whereHas('postalCode', fn ($query) => $query->where('country_code', $countryCode))
@@ -99,14 +98,14 @@ final class ImportPostalCodesAction
                     ->values()
                     ->all();
 
-                AddressAreaPostalCode::query()
+                ModelResolver::areaPostalCodeClass()::query()
                     ->where('source', $item->source)
                     ->where('source_id', $item->sourceId)
                     ->whereHas('postalCode', fn ($query) => $query->where('country_code', $countryCode))
                     ->delete();
 
                 if ($area instanceof AddressArea) {
-                    AddressAreaPostalCode::query()->updateOrCreate(
+                    ModelResolver::areaPostalCodeClass()::query()->updateOrCreate(
                         [
                             'address_area_id' => $area->getKey(),
                             'postal_code_id' => $postalCode->getKey(),

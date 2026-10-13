@@ -8,12 +8,13 @@ use AIArmada\Addressing\Actions\SyncAddressAreaAssignmentsAction;
 use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Contracts\AddressNormalizer;
 use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Database\Factories\AddressFactory;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\CommerceSupport\Traits\HasOwner;
 use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
-use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,14 +27,6 @@ use Illuminate\Support\Facades\DB;
  * @property string|null $line1
  * @property string|null $line2
  * @property string|null $line3
- * @property string|null $building_name
- * @property string|null $unit_number
- * @property string|null $floor
- * @property string|null $block
- * @property string|null $street_number
- * @property string|null $street_name
- * @property string|null $neighbourhood
- * @property string|null $village
  * @property string|null $city
  * @property string|null $state_id
  * @property string|null $city_id
@@ -41,20 +34,15 @@ use Illuminate\Support\Facades\DB;
  * @property string|null $postcode
  * @property string|null $country
  * @property string|null $country_code
- * @property string|null $raw_address
  * @property string|null $formatted_address
  * @property array|null $formatted_lines
  * @property array|null $components
  * @property float|null $latitude
  * @property float|null $longitude
- * @property string|null $geohash
- * @property string|null $geo_precision
  * @property string|null $google_place_id
  * @property string|null $google_feature_id
  * @property string|null $google_cid
  * @property string|null $google_entity_id
- * @property string $validation_status
- * @property CarbonImmutable|null $validated_at
  * @property array|null $metadata
  * @property string|null $google_maps_url
  * @property string|null $waze_url
@@ -63,6 +51,7 @@ use Illuminate\Support\Facades\DB;
  */
 class Address extends Model
 {
+    use HasFactory;
     use HasOwner;
     use HasOwnerScopeConfig;
     use HasUuids;
@@ -153,12 +142,6 @@ class Address extends Model
         return ['formatted_address' => $formatted, 'formatted_lines' => explode("\n", $formatted)];
     }
 
-    /**
-     * Trusted-write-only fields (`validation_status`, `validated_at`,
-     * `google_place_id`) must only be written by server-side verification flows.
-     * Never bind them to user input: callers who forge them can fake
-     * verification state.
-     */
     protected $fillable = [
         'country_id',
         'state_id',
@@ -167,29 +150,16 @@ class Address extends Model
         'line1',
         'line2',
         'line3',
-        'building_name',
-        'unit_number',
-        'floor',
-        'block',
-        'street_number',
-        'street_name',
-        'neighbourhood',
-        'village',
         'city',
         'state',
         'postcode',
         'country',
         'country_code',
-        'raw_address',
         'formatted_address',
         'formatted_lines',
         'components',
         'latitude',
         'longitude',
-        'geohash',
-        'geo_precision',
-        'validation_status',
-        'validated_at',
         'metadata',
         'google_maps_url',
         'google_place_id',
@@ -207,28 +177,16 @@ class Address extends Model
             'line1',
             'line2',
             'line3',
-            'building_name',
-            'unit_number',
-            'floor',
-            'block',
-            'street_number',
-            'street_name',
-            'neighbourhood',
-            'village',
             'city',
             'state',
             'postcode',
             'country',
             'country_code',
-            'raw_address',
             'formatted_address',
-            'geohash',
-            'geo_precision',
             'google_place_id',
             'google_feature_id',
             'google_cid',
             'google_entity_id',
-            'validation_status',
             'google_maps_url',
             'waze_url' => parent::setAttribute(
                 $key,
@@ -244,7 +202,7 @@ class Address extends Model
     }
 
     /**
-     * @return BelongsTo<Model, $this>
+     * @return BelongsTo<AddressCountry, $this>
      */
     public function country(): BelongsTo
     {
@@ -270,7 +228,7 @@ class Address extends Model
     /** @return HasMany<AddressAreaAssignment, $this> */
     public function areaAssignments(): HasMany
     {
-        return $this->hasMany(AddressAreaAssignment::class, 'address_id');
+        return $this->hasMany(ModelResolver::areaAssignmentClass(), 'address_id');
     }
 
     /** @return HasMany<AddressSnapshot, $this> */
@@ -284,7 +242,7 @@ class Address extends Model
      */
     public function addressableLinks(): HasMany
     {
-        return $this->hasMany(Addressable::class, 'address_id');
+        return $this->hasMany(ModelResolver::addressableClass(), 'address_id');
     }
 
     protected function casts(): array
@@ -292,9 +250,15 @@ class Address extends Model
         return [
             'formatted_lines' => 'array',
             'components' => 'array',
-            'validated_at' => 'immutable_datetime',
+            'latitude' => 'float',
+            'longitude' => 'float',
             'metadata' => 'array',
             'navigation_links' => 'array',
         ];
+    }
+
+    protected static function newFactory(): AddressFactory
+    {
+        return AddressFactory::new();
     }
 }

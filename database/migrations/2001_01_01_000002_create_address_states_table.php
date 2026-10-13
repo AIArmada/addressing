@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\Addressing\Support\LowerIndex;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,12 +18,14 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('country_id')->index();
             $table->string('name');
-            $table->string('country_code', 3)->nullable();
+            $table->string('country_code', 2)->nullable();
             $table->string('code', 5)->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->timestamps();
-            $table->index('name', 'states_name_lower_index');
+            $table->unique(['country_id', 'code']);
         });
+
+        LowerIndex::create($tableName, 'name', 'states_name_lower_index');
     }
 };

@@ -8,7 +8,6 @@ use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\Address;
 use AIArmada\Addressing\Models\AddressArea;
-use AIArmada\Addressing\Models\AddressAreaAssignment;
 use AIArmada\Addressing\Models\AddressAreaRelationship;
 use AIArmada\Addressing\Support\AddressAreaStateBridge;
 use AIArmada\Addressing\Support\AddressOwnerGuard;
@@ -39,7 +38,7 @@ final class SyncAddressAreaAssignmentsAction
         AddressOwnerGuard::assertAddressIsWritable($address->getKey());
 
         if ($assignments === []) {
-            AddressAreaAssignment::query()
+            ModelResolver::areaAssignmentClass()::query()
                 ->where('address_id', $address->getKey())
                 ->delete();
 
@@ -49,12 +48,12 @@ final class SyncAddressAreaAssignmentsAction
         $selectedAssignments = $this->validate($this->persistedAddress($address), $assignments, $stateId);
 
         DB::transaction(function () use ($address, $selectedAssignments, $metadata): void {
-            AddressAreaAssignment::query()
+            ModelResolver::areaAssignmentClass()::query()
                 ->where('address_id', $address->getKey())
                 ->delete();
 
             foreach ($selectedAssignments as $role => $areaId) {
-                AddressAreaAssignment::query()->create([
+                ModelResolver::areaAssignmentClass()::query()->create([
                     'address_id' => $address->getKey(),
                     'address_area_id' => $areaId,
                     'role' => $role,
@@ -93,7 +92,7 @@ final class SyncAddressAreaAssignmentsAction
             static fn (mixed $areaId): bool => is_string($areaId) && mb_trim($areaId) !== '',
         );
         $areaIds = array_values($selectedAssignments);
-        $areas = AddressArea::query()
+        $areas = ModelResolver::areaClass()::query()
             ->whereIn('id', $areaIds)
             ->where('country_code', $countryCode)
             ->where('is_active', true)
@@ -149,7 +148,7 @@ final class SyncAddressAreaAssignmentsAction
         $persisted = $this->persistedAddress($address);
 
         /** @var array<string, string> $current */
-        $current = AddressAreaAssignment::query()
+        $current = ModelResolver::areaAssignmentClass()::query()
             ->where('address_id', $address->getKey())
             ->pluck('address_area_id', 'role')
             ->map(static fn (mixed $areaId): string => (string) $areaId)
@@ -168,7 +167,7 @@ final class SyncAddressAreaAssignmentsAction
             return;
         }
 
-        AddressAreaAssignment::query()
+        ModelResolver::areaAssignmentClass()::query()
             ->where('address_id', $address->getKey())
             ->whereIn('role', $removedRoles)
             ->delete();
@@ -230,7 +229,7 @@ final class SyncAddressAreaAssignmentsAction
     {
         $countryCode = mb_strtoupper(mb_trim((string) $address->country_code));
 
-        $usable = AddressArea::query()
+        $usable = ModelResolver::areaClass()::query()
             ->whereIn('id', array_values($assignments))
             ->where('country_code', $countryCode)
             ->where('is_active', true)
@@ -444,7 +443,7 @@ final class SyncAddressAreaAssignmentsAction
                 $visited[$areaId] = true;
             }
 
-            $relationships = AddressAreaRelationship::query()
+            $relationships = ModelResolver::areaRelationshipClass()::query()
                 ->whereIn('child_address_area_id', $frontier)
                 ->where('relationship_type', 'contains')
                 ->where(function ($query): void {

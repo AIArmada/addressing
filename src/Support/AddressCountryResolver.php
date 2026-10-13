@@ -34,17 +34,25 @@ final class AddressCountryResolver
             return null;
         }
 
-        $query = $countryClass::query();
+        return RequestCache::remember(
+            'country-resolutions',
+            $value,
+            function () use ($countryClass, $value): ?Model {
+                $query = $countryClass::query();
 
-        if (Str::isUuid($value)) {
-            return $query->whereKey($value)->first();
-        }
+                if (Str::isUuid($value)) {
+                    return $query->whereKey($value)->first();
+                }
 
-        if (preg_match('/^[A-Za-z]{2}$/', $value) === 1) {
-            return $query->where('iso2', mb_strtoupper($value))->first();
-        }
+                if (preg_match('/^[A-Za-z]{2}$/', $value) === 1) {
+                    return $query->where('iso2', mb_strtoupper($value))->first();
+                }
 
-        return $query->whereRaw('LOWER(name) = ?', [mb_strtolower($value)])->first();
+                $matches = $query->whereRaw('LOWER(name) = ?', [mb_strtolower($value)])->limit(2)->get();
+
+                return $matches->count() === 1 ? $matches->first() : null;
+            },
+        );
     }
 
     public function resolveId(mixed $country): ?string

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\Addressing\Support\LowerIndex;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -32,7 +33,8 @@ return new class extends Migration
             $table->string('emojiU')->nullable();
             $table->{$jsonColumnType}('translations')->nullable();
             $table->timestamps();
-            $table->index('name', 'countries_name_lower_index');
         });
+
+        LowerIndex::create($tableName, 'name', 'countries_name_lower_index');
     }
 };

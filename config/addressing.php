@@ -459,10 +459,19 @@ use AIArmada\Addressing\Geography\Zambia\ZambiaGeographyProvider;
 use AIArmada\Addressing\Geography\Zimbabwe\ZimbabweAddressFormatter;
 use AIArmada\Addressing\Geography\Zimbabwe\ZimbabweGeographyProvider;
 use AIArmada\Addressing\Models\Address;
+use AIArmada\Addressing\Models\Addressable;
 use AIArmada\Addressing\Models\AddressArea;
+use AIArmada\Addressing\Models\AddressAreaAssignment;
+use AIArmada\Addressing\Models\AddressAreaName;
+use AIArmada\Addressing\Models\AddressAreaPostalCode;
+use AIArmada\Addressing\Models\AddressAreaRelationship;
+use AIArmada\Addressing\Models\AddressAreaRole;
+use AIArmada\Addressing\Models\AddressAreaStateLink;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Models\AddressSnapshot;
 use AIArmada\Addressing\Models\City;
+use AIArmada\Addressing\Models\PostalCode;
+use AIArmada\Addressing\Models\ResolutionGap;
 use AIArmada\Addressing\Models\State;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 
@@ -479,6 +488,15 @@ return [
         'area' => AddressArea::class,
         'address' => Address::class,
         'snapshot' => AddressSnapshot::class,
+        'addressable' => Addressable::class,
+        'postal_code' => PostalCode::class,
+        'resolution_gap' => ResolutionGap::class,
+        'area_assignment' => AddressAreaAssignment::class,
+        'area_name' => AddressAreaName::class,
+        'area_role' => AddressAreaRole::class,
+        'area_state_link' => AddressAreaStateLink::class,
+        'area_postal_code' => AddressAreaPostalCode::class,
+        'area_relationship' => AddressAreaRelationship::class,
     ],
 
     'features' => [
@@ -984,6 +1002,7 @@ return [
         'email' => env('ONEMAP_EMAIL'),
         'password' => env('ONEMAP_PASSWORD'),
         'timeout' => 10,
+        'connect_timeout' => 5,
         'retries' => 2,
     ],
 

@@ -9,9 +9,8 @@ use AIArmada\Addressing\Data\AddressAreaData;
 use AIArmada\Addressing\Data\ImportAddressAreaFailureData;
 use AIArmada\Addressing\Data\ImportAddressAreasResultData;
 use AIArmada\Addressing\Models\AddressArea;
-use AIArmada\Addressing\Models\AddressAreaRelationship;
-use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\AddressAreaHierarchy;
+use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -39,7 +38,7 @@ class ImportAddressAreasAction
             $skipped = 0;
             $failures = [];
 
-            $countryIds = AddressCountry::query()->pluck('id', 'iso2')->all();
+            $countryIds = ModelResolver::countryClass()::query()->pluck('id', 'iso2')->all();
             $now = CarbonImmutable::now();
 
             $rows = $source->areas()->all();
@@ -429,7 +428,7 @@ class ImportAddressAreasAction
             return $areasByKey;
         }
 
-        $stored = AddressArea::query()->toBase()
+        $stored = ModelResolver::areaClass()::query()->toBase()
             ->whereIn('source', array_keys($sources))
             ->get();
 
@@ -642,7 +641,7 @@ class ImportAddressAreasAction
         }
 
         foreach (array_chunk(array_values($inserts), 500) as $chunk) {
-            AddressArea::query()->insert($chunk);
+            ModelResolver::areaClass()::query()->insert($chunk);
         }
     }
 
@@ -677,7 +676,7 @@ class ImportAddressAreasAction
 
         foreach ($childrenBySource as $relSource => $childIds) {
             foreach (array_chunk(array_values(array_unique($childIds)), 500) as $chunk) {
-                AddressAreaRelationship::query()
+                ModelResolver::areaRelationshipClass()::query()
                     ->where('source', $relSource)
                     ->whereIn('child_address_area_id', $chunk)
                     ->delete();
@@ -685,7 +684,7 @@ class ImportAddressAreasAction
         }
 
         foreach (array_chunk($creates, 500) as $chunk) {
-            AddressAreaRelationship::query()->insert($chunk);
+            ModelResolver::areaRelationshipClass()::query()->insert($chunk);
         }
     }
 }

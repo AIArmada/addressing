@@ -103,6 +103,15 @@ or when the two gates differ for the selected state.
     'area' => AIArmada\Addressing\Models\AddressArea::class,
     'address' => AIArmada\Addressing\Models\Address::class,
     'snapshot' => AIArmada\Addressing\Models\AddressSnapshot::class,
+    'addressable' => AIArmada\Addressing\Models\Addressable::class,
+    'postal_code' => AIArmada\Addressing\Models\PostalCode::class,
+    'resolution_gap' => AIArmada\Addressing\Models\ResolutionGap::class,
+    'area_assignment' => AIArmada\Addressing\Models\AddressAreaAssignment::class,
+    'area_name' => AIArmada\Addressing\Models\AddressAreaName::class,
+    'area_role' => AIArmada\Addressing\Models\AddressAreaRole::class,
+    'area_state_link' => AIArmada\Addressing\Models\AddressAreaStateLink::class,
+    'area_postal_code' => AIArmada\Addressing\Models\AddressAreaPostalCode::class,
+    'area_relationship' => AIArmada\Addressing\Models\AddressAreaRelationship::class,
 ],
 'geography' => [
     'providers' => [
@@ -230,6 +239,7 @@ Register your `AddressAreaSource` implementations here. They become available to
     'email' => env('ONEMAP_EMAIL'),
     'password' => env('ONEMAP_PASSWORD'),
     'timeout' => 10,
+    'connect_timeout' => 5,
     'retries' => 2,
 ],
 ```

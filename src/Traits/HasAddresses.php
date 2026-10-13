@@ -35,7 +35,7 @@ trait HasAddresses
             'addressable',
             AddressingTableResolver::resolve('addressables'),
         )
-            ->using(Addressable::class)
+            ->using(ModelResolver::addressableClass())
             ->withPivot(['id', 'type', 'label', 'is_primary', 'valid_from', 'valid_until', 'owner_type', 'owner_id'])
             ->withTimestamps()
             ->orderBy("{$pivotTable}.is_primary", 'desc')
@@ -115,7 +115,7 @@ trait HasAddresses
         );
 
         $includeGlobal = OwnerScopeOverride::suppressIncludeGlobal() ? false : $config->includeGlobal;
-        $pivotConfig = Addressable::ownerScopeConfig();
+        $pivotConfig = ModelResolver::addressableClass()::ownerScopeConfig();
         $pivotIncludeGlobal = OwnerScopeOverride::suppressIncludeGlobal() ? false : $pivotConfig->includeGlobal;
 
         foreach ($addresses as $address) {
@@ -247,7 +247,7 @@ trait HasAddresses
             AddressOwnerGuard::assertAddressableIsWritable($this->getMorphClass(), $this->getKey());
             $this->lockForAddressMutation();
 
-            $existing = Addressable::query()
+            $existing = ModelResolver::addressableClass()::query()
                 ->where('address_id', $address->getKey())
                 ->where('addressable_type', $this->getMorphClass())
                 ->where('addressable_id', $this->getKey())
@@ -280,7 +280,7 @@ trait HasAddresses
                 $this->demotePrimaryAddressPivots($type);
             }
 
-            $pivot = Addressable::query()->create([
+            $pivot = ModelResolver::addressableClass()::query()->create([
                 'id' => (string) Str::orderedUuid(),
                 'address_id' => $address->id,
                 'addressable_type' => $this->getMorphClass(),
@@ -317,7 +317,7 @@ trait HasAddresses
             }
 
             $this->demotePrimaryAddressPivots($type);
-            Addressable::query()
+            ModelResolver::addressableClass()::query()
                 ->whereKey($pivot->getKey())
                 ->update(['is_primary' => true]);
             $pivot->is_primary = true;
@@ -368,7 +368,7 @@ trait HasAddresses
 
     private function demotePrimaryAddressPivots(string $type): void
     {
-        Addressable::query()
+        ModelResolver::addressableClass()::query()
             ->where('addressable_type', $this->getMorphClass())
             ->where('addressable_id', $this->getKey())
             ->where('type', $type)

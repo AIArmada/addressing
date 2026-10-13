@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Support;
 
 use AIArmada\Addressing\Models\AddressArea;
-use AIArmada\Addressing\Models\AddressAreaRelationship;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 final class AddressAreaHierarchyResolver
 {
-    /** @var array<string, Collection<int, AddressArea>> */
-    private array $ancestorCache = [];
-
     /**
      * Resolve an exact area name anywhere below a typed hierarchy root.
      *
@@ -34,7 +30,7 @@ final class AddressAreaHierarchyResolver
         $normalizedName = mb_strtolower(mb_trim($name));
 
         /** @var Collection<int, AddressArea> $matches */
-        $matches = AddressArea::query()
+        $matches = ModelResolver::areaClass()::query()
             ->where('is_active', true)
             ->when($countryId !== null, fn (Builder $query): Builder => $query->where('country_id', $countryId))
             ->whereIn('type', $types)
@@ -65,7 +61,7 @@ final class AddressAreaHierarchyResolver
         $normalizedName = mb_strtolower(mb_trim($name));
 
         /** @var Collection<int, AddressArea> $matches */
-        $matches = AddressArea::query()
+        $matches = ModelResolver::areaClass()::query()
             ->where('is_active', true)
             ->when($countryId !== null, fn (Builder $query): Builder => $query->where('country_id', $countryId))
             ->whereRaw('LOWER(name) = ?', [$normalizedName])
@@ -102,18 +98,25 @@ final class AddressAreaHierarchyResolver
      */
     public function ancestorsOf(AddressArea $area, string $hierarchyType): Collection
     {
-        $cacheKey = (string) $area->getKey() . ':' . $hierarchyType;
+        /** @var Collection<int, AddressArea> */
+        return RequestCache::remember(
+            'hierarchy-ancestors',
+            (string) $area->getKey() . ':' . $hierarchyType,
+            fn (): Collection => $this->resolveAncestors($area, $hierarchyType),
+        );
+    }
 
-        if (array_key_exists($cacheKey, $this->ancestorCache)) {
-            return $this->ancestorCache[$cacheKey];
-        }
-
+    /**
+     * @return Collection<int, AddressArea>
+     */
+    private function resolveAncestors(AddressArea $area, string $hierarchyType): Collection
+    {
         $ancestors = new Collection;
         $pending = [(string) $area->getKey()];
         $visited = [(string) $area->getKey() => true];
 
         while ($pending !== []) {
-            $relationships = AddressAreaRelationship::query()
+            $relationships = ModelResolver::areaRelationshipClass()::query()
                 ->whereIn('child_address_area_id', $pending)
                 ->where('relationship_type', 'contains')
                 ->where('hierarchy_type', $hierarchyType)
@@ -138,7 +141,7 @@ final class AddressAreaHierarchyResolver
                 break;
             }
 
-            $parents = AddressArea::query()
+            $parents = ModelResolver::areaClass()::query()
                 ->whereIn('id', $parentIds->all())
                 ->where('is_active', true)
                 ->get()
@@ -157,7 +160,7 @@ final class AddressAreaHierarchyResolver
             }
         }
 
-        return $this->ancestorCache[$cacheKey] = $ancestors;
+        return $ancestors;
     }
 
     private function hasAncestor(AddressArea $area, string $ancestorId, string $hierarchyType): bool

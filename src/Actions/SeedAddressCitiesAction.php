@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Actions;
 
-use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Str;
@@ -30,7 +29,7 @@ class SeedAddressCitiesAction
         $stateClass = ModelResolver::stateClass();
 
         // ponytail: 150k+ rows — cache country/state lookups.
-        $countryIds = AddressCountry::query()->pluck('id', 'iso2')->all();
+        $countryIds = ModelResolver::countryClass()::query()->pluck('id', 'iso2')->all();
         $stateIds = $stateClass::query()
             ->get(['id', 'country_id', 'code'])
             ->mapWithKeys(fn ($state) => [$state->country_id . '|' . $state->code => $state->id])

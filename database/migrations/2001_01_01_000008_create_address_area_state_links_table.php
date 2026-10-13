@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('address_area_id')->index();
             $table->foreignUuid('state_id')->index();
-            $table->string('hierarchy_type', 50)->nullable()->index();
+            $table->string('hierarchy_type', 50)->default('')->index();
             $table->{$jsonColumnType}('metadata')->nullable();
             $table->timestamps();
 

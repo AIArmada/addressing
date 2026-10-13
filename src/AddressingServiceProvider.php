@@ -6,6 +6,8 @@ namespace AIArmada\Addressing;
 
 use AIArmada\Addressing\Actions\BuildAddressNavigationLinksAction;
 use AIArmada\Addressing\Actions\CreateAddressSnapshotAction;
+use AIArmada\Addressing\Actions\DiffCldrSubdivisionsAction;
+use AIArmada\Addressing\Actions\DiffGoogleAddressReferenceAction;
 use AIArmada\Addressing\Actions\ExportResolutionGapAliasesAction;
 use AIArmada\Addressing\Actions\FormatAddressAction;
 use AIArmada\Addressing\Actions\IgnoreResolutionGapAction;
@@ -15,6 +17,7 @@ use AIArmada\Addressing\Actions\LogAddressResolutionGapAction;
 use AIArmada\Addressing\Actions\MatchGapToAreaAction;
 use AIArmada\Addressing\Actions\NormalizeAddressDataAction;
 use AIArmada\Addressing\Actions\ResolveSingaporePostalCodesAction;
+use AIArmada\Addressing\Actions\SaveAddressAreaAction;
 use AIArmada\Addressing\Actions\SearchAddressAreasAction;
 use AIArmada\Addressing\Actions\SeedAddressCitiesAction;
 use AIArmada\Addressing\Actions\SeedAddressCountriesAction;
@@ -24,6 +27,7 @@ use AIArmada\Addressing\Actions\SeedAddressStatesAction;
 use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 use AIArmada\Addressing\Actions\SeedPostalCodesAction;
 use AIArmada\Addressing\Actions\SyncAddressAreaAssignmentsAction;
+use AIArmada\Addressing\Actions\ValidateAddressAction;
 use AIArmada\Addressing\Commands\DiffCldrSubdivisionsCommand;
 use AIArmada\Addressing\Commands\DiffGoogleAddressReferenceCommand;
 use AIArmada\Addressing\Commands\ExportResolutionGapAliasesCommand;
@@ -87,6 +91,10 @@ final class AddressingServiceProvider extends PackageServiceProvider
         $this->app->singleton(MatchGapToAreaAction::class);
         $this->app->singleton(IgnoreResolutionGapAction::class);
         $this->app->singleton(ExportResolutionGapAliasesAction::class);
+        $this->app->singleton(SaveAddressAreaAction::class);
+        $this->app->singleton(ValidateAddressAction::class);
+        $this->app->singleton(DiffGoogleAddressReferenceAction::class);
+        $this->app->singleton(DiffCldrSubdivisionsAction::class);
 
         $this->app->bind(AddressNormalizer::class, NormalizeAddressDataAction::class);
         $this->app->bind(AddressFormatter::class, FormatAddressAction::class);

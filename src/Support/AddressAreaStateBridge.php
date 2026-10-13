@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Support;
 
 use AIArmada\Addressing\Models\AddressArea;
-use AIArmada\Addressing\Models\AddressAreaRelationship;
 use AIArmada\Addressing\Models\AddressAreaStateLink;
 use AIArmada\Addressing\Models\State;
 use Carbon\CarbonImmutable;
@@ -50,14 +49,14 @@ final class AddressAreaStateBridge
 
         $linkTable = (new AddressAreaStateLink)->getTable();
         $areaTable = (new AddressArea)->getTable();
-        $link = AddressAreaStateLink::query()
+        $link = ModelResolver::areaStateLinkClass()::query()
             ->join($areaTable, "{$areaTable}.id", '=', "{$linkTable}.address_area_id")
             ->where("{$linkTable}.state_id", $state->getKey())
             ->where("{$areaTable}.is_active", true)
             ->when($hierarchyType !== null, function ($query) use ($hierarchyType): void {
                 $query->where(function ($query) use ($hierarchyType): void {
                     $query->where('hierarchy_type', $hierarchyType)
-                        ->orWhereNull('hierarchy_type');
+                        ->orWhere('hierarchy_type', '');
                 })->orderByRaw('CASE WHEN hierarchy_type = ? THEN 0 ELSE 1 END', [$hierarchyType]);
             })
             ->orderByDesc("{$linkTable}.updated_at")
@@ -158,7 +157,7 @@ final class AddressAreaStateBridge
                 $visited[$areaId] = true;
             }
 
-            $stateId = AddressAreaStateLink::query()
+            $stateId = ModelResolver::areaStateLinkClass()::query()
                 ->whereIn('address_area_id', $frontier)
                 ->whereHas('addressArea', fn ($query) => $query->where('is_active', true))
                 ->orderByDesc('updated_at')
@@ -171,7 +170,7 @@ final class AddressAreaStateBridge
                 return $stateId;
             }
 
-            $parentIds = AddressAreaRelationship::query()
+            $parentIds = ModelResolver::areaRelationshipClass()::query()
                 ->whereIn('child_address_area_id', $frontier)
                 ->where('relationship_type', 'contains')
                 ->where(function ($query): void {
@@ -186,7 +185,7 @@ final class AddressAreaStateBridge
                 ->pluck('parent_address_area_id')
                 ->all();
 
-            $activeParentIds = AddressArea::query()
+            $activeParentIds = ModelResolver::areaClass()::query()
                 ->whereIn('id', $parentIds)
                 ->where('is_active', true)
                 ->pluck('id')
@@ -271,7 +270,7 @@ final class AddressAreaStateBridge
             return null;
         }
 
-        $found = AddressArea::query()->find($area);
+        $found = ModelResolver::areaClass()::query()->find($area);
 
         return $found instanceof AddressArea ? $found : null;
     }

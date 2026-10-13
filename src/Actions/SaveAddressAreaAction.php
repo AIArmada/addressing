@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Models\AddressArea;
-use AIArmada\Addressing\Models\AddressAreaRelationship;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Support\AddressAreaHierarchy;
+use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -22,7 +22,7 @@ final class SaveAddressAreaAction
         $record ??= new AddressArea;
 
         $countryId = $this->resolveCountryId($attributes, $record);
-        $country = AddressCountry::query()->findOrFail($countryId);
+        $country = ModelResolver::countryClass()::query()->findOrFail($countryId);
         $parent = $this->resolveParent($attributes, $record);
 
         if ($parent instanceof AddressArea && (string) $parent->country_id !== $countryId) {
@@ -107,7 +107,7 @@ final class SaveAddressAreaAction
 
             // Only source-owned containment edges move with the save; other
             // sources and relationship types are left untouched.
-            $ownedLinks = static fn () => AddressAreaRelationship::query()
+            $ownedLinks = static fn () => ModelResolver::areaRelationshipClass()::query()
                 ->where('child_address_area_id', $record->getKey())
                 ->where('relationship_type', 'contains')
                 ->whereIn('source', $sources);
@@ -118,7 +118,7 @@ final class SaveAddressAreaAction
                 $ownedLinks()->delete();
 
                 if ($hierarchyType !== null && $parent instanceof AddressArea) {
-                    AddressAreaRelationship::query()->create([
+                    ModelResolver::areaRelationshipClass()::query()->create([
                         'parent_address_area_id' => $parent->getKey(),
                         'child_address_area_id' => $record->getKey(),
                         'relationship_type' => 'contains',
@@ -168,7 +168,7 @@ final class SaveAddressAreaAction
     {
         if (! array_key_exists('parent_id', $attributes)) {
             return $record->parent_id !== null
-                ? AddressArea::query()->find($record->parent_id)
+                ? ModelResolver::areaClass()::query()->find($record->parent_id)
                 : null;
         }
 
@@ -184,7 +184,7 @@ final class SaveAddressAreaAction
             ]);
         }
 
-        return AddressArea::query()->findOrFail(mb_trim($parentId));
+        return ModelResolver::areaClass()::query()->findOrFail(mb_trim($parentId));
     }
 
     /**

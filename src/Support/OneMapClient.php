@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Support;
 
 use AIArmada\Addressing\Exceptions\OneMapException;
 use Carbon\CarbonImmutable;
+use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
@@ -27,6 +28,8 @@ class OneMapClient
 
     private const int MAX_RETRY_AFTER_SECONDS = 60;
 
+    private const int MAX_RESULT_PAGES = 100;
+
     /**
      * Search OneMap for an address or postcode.
      *
@@ -42,11 +45,39 @@ class OneMapClient
             return [];
         }
 
-        $response = $this->sendSearch($query);
+        $results = [];
+        $page = 1;
+        $totalPages = 1;
+
+        while ($page <= $totalPages && $page <= self::MAX_RESULT_PAGES) {
+            $response = $this->searchPage($query, $page);
+            $totalPages = max(1, (int) ($response->json('totalNumPages') ?? 1));
+
+            $rows = $response->json('results', []);
+
+            if (is_array($rows)) {
+                $results = [...$results, ...array_values(array_filter(
+                    $rows,
+                    static fn (mixed $row): bool => is_array($row),
+                ))];
+            }
+
+            $page++;
+        }
+
+        return $results;
+    }
+
+    /**
+     * @throws OneMapException
+     */
+    private function searchPage(string $query, int $page): Response
+    {
+        $response = $this->sendSearch($query, $page);
 
         if ($response->status() === 401) {
             $this->forgetToken();
-            $response = $this->sendSearch($query);
+            $response = $this->sendSearch($query, $page);
         }
 
         if ($response->status() === 401) {
@@ -60,22 +91,13 @@ class OneMapClient
             ));
         }
 
-        $results = $response->json('results', []);
-
-        if (! is_array($results)) {
-            return [];
-        }
-
-        return array_values(array_filter(
-            $results,
-            static fn (mixed $row): bool => is_array($row),
-        ));
+        return $response;
     }
 
     /**
      * @throws OneMapException
      */
-    private function sendSearch(string $query): Response
+    private function sendSearch(string $query, int $page = 1): Response
     {
         $token = $this->token();
         $retries = max(0, (int) config('addressing.onemap.retries', 2));
@@ -90,7 +112,7 @@ class OneMapClient
                         'searchVal' => $query,
                         'returnGeom' => 'Y',
                         'getAddrDetails' => 'Y',
-                        'pageNum' => 1,
+                        'pageNum' => $page,
                     ]);
             } catch (ConnectionException $exception) {
                 if ($attempt >= $retries) {
@@ -122,6 +144,33 @@ class OneMapClient
      * @throws OneMapException
      */
     private function token(): string
+    {
+        $cached = Cache::get(self::TOKEN_CACHE_KEY);
+
+        if (is_string($cached) && $cached !== '') {
+            return $cached;
+        }
+
+        try {
+            return Cache::lock(self::TOKEN_CACHE_KEY . ':lock', 15)->block(
+                10,
+                fn (): string => $this->fetchToken(),
+            );
+        } catch (LockTimeoutException $exception) {
+            $cached = Cache::get(self::TOKEN_CACHE_KEY);
+
+            if (is_string($cached) && $cached !== '') {
+                return $cached;
+            }
+
+            throw new OneMapException('OneMap authentication failed: token lock timed out.', previous: $exception);
+        }
+    }
+
+    /**
+     * @throws OneMapException
+     */
+    private function fetchToken(): string
     {
         $cached = Cache::get(self::TOKEN_CACHE_KEY);
 
@@ -208,6 +257,7 @@ class OneMapClient
     private function http(): PendingRequest
     {
         return Http::acceptJson()
+            ->connectTimeout((int) config('addressing.onemap.connect_timeout', 5))
             ->timeout((int) config('addressing.onemap.timeout', 10));
     }
 }

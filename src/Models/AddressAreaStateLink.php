@@ -17,6 +17,15 @@ class AddressAreaStateLink extends Model
 {
     use HasUuids;
 
+    protected static function booted(): void
+    {
+        static::saving(static function (AddressAreaStateLink $link): void {
+            if ($link->getAttribute('hierarchy_type') === null) {
+                $link->setAttribute('hierarchy_type', '');
+            }
+        });
+    }
+
     protected $fillable = [
         'address_area_id',
         'state_id',

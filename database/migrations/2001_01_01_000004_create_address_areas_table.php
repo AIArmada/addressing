@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\Addressing\Support\LowerIndex;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -38,7 +39,9 @@ return new class extends Migration
 
             $table->unique(['source', 'source_id']);
             $table->index(['country_code', 'type', 'name']);
-            $table->index('name', 'address_areas_name_lower_index');
         });
+
+        LowerIndex::create($tableName, 'name', 'address_areas_name_lower_index');
+        LowerIndex::create($tableName, 'slug', 'address_areas_slug_lower_index');
     }
 };

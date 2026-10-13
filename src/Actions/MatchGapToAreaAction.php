@@ -6,9 +6,9 @@ namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Data\AddressLevelDefinition;
 use AIArmada\Addressing\Models\AddressArea;
-use AIArmada\Addressing\Models\AddressAreaName;
 use AIArmada\Addressing\Models\ResolutionGap;
 use AIArmada\Addressing\Support\CountryAddressProfileResolver;
+use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -93,7 +93,7 @@ final class MatchGapToAreaAction
 
     private function persistMatch(ResolutionGap $gap, AddressArea $area, ?string $matchedBy): ResolutionGap
     {
-        $locked = ResolutionGap::query()->whereKey($gap->getKey())->lockForUpdate()->firstOrFail();
+        $locked = ModelResolver::resolutionGapClass()::query()->whereKey($gap->getKey())->lockForUpdate()->firstOrFail();
 
         if ($locked->status !== 'open') {
             throw ValidationException::withMessages([
@@ -102,7 +102,7 @@ final class MatchGapToAreaAction
         }
 
         if (! $this->targetAlreadyHasValue($locked, $area)) {
-            AddressAreaName::query()->create([
+            ModelResolver::areaNameClass()::query()->create([
                 'address_area_id' => $area->getKey(),
                 'name' => mb_trim((string) $locked->value),
                 'source' => 'manual',
@@ -138,7 +138,7 @@ final class MatchGapToAreaAction
         $normalized = (string) $gap->normalized;
         $countryCode = mb_strtoupper(mb_trim((string) $gap->country_code));
 
-        $primaryConflict = AddressArea::query()
+        $primaryConflict = ModelResolver::areaClass()::query()
             ->where('country_code', $countryCode)
             ->whereKeyNot($area->getKey())
             ->whereRaw('LOWER(name) = ?', [$normalized])
@@ -150,7 +150,7 @@ final class MatchGapToAreaAction
             ]);
         }
 
-        $aliasConflict = AddressArea::query()
+        $aliasConflict = ModelResolver::areaClass()::query()
             ->where('country_code', $countryCode)
             ->whereKeyNot($area->getKey())
             ->whereHas('names', fn (Builder $names): Builder => $names->whereRaw('LOWER(name) = ?', [$normalized]))
@@ -171,7 +171,7 @@ final class MatchGapToAreaAction
             return true;
         }
 
-        return AddressAreaName::query()
+        return ModelResolver::areaNameClass()::query()
             ->where('address_area_id', $area->getKey())
             ->whereRaw('LOWER(name) = ?', [$normalized])
             ->exists();

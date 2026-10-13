@@ -23,7 +23,7 @@ final class AddressAreaHierarchy
             return [];
         }
 
-        $query = AddressArea::query()
+        $query = ModelResolver::areaClass()::query()
             ->where('country_id', $countryId)
             ->orderBy('name');
 
@@ -113,7 +113,7 @@ final class AddressAreaHierarchy
             if (array_key_exists($currentId, $parentById)) {
                 $nextId = $parentById[$currentId];
             } else {
-                $nextId = AddressArea::query()->select(['id', 'parent_id'])->find($currentId)?->parent_id;
+                $nextId = ModelResolver::areaClass()::query()->select(['id', 'parent_id'])->find($currentId)?->parent_id;
                 $nextId = $nextId !== null ? (string) $nextId : null;
             }
 
@@ -162,7 +162,7 @@ final class AddressAreaHierarchy
                 return false;
             }
 
-            $current = AddressArea::query()
+            $current = ModelResolver::areaClass()::query()
                 ->select(['id', 'parent_id'])
                 ->find($parentId);
 

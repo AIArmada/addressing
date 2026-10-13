@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Database\Factories\AddressAreaFactory;
 use AIArmada\Addressing\Support\AddressAreaAssignmentOwnerScope;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property string $id
@@ -41,24 +44,27 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
  */
 class AddressArea extends Model
 {
+    use HasFactory;
     use HasUuids;
 
     protected static function booted(): void
     {
         static::deleting(function (AddressArea $area): void {
-            AddressAreaAssignment::query()
-                ->withoutGlobalScope(AddressAreaAssignmentOwnerScope::class)
-                ->where('address_area_id', $area->getKey())
-                ->delete();
-            AddressAreaName::query()->where('address_area_id', $area->getKey())->delete();
-            AddressAreaPostalCode::query()->where('address_area_id', $area->getKey())->delete();
-            AddressAreaRole::query()->where('address_area_id', $area->getKey())->delete();
-            AddressAreaStateLink::query()->where('address_area_id', $area->getKey())->delete();
-            AddressAreaRelationship::query()
-                ->where('parent_address_area_id', $area->getKey())
-                ->orWhere('child_address_area_id', $area->getKey())
-                ->delete();
-            self::query()->where('parent_id', $area->getKey())->update(['parent_id' => null]);
+            DB::transaction(static function () use ($area): void {
+                ModelResolver::areaAssignmentClass()::query()
+                    ->withoutGlobalScope(AddressAreaAssignmentOwnerScope::class)
+                    ->where('address_area_id', $area->getKey())
+                    ->delete();
+                ModelResolver::areaNameClass()::query()->where('address_area_id', $area->getKey())->delete();
+                ModelResolver::areaPostalCodeClass()::query()->where('address_area_id', $area->getKey())->delete();
+                ModelResolver::areaRoleClass()::query()->where('address_area_id', $area->getKey())->delete();
+                ModelResolver::areaStateLinkClass()::query()->where('address_area_id', $area->getKey())->delete();
+                ModelResolver::areaRelationshipClass()::query()
+                    ->where('parent_address_area_id', $area->getKey())
+                    ->orWhere('child_address_area_id', $area->getKey())
+                    ->delete();
+                self::query()->where('parent_id', $area->getKey())->update(['parent_id' => null]);
+            });
         });
     }
 
@@ -126,19 +132,19 @@ class AddressArea extends Model
      */
     public function stateLinks(): HasMany
     {
-        return $this->hasMany(AddressAreaStateLink::class, 'address_area_id');
+        return $this->hasMany(ModelResolver::areaStateLinkClass(), 'address_area_id');
     }
 
     /** @return HasMany<AddressAreaName, $this> */
     public function names(): HasMany
     {
-        return $this->hasMany(AddressAreaName::class, 'address_area_id');
+        return $this->hasMany(ModelResolver::areaNameClass(), 'address_area_id');
     }
 
     /** @return HasMany<AddressAreaRole, $this> */
     public function roles(): HasMany
     {
-        return $this->hasMany(AddressAreaRole::class, 'address_area_id');
+        return $this->hasMany(ModelResolver::areaRoleClass(), 'address_area_id');
     }
 
     /** @return BelongsToMany<AddressArea, $this> */
@@ -169,12 +175,12 @@ class AddressArea extends Model
     public function postalCodes(): BelongsToMany
     {
         return $this->belongsToMany(
-            PostalCode::class,
+            ModelResolver::postalCodeClass(),
             AddressingTableResolver::resolve('area_postal_codes'),
             'address_area_id',
             'postal_code_id',
         )
-            ->using(AddressAreaPostalCode::class)
+            ->using(ModelResolver::areaPostalCodeClass())
             ->withPivot(['source', 'source_id', 'relationship_type', 'is_primary'])
             ->withTimestamps();
     }
@@ -235,5 +241,10 @@ class AddressArea extends Model
                 ->from($pivot)
                 ->whereColumn($pivot . '.child_address_area_id', $query->getModel()->getQualifiedKeyName());
         });
+    }
+
+    protected static function newFactory(): AddressAreaFactory
+    {
+        return AddressAreaFactory::new();
     }
 }

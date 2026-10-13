@@ -8,7 +8,9 @@ use AIArmada\Addressing\Contracts\AddressNormalizer;
 use AIArmada\Addressing\Data\AddressData;
 use AIArmada\Addressing\Support\AddressCountryResolver;
 use AIArmada\Addressing\Support\ModelResolver;
+use AIArmada\Addressing\Support\RequestCache;
 use AIArmada\Addressing\Support\SchemaTableCache;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
@@ -81,9 +83,13 @@ class NormalizeAddressDataAction implements AddressNormalizer
             return null;
         }
 
-        return $countryClass::query()
-            ->whereRaw('LOWER(name) = ?', [mb_strtolower($address->country)])
-            ->first();
+        $name = mb_strtolower($address->country);
+
+        return RequestCache::remember(
+            'reference-lookups',
+            "country|{$name}",
+            fn (): ?Model => $this->uniqueByLowerName($countryClass::query(), $name),
+        );
     }
 
     private function resolveState(AddressData $address, ?string $countryId): ?Model
@@ -105,10 +111,16 @@ class NormalizeAddressDataAction implements AddressNormalizer
             return null;
         }
 
-        return $stateClass::query()
-            ->where('country_id', $countryId)
-            ->whereRaw('LOWER(name) = ?', [mb_strtolower($address->state)])
-            ->first();
+        $name = mb_strtolower($address->state);
+
+        return RequestCache::remember(
+            'reference-lookups',
+            "state|{$countryId}|{$name}",
+            fn (): ?Model => $this->uniqueByLowerName(
+                $stateClass::query()->where('country_id', $countryId),
+                $name,
+            ),
+        );
     }
 
     private function resolveCity(AddressData $address, ?string $countryId, ?string $stateId): ?Model
@@ -134,15 +146,35 @@ class NormalizeAddressDataAction implements AddressNormalizer
             return null;
         }
 
-        $query = $cityClass::query()
-            ->where('country_id', $countryId)
-            ->whereRaw('LOWER(name) = ?', [mb_strtolower($address->city)]);
+        $name = mb_strtolower($address->city);
 
-        if ($stateId !== null) {
-            $query->where('state_id', $stateId);
-        }
+        return RequestCache::remember(
+            'reference-lookups',
+            "city|{$countryId}|{$stateId}|{$name}",
+            function () use ($cityClass, $countryId, $stateId, $name): ?Model {
+                $query = $cityClass::query()->where('country_id', $countryId);
 
-        return $query->first();
+                if ($stateId !== null) {
+                    $query->where('state_id', $stateId);
+                }
+
+                return $this->uniqueByLowerName($query, $name);
+            },
+        );
+    }
+
+    /**
+     * Link by name only when exactly one candidate matches. Ambiguous names
+     * keep their free-text value and stay unlinked instead of attaching an
+     * arbitrary first row.
+     *
+     * @param  Builder<Model>  $query
+     */
+    private function uniqueByLowerName(Builder $query, string $lowerName): ?Model
+    {
+        $matches = $query->whereRaw('LOWER(name) = ?', [$lowerName])->limit(2)->get();
+
+        return $matches->count() === 1 ? $matches->first() : null;
     }
 
     private function assertCountryMatch(Model $model, ?string $countryId, string $field): void

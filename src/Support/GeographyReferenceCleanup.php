@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Support;
 
 use AIArmada\Addressing\Actions\SyncAddressAreaAssignmentsAction;
-use AIArmada\Addressing\Models\AddressAreaAssignment;
-use AIArmada\Addressing\Models\AddressAreaStateLink;
 use AIArmada\Addressing\Models\AddressCountry;
 use AIArmada\Addressing\Models\City;
 use AIArmada\Addressing\Models\State;
@@ -78,7 +76,7 @@ final class GeographyReferenceCleanup
                 ->where('state_id', $stateId)
                 ->update(['state_id' => null]);
 
-            AddressAreaStateLink::query()
+            ModelResolver::areaStateLinkClass()::query()
                 ->where('state_id', $stateId)
                 ->delete();
 
@@ -144,7 +142,7 @@ final class GeographyReferenceCleanup
             return;
         }
 
-        $current = AddressAreaAssignment::query()
+        $current = ModelResolver::areaAssignmentClass()::query()
             ->withoutGlobalScope(AddressAreaAssignmentOwnerScope::class)
             ->where('address_id', $addressId)
             ->pluck('address_area_id', 'role')
@@ -164,7 +162,7 @@ final class GeographyReferenceCleanup
             return;
         }
 
-        AddressAreaAssignment::query()
+        ModelResolver::areaAssignmentClass()::query()
             ->withoutGlobalScope(AddressAreaAssignmentOwnerScope::class)
             ->where('address_id', $addressId)
             ->whereIn('role', $removedRoles)

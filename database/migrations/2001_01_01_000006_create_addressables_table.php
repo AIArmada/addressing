@@ -22,10 +22,13 @@ return new class extends Migration
             $table->string('type')->default('primary')->index();
             $table->string('label')->nullable();
             $table->boolean('is_primary')->default(false)->index();
+            $table->unsignedTinyInteger('primary_guard')->nullable()->storedAs('CASE WHEN is_primary THEN 1 ELSE NULL END');
             $table->timestampTz('valid_from')->nullable();
             $table->timestampTz('valid_until')->nullable();
             $table->{$jsonColumnType}('metadata')->nullable();
             $table->timestamps();
+            $table->unique(['address_id', 'addressable_type', 'addressable_id', 'type'], 'addrbl_link_unique');
+            $table->unique(['addressable_type', 'addressable_id', 'type', 'owner_type', 'owner_id', 'primary_guard'], 'addrbl_single_primary_unique');
             $table->index(['addressable_type', 'addressable_id', 'type']);
             $table->index(
                 ['addressable_type', 'addressable_id', 'is_primary'],

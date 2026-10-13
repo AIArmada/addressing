@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Models\ResolutionGap;
+use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\CommerceSupport\Support\OwnerContext;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -134,18 +135,26 @@ final class LogAddressResolutionGapAction
         string $normalized,
         ?array $context,
     ): ResolutionGap {
-        $gap = ResolutionGap::query()
-            ->forOwner(OwnerContext::resolve(), false)
-            ->where('source', $source)
-            ->where('country_code', $countryCode)
-            ->where('role', $role)
-            ->where('normalized', $normalized)
+        $owner = OwnerContext::resolve();
+        $gapClass = ModelResolver::resolutionGapClass();
+        $dedupeHash = $gapClass::dedupeHashFor(
+            $owner?->getMorphClass(),
+            $owner?->getKey(),
+            $source,
+            $countryCode,
+            $role,
+            $normalized,
+        );
+
+        $gap = $gapClass::query()
+            ->forOwner($owner, false)
+            ->where('dedupe_hash', $dedupeHash)
             ->first();
 
         $now = CarbonImmutable::now();
 
         if (! $gap instanceof ResolutionGap) {
-            return ResolutionGap::query()->create([
+            return $gapClass::query()->create([
                 'source' => $source,
                 'country_code' => $countryCode,
                 'role' => $role,

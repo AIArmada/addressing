@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Models;
 
+use AIArmada\Addressing\Database\Factories\PostalCodeFactory;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
+ * @property string $id
  * @property string $country_code
  * @property string $code
  * @property bool $is_active
@@ -18,12 +21,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class PostalCode extends Model
 {
+    use HasFactory;
     use HasUuids;
 
     protected static function booted(): void
     {
         static::deleting(function (PostalCode $postalCode): void {
-            AddressAreaPostalCode::query()->where('postal_code_id', $postalCode->getKey())->delete();
+            ModelResolver::areaPostalCodeClass()::query()->where('postal_code_id', $postalCode->getKey())->delete();
         });
     }
 
@@ -48,7 +52,7 @@ class PostalCode extends Model
             'postal_code_id',
             'address_area_id',
         )
-            ->using(AddressAreaPostalCode::class)
+            ->using(ModelResolver::areaPostalCodeClass())
             ->withPivot(['source', 'source_id', 'relationship_type', 'is_primary'])
             ->withTimestamps();
     }
@@ -56,5 +60,10 @@ class PostalCode extends Model
     protected function casts(): array
     {
         return ['is_active' => 'boolean', 'metadata' => 'array'];
+    }
+
+    protected static function newFactory(): PostalCodeFactory
+    {
+        return PostalCodeFactory::new();
     }
 }

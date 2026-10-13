@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('is_primary')->default(false);
             $table->{$jsonColumnType}('metadata')->nullable();
             $table->timestamps();
-            $table->unique(['address_id', 'address_area_id', 'role'], 'address_area_assignment_unique');
+            $table->unique(['address_id', 'role'], 'address_area_assignment_unique');
         });
     }
 };

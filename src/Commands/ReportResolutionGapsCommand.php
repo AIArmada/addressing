@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Commands;
 
 use AIArmada\Addressing\Actions\ExportResolutionGapAliasesAction;
 use AIArmada\Addressing\Models\ResolutionGap;
+use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\CommerceSupport\Support\OwnerContext;
 use Carbon\CarbonImmutable;
 use Illuminate\Console\Command;
@@ -57,7 +58,7 @@ class ReportResolutionGapsCommand extends Command
 
         // Privileged ops curation: one consolidated cross-tenant report.
         return OwnerContext::withOwner(null, function () use ($export, $country, $reason, $status, $days, $limit): int {
-            $gaps = ResolutionGap::query()
+            $gaps = ModelResolver::resolutionGapClass()::query()
                 ->withoutOwnerScope()
                 ->when($country !== null, fn ($query) => $query->where('country_code', $country))
                 ->when($reason !== null, fn ($query) => $query->where('reason', $reason))
@@ -98,7 +99,7 @@ class ReportResolutionGapsCommand extends Command
     {
         $countries = $country !== null
             ? [$country]
-            : ResolutionGap::query()
+            : ModelResolver::resolutionGapClass()::query()
                 ->withoutOwnerScope()
                 ->where('status', 'matched')
                 ->distinct()

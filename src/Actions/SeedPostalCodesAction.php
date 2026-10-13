@@ -7,12 +7,10 @@ namespace AIArmada\Addressing\Actions;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\PostalCodeData;
-use AIArmada\Addressing\Models\AddressArea;
-use AIArmada\Addressing\Models\AddressAreaPostalCode;
 use AIArmada\Addressing\Models\AddressCountry;
-use AIArmada\Addressing\Models\PostalCode;
 use AIArmada\Addressing\Support\BundledPostalDatasets;
 use AIArmada\Addressing\Support\CsvPostalCodeSource;
+use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\DB;
@@ -64,7 +62,7 @@ final class SeedPostalCodesAction
                 continue;
             }
 
-            $country = AddressCountry::query()->where('iso2', $code)->first();
+            $country = ModelResolver::countryClass()::query()->where('iso2', $code)->first();
 
             if (! $country instanceof AddressCountry) {
                 throw new InvalidArgumentException(sprintf(
@@ -115,7 +113,7 @@ final class SeedPostalCodesAction
             }
         }
 
-        $areaIds = AddressArea::query()
+        $areaIds = ModelResolver::areaClass()::query()
             ->where('country_code', $code)
             ->where('source', $areaSource)
             ->pluck('id', 'source_id')
@@ -151,7 +149,7 @@ final class SeedPostalCodesAction
      */
     private function syncCodes(string $code, array $wantedCodes, string $now, ?callable $progress): array
     {
-        $existing = PostalCode::query()
+        $existing = ModelResolver::postalCodeClass()::query()
             ->where('country_code', $code)
             ->get(['code', 'is_active', 'metadata'])
             ->keyBy('code');
@@ -192,7 +190,7 @@ final class SeedPostalCodesAction
         $total = count($upserts);
 
         foreach (array_chunk($upserts, self::CHUNK_SIZE) as $index => $chunk) {
-            PostalCode::query()->upsert($chunk, ['country_code', 'code'], ['is_active', 'metadata', 'updated_at']);
+            ModelResolver::postalCodeClass()::query()->upsert($chunk, ['country_code', 'code'], ['is_active', 'metadata', 'updated_at']);
 
             if ($progress !== null) {
                 $progress('codes', min(($index + 1) * self::CHUNK_SIZE, $total), $total);
@@ -212,7 +210,7 @@ final class SeedPostalCodesAction
      */
     private function syncLinks(string $code, string $linkSource, array $wantedLinks, array $areaIds, string $now, ?callable $progress): int
     {
-        $postalIds = PostalCode::query()
+        $postalIds = ModelResolver::postalCodeClass()::query()
             ->where('country_code', $code)
             ->pluck('id', 'code')
             ->all();
@@ -234,7 +232,7 @@ final class SeedPostalCodesAction
         $stale = [];
         $upserts = [];
 
-        $existingLinks = AddressAreaPostalCode::query()
+        $existingLinks = ModelResolver::areaPostalCodeClass()::query()
             ->where('source', $linkSource)
             ->whereHas('postalCode', fn ($query) => $query->where('country_code', $code))
             ->get(['id', 'address_area_id', 'postal_code_id', 'relationship_type', 'source_id', 'is_primary']);
@@ -261,13 +259,13 @@ final class SeedPostalCodesAction
         }
 
         foreach (array_chunk($stale, self::CHUNK_SIZE) as $chunk) {
-            AddressAreaPostalCode::query()->whereIn('id', $chunk)->delete();
+            ModelResolver::areaPostalCodeClass()::query()->whereIn('id', $chunk)->delete();
         }
 
         $total = count($upserts);
 
         foreach (array_chunk($upserts, self::CHUNK_SIZE) as $index => $chunk) {
-            AddressAreaPostalCode::query()->upsert(
+            ModelResolver::areaPostalCodeClass()::query()->upsert(
                 $chunk,
                 ['address_area_id', 'postal_code_id', 'relationship_type', 'source'],
                 ['source_id', 'is_primary', 'updated_at'],
