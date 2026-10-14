@@ -762,6 +762,8 @@ Re-imports are idempotent: rows without changes are reported as skipped. Parent 
 php artisan address:import-areas --csv=/path/to/areas.csv --source-key=my-source --reactivate
 ```
 
+Existing rows are updated through Eloquent `save()`, so model observers may mutate or cancel an update. A cancelled update is reported as skipped and leaves the stored area and its provider relationships unchanged.
+
 ### Saving a single area
 
 ```php

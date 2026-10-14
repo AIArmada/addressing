@@ -40,9 +40,21 @@ class SeedAddressCitiesAction
         $skipped = 0;
         $total = count($cities);
         $done = 0;
+        $now = CarbonImmutable::now()->toDateTimeString();
 
         foreach (array_chunk($cities, 2000) as $chunk) {
+            // Scope the preload to this chunk's countries: same keys resolve,
+            // fewer unrelated same-name rows cross country boundaries.
+            $chunkCountryIds = [];
+
+            foreach ($chunk as $row) {
+                if (isset($row['country_code'], $countryIds[$row['country_code']])) {
+                    $chunkCountryIds[] = $countryIds[$row['country_code']];
+                }
+            }
+
             $existingByKey = $cityClass::query()
+                ->whereIn('country_id', array_values(array_unique($chunkCountryIds)))
                 ->whereIn('name', array_column($chunk, 'name'))
                 ->get(['id', 'country_id', 'state_id', 'name', 'country_code', 'state_code', 'latitude', 'longitude'])
                 ->keyBy(fn ($city): string => $city->country_id . '|' . ($city->state_id ?? '') . '|' . $city->name);
@@ -89,7 +101,6 @@ class SeedAddressCitiesAction
                         continue;
                     }
 
-                    $now = CarbonImmutable::now()->toDateTimeString();
                     $inserts[$key] = [
                         'id' => (string) Str::orderedUuid(),
                         ...$attrs,

@@ -27,6 +27,9 @@ class SeedAddressCountriesAction
         $skipped = 0;
         $total = count($raw);
 
+        // One query replaces a SELECT per row.
+        $existingByIso2 = AddressCountry::query()->get()->keyBy('iso2');
+
         foreach ($raw as $index => $row) {
             if ($progress !== null) {
                 $progress('countries', $index + 1, $total);
@@ -37,8 +40,6 @@ class SeedAddressCountriesAction
 
                 continue;
             }
-
-            $existing = AddressCountry::where('iso2', $row['iso2'])->first();
 
             $attrs = [
                 'iso2' => $row['iso2'],
@@ -58,18 +59,31 @@ class SeedAddressCountriesAction
                 'translations' => $row['translations'] ?? null,
             ];
 
-            if ($existing === null) {
-                AddressCountry::create($attrs);
-                $created++;
-            } else {
-                $existing->fill($attrs);
+            $existing = $existingByIso2->get($row['iso2']);
 
-                if ($existing->isDirty()) {
-                    $existing->save();
-                    $updated++;
-                } else {
+            if ($existing === null) {
+                $country = new AddressCountry;
+                $country->fill($attrs);
+
+                if (! $country->save()) {
                     $skipped++;
+
+                    continue;
                 }
+
+                $existingByIso2->put($row['iso2'], $country);
+                $created++;
+
+                continue;
+            }
+
+            $existing->fill($attrs);
+
+            if ($existing->isDirty()) {
+                $existing->save();
+                $updated++;
+            } else {
+                $skipped++;
             }
         }
 

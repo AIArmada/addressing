@@ -198,9 +198,14 @@ class ImportAddressAreasAction
                     $inserts,
                     $staged,
                 );
-                $parentById[(string) $areasByKey[$key]['id']] = $parentId;
 
-                $this->trackLink($linkStates, $areaData, (string) $areasByKey[$key]['id'], $parentId, $providerKey);
+                $parentById[(string) $areasByKey[$key]['id']] = $areasByKey[$key]['parent_id'] !== null
+                    ? (string) $areasByKey[$key]['parent_id']
+                    : null;
+
+                if ($result !== 'cancelled') {
+                    $this->trackLink($linkStates, $areaData, (string) $areasByKey[$key]['id'], $parentId, $providerKey);
+                }
 
                 match ($result) {
                     'created' => $created++,
@@ -525,7 +530,7 @@ class ImportAddressAreasAction
      * @param  array<string, array<string, mixed>>  $areasByKey
      * @param  array<string, array<string, mixed>>  $inserts
      * @param  array<string, true>  $staged
-     * @return 'created'|'updated'|'skipped'
+     * @return 'created'|'updated'|'skipped'|'cancelled'
      */
     private function persistPrepared(
         AddressAreaData $areaData,
@@ -586,7 +591,10 @@ class ImportAddressAreasAction
             return 'updated';
         }
 
-        $model->save();
+        if (! $model->save()) {
+            return 'cancelled';
+        }
+
         $areasByKey[$key] = $model->getAttributes();
 
         return 'updated';

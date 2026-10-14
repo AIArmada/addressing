@@ -98,7 +98,7 @@ class SeedAddressCountryReferencesAction
     {
         $currencyIds = Currency::query()->pluck('id', 'code');
         $countryIds = ModelResolver::countryClass()::query()->pluck('id', 'iso2');
-        $created = 0;
+        $links = [];
 
         foreach ($countries as $index => $country) {
             if ($progress !== null) {
@@ -116,13 +116,13 @@ class SeedAddressCountryReferencesAction
                 continue;
             }
 
-            $created += $this->insertLink(
-                AddressingTableResolver::resolve('country_currency_links'),
-                ['country_id' => $countryId, 'currency_id' => $currencyId],
-            );
+            $links[] = ['country_id' => $countryId, 'currency_id' => $currencyId];
         }
 
-        return $created;
+        return $this->insertLinks(
+            AddressingTableResolver::resolve('country_currency_links'),
+            $links,
+        );
     }
 
     /**
@@ -133,7 +133,7 @@ class SeedAddressCountryReferencesAction
     {
         $timezoneIds = Timezone::query()->pluck('id', 'name');
         $countryIds = ModelResolver::countryClass()::query()->pluck('id', 'iso2');
-        $created = 0;
+        $links = [];
 
         foreach ($countries as $index => $country) {
             if ($progress !== null) {
@@ -158,26 +158,39 @@ class SeedAddressCountryReferencesAction
                     continue;
                 }
 
-                $created += $this->insertLink(
-                    AddressingTableResolver::resolve('country_timezone_links'),
-                    ['country_id' => $countryId, 'timezone_id' => $timezoneId],
-                );
+                $links[] = ['country_id' => $countryId, 'timezone_id' => $timezoneId];
             }
         }
 
-        return $created;
+        return $this->insertLinks(
+            AddressingTableResolver::resolve('country_timezone_links'),
+            $links,
+        );
     }
 
     /**
-     * @param  array<string, string>  $attributes
+     * @param  list<array<string, string>>  $links
      */
-    private function insertLink(string $table, array $attributes): int
+    private function insertLinks(string $table, array $links): int
     {
-        return DB::table($table)->insertOrIgnore([
-            'id' => (string) Str::uuid(),
-            ...$attributes,
-            'created_at' => CarbonImmutable::now(),
-            'updated_at' => CarbonImmutable::now(),
-        ]);
+        if ($links === []) {
+            return 0;
+        }
+
+        $now = CarbonImmutable::now();
+        $created = 0;
+
+        foreach (array_chunk($links, 1000) as $chunk) {
+            $rows = array_map(static fn (array $link): array => [
+                'id' => (string) Str::uuid(),
+                ...$link,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ], $chunk);
+
+            $created += DB::table($table)->insertOrIgnore($rows);
+        }
+
+        return $created;
     }
 }
