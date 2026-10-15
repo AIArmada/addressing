@@ -48,6 +48,12 @@ class SeedAddressCountriesAction
                 continue;
             }
 
+            $translations = $row['translations'] ?? null;
+
+            if (is_array($translations)) {
+                ksort($translations);
+            }
+
             $attrs = [
                 'iso2' => $row['iso2'],
                 'name' => $row['name'],
@@ -59,11 +65,11 @@ class SeedAddressCountriesAction
                 'region' => $row['region'] ?? null,
                 'subregion' => $row['subregion'] ?? null,
                 'tld' => $row['tld'] ?? null,
-                'latitude' => is_numeric($row['latitude'] ?? null) ? (float) $row['latitude'] : null,
-                'longitude' => is_numeric($row['longitude'] ?? null) ? (float) $row['longitude'] : null,
+                'latitude' => is_numeric($row['latitude'] ?? null) ? round((float) $row['latitude'], 7) : null,
+                'longitude' => is_numeric($row['longitude'] ?? null) ? round((float) $row['longitude'], 7) : null,
                 'emoji' => $row['emoji'] ?? null,
                 'emojiU' => $row['emojiU'] ?? null,
-                'translations' => $row['translations'] ?? null,
+                'translations' => $translations,
             ];
 
             $existing = $existingByIso2->get($row['iso2']);
@@ -84,10 +90,23 @@ class SeedAddressCountriesAction
                 continue;
             }
 
+            // jsonb reorders keys so order-only diffs must not count as
+            // updates: compare key-sorted copies on both sides.
+            $existingTranslations = $existing->translations;
+
+            if (is_array($existingTranslations)) {
+                ksort($existingTranslations);
+            }
+
+            if (is_array($attrs['translations']) && $existingTranslations === $attrs['translations']) {
+                $attrs['translations'] = $existing->translations;
+            }
+
             $existing->fill($attrs);
 
             if ($existing->isDirty()) {
                 $existing->save();
+                $updated++;
             } else {
                 $skipped++;
             }

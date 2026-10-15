@@ -94,8 +94,8 @@ class SeedAddressCitiesAction
                     'name' => $row['name'],
                     'country_code' => $row['country_code'] ?? null,
                     'state_code' => $stateCode,
-                    'latitude' => is_numeric($row['latitude'] ?? null) ? (float) $row['latitude'] : null,
-                    'longitude' => is_numeric($row['longitude'] ?? null) ? (float) $row['longitude'] : null,
+                    'latitude' => is_numeric($row['latitude'] ?? null) ? round((float) $row['latitude'], 7) : null,
+                    'longitude' => is_numeric($row['longitude'] ?? null) ? round((float) $row['longitude'], 7) : null,
                 ];
 
                 $key = $countryId . '|' . ($stateId ?? '') . '|' . $row['name'];
@@ -123,6 +123,7 @@ class SeedAddressCitiesAction
 
                 if ($existing->isDirty()) {
                     $existing->save();
+                    $updated++;
                 } else {
                     $skipped++;
                 }

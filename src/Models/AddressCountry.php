@@ -90,6 +90,8 @@ class AddressCountry extends Model
     protected function casts(): array
     {
         return [
+            'latitude' => 'float',
+            'longitude' => 'float',
             'translations' => 'array',
         ];
     }

@@ -78,8 +78,8 @@ class SeedAddressStatesAction
                 'name' => $row['name'],
                 'country_code' => $row['country_code'] ?? null,
                 'code' => $code,
-                'latitude' => is_numeric($row['latitude'] ?? null) ? (float) $row['latitude'] : null,
-                'longitude' => is_numeric($row['longitude'] ?? null) ? (float) $row['longitude'] : null,
+                'latitude' => is_numeric($row['latitude'] ?? null) ? round((float) $row['latitude'], 7) : null,
+                'longitude' => is_numeric($row['longitude'] ?? null) ? round((float) $row['longitude'], 7) : null,
             ];
 
             $key = self::naturalKey($countryId, $code, $row['name']);
@@ -108,6 +108,7 @@ class SeedAddressStatesAction
 
             if ($existing->isDirty()) {
                 $existing->save();
+                $updated++;
             } else {
                 $skipped++;
             }
