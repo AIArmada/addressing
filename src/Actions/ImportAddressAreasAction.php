@@ -597,6 +597,13 @@ class ImportAddressAreasAction
         }
 
         $model = $this->hydrateArea($existing);
+
+        foreach (['source_payload', 'metadata'] as $jsonField) {
+            if ($this->encodeJson($this->normalizeJsonValue($model->getAttribute($jsonField))) === $this->encodeJson($this->normalizeJsonValue($data[$jsonField]))) {
+                unset($data[$jsonField]);
+            }
+        }
+
         $model->fill($data);
 
         if ($reactivate) {
@@ -627,6 +634,23 @@ class ImportAddressAreasAction
         $areasByKey[$key] = $model->getAttributes();
 
         return 'updated';
+    }
+
+    private function normalizeJsonValue(mixed $value): mixed
+    {
+        if (! is_array($value)) {
+            return $value;
+        }
+
+        foreach ($value as $key => $nestedValue) {
+            $value[$key] = $this->normalizeJsonValue($nestedValue);
+        }
+
+        if (! array_is_list($value)) {
+            ksort($value);
+        }
+
+        return $value;
     }
 
     /**
