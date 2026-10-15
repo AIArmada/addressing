@@ -135,6 +135,24 @@ class AddressArea extends Model
         return $this->hasMany(ModelResolver::areaStateLinkClass(), 'address_area_id');
     }
 
+    /** @return HasMany<AddressAreaRelationship, $this> */
+    public function incomingAreaRelationships(): HasMany
+    {
+        return $this->hasMany(ModelResolver::areaRelationshipClass(), 'child_address_area_id');
+    }
+
+    /** @return HasMany<AddressAreaRelationship, $this> */
+    public function outgoingAreaRelationships(): HasMany
+    {
+        return $this->hasMany(ModelResolver::areaRelationshipClass(), 'parent_address_area_id');
+    }
+
+    /** @return HasMany<AddressAreaPostalCode, $this> */
+    public function postalCodeCoverage(): HasMany
+    {
+        return $this->hasMany(ModelResolver::areaPostalCodeClass(), 'address_area_id');
+    }
+
     /** @return HasMany<AddressAreaName, $this> */
     public function names(): HasMany
     {

@@ -36,6 +36,9 @@ data queries are intentionally global.
 - **AddressSnapshot** — immutable point-in-time address snapshots
 - **Formatting & Normalization** — contracts and default implementations
 - **Area Import Pipeline** — import administrative areas via `AddressAreaSource`, arrays, or CSV
+- **Area aliases** — manual alias curation through core actions that preserve provider-owned names
+- **Postcode administration** — safe manual save and grouped source-coverage import while preserving undeclared source groups
+- **Address attachments** — core transactional mutation of one typed addressable pivot
 - **Country geography providers** — country-specific address structures and data (see [05-country-data](05-country-data.md) for the bundled set; more providers can be configured)
 
 Currency, language, and timezone reference data is owned by `commerce-support`. Addressing owns only the country relationships for currencies and timezones. Languages are not related to countries because no trusted country-language mapping dataset is bundled.

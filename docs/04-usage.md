@@ -553,6 +553,20 @@ instead rejects any incoming link row regardless of type or dates, so it is
 not the complement of a live-link check.) Use the scopes for hierarchy
 questions, the relations for graph questions.
 
+For admin or audit views that need to inspect each stored link separately,
+`AddressArea` also exposes `incomingAreaRelationships()` and
+`outgoingAreaRelationships()` as `HasMany` relations to the typed edge rows,
+and `postalCodeCoverage()` as a `HasMany` relation to coverage rows. These
+preserve each edge's own ID, type, hierarchy, dates, and source; coverage rows
+also retain their own source ID and primary flag. The existing `relatedAreas()`
+`BelongsToMany` relation remains available for traversing related area models.
+
+```php
+$incoming = $area->incomingAreaRelationships()->with('parent')->get();
+$outgoing = $area->outgoingAreaRelationships()->with('child')->get();
+$coverage = $area->postalCodeCoverage()->with('postalCode')->get();
+```
+
 ## Resolution gaps
 
 External sources (place pickers, geocoders, imports) return names that do not
@@ -719,6 +733,39 @@ Malaysia declares its base type labels explicitly; state overrides still take pr
 
 Distinct-type lookups, including empty results, are memoised in request attributes by area model, connection, table, parent, hierarchy type, ordered type filters, and level filters. Labels still adapt when the selection changes. The cache holds raw types rather than translated labels, expires with the request, and is bypassed when no request is bound. Geography writes become visible to a previously cached scope on the next request.
 
+## Save and import postcode admin data
+
+Use `SavePostalCodeAction` for an operator-managed postcode row. Country and
+postcode code identify the row; the action validates each manual coverage area
+against the postcode country and changes only manual coverage without source
+identities. Metadata must be an array or `null`; omitting it during an update
+preserves the stored value, while explicit `null` clears it.
+
+```php
+use AIArmada\Addressing\Actions\SavePostalCodeAction;
+
+$postcode = app(SavePostalCodeAction::class)->execute([
+    'country_code' => 'MY',
+    'code' => '47500',
+    'is_active' => true,
+    'metadata' => ['note' => 'Verified by operations'],
+    'manual_coverage' => [
+        [
+            'area_id' => $area->getKey(),
+            'relationship_type' => 'served_by',
+            'is_primary' => true,
+        ],
+    ],
+]);
+```
+
+For grouped import rows, `ImportPostalCodeAdminDataAction` accepts one postcode
+and an explicit list of coverage edges. Every area is resolved by source and
+source ID within the selected country before any mutation. Each edge preserves
+its own source, source ID, relationship type, and primary flag. Only coverage
+groups named in the input are replaced; an empty coverage list leaves current
+coverage unchanged.
+
 ## Import Areas
 
 ### From a custom source
@@ -789,6 +836,30 @@ relationship types are left untouched. Manual rows use
 `source: 'manual'` by default so provider reseeds never touch them. The
 Filament adapter calls this action from its area create/edit pages.
 
+Manual area aliases use their own core actions so provider-owned names remain
+protected across entry points:
+
+```php
+use AIArmada\Addressing\Actions\DeleteAddressAreaAliasAction;
+use AIArmada\Addressing\Actions\SaveAddressAreaAliasAction;
+
+$alias = app(SaveAddressAreaAliasAction::class)->handle($area, [
+    'name' => 'Shah Alam',
+    'name_type' => 'alternative',
+    'is_preferred' => false,
+]);
+
+$alias = app(SaveAddressAreaAliasAction::class)->handle($area, [
+    'name' => 'Shah Alam City',
+], $alias);
+
+app(DeleteAddressAreaAliasAction::class)->execute($area, $alias);
+```
+
+The actions reload and lock the area and any supplied alias before checking
+persisted ownership and parent identity. Provider-sourced aliases cannot be
+edited or deleted through these actions.
+
 ## HasAddresses Trait
 
 ```php
@@ -807,6 +878,39 @@ $customer->attachAddress($address, type: 'shipping', isPrimary: true);
 $primary = $customer->primaryAddress('shipping');
 $addresses = $customer->addressesOfType('billing');
 ```
+
+For admin views that need one row per attachment, `addressAttachments()` is a
+`MorphMany` relation to the pivot model. It preserves the attachment ID,
+addressable type, label, primary flag, validity dates, owner, and metadata;
+`addresses()` remains the relation for traversing address models.
+
+```php
+$attachments = $customer->addressAttachments()->with('address')->get();
+```
+
+### Update an address attachment
+
+Use the core action when changing one persisted addressable pivot. It validates
+the address and parent under the current owner, rechecks the pivot identity,
+and updates the typed relationship and primary flag transactionally.
+
+```php
+use AIArmada\Addressing\Actions\UpdateAddressAttachmentAction;
+use AIArmada\Addressing\Models\Addressable;
+
+$attachment = Addressable::query()->findOrFail($attachmentId);
+
+$attachment = app(UpdateAddressAttachmentAction::class)->execute($attachment, [
+    'type' => 'billing',
+    'label' => 'Accounts office',
+    'is_primary' => true,
+]);
+
+app(UpdateAddressAttachmentAction::class)->detach($attachment);
+```
+
+The action refuses a duplicate address/type attachment and changes primary
+status only within that addressable owner's matching type.
 
 Address instances and attachment pivots are owner-scoped. Resolve the
 addressable and the address inside the same owner context before attaching:
