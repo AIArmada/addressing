@@ -635,27 +635,30 @@ class ImportAddressAreasAction
      */
     private function deactivateMissingProviderAreas(string $providerKey, array $seenSourceIds, array $countryIdsBySource, CarbonImmutable $now): void
     {
-        foreach ($countryIdsBySource as $source => $countryIds) {
-            $seen = $seenSourceIds[$source] ?? [];
+        $countryIds = [];
 
-            foreach (array_keys($countryIds) as $countryId) {
-                $activeAreas = ModelResolver::areaClass()::query()
-                    ->where('source', $source)
-                    ->where('metadata->provider', $providerKey)
-                    ->where('country_id', $countryId)
-                    ->where('is_active', true)
-                    ->lockForUpdate()
-                    ->get();
+        foreach ($countryIdsBySource as $ids) {
+            foreach (array_keys($ids) as $countryId) {
+                $countryIds[$countryId] = true;
+            }
+        }
 
-                foreach ($activeAreas as $area) {
-                    if (isset($seen[$area->source_id])) {
-                        continue;
-                    }
+        foreach (array_keys($countryIds) as $countryId) {
+            $activeAreas = ModelResolver::areaClass()::query()
+                ->where('metadata->provider', $providerKey)
+                ->where('country_id', $countryId)
+                ->where('is_active', true)
+                ->lockForUpdate()
+                ->get();
 
-                    $area->is_active = false;
-                    $area->synced_at = $now;
-                    $area->save();
+            foreach ($activeAreas as $area) {
+                if (isset($seenSourceIds[$area->source][$area->source_id])) {
+                    continue;
                 }
+
+                $area->is_active = false;
+                $area->synced_at = $now;
+                $area->save();
             }
         }
     }
