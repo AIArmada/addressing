@@ -13,7 +13,6 @@ use AIArmada\Addressing\Support\CsvPostalCodeSource;
 use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -80,7 +79,9 @@ final class SeedPostalCodesAction
             $areaSource = $provider->addressAreaSource()->key();
             $source = new CsvPostalCodeSource($code, $codesPath, $linksPath, $areaSource);
 
-            $codes[$code] = DB::transaction(fn (): array => $this->importCountry($code, $areaSource, $source, $report));
+            $codes[$code] = ModelResolver::postalCodeClass()::query()->getConnection()->transaction(
+                fn (): array => $this->importCountry($code, $areaSource, $source, $report),
+            );
             $seeded[] = $code;
         }
 
@@ -151,13 +152,15 @@ final class SeedPostalCodesAction
     {
         $existing = ModelResolver::postalCodeClass()::query()
             ->where('country_code', $code)
-            ->get(['code', 'is_active', 'metadata'])
+            ->lockForUpdate()
+            ->get(['id', 'country_code', 'code', 'is_active', 'metadata'])
             ->keyBy('code');
 
         $created = 0;
         $updated = 0;
         $skipped = 0;
-        $upserts = [];
+        $inserts = [];
+        $updates = [];
 
         foreach ($wantedCodes as $upper => $item) {
             $metadata = array_merge($item->metadata, [
@@ -166,34 +169,59 @@ final class SeedPostalCodesAction
             ]);
             $row = $existing->get($upper);
 
-            if ($row === null) {
-                $created++;
-            } elseif ($row->is_active !== true || $row->metadata !== $metadata) {
-                $updated++;
-            } else {
-                $skipped++;
-
-                continue;
-            }
-
-            $upserts[] = [
-                'id' => (string) Str::uuid7(),
+            $attributes = [
                 'country_code' => $code,
                 'code' => $upper,
                 'is_active' => true,
-                'metadata' => json_encode($metadata, JSON_THROW_ON_ERROR),
-                'created_at' => $now,
-                'updated_at' => $now,
+                'metadata' => $metadata,
             ];
+
+            if ($row === null) {
+                $attributes = [
+                    ...$attributes,
+                    'id' => (string) Str::uuid7(),
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+                $created++;
+            } else {
+                $row->fill($attributes);
+
+                if (! $row->isDirty()) {
+                    $skipped++;
+
+                    continue;
+                }
+
+                $attributes = $row->getAttributes();
+                $attributes['updated_at'] = $now;
+                $updated++;
+            }
+
+            $attributes['metadata'] = json_encode($metadata, JSON_THROW_ON_ERROR);
+
+            if ($row === null) {
+                $inserts[] = $attributes;
+            } else {
+                $updates[] = $attributes;
+            }
         }
 
-        $total = count($upserts);
+        $total = count($inserts) + count($updates);
 
-        foreach (array_chunk($upserts, self::CHUNK_SIZE) as $index => $chunk) {
-            ModelResolver::postalCodeClass()::query()->upsert($chunk, ['country_code', 'code'], ['is_active', 'metadata', 'updated_at']);
+        foreach (array_chunk($inserts, self::CHUNK_SIZE) as $index => $chunk) {
+            ModelResolver::postalCodeClass()::query()->insert($chunk);
 
             if ($progress !== null) {
                 $progress('codes', min(($index + 1) * self::CHUNK_SIZE, $total), $total);
+            }
+        }
+
+        foreach (array_chunk($updates, self::CHUNK_SIZE) as $index => $chunk) {
+            ModelResolver::postalCodeClass()::query()->upsert($chunk, ['country_code', 'code'], ['is_active', 'metadata', 'updated_at']);
+
+            if ($progress !== null) {
+                $progress('codes', min(count($inserts) + (($index + 1) * self::CHUNK_SIZE), $total), $total);
             }
         }
 
@@ -235,6 +263,7 @@ final class SeedPostalCodesAction
         $existingLinks = ModelResolver::areaPostalCodeClass()::query()
             ->where('source', $linkSource)
             ->whereHas('postalCode', fn ($query) => $query->where('country_code', $code))
+            ->lockForUpdate()
             ->get(['id', 'address_area_id', 'postal_code_id', 'relationship_type', 'source_id', 'is_primary']);
 
         foreach ($existingLinks as $link) {

@@ -6,6 +6,7 @@ namespace AIArmada\Addressing\Models;
 
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $child_address_area_id
  * @property string $hierarchy_type
  * @property string $source
+ * @property string $relationship_type
+ * @property CarbonImmutable|null $created_at
  */
 class AddressAreaRelationship extends Model
 {

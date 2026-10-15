@@ -49,6 +49,10 @@ use AIArmada\Addressing\Database\Seeders\AddressingSeeder;
 $this->call(AddressingSeeder::class);
 ```
 
+Reseeding is the update path: reference rows upsert by stable keys and keep
+their IDs, so rerun the seeder whenever bundled data changes. The consuming
+application never edits reference rows, so seeds overwrite unconditionally.
+
 For custom orchestration, call the action directly. Without a callback it runs
 silently, which is what queued jobs and tests want:
 

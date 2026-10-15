@@ -136,6 +136,9 @@ regardless; the flag only controls whether village areas are seeded.
 
 A `CountryGeographyProvider` also has a stable `providerKey()`. Keep that key unchanged when its imported `AddressAreaSource` key changes: it owns provider-seeded areas, aliases, roles, relationships, and State links across reseeds. The source key identifies a particular feed, while the provider key identifies its long-lived owner.
 
+Keep source IDs, state codes, and city names stable; identity renames need an
+explicit remap plan because seeders do not guess which old row to replace.
+
 When a provider uses different first-level area roots for separate hierarchies, its State mappings may declare `hierarchy_types`. The same canonical `State` can then resolve the correct root for postal and administrative selectors independently.
 
 Country-specific formatters are configured separately from geography providers:

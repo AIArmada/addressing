@@ -40,6 +40,7 @@ data queries are intentionally global.
 - **Postcode administration** — safe manual save and grouped source-coverage import while preserving undeclared source groups
 - **Address attachments** — core transactional mutation of one typed addressable pivot
 - **Country geography providers** — country-specific address structures and data (see [05-country-data](05-country-data.md) for the bundled set; more providers can be configured)
+- **Deterministic reference seeding** — stable row identities and differential provider-link updates; reseeds overwrite unconditionally
 
 Currency, language, and timezone reference data is owned by `commerce-support`. Addressing owns only the country relationships for currencies and timezones. Languages are not related to countries because no trusted country-language mapping dataset is bundled.
 

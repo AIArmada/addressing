@@ -12,7 +12,6 @@ use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Support\AddressAreaHierarchy;
 use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use SplPriorityQueue;
@@ -32,7 +31,7 @@ class ImportAddressAreasAction
             throw new InvalidArgumentException('Address-area provider keys cannot be empty.');
         }
 
-        return DB::transaction(function () use ($source, $dryRun, $providerKey, $reactivate, $progress): ImportAddressAreasResultData {
+        return ModelResolver::areaClass()::query()->getConnection()->transaction(function () use ($source, $dryRun, $providerKey, $reactivate, $progress): ImportAddressAreasResultData {
             $created = 0;
             $updated = 0;
             $skipped = 0;
@@ -42,6 +41,17 @@ class ImportAddressAreasAction
             $now = CarbonImmutable::now();
 
             $rows = $source->areas()->all();
+
+            if ($providerKey !== null && $rows === [] && ModelResolver::areaClass()::query()
+                ->where('source', $source->key())
+                ->where('metadata->provider', $providerKey)
+                ->exists()) {
+                throw new InvalidArgumentException(sprintf(
+                    'Cannot import an empty geography feed for provider %s while managed areas exist.',
+                    $providerKey,
+                ));
+            }
+
             $rows = $this->orderByDependency($rows);
             $total = count($rows);
             $done = 0;
@@ -63,9 +73,12 @@ class ImportAddressAreasAction
                     : null;
             }
 
+            /** @var array<string, array> $inserts */
             $inserts = [];
             $staged = [];
             $linkStates = [];
+            $seenSourceIds = [];
+            $countryIdsBySource = [];
 
             foreach ($rows as $areaData) {
                 $done++;
@@ -94,6 +107,9 @@ class ImportAddressAreasAction
 
                     continue;
                 }
+
+                $seenSourceIds[$areaData->source][$areaData->sourceId] = true;
+                $countryIdsBySource[$areaData->source][$countryId] = true;
 
                 $key = $areaData->source . "\0" . $areaData->sourceId;
                 $existing = $areasByKey[$key] ?? null;
@@ -216,6 +232,10 @@ class ImportAddressAreasAction
 
             $this->flushInserts($inserts);
             $this->syncLinks($linkStates, $now);
+
+            if ($providerKey !== null && $failures === [] && ! $dryRun) {
+                $this->deactivateMissingProviderAreas($providerKey, $seenSourceIds, $countryIdsBySource, $now);
+            }
 
             return new ImportAddressAreasResultData(
                 created: $created,
@@ -435,6 +455,7 @@ class ImportAddressAreasAction
 
         $stored = ModelResolver::areaClass()::query()->toBase()
             ->whereIn('source', array_keys($sources))
+            ->lockForUpdate()
             ->get();
 
         foreach ($stored as $row) {
@@ -511,6 +532,10 @@ class ImportAddressAreasAction
     ): void {
         $data = $this->rowData($areaData, $countryId, $countryCode, $parentId, $providerKey);
 
+        if ($existing !== null) {
+            $data['slug'] = $existing['slug'];
+        }
+
         if ($existing === null) {
             $areasByKey[$key] = [
                 ...$data,
@@ -527,8 +552,12 @@ class ImportAddressAreasAction
 
     /**
      * @param  array<string, mixed>|null  $existing
-     * @param  array<string, array<string, mixed>>  $areasByKey
-     * @param  array<string, array<string, mixed>>  $inserts
+     * @param  array<string, array>  $areasByKey
+     * @param  array<string, array>  $inserts
+     *
+     * @param-out array<string, array> $areasByKey
+     * @param-out array<string, array> $inserts
+     *
      * @param  array<string, true>  $staged
      * @return 'created'|'updated'|'skipped'|'cancelled'
      */
@@ -600,6 +629,37 @@ class ImportAddressAreasAction
         return 'updated';
     }
 
+    /**
+     * @param  array<string, array<string, true>>  $seenSourceIds
+     * @param  array<string, array<string, true>>  $countryIdsBySource
+     */
+    private function deactivateMissingProviderAreas(string $providerKey, array $seenSourceIds, array $countryIdsBySource, CarbonImmutable $now): void
+    {
+        foreach ($countryIdsBySource as $source => $countryIds) {
+            $seen = $seenSourceIds[$source] ?? [];
+
+            foreach (array_keys($countryIds) as $countryId) {
+                $activeAreas = ModelResolver::areaClass()::query()
+                    ->where('source', $source)
+                    ->where('metadata->provider', $providerKey)
+                    ->where('country_id', $countryId)
+                    ->where('is_active', true)
+                    ->lockForUpdate()
+                    ->get();
+
+                foreach ($activeAreas as $area) {
+                    if (isset($seen[$area->source_id])) {
+                        continue;
+                    }
+
+                    $area->is_active = false;
+                    $area->synced_at = $now;
+                    $area->save();
+                }
+            }
+        }
+    }
+
     private function encodeJson(mixed $value): ?string
     {
         if ($value === null) {
@@ -639,9 +699,7 @@ class ImportAddressAreasAction
         $linkStates[$childId . "\0" . $relSource] = null;
     }
 
-    /**
-     * @param  array<string, array<string, mixed>>  $inserts
-     */
+    /** @param array<string, array<string, mixed>> $inserts */
     private function flushInserts(array $inserts): void
     {
         if ($inserts === []) {
@@ -665,33 +723,90 @@ class ImportAddressAreasAction
         }
 
         $childrenBySource = [];
-        $creates = [];
+        $wanted = [];
 
         foreach ($linkStates as $composite => $link) {
             [$childId, $relSource] = explode("\0", $composite, 2);
             $childrenBySource[$relSource][] = $childId;
 
             if ($link !== null) {
-                $creates[] = [
-                    ...$link,
-                    'id' => (string) Str::uuid7(),
-                    'metadata' => null,
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ];
+                $wanted[$composite] = $link;
             }
         }
 
+        $existing = [];
         foreach ($childrenBySource as $relSource => $childIds) {
             foreach (array_chunk(array_values(array_unique($childIds)), 500) as $chunk) {
-                ModelResolver::areaRelationshipClass()::query()
+                foreach (ModelResolver::areaRelationshipClass()::query()
                     ->where('source', $relSource)
                     ->whereIn('child_address_area_id', $chunk)
-                    ->delete();
+                    ->lockForUpdate()
+                    ->get(['id', 'parent_address_area_id', 'child_address_area_id', 'relationship_type', 'hierarchy_type', 'source', 'created_at']) as $row) {
+                    $existing[$row->child_address_area_id . "\0" . $row->source] = $row;
+                }
             }
         }
 
-        foreach (array_chunk($creates, 500) as $chunk) {
+        $deletes = [];
+        $inserts = [];
+        $updates = [];
+        foreach ($childrenBySource as $relSource => $childIds) {
+            foreach (array_unique($childIds) as $childId) {
+                $key = $childId . "\0" . $relSource;
+                $current = $existing[$key] ?? null;
+                $next = $wanted[$key] ?? null;
+
+                if ($current === null && $next !== null) {
+                    $inserts[] = [
+                        ...$next,
+                        'id' => (string) Str::uuid7(),
+                        'metadata' => null,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+
+                    continue;
+                }
+
+                if ($current !== null && $next === null) {
+                    $deletes[] = $current->id;
+
+                    continue;
+                }
+
+                if ($current !== null && $next !== null && (
+                    $current->parent_address_area_id !== $next['parent_address_area_id']
+                    || $current->relationship_type !== $next['relationship_type']
+                    || $current->hierarchy_type !== $next['hierarchy_type']
+                )) {
+                    $updates[] = [
+                        'id' => $current->id,
+                        'child_address_area_id' => $current->child_address_area_id,
+                        'parent_address_area_id' => $next['parent_address_area_id'],
+                        'relationship_type' => $next['relationship_type'],
+                        'hierarchy_type' => $next['hierarchy_type'],
+                        'source' => $current->source,
+                        'created_at' => $current->created_at,
+                        'updated_at' => $now,
+                    ];
+                }
+            }
+        }
+
+        foreach (array_chunk($deletes, 500) as $chunk) {
+            ModelResolver::areaRelationshipClass()::query()->whereIn('id', $chunk)->delete();
+        }
+
+        foreach (array_chunk($updates, 500) as $chunk) {
+            ModelResolver::areaRelationshipClass()::query()->upsert($chunk, ['id'], [
+                'parent_address_area_id',
+                'relationship_type',
+                'hierarchy_type',
+                'updated_at',
+            ]);
+        }
+
+        foreach (array_chunk($inserts, 500) as $chunk) {
             ModelResolver::areaRelationshipClass()::query()->insert($chunk);
         }
     }

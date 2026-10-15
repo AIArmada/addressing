@@ -16,6 +16,15 @@ class SeedAddressStatesAction
      */
     public function execute(?array $states = null, ?callable $progress = null): array
     {
+        return ModelResolver::stateClass()::query()->getConnection()->transaction(fn (): array => $this->seed($states, $progress));
+    }
+
+    /**
+     * @param  array<int, mixed>|null  $states
+     * @param  ?callable(string, int, int, ?string=): void  $progress
+     */
+    private function seed(?array $states, ?callable $progress): array
+    {
         if ($states === null) {
             $path = __DIR__ . '/../../resources/data/states.json';
 
@@ -36,6 +45,7 @@ class SeedAddressStatesAction
         $skipped = 0;
 
         $existingByKey = $stateClass::query()
+            ->lockForUpdate()
             ->get(['id', 'country_id', 'name', 'country_code', 'code', 'latitude', 'longitude'])
             ->keyBy(fn ($state): string => self::naturalKey($state->country_id, $state->code, $state->name));
 
@@ -98,7 +108,6 @@ class SeedAddressStatesAction
 
             if ($existing->isDirty()) {
                 $existing->save();
-                $updated++;
             } else {
                 $skipped++;
             }

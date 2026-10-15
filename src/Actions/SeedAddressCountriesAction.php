@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Actions;
 
-use AIArmada\Addressing\Models\AddressCountry;
+use AIArmada\Addressing\Support\ModelResolver;
 use RuntimeException;
 
 class SeedAddressCountriesAction
@@ -13,6 +13,12 @@ class SeedAddressCountriesAction
      * @param  ?callable(string, int, int, ?string=): void  $progress
      */
     public function execute(?callable $progress = null): array
+    {
+        return ModelResolver::countryClass()::query()->getConnection()->transaction(fn (): array => $this->seed($progress));
+    }
+
+    /** @param ?callable(string, int, int, ?string=): void $progress */
+    private function seed(?callable $progress): array
     {
         $path = __DIR__ . '/../../resources/data/countries.json';
 
@@ -28,7 +34,8 @@ class SeedAddressCountriesAction
         $total = count($raw);
 
         // One query replaces a SELECT per row.
-        $existingByIso2 = AddressCountry::query()->get()->keyBy('iso2');
+        $countryClass = ModelResolver::countryClass();
+        $existingByIso2 = $countryClass::query()->lockForUpdate()->get()->keyBy('iso2');
 
         foreach ($raw as $index => $row) {
             if ($progress !== null) {
@@ -62,7 +69,7 @@ class SeedAddressCountriesAction
             $existing = $existingByIso2->get($row['iso2']);
 
             if ($existing === null) {
-                $country = new AddressCountry;
+                $country = new $countryClass;
                 $country->fill($attrs);
 
                 if (! $country->save()) {
@@ -81,7 +88,6 @@ class SeedAddressCountriesAction
 
             if ($existing->isDirty()) {
                 $existing->save();
-                $updated++;
             } else {
                 $skipped++;
             }

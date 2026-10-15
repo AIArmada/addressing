@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace AIArmada\Addressing;
 
 use AIArmada\Addressing\Actions\BuildAddressNavigationLinksAction;
+use AIArmada\Addressing\Actions\CompareAddressingReferenceExportsAction;
 use AIArmada\Addressing\Actions\CreateAddressSnapshotAction;
 use AIArmada\Addressing\Actions\DiffCldrSubdivisionsAction;
 use AIArmada\Addressing\Actions\DiffGoogleAddressReferenceAction;
+use AIArmada\Addressing\Actions\ExportAddressingReferencesAction;
 use AIArmada\Addressing\Actions\ExportResolutionGapAliasesAction;
 use AIArmada\Addressing\Actions\FormatAddressAction;
 use AIArmada\Addressing\Actions\IgnoreResolutionGapAction;
@@ -28,8 +30,10 @@ use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
 use AIArmada\Addressing\Actions\SeedPostalCodesAction;
 use AIArmada\Addressing\Actions\SyncAddressAreaAssignmentsAction;
 use AIArmada\Addressing\Actions\ValidateAddressAction;
+use AIArmada\Addressing\Commands\CompareAddressingReferenceExportsCommand;
 use AIArmada\Addressing\Commands\DiffCldrSubdivisionsCommand;
 use AIArmada\Addressing\Commands\DiffGoogleAddressReferenceCommand;
+use AIArmada\Addressing\Commands\ExportAddressingReferencesCommand;
 use AIArmada\Addressing\Commands\ExportResolutionGapAliasesCommand;
 use AIArmada\Addressing\Commands\ImportAddressAreasCommand;
 use AIArmada\Addressing\Commands\ReportResolutionGapsCommand;
@@ -42,6 +46,8 @@ use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Support\CountryAddressFormatterResolver;
 use AIArmada\Addressing\Support\CountryAddressProfileResolver;
 use AIArmada\Addressing\Support\OneMapClient;
+use AIArmada\Addressing\Support\ReferenceExportFile;
+use AIArmada\Addressing\Support\ReferenceExportSorter;
 use InvalidArgumentException;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -63,11 +69,17 @@ final class AddressingServiceProvider extends PackageServiceProvider
                 ExportResolutionGapAliasesCommand::class,
                 DiffGoogleAddressReferenceCommand::class,
                 DiffCldrSubdivisionsCommand::class,
+                ExportAddressingReferencesCommand::class,
+                CompareAddressingReferenceExportsCommand::class,
             );
     }
 
     public function packageRegistered(): void
     {
+        $this->app->singleton(ReferenceExportFile::class);
+        $this->app->singleton(ReferenceExportSorter::class);
+        $this->app->singleton(ExportAddressingReferencesAction::class);
+        $this->app->singleton(CompareAddressingReferenceExportsAction::class);
         $this->app->singleton(SeedAddressingAction::class);
         $this->app->singleton(SeedAddressCountriesAction::class);
         $this->app->singleton(SeedAddressCountryReferencesAction::class);

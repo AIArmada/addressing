@@ -4,10 +4,50 @@ title: Reference Pipelines
 
 # Reference Pipelines
 
-Two artisan oracles keep the package's reference data honest. Both are
-report-only: they print drift and exit non-zero on any disagreement, and a
-human adjudicates — either side can lag a real-world change, and neither
-oracle writes back into the package.
+The artisan reference tools produce evidence for maintainers. Google and CLDR
+checks are report-only, while the structured export and offline comparison
+make installed data inspectable without exposing application-owned records.
+No tool writes proposals back into the package or database.
+
+## Structured installed-data snapshot
+
+```bash
+php artisan address:reference:export --output=/secure/review/addressing.ndjson
+php artisan address:reference:export --output=/secure/review/malaysia.ndjson --country=MY
+php artisan address:reference:export --output=/secure/review/revision.ndjson --seed-revision=address-data-2026-10
+php artisan address:reference:compare /secure/review/before.ndjson /secure/review/after.ndjson
+```
+
+Exports use the single versioned contract
+`aiarmada.addressing.reference-export` version 1. NDJSON records cover
+countries (including their curated language translations), states, cities, areas, alternate names, roles, typed area
+relationships, state links, postcodes, postcode coverage, country currencies,
+and country timezones. Explicit field allowlists exclude addresses,
+attachments, snapshots, resolution gaps, UUIDs, write timestamps, area slugs,
+arbitrary metadata, and provider payloads. Foreign references are represented
+by natural/source identities rather than installed row IDs.
+
+The file is published atomically with private permissions. PostgreSQL exports
+use a repeatable-read, read-only transaction so all reference tables come from
+one database snapshot. Keyset batches and bounded-fan-in external sorting keep
+memory and open file handles bounded. The header records the export time,
+country scope, configured provider scopes, relevant city, postcode, and
+Indonesia village seed policies, and optional seed revision. It labels the
+file as an installed-state observation. A seed revision is factual provenance
+that the operator must know; it is never guessed from the installed Composer
+version.
+
+Comparison validates the header and exact record shape, canonical ordering,
+identities, per-record hashes, type counts, and the whole-record digest while
+streaming both files. It reports added, changed, missing, unchanged, and
+`scope_unknown` rows, with at most 100 example identities. A country absent
+from either export or a relevant provider/seed-policy difference cannot
+establish deletion; its records are reported as unknown scope. Every missing
+row is only an absence observation, even when the scopes match. Duplicate
+identities are reported as ambiguous, and the comparison never selects a winner.
+The comparison works offline and only proposes review work. Maintainers check
+geographic sources, update the owning CSV or provider data and tests, and use
+the reviewed source change as the eventual update path.
 
 ## Google address data
 

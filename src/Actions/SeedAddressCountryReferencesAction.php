@@ -11,7 +11,7 @@ use AIArmada\CommerceSupport\Actions\SeedTimezonesAction;
 use AIArmada\CommerceSupport\Models\Currency;
 use AIArmada\CommerceSupport\Models\Timezone;
 use Carbon\CarbonImmutable;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Str;
 use RuntimeException;
 
@@ -44,7 +44,7 @@ class SeedAddressCountryReferencesAction
 
         $total = count($countries) * 2;
 
-        $result = DB::transaction(function () use ($countries, $progress, $total): array {
+        $result = $this->connection()->transaction(function () use ($countries, $progress, $total): array {
             $this->clearExistingLinks($countries);
 
             return [
@@ -84,7 +84,7 @@ class SeedAddressCountryReferencesAction
         }
 
         foreach (['country_currency_links', 'country_timezone_links'] as $configKey) {
-            DB::table(AddressingTableResolver::resolve($configKey))
+            $this->connection()->table(AddressingTableResolver::resolve($configKey))
                 ->whereIn('country_id', $countryIds)
                 ->delete();
         }
@@ -119,9 +119,10 @@ class SeedAddressCountryReferencesAction
             $links[] = ['country_id' => $countryId, 'currency_id' => $currencyId];
         }
 
-        return $this->insertLinks(
+        return $this->syncLinks(
             AddressingTableResolver::resolve('country_currency_links'),
             $links,
+            'currency_id',
         );
     }
 
@@ -162,21 +163,21 @@ class SeedAddressCountryReferencesAction
             }
         }
 
-        return $this->insertLinks(
+        return $this->syncLinks(
             AddressingTableResolver::resolve('country_timezone_links'),
             $links,
+            'timezone_id',
         );
     }
 
     /**
      * @param  list<array<string, string>>  $links
      */
-    private function insertLinks(string $table, array $links): int
+    private function syncLinks(string $table, array $links, string $relatedColumn): int
     {
         if ($links === []) {
             return 0;
         }
-
         $now = CarbonImmutable::now();
         $created = 0;
 
@@ -188,9 +189,14 @@ class SeedAddressCountryReferencesAction
                 'updated_at' => $now,
             ], $chunk);
 
-            $created += DB::table($table)->insertOrIgnore($rows);
+            $created += $this->connection()->table($table)->insertOrIgnore($rows);
         }
 
         return $created;
+    }
+
+    private function connection(): ConnectionInterface
+    {
+        return ModelResolver::countryClass()::query()->getConnection();
     }
 }

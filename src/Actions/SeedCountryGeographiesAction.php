@@ -9,9 +9,12 @@ use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Models\AddressArea;
 use AIArmada\Addressing\Models\AddressCountry;
+use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
+use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\ConnectionInterface;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 final class SeedCountryGeographiesAction
@@ -70,7 +73,7 @@ final class SeedCountryGeographiesAction
                     $progress($phase, $done, $total, "{$providerCode} {$phase}");
                 };
 
-            $areaSummary = DB::transaction(function () use ($provider, $country, $providerCode, $report): ?array {
+            $areaSummary = $this->connection()->transaction(function () use ($provider, $country, $providerCode, $report): ?array {
                 $provider->seed($country);
 
                 if (! $provider instanceof CountryHierarchyProvider) {
@@ -84,10 +87,6 @@ final class SeedCountryGeographiesAction
                 }
 
                 $areaSource = $provider->addressAreaSource();
-                ModelResolver::areaClass()::query()
-                    ->where('country_id', $country->getKey())
-                    ->where('metadata->provider', $providerKey)
-                    ->update(['is_active' => false]);
                 $areaResult = $this->importAddressAreas->execute($areaSource, providerKey: $providerKey, reactivate: true, progress: $report);
 
                 if ($areaResult->hasFailures()) {
@@ -127,39 +126,22 @@ final class SeedCountryGeographiesAction
 
     private function syncAreaMetadata(AddressCountry $country, CountryAddressAreaMetadataProvider $provider, string $providerKey, ?callable $progress = null): void
     {
-        DB::transaction(function () use ($country, $provider, $providerKey, $progress): void {
+        $this->connection()->transaction(function () use ($country, $provider, $providerKey, $progress): void {
             $providerAreas = ModelResolver::areaClass()::query()
                 ->where('country_id', $country->getKey())
                 ->where('metadata->provider', $providerKey)
+                ->lockForUpdate()
                 ->get();
-            $areaIds = $providerAreas->modelKeys();
-
-            foreach (array_chunk($areaIds, 500) as $idChunk) {
-                ModelResolver::areaRoleClass()::query()
-                    ->whereIn('address_area_id', $idChunk)
-                    ->where('source', $providerKey)
-                    ->delete();
-            }
-
             $areas = $providerAreas
                 ->where('is_active', true)
                 ->keyBy('source_id');
-            foreach (array_chunk($areaIds, 500) as $idChunk) {
-                ModelResolver::areaNameClass()::query()
-                    ->whereIn('address_area_id', $idChunk)
-                    ->where('source', $providerKey)
-                    ->delete();
-                ModelResolver::areaRelationshipClass()::query()
-                    ->whereIn('child_address_area_id', $idChunk)
-                    ->where('source', $providerKey)
-                    ->delete();
-            }
 
             $rolesBySource = $provider->areaRoles($country);
             $rolesTotal = count($rolesBySource);
             $rolesDone = 0;
 
-            foreach ($rolesBySource as $sourceId => $roles) {
+            $roles = [];
+            foreach ($rolesBySource as $sourceId => $sourceRoles) {
                 $rolesDone++;
 
                 if ($progress !== null) {
@@ -172,22 +154,24 @@ final class SeedCountryGeographiesAction
                     continue;
                 }
 
-                foreach ($roles as $role) {
-                    ModelResolver::areaRoleClass()::query()->create([
+                foreach ($sourceRoles as $role) {
+                    $roles[] = [
                         'address_area_id' => $area->getKey(),
                         'role' => $role['role'],
                         'source' => $providerKey,
                         'country_code' => $role['country_code'] ?? $country->iso2,
                         'is_primary' => $role['is_primary'] ?? false,
-                    ]);
+                    ];
                 }
             }
+            $this->syncSourceRows(AddressingTableResolver::resolve('area_roles'), $providerKey, $roles, ['address_area_id', 'role', 'country_code'], ['is_primary'], (string) $country->getKey(), $providerKey, 'address_area_id');
 
             $namesBySource = $provider->areaNames($country);
             $namesTotal = count($namesBySource);
             $namesDone = 0;
 
-            foreach ($namesBySource as $sourceId => $names) {
+            $names = [];
+            foreach ($namesBySource as $sourceId => $sourceNames) {
                 $namesDone++;
 
                 if ($progress !== null) {
@@ -200,22 +184,24 @@ final class SeedCountryGeographiesAction
                     continue;
                 }
 
-                foreach ($names as $name) {
-                    ModelResolver::areaNameClass()::query()->create([
+                foreach ($sourceNames as $name) {
+                    $names[] = [
                         'address_area_id' => $area->getKey(),
                         'name' => $name['name'],
                         'source' => $providerKey,
                         'name_type' => $name['name_type'] ?? 'alternative',
                         'is_preferred' => $name['is_preferred'] ?? false,
-                    ]);
+                    ];
                 }
             }
+            $this->syncSourceRows(AddressingTableResolver::resolve('area_names'), $providerKey, $names, ['address_area_id', 'name', 'name_type'], ['is_preferred'], (string) $country->getKey(), $providerKey, 'address_area_id');
 
             $relationshipsBySource = $provider->areaRelationships($country);
             $relationshipsTotal = count($relationshipsBySource);
             $relationshipsDone = 0;
 
-            foreach ($relationshipsBySource as $childSourceId => $relationships) {
+            $relationships = [];
+            foreach ($relationshipsBySource as $childSourceId => $sourceRelationships) {
                 $relationshipsDone++;
 
                 if ($progress !== null) {
@@ -228,23 +214,102 @@ final class SeedCountryGeographiesAction
                     continue;
                 }
 
-                foreach ($relationships as $relationship) {
+                foreach ($sourceRelationships as $relationship) {
                     $parent = $areas->get($relationship['parent_source_id']);
 
                     if (! $parent instanceof AddressArea) {
                         continue;
                     }
 
-                    ModelResolver::areaRelationshipClass()::query()->create([
+                    $relationships[] = [
                         'parent_address_area_id' => $parent->getKey(),
                         'child_address_area_id' => $child->getKey(),
                         'relationship_type' => $relationship['relationship_type'],
                         'hierarchy_type' => $relationship['hierarchy_type'],
                         'source' => $providerKey,
-                    ]);
+                    ];
                 }
             }
+            $this->syncSourceRows(AddressingTableResolver::resolve('area_relationships'), $providerKey, $relationships, ['parent_address_area_id', 'child_address_area_id', 'relationship_type', 'hierarchy_type'], [], (string) $country->getKey(), $providerKey, 'child_address_area_id');
         });
+    }
+
+    /**
+     * @param  list<array<string, mixed>>  $desired
+     * @param  list<string>  $keyFields
+     * @param  list<string>  $mutableFields
+     */
+    private function syncSourceRows(string $table, string $source, array $desired, array $keyFields, array $mutableFields, string $countryId, string $providerKey, string $scopeField): void
+    {
+        $areaIds = ModelResolver::areaClass()::query()
+            ->where('country_id', $countryId)
+            ->where('metadata->provider', $providerKey)
+            ->select('id');
+        $existing = $this->connection()->table($table)
+            ->where('source', $source)
+            ->whereIn($scopeField, $areaIds)
+            ->lockForUpdate()
+            ->get();
+        $existingByKey = [];
+
+        foreach ($existing as $row) {
+            $values = (array) $row;
+            $existingByKey[$this->rowKey($values, $keyFields)] = $values;
+        }
+
+        $wantedByKey = [];
+        foreach ($desired as $row) {
+            $wantedByKey[$this->rowKey($row, $keyFields)] = $row;
+        }
+
+        $now = CarbonImmutable::now()->toDateTimeString();
+        $deletes = [];
+        $upserts = [];
+
+        foreach ($existingByKey as $key => $row) {
+            if (! isset($wantedByKey[$key])) {
+                $deletes[] = $row['id'];
+
+                continue;
+            }
+
+            $wanted = $wantedByKey[$key];
+            unset($wantedByKey[$key]);
+            $changed = false;
+            foreach ($mutableFields as $field) {
+                $same = in_array($field, ['is_primary', 'is_preferred'], true)
+                    ? (bool) ($row[$field] ?? false) === (bool) ($wanted[$field] ?? false)
+                    : ($row[$field] ?? null) === ($wanted[$field] ?? null);
+                if (! $same) {
+                    $changed = true;
+                }
+            }
+
+            if ($changed) {
+                $upserts[] = [...$wanted, 'id' => $row['id'], 'created_at' => $row['created_at'], 'updated_at' => $now];
+            }
+        }
+
+        foreach (array_chunk($deletes, 500) as $chunk) {
+            $this->connection()->table($table)->whereIn('id', $chunk)->delete();
+        }
+
+        foreach ($wantedByKey as $row) {
+            $upserts[] = [...$row, 'id' => (string) Str::uuid7(), 'created_at' => $now, 'updated_at' => $now];
+        }
+
+        $updateFields = [...$mutableFields, 'updated_at'];
+        foreach (array_chunk($upserts, 500) as $chunk) {
+            $this->connection()->table($table)->upsert($chunk, [...$keyFields, 'source'], $updateFields);
+        }
+    }
+
+    /** @param array<string, mixed> $row
+     * @param  list<string>  $fields
+     */
+    private function rowKey(array $row, array $fields): string
+    {
+        return implode("\0", array_map(static fn (string $field): string => (string) ($row[$field] ?? ''), $fields));
     }
 
     /**
@@ -254,14 +319,10 @@ final class SeedCountryGeographiesAction
     {
         $stateClass = ModelResolver::stateClass();
 
-        DB::transaction(function () use ($country, $mappings, $providerKey, $stateClass, $progress): void {
-            ModelResolver::areaStateLinkClass()::query()
-                ->where('metadata->provider', $providerKey)
-                ->whereHas('addressArea', fn ($query) => $query->where('country_id', $country->getKey()))
-                ->delete();
-
+        $this->connection()->transaction(function () use ($country, $mappings, $providerKey, $stateClass, $progress): void {
             $mappingsTotal = count($mappings);
             $mappingsDone = 0;
+            $desired = [];
 
             foreach ($mappings as $stateCode => $mapping) {
                 $mappingsDone++;
@@ -286,16 +347,62 @@ final class SeedCountryGeographiesAction
                 $hierarchyTypes = $mapping['hierarchy_types'] ?? [''];
 
                 foreach ($hierarchyTypes as $hierarchyType) {
-                    ModelResolver::areaStateLinkClass()::query()->updateOrCreate(
-                        [
-                            'address_area_id' => $area->getKey(),
-                            'state_id' => $state->getKey(),
-                            'hierarchy_type' => $hierarchyType,
-                        ],
-                        ['metadata' => ['provider' => $providerKey]],
-                    );
+                    $desired[] = [
+                        'address_area_id' => $area->getKey(),
+                        'state_id' => $state->getKey(),
+                        'hierarchy_type' => $hierarchyType,
+                        'metadata' => json_encode(['provider' => $providerKey], JSON_THROW_ON_ERROR),
+                    ];
                 }
             }
+
+            $table = AddressingTableResolver::resolve('area_state_links');
+            $existing = $this->connection()->table($table)
+                ->whereIn('address_area_id', ModelResolver::areaClass()::query()->where('country_id', $country->getKey())->select('id'))
+                ->where('metadata->provider', $providerKey)
+                ->lockForUpdate()
+                ->get();
+            $wanted = [];
+            foreach ($desired as $row) {
+                $key = $row['address_area_id'] . '|' . $row['state_id'] . '|' . $row['hierarchy_type'];
+                $wanted[$key] = $row;
+            }
+
+            $deletes = [];
+            $upserts = [];
+            $now = CarbonImmutable::now()->toDateTimeString();
+            foreach ($existing as $row) {
+                $key = $row->address_area_id . '|' . $row->state_id . '|' . $row->hierarchy_type;
+                if (! isset($wanted[$key])) {
+                    $deletes[] = $row->id;
+
+                    continue;
+                }
+
+                unset($wanted[$key]);
+            }
+
+            foreach (array_chunk($deletes, 500) as $chunk) {
+                $this->connection()->table($table)->whereIn('id', $chunk)->delete();
+            }
+
+            foreach ($wanted as $row) {
+                $upserts[] = [
+                    ...$row,
+                    'id' => (string) Str::uuid7(),
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }
+
+            foreach (array_chunk($upserts, 500) as $chunk) {
+                $this->connection()->table($table)->insert($chunk);
+            }
         });
+    }
+
+    private function connection(): ConnectionInterface
+    {
+        return ModelResolver::countryClass()::query()->getConnection();
     }
 }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Actions;
 
+use AIArmada\Addressing\Support\CitySeedRowReader;
 use AIArmada\Addressing\Support\ModelResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Str;
-use RuntimeException;
 
 class SeedAddressCitiesAction
 {
@@ -16,14 +16,19 @@ class SeedAddressCitiesAction
      */
     public function execute(?array $cities = null, ?callable $progress = null): array
     {
-        if ($cities === null) {
-            $path = __DIR__ . '/../../resources/data/cities.json';
-            $cities = self::readJson($path);
-        }
+        return ModelResolver::cityClass()::query()->getConnection()->transaction(fn (): array => $this->seed($cities, $progress));
+    }
 
-        if (! is_array($cities)) {
-            throw new RuntimeException('City data must be an array.');
-        }
+    /**
+     * @param  array<int, mixed>|null  $cities
+     * @param  ?callable(string, int, int, ?string=): void  $progress
+     */
+    private function seed(?array $cities, ?callable $progress): array
+    {
+        $chunks = $cities === null
+            ? (new CitySeedRowReader(__DIR__ . '/../../resources/data/cities.json'))->readAllChunks(2000)
+            : array_chunk($cities, 2000);
+        $total = $cities === null ? 0 : count($cities);
 
         $cityClass = ModelResolver::cityClass();
         $stateClass = ModelResolver::stateClass();
@@ -38,11 +43,10 @@ class SeedAddressCitiesAction
         $created = 0;
         $updated = 0;
         $skipped = 0;
-        $total = count($cities);
         $done = 0;
         $now = CarbonImmutable::now()->toDateTimeString();
 
-        foreach (array_chunk($cities, 2000) as $chunk) {
+        foreach ($chunks as $chunk) {
             // Scope the preload to this chunk's countries: same keys resolve,
             // fewer unrelated same-name rows cross country boundaries.
             $chunkCountryIds = [];
@@ -54,6 +58,7 @@ class SeedAddressCitiesAction
             }
 
             $existingByKey = $cityClass::query()
+                ->lockForUpdate()
                 ->whereIn('country_id', array_values(array_unique($chunkCountryIds)))
                 ->whereIn('name', array_column($chunk, 'name'))
                 ->get(['id', 'country_id', 'state_id', 'name', 'country_code', 'state_code', 'latitude', 'longitude'])
@@ -77,6 +82,8 @@ class SeedAddressCitiesAction
                 }
 
                 $stateCode = $row['state_code'] ?? null;
+                // ponytail: upstream city/state datasets drift (518 cities reference
+                // codes absent from states.json) — keep the code string, null the link.
                 $stateId = $stateCode !== null
                     ? ($stateIds[$countryId . '|' . $stateCode] ?? null)
                     : null;
@@ -116,7 +123,6 @@ class SeedAddressCitiesAction
 
                 if ($existing->isDirty()) {
                     $existing->save();
-                    $updated++;
                 } else {
                     $skipped++;
                 }
@@ -138,29 +144,5 @@ class SeedAddressCitiesAction
         }
 
         return compact('created', 'updated', 'skipped');
-    }
-
-    /**
-     * @return array<int, mixed>
-     */
-    private static function readJson(string $path): array
-    {
-        $gzPath = $path . '.gz';
-
-        if (file_exists($gzPath)) {
-            $contents = gzfile($gzPath, false);
-
-            if ($contents === false) {
-                throw new RuntimeException("Unable to read gzip file: {$gzPath}");
-            }
-
-            return json_decode(implode('', $contents), true, 512, JSON_THROW_ON_ERROR);
-        }
-
-        if (! file_exists($path)) {
-            throw new RuntimeException("Data file not found: {$path}");
-        }
-
-        return json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
     }
 }

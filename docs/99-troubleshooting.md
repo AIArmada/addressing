@@ -37,7 +37,8 @@ php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressingSeed
 Yes for routine growth. Every tier upserts on a stable key and keeps its
 IDs: countries by `iso2`, states by country + code, cities by country +
 state + name, areas by `source` + `source_id`. Areas absent from the feed
-deactivate instead of deleting, so foreign keys never dangle.
+deactivate instead of deleting, so foreign keys never dangle. The consuming
+application never edits reference rows, so reseeds overwrite unconditionally.
 
 Three exceptions need deliberate handling:
 
@@ -46,6 +47,9 @@ Three exceptions need deliberate handling:
   the old row. Areas at least go inactive; states and cities have no
   deactivation sweep, so a rename leaves the old row behind as
   still-active. Renames need a remap migration, not just a reseed.
+  Rule of thumb: migration when the change must happen once and in order
+  (remap, retire, backfill app references); seeder when the desired
+  end-state just needs to exist (adds, same-identity edits).
 - Link-table rows (roles, names, relationships) are rebuilt every seed
   and their IDs churn. External tables must link to area, state, city,
   or country IDs only — never to link-table IDs.

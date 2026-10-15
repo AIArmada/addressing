@@ -36,6 +36,24 @@ final class ConsoleSeedProgress
 
             $current = $key;
 
+            // Indeterminate totals (streamed phases with unknown size): grow a
+            // single bar instead of finishing a fresh 1-step bar per chunk.
+            // A (0, 0) call finishes the bar via the normal path below.
+            if ($total === 0 && $done > 0) {
+                if (! isset($bars[$key])) {
+                    $bars[$key] = $output->createProgressBar($done + 1);
+                    $bars[$key]->setFormat("%message%\n %current%/%max% [%bar%] %percent:3s%%");
+                    $bars[$key]->setMessage($key);
+                    $bars[$key]->start();
+                } else {
+                    $bars[$key]->setMaxSteps($done + 1);
+                }
+
+                $bars[$key]->setProgress($done);
+
+                return;
+            }
+
             if (! isset($bars[$key])) {
                 $bars[$key] = $output->createProgressBar(max($total, 1));
                 $bars[$key]->setFormat("%message%\n %current%/%max% [%bar%] %percent:3s%%");

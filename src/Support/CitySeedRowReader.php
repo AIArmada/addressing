@@ -74,6 +74,54 @@ class CitySeedRowReader
             return [];
         }
 
+        return $this->collectChunks($this->readChunksForCountries(array_keys($wanted)));
+    }
+
+    /**
+     * Read every city in bounded chunks for production seeding.
+     *
+     * @return Generator<int, list<array<string, mixed>>>
+     */
+    public function readAllChunks(int $chunkSize = 2000): Generator
+    {
+        yield from $this->readChunks(null, $chunkSize);
+    }
+
+    /**
+     * Stream city rows for the given ISO2 country codes in bounded chunks.
+     *
+     * @param  list<string>  $countryCodes
+     * @return Generator<int, list<array<string, mixed>>>
+     */
+    public function readChunksForCountries(array $countryCodes, int $chunkSize = 2000): Generator
+    {
+        $wanted = [];
+
+        foreach ($countryCodes as $code) {
+            $code = mb_strtoupper(mb_trim((string) $code));
+
+            if ($code !== '') {
+                $wanted[$code] = true;
+            }
+        }
+
+        if ($wanted === []) {
+            return;
+        }
+
+        yield from $this->readChunks($wanted, $chunkSize);
+    }
+
+    /**
+     * @param  array<string, true>|null  $wanted
+     * @return Generator<int, list<array<string, mixed>>>
+     */
+    private function readChunks(?array $wanted, int $chunkSize): Generator
+    {
+        if ($chunkSize < 1) {
+            throw new RuntimeException('City seed chunk size must be positive.');
+        }
+
         $gzPath = $this->jsonPath . '.gz';
 
         if (file_exists($gzPath)) {
@@ -91,7 +139,7 @@ class CitySeedRowReader
         }
 
         try {
-            return self::readFiltered($handle, $gzip, $wanted);
+            yield from self::readFilteredChunks($handle, $gzip, $wanted, $chunkSize);
         } finally {
             if ($gzip) {
                 gzclose($handle);
@@ -112,14 +160,18 @@ class CitySeedRowReader
      * a string.
      *
      * @param  resource  $handle
-     * @param  array<string, true>  $wanted
-     * @return list<array<string, mixed>>
+     * @param  array<string, true>|null  $wanted
+     * @return Generator<int, list<array<string, mixed>>>
      */
-    private static function readFiltered($handle, bool $gzip, array $wanted): array
+    private static function readFilteredChunks($handle, bool $gzip, ?array $wanted, int $chunkSize): Generator
     {
         $cities = [];
         $object = '';
         $depth = 0;
+        $started = false;
+        $expectObject = false;
+        $allowArrayEnd = false;
+        $ended = false;
 
         foreach (self::readBatches($handle, $gzip) as $batch) {
             // Equal-length blanking: offsets in $blanked must stay aligned
@@ -137,26 +189,83 @@ class CitySeedRowReader
             $position = 0;
 
             while ($position < $length) {
+                if ($depth === 0) {
+                    $position += strspn($blanked, " \t\r\n", $position);
+
+                    if ($position >= $length) {
+                        break;
+                    }
+
+                    $token = $blanked[$position];
+
+                    if (! $started) {
+                        if ($token !== '[') {
+                            throw new RuntimeException('Address city seed data must be a JSON array.');
+                        }
+
+                        $started = true;
+                        $expectObject = true;
+                        $allowArrayEnd = true;
+                        $position++;
+
+                        continue;
+                    }
+
+                    if ($ended) {
+                        throw new RuntimeException('Unexpected content after the address city seed array.');
+                    }
+
+                    if ($expectObject) {
+                        if ($token === '{') {
+                            $object = '{';
+                            $depth = 1;
+                            $expectObject = false;
+                            $allowArrayEnd = false;
+                            $position++;
+
+                            continue;
+                        }
+
+                        if ($token === ']' && $allowArrayEnd) {
+                            $ended = true;
+                            $position++;
+
+                            continue;
+                        }
+
+                        throw new RuntimeException('Expected an address city object in the seed array.');
+                    }
+
+                    if ($token === ',') {
+                        $expectObject = true;
+                        $allowArrayEnd = false;
+                        $position++;
+
+                        continue;
+                    }
+
+                    if ($token === ']') {
+                        $ended = true;
+                        $position++;
+
+                        continue;
+                    }
+
+                    throw new RuntimeException('Expected a separator in the address city seed array.');
+                }
+
                 $run = strcspn($blanked, '{}', $position);
                 $next = $position + $run;
 
                 if ($next >= $length) {
-                    if ($depth > 0) {
-                        $object .= mb_substr($batch, $position, null, '8bit');
-                    }
+                    $object .= mb_substr($batch, $position, null, '8bit');
 
                     break;
                 }
 
-                if ($depth > 0) {
-                    $object .= mb_substr($batch, $position, $run + 1, '8bit');
-                }
+                $object .= mb_substr($batch, $position, $run + 1, '8bit');
 
                 if ($blanked[$next] === '{') {
-                    if ($depth === 0) {
-                        $object = '{';
-                    }
-
                     $depth++;
                 } else {
                     $depth--;
@@ -165,11 +274,17 @@ class CitySeedRowReader
                         /** @var array<string, mixed> $city */
                         $city = json_decode($object, true, 512, JSON_THROW_ON_ERROR);
 
-                        if (isset($wanted[$city['country_code'] ?? null])) {
+                        if ($wanted === null || isset($wanted[$city['country_code'] ?? null])) {
                             $cities[] = $city;
+
+                            if (count($cities) >= $chunkSize) {
+                                yield $cities;
+                                $cities = [];
+                            }
                         }
 
                         $object = '';
+                        $allowArrayEnd = true;
                     }
                 }
 
@@ -177,7 +292,27 @@ class CitySeedRowReader
             }
         }
 
-        return $cities;
+        if (! $started || ! $ended || $depth !== 0 || $object !== '') {
+            throw new RuntimeException('Address city seed data is incomplete.');
+        }
+
+        if ($cities !== []) {
+            yield $cities;
+        }
+    }
+
+    /** @param iterable<list<array<string, mixed>>> $chunks
+     * @return list<array<string, mixed>>
+     */
+    private function collectChunks(iterable $chunks): array
+    {
+        $rows = [];
+
+        foreach ($chunks as $chunk) {
+            array_push($rows, ...$chunk);
+        }
+
+        return $rows;
     }
 
     /**

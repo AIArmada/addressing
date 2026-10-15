@@ -498,6 +498,46 @@ sector. Malformed codes and codes OneMap does not know are reported as
 invalid; transport and authentication failures throw instead of returning
 partial data.
 
+## Exporting reference data for offline review
+
+Create a private NDJSON snapshot of the installed global reference data, then
+compare it with another snapshot without connecting to that database:
+
+```bash
+php artisan address:reference:export --output=/secure/review/addressing.ndjson
+php artisan address:reference:export --output=/secure/review/malaysia.ndjson --country=MY
+php artisan address:reference:export --output=/secure/review/revision.ndjson --seed-revision=address-data-2026-10
+php artisan address:reference:compare /secure/review/before.ndjson /secure/review/after.ndjson
+```
+
+The exporter includes countries, states, cities, areas, alternate names,
+roles, typed area relationships, state links, postcodes, postcode coverage,
+country currencies, and country timezones. Each type has a fixed field
+allowlist. Addresses, attachments, snapshots, resolution gaps, physical UUIDs,
+timestamps, area slugs, and arbitrary metadata or provider payloads are not
+exported. Foreign references use stable country, state, area, postcode,
+currency, and timezone identities.
+
+Exports use schema `aiarmada.addressing.reference-export` version 1. They are
+written atomically with private file permissions and a repeatable-read,
+read-only PostgreSQL snapshot. External sort runs keep memory and open file
+handles bounded for large geography sets. `--seed-revision` is an operator
+attestation: supply it only when the revision actually seeded into that
+database is known. The exporter never infers seeded data from the installed
+Composer package version.
+
+Comparison validates the schema, identity shape, ordering, per-record hashes,
+counts, and whole-file digest. It reports added, changed, missing, unchanged,
+and out-of-scope rows (`scope_unknown`). Headers identify configured providers
+and the relevant city, postcode, and Indonesia village seed policies. A
+country omitted from one export or an applicable seed-policy difference is
+unknown coverage, not evidence that its records were deleted. Every missing
+row means only that it was absent from the installed-data observation.
+Duplicate or ambiguous identities make an export invalid. All differences
+are review proposals; maintainers verify geographic evidence, edit the source
+CSV or provider data, run its tests, and submit a reviewed change. Comparison
+never updates application data or package sources.
+
 ## Search Areas
 
 ~~~php
