@@ -186,7 +186,7 @@ If you get JSON encoding errors, ensure your database supports the configured co
 ADDRESSING_JSON_COLUMN_TYPE=jsonb
 ```
 
-For SQLite or MySQL:
+For SQLite:
 
 ```env
 ADDRESSING_JSON_COLUMN_TYPE=json
