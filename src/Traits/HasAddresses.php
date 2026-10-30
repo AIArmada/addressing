@@ -276,7 +276,12 @@ trait HasAddresses
                 }
 
                 if ($updates !== []) {
-                    $existing->update($updates);
+                    // Query-builder update: $existing still holds the
+                    // pre-demote attributes in memory, so Eloquent would
+                    // see no dirty change and silently skip the write.
+                    ModelResolver::addressableClass()::query()
+                        ->whereKey($existing->getKey())
+                        ->update($updates);
                 }
 
                 $this->unsetRelation('addresses');
