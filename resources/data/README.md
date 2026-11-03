@@ -19,6 +19,48 @@ with no runtime effect — the country seeder never reads `currency`, and
 neither code exists in the commerce-support currency catalog, so AQ links
 to nothing before and after.
 
+Curated delta (2026-11-03): `countries.json` PS name
+`Palestinian Territory Occupied` → `Palestine`, matching ISO 3166-1
+Newsletter VI-14 (2013-02-06, "Palestine, State of"), CLDR, the bundled
+formatter display, and the package's provider/docs. The 16 PS rows in
+`states.json` and 132 PS rows in `cities.json.gz` carry the same
+`country_name`, updated to match.
+
+Deliberate exclusion: Israel (IL) is out of the bundled dataset
+throughout — no `countries.json` row, no `states.json`/`cities.json.gz`
+rows, no provider/formatter, no `address-formats.json` or
+`address-validation.json` entry, and no ILS entry in the
+commerce-support currency catalogue (removed together in `bce3bd21a`).
+PS keeps its ISO currency `ILS`, which therefore links to nothing —
+the country seeder skips codes absent from the catalogue.
+
+Curated delta (2026-11-03, re-verification pass): `countries.json`
+currency refresh to current ISO 4217 and the commerce-support catalogue
+(which is the link source of truth; previously these five linked to
+nothing): BG `BGN` → `EUR` (euro adopted 2026-01-01), CW/SX `ANG` →
+`XCG` (Caribbean guilder since 2025-03-31), SL `SLL` → `SLE`
+(redenomination, old leone ceased 2024-01-01), ZW `ZWL` → `ZWG`
+(ZiG, effective 2024-06-25). Timezone IDs refreshed to canonical
+IANA/link targets present in the catalogue (previously these seven
+linked partially or not at all): AU drops `Australia/Currie`
+(covered by `Australia/Hobart`), CA drops the five Toronto/Iqaluit/
+Winnipeg/Edmonton duplicates (`Nipigon`, `Thunder_Bay`,
+`Rainy_River`, `Pangnirtung`, `Yellowknife`), KI
+`Pacific/Enderbury` → `Pacific/Kanton`, MN drops `Asia/Choibalsan`
+(covered by `Asia/Ulaanbaatar`), UA `Kiev`/`Uzhgorod`/`Zaporozhye` →
+`Kyiv` (with `Simferopol` retained). Translation keys `cn` → `zh`
+and `kr` → `ko` across all 249 records, aligning `countries.json`
+with `states.json`/`cities.json.gz` (which already use `ko`/`zh-CN`)
+and BCP 47. Country-name corrections (propagated to `country_name`
+in `states.json`/`cities.json.gz` and to `display` in
+`address-formats.json`): IM `Man (Isle of)` → `Isle of Man`, FJ
+`Fiji Islands` → `Fiji`, SJ `Svalbard And Jan Mayen Islands` →
+`Svalbard and Jan Mayen`, AX → `Åland Islands`, RE → `Réunion`, ST
+→ `São Tomé and Príncipe`, BL → `Saint Barthélemy`, MF →
+`Saint Martin (French part)`, TR `Turkey` → `Türkiye` (matches ISO,
+the formatter, and the docs). AQ `XXX` and the IL/ILS exclusion are
+unchanged by design.
+
 `address-validation.json` (212 countries, IL deliberately excluded) carries
 per-country postcode patterns, required fields, and uppercase fields,
 extracted from commerceguys/addressing (MIT) at `d9cda0c` and curated to the

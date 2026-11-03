@@ -667,8 +667,9 @@ Open once post towns are modeled.
   Nothing shippable without misrepresenting coverage (Myanmar/Egypt
   fragment precedent). Still `expansion`; gap program in the M3
   verdict record.
-- Israel has no geography provider yet; provider creation is
-  separate work outside this overlay pass.
+- Israel (IL) is deliberately excluded from the bundled dataset — no
+  country row, states, cities, provider, formatter, or overlay — alongside
+  ILS. Palestinian territory (PS) remains fully bundled.
 - Trinidad and Tobago: per-address 6-digit S-42 system (PP-RR-ZZ per
   UPU; 72 postal districts per Wikipedia) but no open code-level
   source (TTPost finder is email/WhatsApp-only, GeoNames has no TT

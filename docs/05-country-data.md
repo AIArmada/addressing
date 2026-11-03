@@ -15,7 +15,10 @@ File location: `resources/data/countries.json`
 
 The bundled `MalaysiaGeographyProvider` supplies Malaysia's State/Federal Territory catalog, two explicit address hierarchies, the AddressArea hierarchy, and State↔AddressArea mappings. The primary administrative/land hierarchy is `region → division → district → subdivision` (state/wilayah_persekutuan → division → district/minor_district → city, municipality, mukim, subdistrict, bandar, pekan, daerah_kecil); the secondary postal/address hierarchy is `region → locality` (state/wilayah_persekutuan → locality/precinct), refined by the picked `administrative_district`. It is selected with `SeedCountryGeographiesAction::execute('MY')` after countries are seeded.
 
-The dataset contains **249 records** — these are ISO 3166-1 address entities, not 249 sovereign countries. Records include:
+The dataset contains **249 records** — 248 ISO 3166-1 address entities
+plus Kosovo (XK). Israel (IL) is deliberately excluded (no country row,
+states, cities, provider, formatter, or overlay; ILS likewise absent
+from the currency catalogue), so this is not 249 sovereign countries. Records include:
 
 - ISO2, ISO3, numeric codes
 - Names (common, native)
@@ -8203,8 +8206,8 @@ area rows.
 
 The Isle of Man follows the UK postcode system (`IM` prefix).
 Addresses print street lines, the post town, the postcode on its own
-line, and country. The formatter prints `Isle of Man` rather than
-the database's inverted `Man (Isle of)` spelling.
+line, and country (both the bundled country row and the formatter
+use `Isle of Man`).
 
 Revisit 2026-10-03 (verify-only, zero changes; `gate_im.py` ALL
 PASS): 6 sheadings + 21 L2 exact vs Local government in the

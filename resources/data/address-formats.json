@@ -586,7 +586,7 @@
     ]
   },
   "AX": {
-    "display": "Aland Islands",
+    "display": "Åland Islands",
     "lines": [
       {
         "each": [
@@ -1223,7 +1223,7 @@
     ]
   },
   "BL": {
-    "display": "Saint-Barthelemy",
+    "display": "Saint Barthélemy",
     "lines": [
       {
         "each": [
@@ -3257,7 +3257,7 @@
     ]
   },
   "FJ": {
-    "display": "Fiji Islands",
+    "display": "Fiji",
     "lines": [
       {
         "each": [
@@ -6693,7 +6693,7 @@
     ]
   },
   "MF": {
-    "display": "Saint-Martin (French part)",
+    "display": "Saint Martin (French part)",
     "lines": [
       {
         "each": [
@@ -9119,7 +9119,7 @@
     ]
   },
   "RE": {
-    "display": "Reunion",
+    "display": "Réunion",
     "lines": [
       {
         "each": [
@@ -10069,7 +10069,7 @@
     ]
   },
   "ST": {
-    "display": "Sao Tome and Principe",
+    "display": "São Tomé and Príncipe",
     "lines": [
       {
         "each": [
