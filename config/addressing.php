@@ -1017,4 +1017,12 @@ return [
         // Pinned cldr-core version; the diff refuses checkouts that disagree.
         'cldr_version' => env('ADDRESSING_CLDR_VERSION'),
     ],
+
+    'google_places' => [
+        'enabled' => env('ADDRESSING_GOOGLE_PLACES_ENABLED'),
+        'api_key' => env('ADDRESSING_GOOGLE_MAPS_API_KEY'),
+        'server_api_key' => env('ADDRESSING_GOOGLE_PLACES_SERVER_API_KEY'),
+        'link_resolution_enabled' => env('ADDRESSING_GOOGLE_PLACE_LINK_RESOLUTION_ENABLED'),
+        'user_agent' => env('ADDRESSING_GOOGLE_PLACES_USER_AGENT'),
+    ],
 ];
