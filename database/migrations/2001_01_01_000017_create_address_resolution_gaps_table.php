@@ -28,7 +28,7 @@ return new class extends Migration
             $table->timestampTz('last_seen_at')->nullable();
             $table->{$jsonColumnType}('context')->nullable();
             $table->string('status', 20)->default('open');
-            $table->foreignUuid('matched_area_id')->nullable();
+            $table->foreignUuid('matched_area_id')->nullable()->index();
             $table->string('matched_by')->nullable();
             $table->timestampTz('matched_at')->nullable();
             $table->timestamps();

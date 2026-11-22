@@ -45,6 +45,7 @@ return new class extends Migration
             $table->timestamps();
             $table->index(['country_code', 'city'], 'addr_country_city_idx');
             $table->index(['country_code', 'postcode'], 'addr_country_postcode_idx');
+            $table->index(['latitude', 'longitude'], 'addr_lat_lng_idx');
         });
     }
 };

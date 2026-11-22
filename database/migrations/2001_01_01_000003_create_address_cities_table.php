@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('country_id')->index();
             $table->foreignUuid('state_id')->nullable()->index();
-            $table->string('name');
+            $table->string('name')->index();
             $table->string('country_code', 2)->nullable();
             $table->string('state_code', 5)->nullable();
             $table->decimal('latitude', 10, 7)->nullable();

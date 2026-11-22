@@ -1180,6 +1180,24 @@ $suffix = LocationSlugSegments::suffix(
 
 Each level prefers the literal address string, then the canonical name for the referenced geography id, then the assigned area name; consecutive duplicates collapse to one. Pass `preferLiteralCountry: false` when the referenced country's ISO code should win over the literal `country_code`. Granular resolvers (`areaName()`, `cityName()`, `stateName()`, `countryCode()`) are available when you need a single level.
 
+## Proximity & Distance Queries
+
+`GeoDistance` builds an index-friendly bounding box pre-filter and a driver-safe clamped Haversine SQL expression (`min/max` on SQLite, `least/greatest` on PostgreSQL/MySQL) so identical coordinates cannot throw `acos(1.0000000000000002)` domain errors:
+
+```php
+use AIArmada\Addressing\Support\GeoDistance;
+
+$box = GeoDistance::boundingBox($latitude, $longitude, $radiusKm);
+$distanceSql = GeoDistance::haversineSql('addresses.latitude', 'addresses.longitude');
+$bindings = GeoDistance::haversineBindings($latitude, $longitude);
+
+$query
+    ->whereBetween('addresses.latitude', [$box['min_lat'], $box['max_lat']])
+    ->whereBetween('addresses.longitude', [$box['min_lng'], $box['max_lng']])
+    ->whereRaw("{$distanceSql} <= ?", [...$bindings, $radiusKm])
+    ->orderByRaw("{$distanceSql} asc", $bindings);
+```
+
 ## Console commands
 
 | Command | Purpose |
