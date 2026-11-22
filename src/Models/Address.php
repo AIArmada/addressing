@@ -11,6 +11,7 @@ use AIArmada\Addressing\Data\AddressData;
 use AIArmada\Addressing\Database\Factories\AddressFactory;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
+use AIArmada\Addressing\Traits\HasSpatialLocation;
 use AIArmada\CommerceSupport\Traits\HasOwner;
 use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -54,6 +55,7 @@ class Address extends Model
     use HasFactory;
     use HasOwner;
     use HasOwnerScopeConfig;
+    use HasSpatialLocation;
     use HasUuids;
 
     protected static string $ownerScopeConfigKey = 'addressing.features.owner';

@@ -8,7 +8,10 @@ use AIArmada\Addressing\Database\Factories\AddressAreaFactory;
 use AIArmada\Addressing\Support\AddressAreaAssignmentOwnerScope;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
+use AIArmada\Addressing\Support\SpatialLocation;
+use AIArmada\Addressing\Traits\HasSpatialLocation;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,7 +48,21 @@ use Illuminate\Support\Facades\DB;
 class AddressArea extends Model
 {
     use HasFactory;
+    use HasSpatialLocation;
     use HasUuids;
+
+    /**
+     * @param  Builder<static>  $query
+     */
+    #[Scope]
+    protected function coveringPoint(Builder $query, float $latitude, float $longitude): void
+    {
+        SpatialLocation::requireEnabled($query->getModel()->getConnection(), 'postgis');
+        SpatialLocation::validateCoordinates($latitude, $longitude);
+
+        $boundary = SpatialLocation::column($query, 'boundary');
+        $query->whereRaw("ST_Covers({$boundary}, ST_SetSRID(ST_MakePoint(?, ?), 4326))", [$longitude, $latitude]);
+    }
 
     protected static function booted(): void
     {

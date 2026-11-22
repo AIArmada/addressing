@@ -270,3 +270,19 @@ responses with backoff. OneMap usage requires attribution; see
 after the first green run; later runs refuse checkouts that disagree, so
 drift reports stay reproducible. See
 [reference pipelines](19-reference-pipelines.md).
+
+## Optional spatial columns
+
+Each setting defaults to `false`. The options can be enabled independently on PostgreSQL.
+
+| Config key | Environment variable | Database extension | Columns |
+| --- | --- | --- | --- |
+| `addressing.features.spatial.postgis` | `ADDRESSING_SPATIAL_POSTGIS` | `postgis` | `location` on addresses and areas, `boundary` on areas |
+| `addressing.features.spatial.geohash` | `ADDRESSING_SPATIAL_GEOHASH` | `postgis` | `geohash` on addresses and areas, stored at 12 characters |
+| `addressing.features.spatial.h3` | `ADDRESSING_SPATIAL_H3` | `h3` from h3-pg 4.2.3 or later | `h3_cell` on addresses and areas, stored at resolution 9 |
+
+Have a database administrator provision the required extensions on the application database. Their types and functions must be visible on the connection's PostgreSQL search path. Enable the desired settings, refresh cached config if used, and run `php artisan migrate`. Disabled migrations stay pending so an existing installation can enable an option later. Keep these options disabled on SQLite.
+
+PostgreSQL generates and indexes the point and cell columns from existing and future coordinates. Missing and out-of-range coordinates produce null spatial values. Boundaries start empty and are populated by the application. On existing installations, adding stored generated columns rewrites the affected tables, so schedule the migration for a suitable deployment window. Disabling a setting after migration disables its package query methods and leaves the stored columns and indexes in place.
+
+See [Spatial queries](04-usage.md#spatial-queries) for the model scopes and boundary action.

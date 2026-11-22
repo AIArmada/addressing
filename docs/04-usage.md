@@ -1233,3 +1233,29 @@ use AIArmada\Addressing\Models\AddressAreaPostalCode;
 
 AddressAreaPostalCode::query()->where('source', 'pos_malaysia_v1')->delete();
 ```
+
+## Spatial queries
+
+Enable the corresponding [spatial option](03-configuration.md#optional-spatial-columns) and run its migration before calling these scopes. All coordinate arguments use WGS 84 degrees in latitude, longitude order. The address scopes preserve the package's owner boundary.
+
+```php
+use AIArmada\Addressing\Actions\SetAddressAreaBoundaryAction;
+use AIArmada\Addressing\Models\Address;
+use AIArmada\Addressing\Models\AddressArea;
+
+$nearby = Address::query()->withinRadius(48.0, -126.0, 5_000)->get();
+$geohashMatches = Address::query()->inGeohash('c0w3h')->get();
+$cellMatches = Address::query()->inH3Cell(48.0, -126.0)->get();
+
+$area = AddressArea::query()->where('slug', 'example-area')->firstOrFail();
+app(SetAddressAreaBoundaryAction::class)->execute(
+    $area->id,
+    'POLYGON((-126 48,-125 48,-125 49,-126 49,-126 48))',
+);
+
+$coveringAreas = AddressArea::query()->coveringPoint(48.0, -126.0)->get();
+```
+
+`withinRadius()` takes meters. `inGeohash()` matches a lowercase prefix of 1 to 12 characters, and `inH3Cell()` finds records in the resolution-9 cell containing the given coordinates. All three scopes also work on `AddressArea`. Geohash and H3 matches represent grid cells. Use `withinRadius()` for a distance cutoff.
+
+`coveringPoint()` includes points on the edge. The boundary action accepts two-dimensional Polygon or MultiPolygon WKT in longitude, latitude order. Pass `null` to clear a boundary. Split shapes that cross the antimeridian before storing them as a multipolygon. The action writes shared reference data and should be called from an authorized administrative or import path.

@@ -500,6 +500,11 @@ return [
     ],
 
     'features' => [
+        'spatial' => [
+            'postgis' => env('ADDRESSING_SPATIAL_POSTGIS', false),
+            'geohash' => env('ADDRESSING_SPATIAL_GEOHASH', false),
+            'h3' => env('ADDRESSING_SPATIAL_H3', false),
+        ],
         'owner' => [
             'enabled' => env('ADDRESSING_OWNER_ENABLED', true),
             'include_global' => env('ADDRESSING_OWNER_INCLUDE_GLOBAL', false),
