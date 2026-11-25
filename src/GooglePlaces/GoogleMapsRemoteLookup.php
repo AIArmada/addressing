@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AIArmada\Addressing\GooglePlaces;
 
 use AIArmada\Addressing\Support\GeoDistance;
-use AIArmada\CommerceSupport\Http\PinnedHttpClient;
+use AIArmada\CommerceSupport\Drivers\Http\PinnedHttpClient;
 use AIArmada\CommerceSupport\Support\PublicHttpUrlGuard;
 use Illuminate\Support\Facades\Http;
 use Throwable;

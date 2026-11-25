@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Support;
 
-use AIArmada\CommerceSupport\Models\Currency;
-use AIArmada\CommerceSupport\Models\Timezone;
+use AIArmada\CommerceSupport\Features\ReferenceData\Api\ReferenceDataApi;
 use Generator;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Query\Builder;
@@ -30,14 +29,16 @@ final class AddressingReferenceRecords
             ModelResolver::areaStateLinkClass(),
             ModelResolver::postalCodeClass(),
             ModelResolver::areaPostalCodeClass(),
-            Currency::class,
-            Timezone::class,
         ];
 
         foreach ($modelClasses as $modelClass) {
             if ((new $modelClass)->getConnection()->getName() !== $connection->getName()) {
                 throw new InvalidArgumentException(sprintf('Addressing reference model [%s] must share the country database connection.', $modelClass));
             }
+        }
+
+        if (app(ReferenceDataApi::class)->connectionName() !== $connection->getName()) {
+            throw new InvalidArgumentException('Commerce reference data must share the country database connection.');
         }
 
         return $connection;
@@ -288,32 +289,30 @@ final class AddressingReferenceRecords
                 return;
 
             case 'country_currency_links':
-                $currencyTable = (new Currency)->getTable();
+                $currencyCodes = array_flip(app(ReferenceDataApi::class)->currencyIdsByCode());
                 $query = $this->connection()->table(AddressingTableResolver::resolve('country_currency_links') . ' as l')
                     ->leftJoin(AddressingTableResolver::resolve('countries') . ' as c', 'c.id', '=', 'l.country_id')
-                    ->leftJoin($currencyTable . ' as cur', 'cur.id', '=', 'l.currency_id')
-                    ->select(['l.country_id', 'c.id as resolved_country_id', 'l.currency_id', 'cur.id as resolved_currency_id', 'c.iso2 as country_code', 'cur.code as currency_code']);
+                    ->select(['l.country_id', 'c.id as resolved_country_id', 'l.currency_id', 'c.iso2 as country_code']);
                 foreach ($this->chunked($query, 'l.id') as $row) {
                     $this->assertReference($row->country_id, $row->resolved_country_id, 'currency link country');
-                    $this->assertReference($row->currency_id, $row->resolved_currency_id, 'country currency');
+                    $this->assertReference($row->currency_id, isset($currencyCodes[$row->currency_id]) ? $row->currency_id : null, 'country currency');
                     $country = (string) $row->country_code;
-                    $currency = (string) $row->currency_code;
+                    $currency = (string) $currencyCodes[$row->currency_id];
                     yield ['key' => ['country' => $country, 'currency' => $currency], 'data' => ['country' => $country, 'currency' => $currency]];
                 }
 
                 return;
 
             case 'country_timezone_links':
-                $timezoneTable = (new Timezone)->getTable();
+                $timezoneNames = array_flip(app(ReferenceDataApi::class)->timezoneIdsByName());
                 $query = $this->connection()->table(AddressingTableResolver::resolve('country_timezone_links') . ' as l')
                     ->leftJoin(AddressingTableResolver::resolve('countries') . ' as c', 'c.id', '=', 'l.country_id')
-                    ->leftJoin($timezoneTable . ' as tz', 'tz.id', '=', 'l.timezone_id')
-                    ->select(['l.country_id', 'c.id as resolved_country_id', 'l.timezone_id', 'tz.id as resolved_timezone_id', 'c.iso2 as country_code', 'tz.name as timezone_name']);
+                    ->select(['l.country_id', 'c.id as resolved_country_id', 'l.timezone_id', 'c.iso2 as country_code']);
                 foreach ($this->chunked($query, 'l.id') as $row) {
                     $this->assertReference($row->country_id, $row->resolved_country_id, 'timezone link country');
-                    $this->assertReference($row->timezone_id, $row->resolved_timezone_id, 'country timezone');
+                    $this->assertReference($row->timezone_id, isset($timezoneNames[$row->timezone_id]) ? $row->timezone_id : null, 'country timezone');
                     $country = (string) $row->country_code;
-                    $timezone = (string) $row->timezone_name;
+                    $timezone = (string) $timezoneNames[$row->timezone_id];
                     yield ['key' => ['country' => $country, 'timezone' => $timezone], 'data' => ['country' => $country, 'timezone' => $timezone]];
                 }
 

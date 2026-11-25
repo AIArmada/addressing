@@ -6,10 +6,7 @@ namespace AIArmada\Addressing\Actions;
 
 use AIArmada\Addressing\Support\AddressingTableResolver;
 use AIArmada\Addressing\Support\ModelResolver;
-use AIArmada\CommerceSupport\Actions\SeedCurrenciesAction;
-use AIArmada\CommerceSupport\Actions\SeedTimezonesAction;
-use AIArmada\CommerceSupport\Models\Currency;
-use AIArmada\CommerceSupport\Models\Timezone;
+use AIArmada\CommerceSupport\Features\ReferenceData\Api\ReferenceDataApi;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Support\Str;
@@ -18,8 +15,7 @@ use RuntimeException;
 class SeedAddressCountryReferencesAction
 {
     public function __construct(
-        private readonly SeedCurrenciesAction $seedCurrencies,
-        private readonly SeedTimezonesAction $seedTimezones,
+        private readonly ReferenceDataApi $referenceData,
     ) {}
 
     /**
@@ -28,8 +24,8 @@ class SeedAddressCountryReferencesAction
      */
     public function execute(?callable $progress = null): array
     {
-        $this->seedCurrencies->execute();
-        $this->seedTimezones->execute();
+        $this->referenceData->seedCurrencies();
+        $this->referenceData->seedTimezones();
 
         $countries = json_decode(
             file_get_contents(__DIR__ . '/../../resources/data/countries.json'),
@@ -96,7 +92,7 @@ class SeedAddressCountryReferencesAction
      */
     private function syncCurrencies(array $countries, ?callable $progress = null, int $total = 0, int $offset = 0): int
     {
-        $currencyIds = Currency::query()->pluck('id', 'code');
+        $currencyIds = $this->referenceData->currencyIdsByCode();
         $countryIds = ModelResolver::countryClass()::query()->pluck('id', 'iso2');
         $links = [];
 
@@ -110,7 +106,7 @@ class SeedAddressCountryReferencesAction
             }
 
             $countryId = $countryIds->get($country['iso2'] ?? null);
-            $currencyId = $currencyIds->get($country['currency'] ?? null);
+            $currencyId = $currencyIds[$country['currency'] ?? ''] ?? null;
 
             if ($countryId === null || $currencyId === null) {
                 continue;
@@ -132,7 +128,7 @@ class SeedAddressCountryReferencesAction
      */
     private function syncTimezones(array $countries, ?callable $progress = null, int $total = 0, int $offset = 0): int
     {
-        $timezoneIds = Timezone::query()->pluck('id', 'name');
+        $timezoneIds = $this->referenceData->timezoneIdsByName();
         $countryIds = ModelResolver::countryClass()::query()->pluck('id', 'iso2');
         $links = [];
 
@@ -153,7 +149,7 @@ class SeedAddressCountryReferencesAction
 
             foreach ($country['timezones'] ?? [] as $timezone) {
                 $name = is_array($timezone) ? ($timezone['zoneName'] ?? null) : $timezone;
-                $timezoneId = $timezoneIds->get($name);
+                $timezoneId = $timezoneIds[$name ?? ''] ?? null;
 
                 if ($timezoneId === null) {
                     continue;

@@ -37,7 +37,7 @@ final class AddressAreaAssignmentOwnerScope implements Scope
             return;
         }
 
-        $owner = $config->owner ?? OwnerContext::resolve();
+        $owner = OwnerContext::resolveConfigured($config);
 
         OwnerContext::assertResolvedOrExplicitGlobal(
             $owner,
