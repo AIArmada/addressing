@@ -458,21 +458,6 @@ use AIArmada\Addressing\Geography\Zambia\ZambiaAddressFormatter;
 use AIArmada\Addressing\Geography\Zambia\ZambiaGeographyProvider;
 use AIArmada\Addressing\Geography\Zimbabwe\ZimbabweAddressFormatter;
 use AIArmada\Addressing\Geography\Zimbabwe\ZimbabweGeographyProvider;
-use AIArmada\Addressing\Models\Address;
-use AIArmada\Addressing\Models\Addressable;
-use AIArmada\Addressing\Models\AddressArea;
-use AIArmada\Addressing\Models\AddressAreaAssignment;
-use AIArmada\Addressing\Models\AddressAreaName;
-use AIArmada\Addressing\Models\AddressAreaPostalCode;
-use AIArmada\Addressing\Models\AddressAreaRelationship;
-use AIArmada\Addressing\Models\AddressAreaRole;
-use AIArmada\Addressing\Models\AddressAreaStateLink;
-use AIArmada\Addressing\Models\AddressCountry;
-use AIArmada\Addressing\Models\AddressSnapshot;
-use AIArmada\Addressing\Models\City;
-use AIArmada\Addressing\Models\PostalCode;
-use AIArmada\Addressing\Models\ResolutionGap;
-use AIArmada\Addressing\Models\State;
 use AIArmada\Addressing\Support\AddressingTableResolver;
 
 return [
@@ -482,21 +467,21 @@ return [
     ],
 
     'models' => [
-        'country' => AddressCountry::class,
-        'state' => State::class,
-        'city' => City::class,
-        'area' => AddressArea::class,
-        'address' => Address::class,
-        'snapshot' => AddressSnapshot::class,
-        'addressable' => Addressable::class,
-        'postal_code' => PostalCode::class,
-        'resolution_gap' => ResolutionGap::class,
-        'area_assignment' => AddressAreaAssignment::class,
-        'area_name' => AddressAreaName::class,
-        'area_role' => AddressAreaRole::class,
-        'area_state_link' => AddressAreaStateLink::class,
-        'area_postal_code' => AddressAreaPostalCode::class,
-        'area_relationship' => AddressAreaRelationship::class,
+        'country' => null,
+        'state' => null,
+        'city' => null,
+        'area' => null,
+        'address' => null, // Defaults to the AddressLifecycle feature model.
+        'snapshot' => null, // Defaults to the AddressLifecycle feature model.
+        'addressable' => null, // Defaults to the AddressLifecycle feature model.
+        'postal_code' => null, // Defaults to the PostalCodes feature model.
+        'resolution_gap' => null, // Uses the owning feature's model unless overridden.
+        'area_assignment' => null, // Defaults to the AddressLifecycle feature model.
+        'area_name' => null, // Defaults to the Geography feature model.
+        'area_role' => null, // Defaults to the Geography feature model.
+        'area_state_link' => null, // Defaults to the Geography feature model.
+        'area_postal_code' => null, // Defaults to the PostalCodes feature model.
+        'area_relationship' => null, // Defaults to the Geography feature model.
     ],
 
     'features' => [

@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "name": "AddressLifecycle",
+  "owns": {
+    "table:addressables": [
+      "AIArmada\\Addressing\\Features\\AddressLifecycle\\Actions\\UpdateAddressAttachmentAction",
+      "AIArmada\\Addressing\\Features\\AddressLifecycle\\Actions\\DeleteAddressReferencesAction"
+    ],
+    "table:address_snapshots": [
+      "AIArmada\\Addressing\\Features\\AddressLifecycle\\Actions\\CreateAddressSnapshotAction",
+      "AIArmada\\Addressing\\Features\\AddressLifecycle\\Actions\\DeleteAddressReferencesAction"
+    ],
+    "table:addresses": [
+      "AIArmada\\Addressing\\Features\\AddressLifecycle\\Actions\\SaveAddressAction",
+      "AIArmada\\Addressing\\Features\\AddressLifecycle\\Actions\\ClearAddressGeographyReferencesAction"
+    ],
+    "table:address_area_assignments": [
+      "AIArmada\\Addressing\\Features\\AddressLifecycle\\Actions\\SyncAddressAreaAssignmentsAction",
+      "AIArmada\\Addressing\\Features\\AddressLifecycle\\Actions\\ClearAddressGeographyReferencesAction",
+      "AIArmada\\Addressing\\Features\\AddressLifecycle\\Actions\\DeleteAddressReferencesAction"
+    ]
+  },
+  "extensions": {}
+}

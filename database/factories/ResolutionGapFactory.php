@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Database\Factories;
 
-use AIArmada\Addressing\Models\ResolutionGap;
+use AIArmada\Addressing\Features\ResolutionGaps\Models\ResolutionGap;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

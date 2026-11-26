@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Database\Factories;
 
-use AIArmada\Addressing\Models\AddressCountry;
-use AIArmada\Addressing\Models\City;
+use AIArmada\Addressing\Features\Geography\Models\AddressCountry;
+use AIArmada\Addressing\Features\Geography\Models\City;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

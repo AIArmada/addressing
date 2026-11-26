@@ -30,12 +30,13 @@ final class AddressCountryResolver
         /** @var Model $countryModel */
         $countryModel = new $countryClass;
 
-        if (! SchemaTableCache::exists($countryModel->getTable())) {
+        if (! SchemaTableCache::exists($countryModel)) {
             return null;
         }
 
         return RequestCache::remember(
             'country-resolutions',
+            $countryModel,
             $value,
             function () use ($countryClass, $value): ?Model {
                 $query = $countryClass::query();

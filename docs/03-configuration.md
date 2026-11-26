@@ -97,21 +97,21 @@ or when the two gates differ for the selected state.
 
 ```php
 'models' => [
-    'country' => AIArmada\Addressing\Models\AddressCountry::class,
-    'state' => AIArmada\Addressing\Models\State::class,
-    'city' => AIArmada\Addressing\Models\City::class,
-    'area' => AIArmada\Addressing\Models\AddressArea::class,
-    'address' => AIArmada\Addressing\Models\Address::class,
-    'snapshot' => AIArmada\Addressing\Models\AddressSnapshot::class,
-    'addressable' => AIArmada\Addressing\Models\Addressable::class,
-    'postal_code' => AIArmada\Addressing\Models\PostalCode::class,
-    'resolution_gap' => AIArmada\Addressing\Models\ResolutionGap::class,
-    'area_assignment' => AIArmada\Addressing\Models\AddressAreaAssignment::class,
-    'area_name' => AIArmada\Addressing\Models\AddressAreaName::class,
-    'area_role' => AIArmada\Addressing\Models\AddressAreaRole::class,
-    'area_state_link' => AIArmada\Addressing\Models\AddressAreaStateLink::class,
-    'area_postal_code' => AIArmada\Addressing\Models\AddressAreaPostalCode::class,
-    'area_relationship' => AIArmada\Addressing\Models\AddressAreaRelationship::class,
+    'country' => AIArmada\Addressing\Features\Geography\Models\AddressCountry::class,
+    'state' => AIArmada\Addressing\Features\Geography\Models\State::class,
+    'city' => AIArmada\Addressing\Features\Geography\Models\City::class,
+    'area' => AIArmada\Addressing\Features\Geography\Models\AddressArea::class,
+    'address' => null, // AddressLifecycle feature default; override with a subclass.
+    'snapshot' => null, // Defaults to the AddressLifecycle feature model.
+    'addressable' => null, // AddressLifecycle feature default; override with a subclass.
+    'postal_code' => null, // PostalCodes feature default; override with a configured model.
+    'resolution_gap' => null, // Defaults to the ResolutionGaps feature model.
+    'area_assignment' => null, // AddressLifecycle feature default; override with a subclass.
+    'area_name' => null, // Geography feature default; override with a subclass.
+    'area_role' => null, // Geography feature default; override with a subclass.
+    'area_state_link' => null, // Geography feature default; override with a subclass.
+    'area_postal_code' => null, // PostalCodes feature default; override with a configured model.
+    'area_relationship' => null, // Geography feature default; override with a subclass.
 ],
 'geography' => [
     'providers' => [
@@ -153,7 +153,7 @@ Country-specific formatters are configured separately from geography providers:
 ],
 ```
 
-`FormatAddressAction` resolves a formatter by `AddressData::countryCode` and falls back to the generic formatter when no country formatter is registered. This keeps formatting independent from geography seeding.
+`AddressFormatter` resolves a formatter by `AddressData::countryCode` and falls back to the generic formatter when no country formatter is registered. This keeps formatting independent from geography seeding.
 
 ### Provider registration
 
@@ -172,7 +172,7 @@ Shipping a provider class is not enough to use it: a provider takes effect only 
 ],
 ```
 
-Registration gates everything. Seeding iterates registered providers only, so `SeedCountryGeographiesAction::execute('VN')` silently seeds nothing when Vietnam is absent. `CountryAddressProfileResolver` likewise resolves registered providers only: for an unregistered country it returns no profile, `hierarchies()` is empty, and `definitionForRole()` returns null for every role — which makes `SyncAddressAreaAssignmentsAction` reject any non-empty assignment map with "The selected address area role is not defined by the country address profile." Only the empty map (delete-all) succeeds without a profile. Boot validation rejects configured entries that do not exist or do not implement `CountryGeographyProvider`, so a typo fails fast instead of seeding silently.
+Registration gates everything. Seeding iterates registered providers only, so `CountryGeographySeeder::execute('VN')` silently seeds nothing when Vietnam is absent. `CountryAddressProfileResolver` likewise resolves registered providers only: for an unregistered country it returns no profile, `hierarchies()` is empty, and `definitionForRole()` returns null for every role — which makes `AddressAssignmentWriter` reject any non-empty assignment map with "The selected address area role is not defined by the country address profile." Only the empty map (delete-all) succeeds without a profile. Boot validation rejects configured entries that do not exist or do not implement `CountryGeographyProvider`, so a typo fails fast instead of seeding silently.
 
 ## Navigation Links
 
@@ -202,7 +202,8 @@ uppercase during package boot. Invalid or blank values are treated as unset.
 
 The configured model classes must extend the corresponding core model. Core
 relations and normalization use `ModelResolver`, so host subclasses are
-applied consistently.
+applied consistently. Resolution gap persistence is owned by its feature; set
+`models.resolution_gap` to a subclass of `AIArmada\Addressing\Features\ResolutionGaps\Models\ResolutionGap` only when an override is required.
 
 ## Seed
 
@@ -233,6 +234,25 @@ invoked directly, regardless of this flag.
 ```
 
 Register your `AddressAreaSource` implementations here. They become available to the `address:import-areas` command.
+
+## Google Places
+
+```php
+'google_places' => [
+    'enabled' => env('ADDRESSING_GOOGLE_PLACES_ENABLED'),
+    'api_key' => env('ADDRESSING_GOOGLE_MAPS_API_KEY'),
+    'server_api_key' => env('ADDRESSING_GOOGLE_PLACES_SERVER_API_KEY'),
+    'link_resolution_enabled' => env('ADDRESSING_GOOGLE_PLACE_LINK_RESOLUTION_ENABLED'),
+    'user_agent' => env('ADDRESSING_GOOGLE_PLACES_USER_AGENT'),
+],
+```
+
+Link resolution follows only the documented Google Maps, shortener
+(`maps.app.goo.gl`, `goo.gl`, `g.co`), and consent hosts. Every redirect,
+including the final target, must stay on an approved host; unsupported
+regional domains fail closed instead of being fetched. Server-side place
+search and place-details calls are skipped when `server_api_key` is missing,
+so the integration stays optional.
 
 ## OneMap Postcodes
 

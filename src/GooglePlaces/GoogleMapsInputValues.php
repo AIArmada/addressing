@@ -27,7 +27,9 @@ final class GoogleMapsInputValues
             return null;
         }
 
-        return Str::after($normalized, 'places/');
+        $id = Str::after($normalized, 'places/');
+
+        return $id !== '' && mb_strlen($id) <= 255 && preg_match('~^[A-Za-z0-9_\\-]+$~D', $id) === 1 ? $id : null;
     }
 
     public static function displayName(mixed $value): ?string
@@ -44,7 +46,7 @@ final class GoogleMapsInputValues
     public static function number(mixed $value): ?float
     {
         if (is_float($value) || is_int($value)) {
-            return (float) $value;
+            return is_finite((float) $value) ? (float) $value : null;
         }
 
         if (! is_string($value)) {
@@ -53,6 +55,20 @@ final class GoogleMapsInputValues
 
         $trimmed = mb_trim($value);
 
-        return is_numeric($trimmed) ? (float) $trimmed : null;
+        return is_numeric($trimmed) && is_finite((float) $trimmed) ? (float) $trimmed : null;
+    }
+
+    public static function latitude(mixed $value): ?float
+    {
+        $number = self::number($value);
+
+        return $number !== null && abs($number) <= 90 ? $number : null;
+    }
+
+    public static function longitude(mixed $value): ?float
+    {
+        $number = self::number($value);
+
+        return $number !== null && abs($number) <= 180 ? $number : null;
     }
 }

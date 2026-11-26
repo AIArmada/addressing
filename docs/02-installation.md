@@ -57,10 +57,10 @@ For custom orchestration, call the action directly. Without a callback it runs
 silently, which is what queued jobs and tests want:
 
 ```php
-use AIArmada\Addressing\Actions\SeedAddressingAction;
+use AIArmada\Addressing\Contracts\AddressingDatasetSeeder;
 use AIArmada\Addressing\Support\ConsoleSeedProgress;
 
-app(SeedAddressingAction::class)->execute(
+app(AddressingDatasetSeeder::class)->execute(
     ConsoleSeedProgress::for($this->command?->getOutput()),
 );
 ```
@@ -75,9 +75,9 @@ before postcodes so area links resolve.
 ## Seed a Country Geography Provider
 
 ```php
-use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
+use AIArmada\Addressing\Contracts\CountryGeographySeeder;
 
-app(SeedCountryGeographiesAction::class)->execute('MY');
+app(CountryGeographySeeder::class)->execute('MY');
 ```
 
 The `address:seed-geographies` command always shows progress.

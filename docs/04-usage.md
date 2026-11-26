@@ -42,9 +42,9 @@ Geographic values use the canonical `latitude`, `longitude`, and
 ## Seed Country Data
 
 ```php
-use AIArmada\Addressing\Actions\SeedAddressCountriesAction;
+use AIArmada\Addressing\Contracts\CountryDatasetSeeder;
 
-app(SeedAddressCountriesAction::class)->execute();
+app(CountryDatasetSeeder::class)->execute();
 // ['created' => 249, 'updated' => 0, 'skipped' => 0]
 ```
 
@@ -59,9 +59,9 @@ php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressCountry
 First-class geography models sit beside free-text address fields:
 
 ```php
-use AIArmada\Addressing\Models\Address;
-use AIArmada\Addressing\Models\City;
-use AIArmada\Addressing\Models\State;
+use AIArmada\Addressing\Features\AddressLifecycle\Models\Address;
+use AIArmada\Addressing\Features\Geography\Models\City;
+use AIArmada\Addressing\Features\Geography\Models\State;
 
 $state = State::query()->where('code', '10')->first(); // Selangor
 $city = City::query()->where('country_id', $state->country_id)->where('name', 'Shah Alam')->first();
@@ -83,7 +83,7 @@ $state->cities;  // HasMany cities when this country uses a state relationship
 
 `City::state()` may be null. Use the selected country's address profile to decide whether the UI should ask for a state, province, prefecture, county, municipality, or no parent region.
 
-`NormalizeAddressDataAction` treats reference IDs as authoritative. When only
+`AddressNormalizer` treats reference IDs as authoritative. When only
 country/state/city names or codes are supplied, it resolves matching reference
 rows and returns their IDs and canonical names. Explicit IDs are validated for
 existence and country/state consistency; no database foreign-key constraint is
@@ -98,9 +98,10 @@ pointers cross-owner (free-text `state`/`city` and snapshots are preserved)
 and clears `address_area_state_links`, then prunes only area assignments that
 no longer validate without the state. Deleting a `City` nulls
 `addresses.city_id` the same way. Both deletes run in a transaction with no
-database cascades. Provider `seed()` stale-state cleanup must reuse
-`GeographyReferenceCleanup::pruneStatesByCodes()` so the same integrity runs
-instead of bulk deletes that bypass model events.
+database cascades. Provider state retirement runs through the `CountryStateSeeder`
+contract with `CountryStateSeedData::retiredCodes` so it invokes the same
+integrity rules instead of bulk deletes that bypass model events. A vetoed
+model deletion rolls back the reference cleanup as well.
 
 State selectors should offer only provider state-kind roots so every option
 resolves to an area parent. Use the core seam instead of hardcoding country
@@ -124,10 +125,10 @@ $options = $resolver->stateOptionsQuery('GB')?->pluck('name', 'id')->all() ?? []
 ### Seed Malaysia geography
 
 ```php
-use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
+use AIArmada\Addressing\Contracts\CountryGeographySeeder;
 
 // After AddressingSeeder
-app(SeedCountryGeographiesAction::class)->execute('MY');
+app(CountryGeographySeeder::class)->execute('MY');
 ```
 
 This uses the bundled Malaysia country provider. Other country providers can define different address structures without changing `State`, `City`, or `AddressArea` core tables.
@@ -137,10 +138,10 @@ Malaysia exposes one first-level region type whose values are either a state or 
 ### Seed Singapore geography
 
 ```php
-use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
+use AIArmada\Addressing\Contracts\CountryGeographySeeder;
 
 // After AddressingSeeder
-app(SeedCountryGeographiesAction::class)->execute('SG');
+app(CountryGeographySeeder::class)->execute('SG');
 ```
 
 Singapore exposes two separate hierarchies: postal/delivery geography (`postal district → postal sector`, 28 districts and 81 sectors) and administrative/planning geography (`planning region → planning area`, 5 URA regions and 55 planning areas). The five `State` rows are the ISO 3166-2 community development council districts; they link to matching district areas but are not roots of either hierarchy, because CDC boundaries do not nest inside URA or postal boundaries.
@@ -148,10 +149,10 @@ Singapore exposes two separate hierarchies: postal/delivery geography (`postal d
 ### Seed Indonesia geography
 
 ```php
-use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
+use AIArmada\Addressing\Contracts\CountryGeographySeeder;
 
 // After AddressingSeeder
-app(SeedCountryGeographiesAction::class)->execute('ID');
+app(CountryGeographySeeder::class)->execute('ID');
 ```
 
 Indonesia exposes one administrative hierarchy: `province → regency / city → district → village` (38 provinces, 514 regencies and cities, 7,285 districts, plus 83,762 opt-in villages). Provinces are the ISO 3166-2 states, so the first level resolves through the selected `State`; regencies, districts, and (when seeded) villages are directly assignable. Villages are opt-in via `addressing.geography.indonesia.villages`; postcodes are intentionally not bundled; see `05-country-data.md`.
@@ -159,10 +160,10 @@ Indonesia exposes one administrative hierarchy: `province → regency / city →
 ### Seed Brunei geography
 
 ```php
-use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
+use AIArmada\Addressing\Contracts\CountryGeographySeeder;
 
 // After AddressingSeeder
-app(SeedCountryGeographiesAction::class)->execute('BN');
+app(CountryGeographySeeder::class)->execute('BN');
 ```
 
 Brunei exposes one administrative hierarchy: `district → mukim` (4 districts, 39 mukims). Districts are the ISO 3166-2 states, so the first level resolves through the selected `State` and only mukims are directly assignable. Villages and postcodes are intentionally not bundled; see `05-country-data.md`.
@@ -170,10 +171,10 @@ Brunei exposes one administrative hierarchy: `district → mukim` (4 districts, 
 ### Seed Gulf geography
 
 ```php
-use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
+use AIArmada\Addressing\Contracts\CountryGeographySeeder;
 
 // After AddressingSeeder; repeat per country.
-app(SeedCountryGeographiesAction::class)->execute('BH');
+app(CountryGeographySeeder::class)->execute('BH');
 ```
 
 Bahrain (4 governorates) and the UAE (7 emirates) each expose a
@@ -482,10 +483,10 @@ postcode system.
 ### Resolve Singapore postcodes
 
 ```php
-use AIArmada\Addressing\Actions\ResolveSingaporePostalCodesAction;
+use AIArmada\Addressing\Contracts\SingaporePostalCodeResolver;
 
 // Requires ONEMAP_EMAIL and ONEMAP_PASSWORD; seed SG geographies first.
-$result = app(ResolveSingaporePostalCodesAction::class)->execute(['569933', '999999']);
+$result = app(SingaporePostalCodeResolver::class)->execute(['569933', '999999']);
 
 $result->resolved; // ['569933']
 $result->invalid;  // ['999999']
@@ -541,9 +542,9 @@ never updates application data or package sources.
 ## Search Areas
 
 ~~~php
-use AIArmada\Addressing\Actions\SearchAddressAreasAction;
+use AIArmada\Addressing\Contracts\AddressAreaSearch;
 
-$areas = app(SearchAddressAreasAction::class)->execute(
+$areas = app(AddressAreaSearch::class)->execute(
     query: 'KL',
     countryCode: 'MY',
 );
@@ -551,7 +552,7 @@ $areas = app(SearchAddressAreasAction::class)->execute(
 
 Search supports canonical names, aliases, place type, address role, parent
 area and postcode filters. It queries the configured `addressing.models.area`
-subclass through `ModelResolver`, so custom global scopes apply.
+subclass through `ModelResolver`, so custom global scopes apply. Results are a list of immutable `AddressAreaMatchData` values; use `id` to select an area and `name` to display it.
 
 For incomplete external place-provider results, use the package hierarchy
 resolver to locate a named area below a known state root and recover its typed
@@ -560,7 +561,7 @@ candidates; integrations remain responsible for translating provider
 components into the canonical area types and roles.
 
 ~~~php
-use AIArmada\Addressing\Support\AddressAreaHierarchyResolver;
+use AIArmada\Addressing\Features\Geography\Support\AddressAreaHierarchyResolver;
 
 $subdivision = app(AddressAreaHierarchyResolver::class)->resolveWithinHierarchy(
     name: 'Shah Alam',
@@ -615,9 +616,9 @@ Pusat`, `West Java` vs `Jawa Barat`. Log every attempted-but-unmatched value
 so the naming gap is visible instead of silently degrading to a partial match.
 
 ~~~php
-use AIArmada\Addressing\Actions\LogAddressResolutionGapAction;
+use AIArmada\Addressing\Contracts\ResolutionGapReporter;
 
-app(LogAddressResolutionGapAction::class)->execute(
+$gapId = app(ResolutionGapReporter::class)->report(
     source: 'google-picker',
     countryCode: 'ID',
     role: 'regency',
@@ -627,7 +628,7 @@ app(LogAddressResolutionGapAction::class)->execute(
 );
 ~~~
 
-Logging upserts on `(owner, source, country_code, role, normalized)`: repeats
+Reporting returns the persisted gap ID. Logging upserts on `(owner, source, country_code, role, normalized)`: repeats
 bump `hits` and refresh the `context` sample instead of duplicating rows.
 Each owner curates their own gap stream; callers without a resolved owner
 (public widgets, import probes) land as global rows inside explicit global
@@ -644,13 +645,12 @@ preserve it — only provider-sourced names are refreshed on reseed. Gaps never
 auto-fill: a failed match cannot know *which* area the string maps to.
 
 ~~~php
-use AIArmada\Addressing\Actions\IgnoreResolutionGapAction;
-use AIArmada\Addressing\Actions\MatchGapToAreaAction;
+use AIArmada\Addressing\Contracts\ResolutionGapCuration;
 
-app(MatchGapToAreaAction::class)->execute($gap, $area, matchedBy: $admin->email);
+app(ResolutionGapCuration::class)->match((string) $gap->getKey(), (string) $area->getKey(), actor: $admin->email);
 
 // Junk values can be ignored; ignored gaps stay terminal on recurrence.
-app(IgnoreResolutionGapAction::class)->execute($gap);
+app(ResolutionGapCuration::class)->ignore((string) $gap->getKey());
 ~~~
 
 Matching refuses `ambiguous` gaps (they need data cleanup, not another alias),
@@ -685,10 +685,10 @@ php artisan address:export-gap-aliases --country=ID --prune
 ## Address area assignments
 
 ~~~php
-use AIArmada\Addressing\Actions\SyncAddressAreaAssignmentsAction;
+use AIArmada\Addressing\Contracts\AddressAssignmentWriter;
 
-app(SyncAddressAreaAssignmentsAction::class)->execute(
-    address: $address,
+app(AddressAssignmentWriter::class)->execute(
+    addressId: (string) $address->getKey(),
     assignments: [
         'postal_locality' => $bangsar->id,
     ],
@@ -771,20 +771,22 @@ Without a state the static level label applies. With one, the label joins the di
 
 Malaysia declares its base type labels explicitly; state overrides still take precedence. Labels remain language-neutral and consumers own translation. Consumers can preserve an exact phrase translation first, then translate individual terms separated by ` / ` when no phrase translation exists.
 
-Distinct-type lookups, including empty results, are memoised in request attributes by area model, connection, table, parent, hierarchy type, ordered type filters, and level filters. Labels still adapt when the selection changes. The cache holds raw types rather than translated labels, expires with the request, and is bypassed when no request is bound. Geography writes become visible to a previously cached scope on the next request.
+Distinct-type lookups are memoised in request attributes by configured area model, connection, database, table prefix, parent, hierarchy type, ordered type filters, and level filters. Missing results are not cached, so a later seed or link is visible immediately. Labels still adapt when the selection changes. The cache holds raw types rather than translated labels, expires with the request, and is bypassed when no request is bound. Hierarchy writes clear the shared hierarchy bucket so the same request sees new containment and state links.
 
 ## Save and import postcode admin data
 
-Use `SavePostalCodeAction` for an operator-managed postcode row. Country and
+Use `PostalCodeWriter` for an operator-managed postcode row. Country and
 postcode code identify the row; the action validates each manual coverage area
-against the postcode country and changes only manual coverage without source
-identities. Metadata must be an array or `null`; omitting it during an update
-preserves the stored value, while explicit `null` clears it.
+against the postcode country and changes only coverage with `source = manual`
+and a null `source_id`. Imported coverage is preserved. If a submitted link
+shares an imported link's area, postcode, relationship type, and source, the
+writer reports a validation error. Metadata accepts an array or `null`.
+Omitting metadata preserves the stored value. Passing `null` clears it.
 
 ```php
-use AIArmada\Addressing\Actions\SavePostalCodeAction;
+use AIArmada\Addressing\Contracts\PostalCodeWriter;
 
-$postcode = app(SavePostalCodeAction::class)->execute([
+$postcodeId = app(PostalCodeWriter::class)->execute([
     'country_code' => 'MY',
     'code' => '47500',
     'is_active' => true,
@@ -797,23 +799,27 @@ $postcode = app(SavePostalCodeAction::class)->execute([
         ],
     ],
 ]);
+$postcode = \AIArmada\Addressing\Support\ModelResolver::postalCodeClass()::query()->findOrFail($postcodeId);
 ```
 
-For grouped import rows, `ImportPostalCodeAdminDataAction` accepts one postcode
+For grouped import rows, `PostalCodeAdminImporter` returns the persisted postcode ID and accepts one postcode
 and an explicit list of coverage edges. Every area is resolved by source and
 source ID within the selected country before any mutation. Each edge preserves
 its own source, source ID, relationship type, and primary flag. Only coverage
 groups named in the input are replaced; an empty coverage list leaves current
-coverage unchanged.
+coverage unchanged. Replacement scopes are `(source, source_id)`, while
+uniqueness is enforced on `(area, postcode, relationship, source)`; an incoming
+edge that would collide with a retained source ID is reported as a validation
+conflict instead of overwriting the retained edge.
 
 ## Import Areas
 
 ### From a custom source
 
 ```php
-use AIArmada\Addressing\Actions\ImportAddressAreasAction;
-use AIArmada\Addressing\Support\ArrayAddressAreaSource;
+use AIArmada\Addressing\Contracts\AddressAreaImporter;
 use AIArmada\Addressing\Data\AddressAreaData;
+use AIArmada\Addressing\Support\ArrayAddressAreaSource;
 
 $source = new ArrayAddressAreaSource('my-source', [
     new AddressAreaData(
@@ -825,7 +831,7 @@ $source = new ArrayAddressAreaSource('my-source', [
     ),
 ]);
 
-$result = app(ImportAddressAreasAction::class)->execute($source);
+$result = app(AddressAreaImporter::class)->execute($source);
 
 echo $result->created; // 1
 ```
@@ -849,27 +855,29 @@ Re-imports are idempotent: rows without changes are reported as skipped. Parent 
 php artisan address:import-areas --csv=/path/to/areas.csv --source-key=my-source --reactivate
 ```
 
-Existing rows are updated through Eloquent `save()`, so model observers may mutate or cancel an update. A cancelled update is reported as skipped and leaves the stored area and its provider relationships unchanged.
+Existing rows are updated through Eloquent `save()`, so model observers may mutate or cancel an update. A cancelled update is reported as skipped and leaves the stored area and its provider relationships unchanged. The country of an existing area is immutable: a feed row that changes it is reported as a failure instead of moving the area and breaking its references.
 
 ### Saving a single area
 
 ```php
-use AIArmada\Addressing\Actions\SaveAddressAreaAction;
+use AIArmada\Addressing\Contracts\AddressAreaWriter;
 
-$area = app(SaveAddressAreaAction::class)->handle([
+$areaId = app(AddressAreaWriter::class)->handle([
     'country_id' => $country->id,
     'parent_id' => $district->id,
     'type' => 'mukim',
     'name' => 'Mukim Baru',
 ]);
+$area = \AIArmada\Addressing\Support\ModelResolver::areaClass()::query()->findOrFail($areaId);
 
-// Pass an existing record as the second argument to update it.
+// Pass an existing record ID as the second argument to update it.
 ```
 
 `handle()` validates that the country exists and the parent belongs to the
 same country, derives the slug from the name, and honors an explicit
 `is_active` boolean (omitted keeps the column default on create and the
-stored value on update). Source-owned `contains` edges follow the parent:
+stored value on update). The country of an existing area cannot be changed;
+create a replacement area and remap its references instead. Source-owned `contains` edges follow the parent:
 a parent-only move carries existing edges with their hierarchy types, a
 detach clears them and `parent_source_id`, and unrelated sources or
 relationship types are left untouched. Manual rows use
@@ -880,20 +888,20 @@ Manual area aliases use their own core actions so provider-owned names remain
 protected across entry points:
 
 ```php
-use AIArmada\Addressing\Actions\DeleteAddressAreaAliasAction;
-use AIArmada\Addressing\Actions\SaveAddressAreaAliasAction;
+use AIArmada\Addressing\Contracts\AddressAreaAliasDeleter;
+use AIArmada\Addressing\Contracts\AddressAreaAliasWriter;
 
-$alias = app(SaveAddressAreaAliasAction::class)->handle($area, [
+$aliasId = app(AddressAreaAliasWriter::class)->handle((string) $area->getKey(), [
     'name' => 'Shah Alam',
     'name_type' => 'alternative',
     'is_preferred' => false,
 ]);
 
-$alias = app(SaveAddressAreaAliasAction::class)->handle($area, [
+$aliasId = app(AddressAreaAliasWriter::class)->handle((string) $area->getKey(), [
     'name' => 'Shah Alam City',
-], $alias);
+], $aliasId);
 
-app(DeleteAddressAreaAliasAction::class)->execute($area, $alias);
+app(AddressAreaAliasDeleter::class)->execute((string) $area->getKey(), $aliasId);
 ```
 
 The actions reload and lock the area and any supplied alias before checking
@@ -903,7 +911,7 @@ edited or deleted through these actions.
 ## HasAddresses Trait
 
 ```php
-use AIArmada\Addressing\Traits\HasAddresses;
+use AIArmada\Addressing\Features\AddressLifecycle\Traits\HasAddresses;
 
 class Customer extends Model
 {
@@ -935,18 +943,18 @@ the address and parent under the current owner, rechecks the pivot identity,
 and updates the typed relationship and primary flag transactionally.
 
 ```php
-use AIArmada\Addressing\Actions\UpdateAddressAttachmentAction;
-use AIArmada\Addressing\Models\Addressable;
+use AIArmada\Addressing\Contracts\AddressAttachmentWriter;
+use AIArmada\Addressing\Features\AddressLifecycle\Models\Addressable;
 
 $attachment = Addressable::query()->findOrFail($attachmentId);
 
-$attachment = app(UpdateAddressAttachmentAction::class)->execute($attachment, [
+$attachmentId = app(AddressAttachmentWriter::class)->execute((string) $attachment->getKey(), [
     'type' => 'billing',
     'label' => 'Accounts office',
     'is_primary' => true,
 ]);
 
-app(UpdateAddressAttachmentAction::class)->detach($attachment);
+app(AddressAttachmentWriter::class)->detach($attachmentId);
 ```
 
 The action refuses a duplicate address/type attachment and changes primary
@@ -1020,12 +1028,13 @@ Pass a relation name when the addressable relation is not named `addresses`.
 ## Address Snapshots
 
 ```php
-use AIArmada\Addressing\Actions\CreateAddressSnapshotAction;
+use AIArmada\Addressing\Contracts\AddressSnapshotWriter;
 use AIArmada\Addressing\Data\AddressData;
 
-$snapshot = app(CreateAddressSnapshotAction::class)->execute(
-    snapshotable: $order,
-    address: $shippingAddress,
+$snapshotId = app(AddressSnapshotWriter::class)->execute(
+    snapshotableType: $order->getMorphClass(),
+    snapshotableId: $order->getKey(),
+    address: (string) $shippingAddress->getKey(),
     reason: 'order_placed',
 );
 
@@ -1042,7 +1051,7 @@ human-readable tag alongside the snapshot.
 ## Formatting
 
 ```php
-use AIArmada\Addressing\Actions\FormatAddressAction;
+use AIArmada\Addressing\Contracts\AddressFormatter;
 use AIArmada\Addressing\Data\AddressData;
 
 $address = AddressData::from([
@@ -1053,7 +1062,7 @@ $address = AddressData::from([
     'countryCode' => 'MY',
 ]);
 
-$formatted = app(FormatAddressAction::class)->format($address);
+$formatted = app(AddressFormatter::class)->format($address);
 // "123 Jalan Ampang
 //  50450 Kuala Lumpur
 //  Malaysia"
@@ -1066,9 +1075,9 @@ Saving an `Address` regenerates `formatted_address` and `formatted_lines` automa
 ## Normalization
 
 ```php
-use AIArmada\Addressing\Actions\NormalizeAddressDataAction;
+use AIArmada\Addressing\Contracts\AddressNormalizer;
 
-$address = app(NormalizeAddressDataAction::class)->normalize([
+$address = app(AddressNormalizer::class)->normalize([
     'street_address' => '123 Jalan Ampang',
     'zip_code' => '50450',
 ]);
@@ -1080,13 +1089,13 @@ echo $address->postcode; // "50450"
 ## Validation
 
 ```php
-use AIArmada\Addressing\Actions\NormalizeAddressDataAction;
-use AIArmada\Addressing\Actions\ValidateAddressAction;
+use AIArmada\Addressing\Contracts\AddressNormalizer;
+use AIArmada\Addressing\Contracts\AddressValidator;
 use AIArmada\Addressing\Rules\ValidPostalCode;
 
 // Ensure countryCode is set (normalize() keeps it canonical), then validate.
-$address = app(NormalizeAddressDataAction::class)->normalize($input);
-$violations = app(ValidateAddressAction::class)->execute($address);
+$address = app(AddressNormalizer::class)->normalize($input);
+$violations = app(AddressValidator::class)->validate($address);
 // ['postcode' => 'The postcode [ABCDE] is not a valid MY postcode.']
 // Empty array when valid.
 
@@ -1143,9 +1152,10 @@ $address = AddressData::from([
 ### Building Navigation Links
 
 ```php
-use AIArmada\Addressing\Actions\BuildAddressNavigationLinksAction;
+use AIArmada\Addressing\Contracts\AddressNavigationLinks;
+use AIArmada\Addressing\Data\AddressData;
 
-$links = app(BuildAddressNavigationLinksAction::class)->execute($address);
+$links = app(AddressNavigationLinks::class)->build(AddressData::from($address->attributesToArray()));
 
 echo $links['google_maps_url']; // manual link or generated fallback
 echo $links['google_maps_source']; // 'manual' | 'navigation_links' | 'generated_place_id' | 'generated_coordinates' | 'generated_formatted_address'
@@ -1215,7 +1225,7 @@ Countries, country references, states, and cities are loaded by seeders, not com
 php artisan db:seed --class="AIArmada\Addressing\Database\Seeders\AddressingSeeder"
 ```
 
-`AddressingSeeder` runs `SeedAddressingAction` — the same action the removed `address:seed*`
+`AddressingSeeder` runs `AddressingDatasetSeeder` — the same action the removed `address:seed*`
 commands called, so nothing was lost in the move to seeders. `AddressCountrySeeder` covers the
 ISO countries layer on its own, and `PostalCodeSeeder` covers every bundled postcode dataset.
 
@@ -1224,31 +1234,24 @@ Per-country postcodes stay on `address:seed-postal-codes {country?}`. Both comma
 show progress; the underlying actions run silently without a progress callback, which is
 what queued jobs and tests want.
 
-Breaking change: `MalaysiaPostalCodeSeeder` is removed; `PostalCodeSeeder` seeds Malaysia
-from the same CSVs. Link rows now carry source `my_postal_v1` instead of `pos_malaysia_v1`,
-so after upgrading, prune the stale rows once:
-
-```php
-use AIArmada\Addressing\Models\AddressAreaPostalCode;
-
-AddressAreaPostalCode::query()->where('source', 'pos_malaysia_v1')->delete();
-```
+Malaysia postcode coverage uses the source `my_postal_v1` and is seeded through
+`PostalCodeSeeder`.
 
 ## Spatial queries
 
 Enable the corresponding [spatial option](03-configuration.md#optional-spatial-columns) and run its migration before calling these scopes. All coordinate arguments use WGS 84 degrees in latitude, longitude order. The address scopes preserve the package's owner boundary.
 
 ```php
-use AIArmada\Addressing\Actions\SetAddressAreaBoundaryAction;
-use AIArmada\Addressing\Models\Address;
-use AIArmada\Addressing\Models\AddressArea;
+use AIArmada\Addressing\Contracts\AddressAreaBoundaryWriter;
+use AIArmada\Addressing\Features\AddressLifecycle\Models\Address;
+use AIArmada\Addressing\Features\Geography\Models\AddressArea;
 
 $nearby = Address::query()->withinRadius(48.0, -126.0, 5_000)->get();
 $geohashMatches = Address::query()->inGeohash('c0w3h')->get();
 $cellMatches = Address::query()->inH3Cell(48.0, -126.0)->get();
 
 $area = AddressArea::query()->where('slug', 'example-area')->firstOrFail();
-app(SetAddressAreaBoundaryAction::class)->execute(
+app(AddressAreaBoundaryWriter::class)->execute(
     $area->id,
     'POLYGON((-126 48,-125 48,-125 49,-126 49,-126 48))',
 );

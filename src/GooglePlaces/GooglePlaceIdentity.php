@@ -227,7 +227,7 @@ final class GooglePlaceIdentity
         $parts = parse_url($url);
         $host = is_array($parts) && is_string($parts['host'] ?? null) ? mb_strtolower(mb_rtrim($parts['host'], '.')) : null;
 
-        if (! is_string($host) || ! self::isGoogleMapsHost($host)) {
+        if (! is_string($host) || ! GoogleMapsTrustedHosts::isSupportedHost($host)) {
             return [];
         }
 
@@ -259,14 +259,6 @@ final class GooglePlaceIdentity
         }
 
         return array_values(array_unique($cids));
-    }
-
-    private static function isGoogleMapsHost(string $host): bool
-    {
-        return $host === 'google.com'
-            || str_ends_with($host, '.google.com')
-            || preg_match('/^(?:(?:www|maps)\.)?google\.(?:[a-z]{2,3}|co\.[a-z]{2}|com\.[a-z]{2})$/i', $host) === 1
-            || $host === 'maps.app.goo.gl';
     }
 
     private static function hexToDecimal(string $hex): string

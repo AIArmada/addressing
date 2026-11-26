@@ -58,12 +58,12 @@ translation dataset.
 config/addressing.php          Package configuration
 database/migrations/           Table migrations
 database/seeders/              Country and geography seeders
-src/Actions/                   Action classes
 src/Casts/                     Custom Eloquent casts
-src/Commands/                  Artisan commands
 src/Contracts/                 Interfaces
 src/Data/                      Value objects (DTOs)
-src/Models/                    Eloquent models
+src/Features/<Capability>/     Feature-owned models, actions, entry points, and APIs
+src/Geography/                 Country formatters and geography providers
+src/GooglePlaces/              Google Maps parsing and identity helpers
 src/Support/                   Support classes
 src/Traits/                    Reusable traits
 resources/data/countries.json Bundled ISO 3166-1 data

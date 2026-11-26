@@ -1,0 +1,857 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AIArmada\Addressing\Features\Geography\Actions;
+
+use AIArmada\Addressing\Contracts\AddressAreaImporter;
+use AIArmada\Addressing\Contracts\AddressAreaSource;
+use AIArmada\Addressing\Data\AddressAreaData;
+use AIArmada\Addressing\Data\ImportAddressAreaFailureData;
+use AIArmada\Addressing\Data\ImportAddressAreasResultData;
+use AIArmada\Addressing\Features\Geography\Models\AddressArea;
+use AIArmada\Addressing\Features\Geography\Support\AddressAreaHierarchy;
+use AIArmada\Addressing\Features\Geography\Support\AddressAreaStateBridge;
+use AIArmada\Addressing\Support\ModelResolver;
+use Carbon\CarbonImmutable;
+use Illuminate\Support\Str;
+use InvalidArgumentException;
+use SplPriorityQueue;
+
+final readonly class ImportAddressAreasAction implements AddressAreaImporter
+{
+    public function execute(
+        AddressAreaSource $source,
+        bool $dryRun = false,
+        ?string $providerKey = null,
+        bool $reactivate = false,
+        ?callable $progress = null,
+    ): ImportAddressAreasResultData {
+        $providerKey = $providerKey !== null ? mb_trim($providerKey) : null;
+
+        if ($providerKey === '') {
+            throw new InvalidArgumentException('Address-area provider keys cannot be empty.');
+        }
+
+        return ModelResolver::areaClass()::query()->getConnection()->transaction(function () use ($source, $dryRun, $providerKey, $reactivate, $progress): ImportAddressAreasResultData {
+            $created = 0;
+            $updated = 0;
+            $skipped = 0;
+            $failures = [];
+
+            $countryIds = ModelResolver::countryClass()::query()->pluck('id', 'iso2')->all();
+            $now = CarbonImmutable::now();
+
+            $rows = $source->areas()->all();
+
+            if ($providerKey !== null && $rows === [] && ModelResolver::areaClass()::query()
+                ->where('source', $source->key())
+                ->where('metadata->provider', $providerKey)
+                ->exists()) {
+                throw new InvalidArgumentException(sprintf(
+                    'Cannot import an empty geography feed for provider %s while managed areas exist.',
+                    $providerKey,
+                ));
+            }
+
+            $rows = $this->orderByDependency($rows);
+            $total = count($rows);
+            $done = 0;
+
+            // One preload replaces a SELECT per row. Rows staged by this run
+            // join the map as they are prepped; the payload is
+            // dependency-ordered first, so in-file parents always stage
+            // before their children regardless of file order.
+            $areasByKey = $this->preloadAreas($rows);
+
+            // Id-keyed parent map for cycle validation across the stored and
+            // staged graphs. Staged rows overlay their prepped links as the
+            // run advances, so a cycle routed through this file is caught.
+            $parentById = [];
+
+            foreach ($areasByKey as $preloaded) {
+                $parentById[(string) $preloaded['id']] = $preloaded['parent_id'] !== null
+                    ? (string) $preloaded['parent_id']
+                    : null;
+            }
+
+            /** @var array<string, array> $inserts */
+            $inserts = [];
+            $staged = [];
+            $linkStates = [];
+            $seenSourceIds = [];
+            $countryIdsBySource = [];
+
+            foreach ($rows as $areaData) {
+                $done++;
+
+                if ($progress !== null) {
+                    $progress('areas', $done, $total);
+                }
+
+                $failure = $this->validateFields($areaData);
+
+                if ($failure !== null) {
+                    $failures[] = $failure;
+
+                    continue;
+                }
+
+                $countryCode = mb_strtoupper(mb_trim($areaData->countryCode));
+                $countryId = $countryIds[$countryCode] ?? null;
+
+                if ($countryId === null) {
+                    $failures[] = new ImportAddressAreaFailureData(
+                        sourceId: $areaData->sourceId,
+                        reason: "Country not found for countryCode: {$areaData->countryCode}",
+                        name: $areaData->name,
+                    );
+
+                    continue;
+                }
+
+                $seenSourceIds[$areaData->source][$areaData->sourceId] = true;
+                $countryIdsBySource[$areaData->source][$countryId] = true;
+
+                $key = $areaData->source . "\0" . $areaData->sourceId;
+                $existing = $areasByKey[$key] ?? null;
+                $parent = null;
+                $parentId = null;
+
+                if ($existing !== null && (string) ($existing['country_id'] ?? '') !== $countryId) {
+                    $failures[] = new ImportAddressAreaFailureData(
+                        sourceId: $areaData->sourceId,
+                        reason: 'The country of an existing address area cannot be changed.',
+                        name: $areaData->name,
+                    );
+
+                    continue;
+                }
+
+                if ($areaData->parentSourceId !== null && $areaData->parentSourceId !== '') {
+                    $parent = $areasByKey[$areaData->source . "\0" . $areaData->parentSourceId] ?? null;
+
+                    if ($parent === null) {
+                        $failures[] = new ImportAddressAreaFailureData(
+                            sourceId: $areaData->sourceId,
+                            reason: "Parent not found for parentSourceId: {$areaData->parentSourceId}",
+                            name: $areaData->name,
+                        );
+
+                        continue;
+                    }
+
+                    // Parent checks apply to new and existing rows alike: the
+                    // parent must belong to the same country, must not close
+                    // a cycle through stored or staged rows, and must sit at
+                    // a lower level than the child.
+                    $parentCountryCode = isset($parent['country_code'])
+                        ? mb_strtoupper((string) $parent['country_code'])
+                        : null;
+
+                    if ($parentCountryCode !== $countryCode) {
+                        $failures[] = new ImportAddressAreaFailureData(
+                            sourceId: $areaData->sourceId,
+                            reason: 'The selected parent area must belong to the same country.',
+                            name: $areaData->name,
+                        );
+
+                        continue;
+                    }
+
+                    $parentId = (string) $parent['id'];
+                    $cycleMessage = AddressAreaHierarchy::validateParentAssignmentInGraph(
+                        isset($existing['id']) ? (string) $existing['id'] : null,
+                        $parentId,
+                        $parentById,
+                    );
+
+                    if ($cycleMessage !== null) {
+                        $failures[] = new ImportAddressAreaFailureData(
+                            sourceId: $areaData->sourceId,
+                            reason: $cycleMessage,
+                            name: $areaData->name,
+                        );
+
+                        continue;
+                    }
+
+                    $levelMessage = AddressAreaHierarchy::validateParentCompatibility(
+                        $this->hydrateArea($parent),
+                        $areaData->level,
+                    );
+
+                    if ($levelMessage !== null) {
+                        $failures[] = new ImportAddressAreaFailureData(
+                            sourceId: $areaData->sourceId,
+                            reason: $levelMessage,
+                            name: $areaData->name,
+                        );
+
+                        continue;
+                    }
+                }
+
+                if ($dryRun) {
+                    // Dry-run stages the same graph without writing or firing
+                    // model events, so later rows validate exactly as they
+                    // would on a real import.
+                    $this->simulateStaged(
+                        $areaData,
+                        $key,
+                        $countryId,
+                        $countryCode,
+                        $parentId,
+                        $existing,
+                        $providerKey,
+                        $areasByKey,
+                    );
+                    $parentById[(string) $areasByKey[$key]['id']] = $parentId;
+                    $skipped++;
+
+                    continue;
+                }
+
+                $result = $this->persistPrepared(
+                    $areaData,
+                    $key,
+                    $countryId,
+                    $countryCode,
+                    $parentId,
+                    $existing,
+                    $providerKey,
+                    $reactivate,
+                    $now,
+                    $areasByKey,
+                    $inserts,
+                    $staged,
+                );
+
+                $parentById[(string) $areasByKey[$key]['id']] = $areasByKey[$key]['parent_id'] !== null
+                    ? (string) $areasByKey[$key]['parent_id']
+                    : null;
+
+                if ($result !== 'cancelled') {
+                    $this->trackLink($linkStates, $areaData, (string) $areasByKey[$key]['id'], $parentId, $providerKey);
+                }
+
+                match ($result) {
+                    'created' => $created++,
+                    'updated' => $updated++,
+                    default => $skipped++,
+                };
+            }
+
+            $this->flushInserts($inserts);
+            $this->syncLinks($linkStates, $now);
+
+            if ($providerKey !== null && $failures === [] && ! $dryRun) {
+                $this->deactivateMissingProviderAreas($providerKey, $seenSourceIds, $countryIdsBySource, $now);
+            }
+
+            if (! $dryRun) {
+                AddressAreaStateBridge::forgetAll();
+            }
+
+            return new ImportAddressAreasResultData(
+                created: $created,
+                updated: $updated,
+                skipped: $skipped,
+                failures: $failures,
+            );
+        });
+    }
+
+    private function validateFields(AddressAreaData $areaData): ?ImportAddressAreaFailureData
+    {
+        if ($areaData->source === '' || $areaData->sourceId === '') {
+            return new ImportAddressAreaFailureData(
+                sourceId: $areaData->sourceId,
+                reason: 'Missing required field: source or sourceId',
+                name: $areaData->name,
+            );
+        }
+
+        if ($areaData->countryCode === '') {
+            return new ImportAddressAreaFailureData(
+                sourceId: $areaData->sourceId,
+                reason: 'Missing required field: countryCode',
+                name: $areaData->name,
+            );
+        }
+
+        if ($areaData->type === '') {
+            return new ImportAddressAreaFailureData(
+                sourceId: $areaData->sourceId,
+                reason: 'Missing required field: type',
+                name: $areaData->name,
+            );
+        }
+
+        if ($areaData->name === '') {
+            return new ImportAddressAreaFailureData(
+                sourceId: $areaData->sourceId,
+                reason: 'Missing required field: name',
+                name: null,
+            );
+        }
+
+        foreach ([
+            'source' => [$areaData->source, 255],
+            'sourceId' => [$areaData->sourceId, 255],
+            'countryCode' => [$areaData->countryCode, 2],
+            'type' => [$areaData->type, 255],
+            'name' => [$areaData->name, 255],
+            'nativeName' => [$areaData->nativeName, 255],
+            'code' => [$areaData->code, 255],
+            'parentSourceId' => [$areaData->parentSourceId, 255],
+        ] as $field => [$value, $limit]) {
+            if ($value !== null && mb_strlen($value) > $limit) {
+                return new ImportAddressAreaFailureData(
+                    sourceId: $areaData->sourceId,
+                    reason: "Field exceeds {$limit} characters: {$field}",
+                    name: $areaData->name,
+                );
+            }
+        }
+
+        if ($areaData->hierarchyType !== null && mb_trim($areaData->hierarchyType) === '') {
+            return new ImportAddressAreaFailureData(
+                sourceId: $areaData->sourceId,
+                reason: 'Hierarchy type cannot be empty when supplied',
+                name: $areaData->name,
+            );
+        }
+
+        if ($areaData->hierarchyType !== null && mb_trim($areaData->relationshipType) === '') {
+            return new ImportAddressAreaFailureData(
+                sourceId: $areaData->sourceId,
+                reason: 'Relationship type cannot be empty when hierarchy type is supplied',
+                name: $areaData->name,
+            );
+        }
+
+        return null;
+    }
+
+    /**
+     * Order rows so in-file parents precede their children.
+     *
+     * Groups rows by source key (preserving file order within a group, so
+     * last-duplicate-wins semantics are untouched), then emits groups in a
+     * stable topological order: among groups whose in-file parents are all
+     * emitted, the earliest in the file goes first. Payloads that already
+     * list parents first come out in exactly their input order. Rows
+     * left over (a parent cycle inside the file) emit last in raw file
+     * order, so the existing per-row checks report them exactly as before.
+     *
+     * @param  list<AddressAreaData>  $rows
+     * @return list<AddressAreaData>
+     */
+    private function orderByDependency(array $rows): array
+    {
+        $groups = [];
+        $firstSeen = [];
+
+        foreach ($rows as $index => $areaData) {
+            $key = $areaData->source . "\0" . $areaData->sourceId;
+            $groups[$key][] = $index;
+            $firstSeen[$key] ??= $index;
+        }
+
+        if ($groups === []) {
+            return $rows;
+        }
+
+        $parents = [];
+        $dependents = [];
+
+        foreach ($groups as $key => $indexes) {
+            $deps = [];
+
+            foreach ($indexes as $index) {
+                $parentSourceId = $rows[$index]->parentSourceId;
+
+                if ($parentSourceId === null || $parentSourceId === '') {
+                    continue;
+                }
+
+                $parentKey = $rows[$index]->source . "\0" . $parentSourceId;
+
+                if ($parentKey !== $key && isset($groups[$parentKey])) {
+                    $deps[$parentKey] = true;
+                }
+            }
+
+            $parents[$key] = $deps;
+
+            foreach (array_keys($deps) as $dep) {
+                $dependents[$dep][] = $key;
+            }
+        }
+
+        $pending = [];
+
+        foreach ($groups as $key => $indexes) {
+            $pending[$key] = count($parents[$key]);
+        }
+
+        // First-seen indexes are unique per group, so the negated priority
+        // keeps every extraction deterministic.
+        $ready = new SplPriorityQueue;
+        $ready->setExtractFlags(SplPriorityQueue::EXTR_DATA);
+
+        foreach ($groups as $key => $indexes) {
+            if ($pending[$key] === 0) {
+                $ready->insert($key, -$firstSeen[$key]);
+            }
+        }
+
+        $sorted = [];
+        $emitted = [];
+
+        while (! $ready->isEmpty()) {
+            $key = $ready->extract();
+
+            foreach ($groups[$key] as $index) {
+                $sorted[] = $rows[$index];
+            }
+
+            $emitted[$key] = true;
+
+            foreach ($dependents[$key] ?? [] as $child) {
+                $pending[$child]--;
+
+                if ($pending[$child] === 0) {
+                    $ready->insert($child, -$firstSeen[$child]);
+                }
+            }
+        }
+
+        if (count($sorted) < count($rows)) {
+            // File-internal cycle: emit the leftover rows in raw file order
+            // so the existing per-row checks report them exactly as before.
+            $leftover = [];
+
+            foreach ($groups as $key => $indexes) {
+                if (! isset($emitted[$key])) {
+                    array_push($leftover, ...$indexes);
+                }
+            }
+
+            sort($leftover);
+
+            foreach ($leftover as $index) {
+                $sorted[] = $rows[$index];
+            }
+        }
+
+        return $sorted;
+    }
+
+    /**
+     * Preload stored rows for every source in the payload, keyed for lookup.
+     *
+     * @param  list<AddressAreaData>  $rows
+     * @return array<string, array<string, mixed>>
+     */
+    private function preloadAreas(array $rows): array
+    {
+        $sources = [];
+
+        foreach ($rows as $areaData) {
+            $sources[$areaData->source] = true;
+        }
+
+        $areasByKey = [];
+
+        if ($sources === []) {
+            return $areasByKey;
+        }
+
+        $stored = ModelResolver::areaClass()::query()->toBase()
+            ->whereIn('source', array_keys($sources))
+            ->lockForUpdate()
+            ->get();
+
+        foreach ($stored as $row) {
+            $attributes = (array) $row;
+            $areasByKey[$attributes['source'] . "\0" . $attributes['source_id']] = $attributes;
+        }
+
+        return $areasByKey;
+    }
+
+    /**
+     * @param  array<string, mixed>  $attributes
+     */
+    private function hydrateArea(array $attributes): AddressArea
+    {
+        $areaClass = ModelResolver::areaClass();
+        $area = new $areaClass;
+        $area->setRawAttributes($attributes, true);
+        $area->exists = true;
+
+        return $area;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function rowData(
+        AddressAreaData $areaData,
+        string $countryId,
+        string $countryCode,
+        ?string $parentId,
+        ?string $providerKey,
+    ): array {
+        $metadata = $areaData->metadata;
+
+        if ($providerKey !== null) {
+            $metadata['provider'] = $providerKey;
+        }
+
+        return [
+            'country_id' => $countryId,
+            'parent_id' => $parentId,
+            'country_code' => $countryCode,
+            'type' => $areaData->type,
+            'level' => $areaData->level,
+            'name' => $areaData->name,
+            'native_name' => $areaData->nativeName,
+            'code' => $areaData->code,
+            'slug' => Str::limit(Str::slug($areaData->name), 255, ''),
+            'latitude' => $areaData->latitude,
+            'longitude' => $areaData->longitude,
+            'source' => $areaData->source,
+            'source_id' => $areaData->sourceId,
+            'parent_source_id' => $areaData->parentSourceId,
+            'source_payload' => $areaData->sourcePayload !== [] ? $areaData->sourcePayload : null,
+            'metadata' => $metadata !== [] ? $metadata : null,
+        ];
+    }
+
+    /**
+     * Stage a validated row for dry-run without writing or firing events.
+     *
+     * @param  array<string, mixed>|null  $existing
+     * @param  array<string, array<string, mixed>>  $areasByKey
+     */
+    private function simulateStaged(
+        AddressAreaData $areaData,
+        string $key,
+        string $countryId,
+        string $countryCode,
+        ?string $parentId,
+        ?array $existing,
+        ?string $providerKey,
+        array &$areasByKey,
+    ): void {
+        $data = $this->rowData($areaData, $countryId, $countryCode, $parentId, $providerKey);
+
+        if ($existing !== null) {
+            $data['slug'] = $existing['slug'];
+        }
+
+        if ($existing === null) {
+            $areasByKey[$key] = [
+                ...$data,
+                'id' => (string) Str::uuid7(),
+            ];
+
+            return;
+        }
+
+        // A repeated source id later in the file updates the staged row,
+        // mirroring the last-duplicate-wins real path.
+        $areasByKey[$key] = array_merge($existing, $data);
+    }
+
+    /**
+     * @param  array<string, mixed>|null  $existing
+     * @param  array<string, array>  $areasByKey
+     * @param  array<string, array>  $inserts
+     *
+     * @param-out array<string, array> $areasByKey
+     * @param-out array<string, array> $inserts
+     *
+     * @param  array<string, true>  $staged
+     * @return 'created'|'updated'|'skipped'|'cancelled'
+     */
+    private function persistPrepared(
+        AddressAreaData $areaData,
+        string $key,
+        string $countryId,
+        string $countryCode,
+        ?string $parentId,
+        ?array $existing,
+        ?string $providerKey,
+        bool $reactivate,
+        CarbonImmutable $now,
+        array &$areasByKey,
+        array &$inserts,
+        array &$staged,
+    ): string {
+        $data = $this->rowData($areaData, $countryId, $countryCode, $parentId, $providerKey);
+
+        if ($existing === null) {
+            $payload = [
+                ...$data,
+                'id' => (string) Str::uuid7(),
+                'is_active' => true,
+                'synced_at' => $now,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+            $payload['source_payload'] = $this->encodeJson($payload['source_payload']);
+            $payload['metadata'] = $this->encodeJson($payload['metadata']);
+
+            $inserts[$key] = $payload;
+            $areasByKey[$key] = $payload;
+            $staged[$key] = true;
+
+            return 'created';
+        }
+
+        $model = $this->hydrateArea($existing);
+
+        foreach (['source_payload', 'metadata'] as $jsonField) {
+            if ($this->encodeJson($this->normalizeJsonValue($model->getAttribute($jsonField))) === $this->encodeJson($this->normalizeJsonValue($data[$jsonField]))) {
+                unset($data[$jsonField]);
+            }
+        }
+
+        $model->fill($data);
+
+        if ($reactivate) {
+            $model->is_active = true;
+        }
+
+        if (! $model->isDirty()) {
+            return 'skipped';
+        }
+
+        $model->synced_at = $now;
+
+        if (isset($staged[$key])) {
+            // A repeated source id later in the file updates the staged row;
+            // it is not in the database yet, so there is nothing to save.
+            $attributes = $model->getAttributes();
+            $attributes['synced_at'] = $now;
+            $inserts[$key] = array_merge($inserts[$key], $attributes);
+            $areasByKey[$key] = $inserts[$key];
+
+            return 'updated';
+        }
+
+        if (! $model->save()) {
+            return 'cancelled';
+        }
+
+        $areasByKey[$key] = $model->getAttributes();
+
+        return 'updated';
+    }
+
+    private function normalizeJsonValue(mixed $value): mixed
+    {
+        if (! is_array($value)) {
+            return $value;
+        }
+
+        foreach ($value as $key => $nestedValue) {
+            $value[$key] = $this->normalizeJsonValue($nestedValue);
+        }
+
+        if (! array_is_list($value)) {
+            ksort($value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param  array<string, array<string, true>>  $seenSourceIds
+     * @param  array<string, array<string, true>>  $countryIdsBySource
+     */
+    private function deactivateMissingProviderAreas(string $providerKey, array $seenSourceIds, array $countryIdsBySource, CarbonImmutable $now): void
+    {
+        $countryIds = [];
+
+        foreach ($countryIdsBySource as $ids) {
+            foreach (array_keys($ids) as $countryId) {
+                $countryIds[$countryId] = true;
+            }
+        }
+
+        foreach (array_keys($countryIds) as $countryId) {
+            $activeAreas = ModelResolver::areaClass()::query()
+                ->where('metadata->provider', $providerKey)
+                ->where('country_id', $countryId)
+                ->where('is_active', true)
+                ->lockForUpdate()
+                ->get();
+
+            foreach ($activeAreas as $area) {
+                if (isset($seenSourceIds[$area->source][$area->source_id])) {
+                    continue;
+                }
+
+                $area->is_active = false;
+                $area->synced_at = $now;
+                $area->save();
+            }
+        }
+    }
+
+    private function encodeJson(mixed $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        return json_encode($value, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * Remember the link outcome for one processed row. The last occurrence
+     * of a child/source pair wins, matching sequential delete-and-recreate.
+     *
+     * @param  array<string, array<string, mixed>|null>  $linkStates
+     */
+    private function trackLink(
+        array &$linkStates,
+        AddressAreaData $areaData,
+        string $childId,
+        ?string $parentId,
+        ?string $providerKey,
+    ): void {
+        $relSource = $providerKey ?? $areaData->source;
+
+        if ($areaData->hierarchyType !== null && $parentId !== null) {
+            $linkStates[$childId . "\0" . $relSource] = [
+                'parent_address_area_id' => $parentId,
+                'child_address_area_id' => $childId,
+                'relationship_type' => $areaData->relationshipType,
+                'hierarchy_type' => $areaData->hierarchyType,
+                'source' => $relSource,
+            ];
+
+            return;
+        }
+
+        $linkStates[$childId . "\0" . $relSource] = null;
+    }
+
+    /** @param array<string, array<string, mixed>> $inserts */
+    private function flushInserts(array $inserts): void
+    {
+        if ($inserts === []) {
+            return;
+        }
+
+        foreach (array_chunk(array_values($inserts), 500) as $chunk) {
+            ModelResolver::areaClass()::query()->insert($chunk);
+        }
+    }
+
+    /**
+     * Replace stale source-owned links with the tracked outcomes.
+     *
+     * @param  array<string, array<string, mixed>|null>  $linkStates
+     */
+    private function syncLinks(array $linkStates, CarbonImmutable $now): void
+    {
+        if ($linkStates === []) {
+            return;
+        }
+
+        $childrenBySource = [];
+        $wanted = [];
+
+        foreach ($linkStates as $composite => $link) {
+            [$childId, $relSource] = explode("\0", $composite, 2);
+            $childrenBySource[$relSource][] = $childId;
+
+            if ($link !== null) {
+                $wanted[$composite] = $link;
+            }
+        }
+
+        $existing = [];
+        foreach ($childrenBySource as $relSource => $childIds) {
+            foreach (array_chunk(array_values(array_unique($childIds)), 500) as $chunk) {
+                foreach (ModelResolver::areaRelationshipClass()::query()
+                    ->where('source', $relSource)
+                    ->whereIn('child_address_area_id', $chunk)
+                    ->lockForUpdate()
+                    ->get(['id', 'parent_address_area_id', 'child_address_area_id', 'relationship_type', 'hierarchy_type', 'source', 'created_at']) as $row) {
+                    $existing[$row->child_address_area_id . "\0" . $row->source] = $row;
+                }
+            }
+        }
+
+        $deletes = [];
+        $inserts = [];
+        $updates = [];
+        foreach ($childrenBySource as $relSource => $childIds) {
+            foreach (array_unique($childIds) as $childId) {
+                $key = $childId . "\0" . $relSource;
+                $current = $existing[$key] ?? null;
+                $next = $wanted[$key] ?? null;
+
+                if ($current === null && $next !== null) {
+                    $inserts[] = [
+                        ...$next,
+                        'id' => (string) Str::uuid7(),
+                        'metadata' => null,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+
+                    continue;
+                }
+
+                if ($current !== null && $next === null) {
+                    $deletes[] = $current->id;
+
+                    continue;
+                }
+
+                if ($current !== null && $next !== null && (
+                    $current->parent_address_area_id !== $next['parent_address_area_id']
+                    || $current->relationship_type !== $next['relationship_type']
+                    || $current->hierarchy_type !== $next['hierarchy_type']
+                )) {
+                    $updates[] = [
+                        'id' => $current->id,
+                        'child_address_area_id' => $current->child_address_area_id,
+                        'parent_address_area_id' => $next['parent_address_area_id'],
+                        'relationship_type' => $next['relationship_type'],
+                        'hierarchy_type' => $next['hierarchy_type'],
+                        'source' => $current->source,
+                        'created_at' => $current->created_at,
+                        'updated_at' => $now,
+                    ];
+                }
+            }
+        }
+
+        foreach (array_chunk($deletes, 500) as $chunk) {
+            ModelResolver::areaRelationshipClass()::query()->whereIn('id', $chunk)->delete();
+        }
+
+        foreach (array_chunk($updates, 500) as $chunk) {
+            ModelResolver::areaRelationshipClass()::query()->upsert($chunk, ['id'], [
+                'parent_address_area_id',
+                'relationship_type',
+                'hierarchy_type',
+                'updated_at',
+            ]);
+        }
+
+        foreach (array_chunk($inserts, 500) as $chunk) {
+            ModelResolver::areaRelationshipClass()::query()->insert($chunk);
+        }
+    }
+}

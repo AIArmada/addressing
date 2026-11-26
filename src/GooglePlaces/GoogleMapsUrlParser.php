@@ -107,11 +107,11 @@ final class GoogleMapsUrlParser
             return false;
         }
 
-        if (in_array($host, ['maps.app.goo.gl', 'goo.gl', 'g.co'], true)) {
+        if (GoogleMapsTrustedHosts::isShortenerHost($host)) {
             return true;
         }
 
-        return $this->isGoogleMapsHost($host) && filled($queryParams['cid'] ?? null);
+        return GoogleMapsTrustedHosts::isMapsHost($host) && filled($queryParams['cid'] ?? null);
     }
 
     public function unwrapConsent(?string $url): ?string
@@ -143,6 +143,10 @@ final class GoogleMapsUrlParser
             $currentUrl = str_starts_with($continueUrl, '/')
                 ? 'https://www.google.com' . $continueUrl
                 : $continueUrl;
+
+            if (! GoogleMapsTrustedHosts::isSupportedUrl($currentUrl)) {
+                return $url;
+            }
         }
 
         return $currentUrl;
@@ -171,11 +175,6 @@ final class GoogleMapsUrlParser
         $directory = mb_rtrim((string) preg_replace('~/[^/]*$~', '/', $basePath), '/');
 
         return $scheme . '://' . $host . $port . $directory . '/' . $location;
-    }
-
-    private function isGoogleMapsHost(string $host): bool
-    {
-        return preg_match('/(^|\.)google\.[a-z.]+$/', $host) === 1;
     }
 
     private function extractDisplayNameFromPath(string $path): ?string

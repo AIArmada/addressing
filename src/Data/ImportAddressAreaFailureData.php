@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Data;
 
-class ImportAddressAreaFailureData
+final readonly class ImportAddressAreaFailureData
 {
     public function __construct(
-        public readonly string $sourceId,
-        public readonly string $reason,
-        public readonly ?string $name = null,
+        public string $sourceId,
+        public string $reason,
+        public ?string $name = null,
     ) {}
 }

@@ -131,7 +131,7 @@ Typical uses:
 Example:
 
 ```php
-use AIArmada\Addressing\Traits\HasAddresses;
+use AIArmada\Addressing\Features\AddressLifecycle\Traits\HasAddresses;
 use Illuminate\Database\Eloquent\Model;
 
 final class Customer extends Model
@@ -144,7 +144,7 @@ Create address:
 
 ```php
 use AIArmada\Addressing\Data\AddressData;
-use AIArmada\Addressing\Models\Address;
+use AIArmada\Addressing\Features\AddressLifecycle\Models\Address;
 
 $address = Address::query()->create(AddressData::from([
     'line1' => 'Lot 12 Jalan Mawar',

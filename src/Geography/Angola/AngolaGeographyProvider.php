@@ -11,10 +11,8 @@ use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
-use AIArmada\Addressing\Models\AddressCountry;
+use AIArmada\Addressing\Data\CountryStateSeedData;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
-use AIArmada\Addressing\Support\GeographyReferenceCleanup;
-use AIArmada\Addressing\Support\ModelResolver;
 
 class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
@@ -32,24 +30,9 @@ class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
         return 'AO';
     }
 
-    public function seed(AddressCountry $country): void
+    public function stateSeedData(): CountryStateSeedData
     {
-        $stateClass = ModelResolver::stateClass();
-        $statesData = $this->stateDefinitions();
-
-        foreach ($statesData as $s) {
-            $stateClass::updateOrCreate(
-                ['country_id' => $country->id, 'code' => $s['code']],
-                [
-                    'name' => $s['name'],
-                    'country_code' => $this->countryCode(),
-                ],
-            );
-        }
-
-        // Cuando Cubango split into Cuando and Cubango under the 2024 law.
-        // Delete stragglers seeded before the split so reseeds converge.
-        GeographyReferenceCleanup::pruneStatesByCodes($country, ['CCU']);
+        return new CountryStateSeedData($this->stateDefinitions(), ['CCU']);
     }
 
     /** @return list<AddressHierarchyDefinition> */
@@ -102,7 +85,7 @@ class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
-    public function areaRoles(AddressCountry $country): array
+    public function areaRoles(): array
     {
         $roles = [];
 
@@ -123,13 +106,13 @@ class AngolaGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
     }
 
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
-    public function areaNames(AddressCountry $country): array
+    public function areaNames(): array
     {
         return [];
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
-    public function areaRelationships(AddressCountry $country): array
+    public function areaRelationships(): array
     {
         $relationships = [];
 

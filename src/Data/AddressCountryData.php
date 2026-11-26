@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Data;
 
-class AddressCountryData
+final readonly class AddressCountryData
 {
     public function __construct(
-        public readonly string $iso2,
-        public readonly ?string $iso3 = null,
-        public readonly ?string $numericCode = null,
-        public readonly string $name = '',
-        public readonly ?string $nativeName = null,
-        public readonly ?string $emoji = null,
-        public readonly ?string $phoneCode = null,
-        public readonly ?string $capital = null,
-        public readonly ?float $latitude = null,
-        public readonly ?float $longitude = null,
-        public readonly ?string $region = null,
-        public readonly ?string $subregion = null,
-        public readonly array $translations = [],
+        public string $iso2,
+        public ?string $iso3 = null,
+        public ?string $numericCode = null,
+        public string $name = '',
+        public ?string $nativeName = null,
+        public ?string $emoji = null,
+        public ?string $phoneCode = null,
+        public ?string $capital = null,
+        public ?float $latitude = null,
+        public ?float $longitude = null,
+        public ?string $region = null,
+        public ?string $subregion = null,
+        public array $translations = [],
     ) {}
 }

@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "name": "Geography",
+  "owns": {
+    "table:address_areas": [
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SaveAddressAreaAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SetAddressAreaBoundaryAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\ImportAddressAreasAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\ClearGeographyReferencesAction"
+    ],
+    "table:address_area_names": [
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SaveAddressAreaAliasAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\DeleteAddressAreaAliasAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SeedCountryGeographiesAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\ClearGeographyReferencesAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\PruneDuplicateManualAliasesAction"
+    ],
+    "table:address_area_relationships": [
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SaveAddressAreaAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\ImportAddressAreasAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SeedCountryGeographiesAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\ClearGeographyReferencesAction"
+    ],
+    "table:states": [
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SeedCountryStatesAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SeedAddressStatesAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\EditGeographyReferenceAction"
+    ],
+    "table:address_area_roles": [
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SeedCountryGeographiesAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\ClearGeographyReferencesAction"
+    ],
+    "table:address_area_state_links": [
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SeedCountryGeographiesAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\ClearGeographyReferencesAction"
+    ],
+    "table:cities": [
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SeedAddressCitiesAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\EditGeographyReferenceAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\ClearGeographyReferencesAction"
+    ],
+    "table:countries": [
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SeedAddressCountriesAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\EditGeographyReferenceAction"
+    ],
+    "table:country_currency_links": [
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SeedAddressCountryReferencesAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\ClearGeographyReferencesAction"
+    ],
+    "table:country_timezone_links": [
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\SeedAddressCountryReferencesAction",
+      "AIArmada\\Addressing\\Features\\Geography\\Actions\\ClearGeographyReferencesAction"
+    ]
+  },
+  "extensions": {}
+}

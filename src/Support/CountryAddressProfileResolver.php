@@ -9,18 +9,19 @@ use AIArmada\Addressing\Contracts\CountryAreaTypeLabelProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
-use AIArmada\Addressing\Models\AddressCountry;
-use AIArmada\Addressing\Models\State;
+use AIArmada\Addressing\Features\Geography\Api\AreaStateLookup;
+use AIArmada\Addressing\Features\Geography\Models\State;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 final class CountryAddressProfileResolver
 {
-    private const string REQUEST_CACHE_KEY = 'aiarmada.addressing.country-profiles';
+    private const string CACHE_BUCKET = 'hierarchy-ancestors';
 
     public function __construct(
         private readonly Container $container,
@@ -31,22 +32,27 @@ final class CountryAddressProfileResolver
     {
         $cacheKey = $this->cacheKey($country);
 
-        if ($cacheKey !== null && app()->bound('request')) {
-            $request = request();
-            $cache = $request->attributes->get(self::REQUEST_CACHE_KEY, []);
-
-            if (is_array($cache) && array_key_exists($cacheKey, $cache)) {
-                $profile = $cache[$cacheKey];
-
-                return $profile instanceof CountryAddressProfile ? $profile : null;
-            }
+        if ($cacheKey === null) {
+            return $this->resolveProfile($country);
         }
 
+        $countryClass = ModelResolver::countryClass();
+        $scopeKey = $cacheKey . '|' . serialize(config('addressing.geography.providers', []));
+        $profile = RequestCache::remember(
+            self::CACHE_BUCKET,
+            $country instanceof Model ? $country : new $countryClass,
+            'profile:' . $scopeKey,
+            fn (): ?CountryAddressProfile => $this->resolveProfile($country),
+        );
+
+        return $profile instanceof CountryAddressProfile ? $profile : null;
+    }
+
+    private function resolveProfile(mixed $country): ?CountryAddressProfile
+    {
         $resolvedCountry = $this->countryResolver->resolve($country);
 
-        if (! $resolvedCountry instanceof AddressCountry) {
-            $this->cache($cacheKey, null);
-
+        if (! $resolvedCountry instanceof (ModelResolver::countryClass())) {
             return null;
         }
 
@@ -64,13 +70,9 @@ final class CountryAddressProfileResolver
             }
 
             if (mb_strtoupper(mb_trim($provider->countryCode())) === $countryCode) {
-                $this->cache($cacheKey, $provider);
-
                 return $provider;
             }
         }
-
-        $this->cache($cacheKey, null);
 
         return null;
     }
@@ -150,7 +152,7 @@ final class CountryAddressProfileResolver
     {
         $resolved = $this->countryResolver->resolve($country);
 
-        if (! $resolved instanceof AddressCountry) {
+        if (! $resolved instanceof (ModelResolver::countryClass())) {
             return null;
         }
 
@@ -351,7 +353,7 @@ final class CountryAddressProfileResolver
             }
         }
 
-        return AddressAreaStateBridge::areaIdForState(
+        return app(AreaStateLookup::class)->areaIdForState(
             self::stringOrNull($stateId),
             self::hierarchyType($definition['hierarchy'], $definition['level']),
         );
@@ -639,7 +641,7 @@ final class CountryAddressProfileResolver
             return false;
         }
 
-        $stateAreaId = AddressAreaStateBridge::areaIdForState(
+        $stateAreaId = app(AreaStateLookup::class)->areaIdForState(
             $stateId,
             self::hierarchyType($ancestor['hierarchy'], $ancestor['level']),
         );
@@ -793,47 +795,36 @@ final class CountryAddressProfileResolver
         $query = $areaClass::query();
         $key = 'scope-types:' . hash('xxh128', serialize([
             $areaClass,
-            $query->getModel()->getConnection()->getName(),
-            $query->getModel()->getTable(),
             $parentId,
             $hierarchyType,
             $areaTypes,
             $areaLevels,
         ]));
-        $request = app()->bound('request') ? request() : null;
-        $cache = $request?->attributes->get(self::REQUEST_CACHE_KEY, []);
 
-        if (is_array($cache) && array_key_exists($key, $cache)) {
-            /** @var list<string> $cached */
-            $cached = $cache[$key];
+        $types = RequestCache::remember(
+            self::CACHE_BUCKET,
+            $query->getModel(),
+            $key,
+            static function () use ($query, $areaTypes, $areaLevels, $parentId, $hierarchyType): array {
+                $found = $query
+                    ->where('is_active', true)
+                    ->when($areaTypes !== [], static fn (EloquentBuilder $query): EloquentBuilder => $query->whereIn('type', $areaTypes))
+                    ->when($areaLevels !== [], static fn (EloquentBuilder $query): EloquentBuilder => $query->whereIn('level', $areaLevels))
+                    ->whereAncestorLink($parentId, $hierarchyType)
+                    ->distinct()
+                    ->pluck('type')
+                    ->map(static fn (mixed $type): string => (string) $type)
+                    ->all();
 
-            return $cached;
-        }
+                $order = array_flip($areaTypes);
 
-        $found = $query
-            ->where('is_active', true)
-            ->when($areaTypes !== [], static fn (EloquentBuilder $query): EloquentBuilder => $query->whereIn('type', $areaTypes))
-            ->when($areaLevels !== [], static fn (EloquentBuilder $query): EloquentBuilder => $query->whereIn('level', $areaLevels))
-            ->whereAncestorLink($parentId, $hierarchyType)
-            ->distinct()
-            ->pluck('type')
-            ->map(static fn (mixed $type): string => (string) $type)
-            ->all();
+                usort($found, static fn (string $a, string $b): int => ($order[$a] ?? PHP_INT_MAX) <=> ($order[$b] ?? PHP_INT_MAX));
 
-        $order = array_flip($areaTypes);
+                return array_values(array_unique($found));
+            },
+        );
 
-        usort($found, static fn (string $a, string $b): int => ($order[$a] ?? PHP_INT_MAX) <=> ($order[$b] ?? PHP_INT_MAX));
-
-        $types = array_values(array_unique($found));
-
-        if ($request !== null) {
-            $cache = $request->attributes->get(self::REQUEST_CACHE_KEY, []);
-            $cache = is_array($cache) ? $cache : [];
-            $cache[$key] = $types;
-            $request->attributes->set(self::REQUEST_CACHE_KEY, $cache);
-        }
-
-        return $types;
+        return is_array($types) ? $types : [];
     }
 
     private function areaTypeLabel(?CountryAddressProfile $profile, ?string $stateCode, string $type): string
@@ -859,36 +850,25 @@ final class CountryAddressProfileResolver
 
     private function stateCode(string $stateId): ?string
     {
-        $key = 'state-code:' . $stateId;
-
-        if (app()->bound('request')) {
-            $cache = request()->attributes->get(self::REQUEST_CACHE_KEY, []);
-
-            if (is_array($cache) && array_key_exists($key, $cache)) {
-                $cached = $cache[$key];
-
-                return is_string($cached) ? $cached : null;
-            }
-        }
-
         $stateClass = ModelResolver::stateClass();
-        $code = $stateClass::query()->whereKey($stateId)->value('code');
-        $code = is_scalar($code) ? self::stringOrNull((string) $code) : null;
+        $model = new $stateClass;
+        $code = RequestCache::remember(
+            self::CACHE_BUCKET,
+            $model,
+            'state-code:' . $stateId,
+            static function () use ($stateClass, $stateId): ?string {
+                $code = $stateClass::query()->whereKey($stateId)->value('code');
 
-        if (app()->bound('request')) {
-            $request = request();
-            $cache = $request->attributes->get(self::REQUEST_CACHE_KEY, []);
-            $cache = is_array($cache) ? $cache : [];
-            $cache[$key] = $code;
-            $request->attributes->set(self::REQUEST_CACHE_KEY, $cache);
-        }
+                return is_scalar($code) ? self::stringOrNull((string) $code) : null;
+            },
+        );
 
-        return $code;
+        return is_string($code) ? $code : null;
     }
 
     private function cacheKey(mixed $country): ?string
     {
-        if ($country instanceof AddressCountry) {
+        if ($country instanceof (ModelResolver::countryClass())) {
             return 'id:' . (string) $country->getKey();
         }
 
@@ -899,18 +879,5 @@ final class CountryAddressProfileResolver
         $value = mb_trim((string) $country);
 
         return $value === '' ? null : 'value:' . mb_strtolower($value);
-    }
-
-    private function cache(?string $key, ?CountryAddressProfile $profile): void
-    {
-        if ($key === null || ! app()->bound('request')) {
-            return;
-        }
-
-        $request = request();
-        $cache = $request->attributes->get(self::REQUEST_CACHE_KEY, []);
-        $cache = is_array($cache) ? $cache : [];
-        $cache[$key] = $profile;
-        $request->attributes->set(self::REQUEST_CACHE_KEY, $cache);
     }
 }

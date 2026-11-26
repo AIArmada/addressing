@@ -4,61 +4,33 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing;
 
-use AIArmada\Addressing\Actions\BuildAddressNavigationLinksAction;
-use AIArmada\Addressing\Actions\CompareAddressingReferenceExportsAction;
-use AIArmada\Addressing\Actions\CreateAddressSnapshotAction;
-use AIArmada\Addressing\Actions\DiffCldrSubdivisionsAction;
-use AIArmada\Addressing\Actions\DiffGoogleAddressReferenceAction;
-use AIArmada\Addressing\Actions\ExportAddressingReferencesAction;
-use AIArmada\Addressing\Actions\ExportResolutionGapAliasesAction;
-use AIArmada\Addressing\Actions\FetchGooglePlaceDetailsAction;
-use AIArmada\Addressing\Actions\FetchGooglePlacePhotoPreviewsAction;
-use AIArmada\Addressing\Actions\FormatAddressAction;
-use AIArmada\Addressing\Actions\GuardAddressAreaDeletionAction;
-use AIArmada\Addressing\Actions\GuardAddressCountryDeletionAction;
-use AIArmada\Addressing\Actions\IgnoreResolutionGapAction;
-use AIArmada\Addressing\Actions\ImportAddressAreasAction;
-use AIArmada\Addressing\Actions\ImportPostalCodesAction;
-use AIArmada\Addressing\Actions\LogAddressResolutionGapAction;
-use AIArmada\Addressing\Actions\MatchGapToAreaAction;
-use AIArmada\Addressing\Actions\NormalizeAddressDataAction;
-use AIArmada\Addressing\Actions\NormalizeGoogleMapsInputAction;
-use AIArmada\Addressing\Actions\ResolveGooglePlaceSelectionAction;
-use AIArmada\Addressing\Actions\ResolveSingaporePostalCodesAction;
-use AIArmada\Addressing\Actions\SaveAddressAreaAction;
-use AIArmada\Addressing\Actions\SearchAddressAreasAction;
-use AIArmada\Addressing\Actions\SeedAddressCitiesAction;
-use AIArmada\Addressing\Actions\SeedAddressCountriesAction;
-use AIArmada\Addressing\Actions\SeedAddressCountryReferencesAction;
-use AIArmada\Addressing\Actions\SeedAddressingAction;
-use AIArmada\Addressing\Actions\SeedAddressStatesAction;
-use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
-use AIArmada\Addressing\Actions\SeedPostalCodesAction;
-use AIArmada\Addressing\Actions\SyncAddressAreaAssignmentsAction;
-use AIArmada\Addressing\Actions\ValidateAddressAction;
-use AIArmada\Addressing\Commands\CompareAddressingReferenceExportsCommand;
-use AIArmada\Addressing\Commands\DiffCldrSubdivisionsCommand;
-use AIArmada\Addressing\Commands\DiffGoogleAddressReferenceCommand;
-use AIArmada\Addressing\Commands\ExportAddressingReferencesCommand;
-use AIArmada\Addressing\Commands\ExportResolutionGapAliasesCommand;
-use AIArmada\Addressing\Commands\ImportAddressAreasCommand;
-use AIArmada\Addressing\Commands\ReportResolutionGapsCommand;
-use AIArmada\Addressing\Commands\SeedCountryGeographiesCommand;
-use AIArmada\Addressing\Commands\SeedPostalCodesCommand;
-use AIArmada\Addressing\Contracts\AddressFormatter;
-use AIArmada\Addressing\Contracts\AddressNormalizer;
 use AIArmada\Addressing\Contracts\CountryAddressFormatter;
 use AIArmada\Addressing\Contracts\CountryGeographyProvider;
-use AIArmada\Addressing\GooglePlaces\GoogleMapsRemoteLookup;
+use AIArmada\Addressing\Contracts\GoogleAddressReferenceSource;
+use AIArmada\Addressing\Contracts\GoogleMapsLookup;
+use AIArmada\Addressing\Contracts\GooglePlaceDetailsLookup;
+use AIArmada\Addressing\Contracts\GooglePlacePhotoLookup;
+use AIArmada\Addressing\Contracts\PostalAddressLookup;
+use AIArmada\Addressing\Drivers\GoogleAddressReference\GoogleAddressReferenceClient;
+use AIArmada\Addressing\Drivers\GooglePlaces\GoogleMapsRemoteLookup;
+use AIArmada\Addressing\Drivers\GooglePlaces\GooglePlaceDetailsClient;
+use AIArmada\Addressing\Drivers\GooglePlaces\GooglePlacePhotoPreviewsClient;
+use AIArmada\Addressing\Drivers\OneMap\OneMapClient;
+use AIArmada\Addressing\Features\Geography\EntryPoints\Commands\ImportAddressAreasCommand;
+use AIArmada\Addressing\Features\Geography\EntryPoints\Commands\SeedCountryGeographiesCommand;
+use AIArmada\Addressing\Features\PostalCodes\EntryPoints\Commands\SeedPostalCodesCommand;
+use AIArmada\Addressing\Features\ReferenceIntegrity\EntryPoints\Commands\CompareAddressingReferenceExportsCommand;
+use AIArmada\Addressing\Features\ReferenceIntegrity\EntryPoints\Commands\DiffCldrSubdivisionsCommand;
+use AIArmada\Addressing\Features\ReferenceIntegrity\EntryPoints\Commands\DiffGoogleAddressReferenceCommand;
+use AIArmada\Addressing\Features\ReferenceIntegrity\EntryPoints\Commands\ExportAddressingReferencesCommand;
+use AIArmada\Addressing\Features\ResolutionGaps\EntryPoints\Commands\ExportResolutionGapAliasesCommand;
+use AIArmada\Addressing\Features\ResolutionGaps\EntryPoints\Commands\ReportResolutionGapsCommand;
 use AIArmada\Addressing\GooglePlaces\GoogleMapsUrlParser;
-use AIArmada\Addressing\GooglePlaces\GooglePlaceGeographyMatcher;
-use AIArmada\Addressing\GooglePlaces\GooglePlaceGeographyResolver;
-use AIArmada\Addressing\GooglePlaces\GooglePlaceResolutionGapLogger;
+use AIArmada\Addressing\Platform\ExtensionRegistry;
+use AIArmada\Addressing\Platform\FeatureCatalog;
+use AIArmada\Addressing\Platform\FeatureModule;
 use AIArmada\Addressing\Support\CountryAddressFormatterResolver;
 use AIArmada\Addressing\Support\CountryAddressProfileResolver;
-use AIArmada\Addressing\Support\OneMapClient;
-use AIArmada\Addressing\Support\ReferenceExportFile;
-use AIArmada\Addressing\Support\ReferenceExportSorter;
 use InvalidArgumentException;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -85,53 +57,34 @@ final class AddressingServiceProvider extends PackageServiceProvider
             );
     }
 
+    /** @var list<FeatureModule> */
+    private array $modules = [];
+
     public function packageRegistered(): void
     {
-        $this->app->singleton(ReferenceExportFile::class);
-        $this->app->singleton(ReferenceExportSorter::class);
-        $this->app->singleton(ExportAddressingReferencesAction::class);
-        $this->app->singleton(CompareAddressingReferenceExportsAction::class);
-        $this->app->singleton(SeedAddressingAction::class);
-        $this->app->singleton(SeedAddressCountriesAction::class);
-        $this->app->singleton(SeedAddressCountryReferencesAction::class);
-        $this->app->singleton(SeedAddressStatesAction::class);
-        $this->app->singleton(SeedAddressCitiesAction::class);
-        $this->app->singleton(SeedCountryGeographiesAction::class);
-        $this->app->singleton(SeedPostalCodesAction::class);
-        $this->app->singleton(SearchAddressAreasAction::class);
-        $this->app->singleton(SyncAddressAreaAssignmentsAction::class);
-        $this->app->singleton(ImportPostalCodesAction::class);
+        $catalog = FeatureCatalog::load(dirname(__DIR__), __NAMESPACE__);
+        $this->app->singleton(ExtensionRegistry::class, fn ($app): ExtensionRegistry => new ExtensionRegistry($app, $catalog['extensions']));
+
+        foreach (array_keys($catalog['features']) as $feature) {
+            $module = $this->app->make(__NAMESPACE__ . '\\Features\\' . $feature . '\\FeatureModule');
+
+            if (! $module instanceof FeatureModule) {
+                throw new InvalidArgumentException('Invalid addressing feature module: ' . $feature);
+            }
+
+            $module->register($this->app);
+            $this->modules[] = $module;
+        }
+
         $this->app->singleton(CountryAddressProfileResolver::class);
         $this->app->singleton(CountryAddressFormatterResolver::class);
-        $this->app->singleton(ImportAddressAreasAction::class);
-        $this->app->singleton(CreateAddressSnapshotAction::class);
-        $this->app->singleton(NormalizeAddressDataAction::class);
-        $this->app->singleton(FormatAddressAction::class);
-        $this->app->singleton(BuildAddressNavigationLinksAction::class);
-        $this->app->singleton(OneMapClient::class);
-        $this->app->singleton(ResolveSingaporePostalCodesAction::class);
-        $this->app->singleton(LogAddressResolutionGapAction::class);
-        $this->app->singleton(MatchGapToAreaAction::class);
-        $this->app->singleton(IgnoreResolutionGapAction::class);
-        $this->app->singleton(ExportResolutionGapAliasesAction::class);
-        $this->app->singleton(SaveAddressAreaAction::class);
-        $this->app->singleton(ValidateAddressAction::class);
-        $this->app->singleton(DiffGoogleAddressReferenceAction::class);
-        $this->app->singleton(DiffCldrSubdivisionsAction::class);
-        $this->app->singleton(GuardAddressAreaDeletionAction::class);
-        $this->app->singleton(GuardAddressCountryDeletionAction::class);
+        $this->app->singleton(PostalAddressLookup::class, OneMapClient::class);
         $this->app->singleton(GoogleMapsUrlParser::class);
-        $this->app->singleton(GoogleMapsRemoteLookup::class);
-        $this->app->singleton(GooglePlaceGeographyMatcher::class);
-        $this->app->singleton(GooglePlaceResolutionGapLogger::class);
-        $this->app->singleton(GooglePlaceGeographyResolver::class);
-        $this->app->singleton(FetchGooglePlaceDetailsAction::class);
-        $this->app->singleton(FetchGooglePlacePhotoPreviewsAction::class);
-        $this->app->singleton(NormalizeGoogleMapsInputAction::class);
-        $this->app->singleton(ResolveGooglePlaceSelectionAction::class);
+        $this->app->singleton(GooglePlaceDetailsLookup::class, GooglePlaceDetailsClient::class);
+        $this->app->singleton(GooglePlacePhotoLookup::class, GooglePlacePhotoPreviewsClient::class);
+        $this->app->singleton(GoogleAddressReferenceSource::class, GoogleAddressReferenceClient::class);
+        $this->app->singleton(GoogleMapsLookup::class, GoogleMapsRemoteLookup::class);
 
-        $this->app->bind(AddressNormalizer::class, NormalizeAddressDataAction::class);
-        $this->app->bind(AddressFormatter::class, FormatAddressAction::class);
     }
 
     public function bootingPackage(): void
@@ -152,6 +105,13 @@ final class AddressingServiceProvider extends PackageServiceProvider
             if (is_string($source)) {
                 $this->app->singleton($source);
             }
+        }
+    }
+
+    public function packageBooted(): void
+    {
+        foreach ($this->modules as $module) {
+            $module->boot($this->app);
         }
     }
 

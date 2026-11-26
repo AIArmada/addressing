@@ -356,7 +356,7 @@ first). For a custom dataset outside the bundle, import it with the generic
 source directly:
 
 ```php
-use AIArmada\Addressing\Actions\ImportPostalCodesAction;
+use AIArmada\Addressing\Contracts\PostalCodeImporter;
 use AIArmada\Addressing\Support\CsvPostalCodeSource;
 
 $source = new CsvPostalCodeSource(
@@ -366,7 +366,7 @@ $source = new CsvPostalCodeSource(
     areaSource: 'aiarmada_addressing_san_marino_v1',
 );
 
-$result = app(ImportPostalCodesAction::class)->execute($source);
+$result = app(PostalCodeImporter::class)->execute($source);
 ```
 
 ## All-country verdicts

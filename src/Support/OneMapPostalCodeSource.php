@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Support;
 
+use AIArmada\Addressing\Contracts\PostalAddressLookup;
 use AIArmada\Addressing\Contracts\PostalCodeSource;
 use AIArmada\Addressing\Data\PostalCodeData;
 use AIArmada\Addressing\Geography\Singapore\SingaporeGeographyProvider;
@@ -23,7 +24,7 @@ final class OneMapPostalCodeSource implements PostalCodeSource
 
     /** @param list<string> $postcodes */
     public function __construct(
-        private readonly OneMapClient $client,
+        private readonly PostalAddressLookup $client,
         private readonly array $postcodes,
     ) {}
 

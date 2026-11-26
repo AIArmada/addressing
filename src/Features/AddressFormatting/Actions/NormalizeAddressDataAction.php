@@ -1,0 +1,239 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AIArmada\Addressing\Features\AddressFormatting\Actions;
+
+use AIArmada\Addressing\Contracts\AddressNormalizer;
+use AIArmada\Addressing\Data\AddressData;
+use AIArmada\Addressing\Support\AddressCountryResolver;
+use AIArmada\Addressing\Support\ModelResolver;
+use AIArmada\Addressing\Support\RequestCache;
+use AIArmada\Addressing\Support\SchemaTableCache;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
+
+final readonly class NormalizeAddressDataAction implements AddressNormalizer
+{
+    public function __construct(private AddressCountryResolver $countryResolver) {}
+
+    public function normalize(array $data): AddressData
+    {
+        $address = AddressData::from($data);
+        $country = $this->resolveCountry($address);
+
+        $countryId = $this->modelKey($country) ?? $address->countryId;
+        $countryCode = $country?->getAttribute('iso2') ?? $address->countryCode;
+        $countryName = $country?->getAttribute('name') ?? $address->country;
+
+        $state = $this->resolveState($address, $countryId);
+        $stateId = $this->modelKey($state) ?? $address->stateId;
+        $stateName = $state?->getAttribute('name') ?? $address->state;
+
+        $city = $this->resolveCity($address, $countryId, $stateId);
+
+        return new AddressData(
+            line1: $address->line1,
+            line2: $address->line2,
+            line3: $address->line3,
+            label: $address->label,
+            city: $city?->getAttribute('name') ?? $address->city,
+            state: $stateName,
+            postcode: $address->postcode,
+            country: $countryName,
+            countryCode: is_string($countryCode) ? mb_strtoupper($countryCode) : null,
+            formatted: $address->formatted,
+            latitude: $address->latitude,
+            longitude: $address->longitude,
+            components: $address->components,
+            metadata: $address->metadata,
+            googleMapsUrl: $address->googleMapsUrl,
+            wazeUrl: $address->wazeUrl,
+            navigationLinks: $address->navigationLinks,
+            googlePlaceId: $address->googlePlaceId,
+            googleFeatureId: $address->googleFeatureId,
+            googleCid: $address->googleCid,
+            googleEntityId: $address->googleEntityId,
+            countryId: $countryId,
+            stateId: $stateId,
+            cityId: $this->modelKey($city) ?? $address->cityId,
+        );
+    }
+
+    private function resolveCountry(AddressData $address): ?Model
+    {
+        if ($address->countryId !== null) {
+            return $this->findExplicitReference(
+                ModelResolver::countryClass(),
+                $address->countryId,
+                'country',
+            );
+        }
+
+        $country = $this->countryResolver->resolve($address->countryCode);
+
+        if ($country instanceof Model || $address->country === null) {
+            return $country;
+        }
+
+        $countryClass = ModelResolver::countryClass();
+
+        if (! $this->modelTableExists($countryClass)) {
+            return null;
+        }
+
+        $name = mb_strtolower($address->country);
+
+        return RequestCache::remember(
+            'reference-lookups',
+            new $countryClass,
+            "country|{$name}",
+            fn (): ?Model => $this->uniqueByLowerName($countryClass::query(), $name),
+        );
+    }
+
+    private function resolveState(AddressData $address, ?string $countryId): ?Model
+    {
+        $stateClass = ModelResolver::stateClass();
+
+        if (! $this->modelTableExists($stateClass)) {
+            return null;
+        }
+
+        if ($address->stateId !== null) {
+            $state = $this->findExplicitReference($stateClass, $address->stateId, 'state');
+            $this->assertCountryMatch($state, $countryId, 'state');
+
+            return $state;
+        }
+
+        if ($address->state === null || $countryId === null) {
+            return null;
+        }
+
+        $name = mb_strtolower($address->state);
+
+        return RequestCache::remember(
+            'reference-lookups',
+            new $stateClass,
+            "state|{$countryId}|{$name}",
+            fn (): ?Model => $this->uniqueByLowerName(
+                $stateClass::query()->where('country_id', $countryId),
+                $name,
+            ),
+        );
+    }
+
+    private function resolveCity(AddressData $address, ?string $countryId, ?string $stateId): ?Model
+    {
+        $cityClass = ModelResolver::cityClass();
+
+        if (! $this->modelTableExists($cityClass)) {
+            return null;
+        }
+
+        if ($address->cityId !== null) {
+            $city = $this->findExplicitReference($cityClass, $address->cityId, 'city');
+            $this->assertCountryMatch($city, $countryId, 'city');
+
+            if ($stateId !== null && (string) $city->getAttribute('state_id') !== $stateId) {
+                throw new InvalidArgumentException('The address city does not belong to the selected state.');
+            }
+
+            return $city;
+        }
+
+        if ($address->city === null || $countryId === null) {
+            return null;
+        }
+
+        $name = mb_strtolower($address->city);
+
+        return RequestCache::remember(
+            'reference-lookups',
+            new $cityClass,
+            "city|{$countryId}|{$stateId}|{$name}",
+            function () use ($cityClass, $countryId, $stateId, $name): ?Model {
+                $query = $cityClass::query()->where('country_id', $countryId);
+
+                if ($stateId !== null) {
+                    $query->where('state_id', $stateId);
+                }
+
+                return $this->uniqueByLowerName($query, $name);
+            },
+        );
+    }
+
+    /**
+     * Link by name only when exactly one candidate matches. Ambiguous names
+     * keep their free-text value and stay unlinked instead of attaching an
+     * arbitrary first row.
+     *
+     * @param  Builder<Model>  $query
+     */
+    private function uniqueByLowerName(Builder $query, string $lowerName): ?Model
+    {
+        $matches = $query->whereRaw('LOWER(name) = ?', [$lowerName])->limit(2)->get();
+
+        return $matches->count() === 1 ? $matches->first() : null;
+    }
+
+    private function assertCountryMatch(Model $model, ?string $countryId, string $field): void
+    {
+        if ($countryId !== null && (string) $model->getAttribute('country_id') !== $countryId) {
+            throw new InvalidArgumentException(sprintf('The address %s does not belong to the selected country.', $field));
+        }
+    }
+
+    private function modelKey(?Model $model): ?string
+    {
+        if ($model === null || $model->getKey() === null) {
+            return null;
+        }
+
+        return (string) $model->getKey();
+    }
+
+    /**
+     * @param  class-string<Model>  $modelClass
+     */
+    private function findExplicitReference(string $modelClass, string $id, string $field): Model
+    {
+        if (! $this->modelTableExists($modelClass)) {
+            throw new InvalidArgumentException(sprintf(
+                'The address %s reference cannot be resolved because its table is unavailable.',
+                $field,
+            ));
+        }
+
+        $reference = RequestCache::remember(
+            'reference-lookups',
+            new $modelClass,
+            "id|{$field}|{$id}",
+            static fn (): ?Model => $modelClass::query()->whereKey($id)->first(),
+        );
+
+        if (! $reference instanceof Model) {
+            throw new InvalidArgumentException(sprintf(
+                'The address %s reference [%s] could not be found.',
+                $field,
+                $id,
+            ));
+        }
+
+        return $reference;
+    }
+
+    /**
+     * @param  class-string<Model>  $modelClass
+     */
+    private function modelTableExists(string $modelClass): bool
+    {
+        /** @var Model $model */
+        $model = new $modelClass;
+
+        return SchemaTableCache::exists($model);
+    }
+}

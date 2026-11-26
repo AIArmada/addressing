@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Data;
 
-final class ImportPostalCodesResultData
+final readonly class ImportPostalCodesResultData
 {
     /** @var list<ImportPostalCodeFailureData> */
-    public readonly array $failures;
+    public array $failures;
 
     /**
      * @param  list<ImportPostalCodeFailureData>  $failures
      */
     public function __construct(
-        public readonly int $created = 0,
-        public readonly int $updated = 0,
-        public readonly int $skipped = 0,
+        public int $created = 0,
+        public int $updated = 0,
+        public int $skipped = 0,
         array $failures = [],
     ) {
         $this->failures = $failures;

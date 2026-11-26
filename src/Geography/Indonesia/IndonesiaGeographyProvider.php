@@ -11,11 +11,9 @@ use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
-use AIArmada\Addressing\Models\AddressCountry;
+use AIArmada\Addressing\Data\CountryStateSeedData;
 use AIArmada\Addressing\Support\CompositeAddressAreaSource;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
-use AIArmada\Addressing\Support\GeographyReferenceCleanup;
-use AIArmada\Addressing\Support\ModelResolver;
 
 class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
@@ -33,25 +31,9 @@ class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, 
         return 'ID';
     }
 
-    public function seed(AddressCountry $indonesia): void
+    public function stateSeedData(): CountryStateSeedData
     {
-        $stateClass = ModelResolver::stateClass();
-        $statesData = $this->stateDefinitions();
-
-        foreach ($statesData as $s) {
-            $stateClass::updateOrCreate(
-                ['country_id' => $indonesia->id, 'code' => $s['code']],
-                [
-                    'name' => $s['name'],
-                    'country_code' => $this->countryCode(),
-                ],
-            );
-        }
-
-        // ISO geographical units (island groups) are not provinces and were
-        // removed from the bundled state data. Delete stragglers seeded
-        // before that fix so names like Papua always resolve to a province.
-        GeographyReferenceCleanup::pruneStatesByCodes($indonesia, ['JW', 'KA', 'ML', 'NU', 'PP', 'SL', 'SM']);
+        return new CountryStateSeedData($this->stateDefinitions(), ['JW', 'KA', 'ML', 'NU', 'PP', 'SL', 'SM']);
     }
 
     /** @return list<AddressHierarchyDefinition> */
@@ -151,7 +133,7 @@ class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, 
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
-    public function areaRoles(AddressCountry $country): array
+    public function areaRoles(): array
     {
         $roles = [];
 
@@ -176,7 +158,7 @@ class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, 
     }
 
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
-    public function areaNames(AddressCountry $country): array
+    public function areaNames(): array
     {
         return [
             'id:province:11' => [
@@ -197,7 +179,7 @@ class IndonesiaGeographyProvider implements CountryAddressAreaMetadataProvider, 
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
-    public function areaRelationships(AddressCountry $country): array
+    public function areaRelationships(): array
     {
         $relationships = [];
         $areas = $this->addressAreaSource()->areas()->all();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Database\Factories;
 
-use AIArmada\Addressing\Models\PostalCode;
+use AIArmada\Addressing\Features\PostalCodes\Models\PostalCode;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

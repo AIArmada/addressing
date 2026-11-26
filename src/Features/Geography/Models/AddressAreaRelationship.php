@@ -1,0 +1,69 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AIArmada\Addressing\Features\Geography\Models;
+
+use AIArmada\Addressing\Features\Geography\Support\AddressAreaStateBridge;
+use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\Addressing\Support\ModelResolver;
+use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+/**
+ * @property string $parent_address_area_id
+ * @property string $child_address_area_id
+ * @property string $hierarchy_type
+ * @property string $source
+ * @property string $relationship_type
+ * @property CarbonImmutable|null $created_at
+ */
+class AddressAreaRelationship extends Model
+{
+    use HasUuids;
+
+    protected static function booted(): void
+    {
+        static::saved(static fn () => AddressAreaStateBridge::forgetAll());
+        static::deleted(static fn () => AddressAreaStateBridge::forgetAll());
+    }
+
+    protected $fillable = [
+        'parent_address_area_id',
+        'child_address_area_id',
+        'relationship_type',
+        'hierarchy_type',
+        'source',
+        'valid_from',
+        'valid_until',
+        'metadata',
+    ];
+
+    public function getTable(): string
+    {
+        return AddressingTableResolver::resolve('area_relationships');
+    }
+
+    /** @return BelongsTo<AddressArea, $this> */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(ModelResolver::areaClass(), 'parent_address_area_id');
+    }
+
+    /** @return BelongsTo<AddressArea, $this> */
+    public function child(): BelongsTo
+    {
+        return $this->belongsTo(ModelResolver::areaClass(), 'child_address_area_id');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'valid_from' => 'immutable_date',
+            'valid_until' => 'immutable_date',
+            'metadata' => 'array',
+        ];
+    }
+}

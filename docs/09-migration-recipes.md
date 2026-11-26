@@ -121,7 +121,7 @@ columns at all and its models use `HasAddresses`).
 
 ```php
 use AIArmada\Addressing\Data\AddressData;
-use AIArmada\Addressing\Models\Address;
+use AIArmada\Addressing\Features\AddressLifecycle\Models\Address;
 
 $address = Address::query()->create(AddressData::from([
     'address_line_1' => $owner->address_line_1,

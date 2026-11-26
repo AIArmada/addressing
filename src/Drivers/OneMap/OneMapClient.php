@@ -1,0 +1,249 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AIArmada\Addressing\Drivers\OneMap;
+
+use AIArmada\Addressing\Contracts\PostalAddressLookup;
+use AIArmada\Addressing\Exceptions\OneMapException;
+use Carbon\CarbonImmutable;
+use Exception;
+use Illuminate\Contracts\Cache\LockTimeoutException;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+
+/**
+ * Minimal client for SLA's OneMap API (search + token auth).
+ *
+ * The access token is cached in the Laravel cache until shortly before its
+ * reported expiry. No token state is held in memory, keeping this safe for
+ * long-lived workers.
+ */
+class OneMapClient implements PostalAddressLookup
+{
+    private const string TOKEN_CACHE_KEY = 'aiarmada.addressing.onemap.token';
+
+    private const int TOKEN_EXPIRY_BUFFER_SECONDS = 3600;
+
+    private const int MAX_RETRY_AFTER_SECONDS = 60;
+
+    private const int MAX_RESULT_PAGES = 100;
+
+    /**
+     * Search OneMap for an address or postcode.
+     *
+     * @return list<array<string, mixed>>
+     *
+     * @throws OneMapException
+     */
+    public function search(string $query): array
+    {
+        $query = mb_trim($query);
+
+        if ($query === '') {
+            return [];
+        }
+
+        $results = [];
+        $page = 1;
+        $totalPages = 1;
+
+        while ($page <= $totalPages && $page <= self::MAX_RESULT_PAGES) {
+            $response = $this->searchPage($query, $page);
+            $totalPages = max(1, (int) ($response->json('totalNumPages') ?? 1));
+
+            $rows = $response->json('results', []);
+
+            if (is_array($rows)) {
+                foreach ($rows as $row) {
+                    if (is_array($row)) {
+                        $results[] = $row;
+                    }
+                }
+            }
+
+            $page++;
+        }
+
+        return $results;
+    }
+
+    /**
+     * @throws OneMapException
+     */
+    private function searchPage(string $query, int $page): Response
+    {
+        $response = $this->sendSearch($query, $page);
+
+        if ($response->status() === 401) {
+            $this->forgetToken();
+            $response = $this->sendSearch($query, $page);
+        }
+
+        if ($response->status() === 401) {
+            throw new OneMapException('OneMap authentication failed. Check ONEMAP_EMAIL and ONEMAP_PASSWORD.');
+        }
+
+        if (! $response->successful()) {
+            throw new OneMapException(sprintf(
+                'OneMap search failed with status %d.',
+                $response->status(),
+            ));
+        }
+
+        return $response;
+    }
+
+    /**
+     * @throws OneMapException
+     */
+    private function sendSearch(string $query, int $page = 1): Response
+    {
+        $token = $this->token();
+        $retries = min(5, max(0, (int) config('addressing.onemap.retries', 2)));
+
+        try {
+            return $this->http()
+                ->withToken($token)
+                ->retry(
+                    $retries + 1,
+                    static fn (int $attempt, Exception $exception): int => (int) (self::retryDelaySeconds(
+                        $attempt - 1,
+                        $exception instanceof RequestException ? $exception->response->header('Retry-After') : null,
+                    ) * 1000),
+                    static fn (Exception $exception): bool => $exception instanceof ConnectionException
+                        || ($exception instanceof RequestException && ($exception->response->status() === 429 || $exception->response->serverError())),
+                    throw: false,
+                )
+                ->get($this->baseUrl() . '/common/elastic/search', [
+                    'searchVal' => $query,
+                    'returnGeom' => 'Y',
+                    'getAddrDetails' => 'Y',
+                    'pageNum' => $page,
+                ]);
+        } catch (ConnectionException $exception) {
+            throw new OneMapException('OneMap search failed: ' . $exception->getMessage(), previous: $exception);
+        }
+    }
+
+    /**
+     * @throws OneMapException
+     */
+    private function token(): string
+    {
+        $cached = Cache::get(self::TOKEN_CACHE_KEY);
+
+        if (is_string($cached) && $cached !== '') {
+            return $cached;
+        }
+
+        try {
+            return Cache::lock(self::TOKEN_CACHE_KEY . ':lock', 15)->block(
+                10,
+                fn (): string => $this->fetchToken(),
+            );
+        } catch (LockTimeoutException $exception) {
+            $cached = Cache::get(self::TOKEN_CACHE_KEY);
+
+            if (is_string($cached) && $cached !== '') {
+                return $cached;
+            }
+
+            throw new OneMapException('OneMap authentication failed: token lock timed out.', previous: $exception);
+        }
+    }
+
+    /**
+     * @throws OneMapException
+     */
+    private function fetchToken(): string
+    {
+        $cached = Cache::get(self::TOKEN_CACHE_KEY);
+
+        if (is_string($cached) && $cached !== '') {
+            return $cached;
+        }
+
+        $email = config('addressing.onemap.email');
+        $password = config('addressing.onemap.password');
+
+        if (! is_string($email) || $email === '' || ! is_string($password) || $password === '') {
+            throw new OneMapException('OneMap credentials are not configured. Set ONEMAP_EMAIL and ONEMAP_PASSWORD.');
+        }
+
+        try {
+            $response = $this->http()->post($this->baseUrl() . '/auth/post/getToken', [
+                'email' => $email,
+                'password' => $password,
+            ]);
+        } catch (ConnectionException $exception) {
+            throw new OneMapException('OneMap authentication failed: ' . $exception->getMessage(), previous: $exception);
+        }
+
+        if (! $response->successful()) {
+            throw new OneMapException(sprintf(
+                'OneMap authentication failed with status %d.',
+                $response->status(),
+            ));
+        }
+
+        $token = $response->json('access_token');
+
+        if (! is_string($token) || $token === '') {
+            throw new OneMapException('OneMap authentication failed: no access token was returned.');
+        }
+
+        Cache::put(self::TOKEN_CACHE_KEY, $token, $this->tokenTtl($response->json('expiry_timestamp')));
+
+        return $token;
+    }
+
+    private function forgetToken(): void
+    {
+        Cache::forget(self::TOKEN_CACHE_KEY);
+    }
+
+    private function tokenTtl(mixed $expiryTimestamp): CarbonImmutable
+    {
+        $expiresAt = is_numeric($expiryTimestamp)
+            ? CarbonImmutable::createFromTimestamp((int) $expiryTimestamp)
+            : CarbonImmutable::now()->addDays(3);
+
+        $cachedUntil = $expiresAt->subSeconds(self::TOKEN_EXPIRY_BUFFER_SECONDS);
+        $now = CarbonImmutable::now();
+
+        return $cachedUntil->greaterThan($now) ? $cachedUntil : $now;
+    }
+
+    public static function retryDelaySeconds(int $attempt, ?string $retryAfter): float
+    {
+        if ($retryAfter !== null && is_numeric(mb_trim($retryAfter))) {
+            $seconds = max(0, (int) mb_trim($retryAfter));
+
+            if ($seconds > 0) {
+                return (float) min($seconds, self::MAX_RETRY_AFTER_SECONDS);
+            }
+        }
+
+        return 0.2 * (2 ** $attempt);
+    }
+
+    private function baseUrl(): string
+    {
+        $baseUrl = config('addressing.onemap.base_url', 'https://www.onemap.gov.sg/api');
+
+        return mb_rtrim((string) $baseUrl, '/');
+    }
+
+    private function http(): PendingRequest
+    {
+        return Http::acceptJson()
+            ->withOptions(['allow_redirects' => false])
+            ->connectTimeout((int) config('addressing.onemap.connect_timeout', 5))
+            ->timeout((int) config('addressing.onemap.timeout', 10));
+    }
+}

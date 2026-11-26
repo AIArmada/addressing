@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "name": "ResolutionGaps",
+  "owns": {
+    "table:address_resolution_gaps": [
+      "AIArmada\\Addressing\\Features\\ResolutionGaps\\Actions\\ReportResolutionGapAction",
+      "AIArmada\\Addressing\\Features\\ResolutionGaps\\Actions\\CurateResolutionGapAction"
+    ]
+  },
+  "extensions": {}
+}

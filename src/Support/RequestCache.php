@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Support;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Request-scoped memoization stored on the request attributes bag.
  *
@@ -22,11 +24,21 @@ final class RequestCache
      * @param  callable(): T  $callback
      * @return T
      */
-    public static function remember(string $bucket, string $key, callable $callback): mixed
+    public static function remember(string $bucket, Model $model, string $key, callable $callback): mixed
     {
         if (! app()->bound('request')) {
             return $callback();
         }
+
+        $connection = $model->getConnection();
+        $key = serialize([
+            $model::class,
+            $connection->getName(),
+            $connection->getDatabaseName(),
+            $connection->getTablePrefix(),
+            $model->getTable(),
+            $key,
+        ]);
 
         $attribute = "aiarmada.addressing.{$bucket}";
         $cache = request()->attributes->get($attribute, []);
@@ -43,5 +55,12 @@ final class RequestCache
         }
 
         return $value;
+    }
+
+    public static function forget(string $bucket): void
+    {
+        if (app()->bound('request')) {
+            request()->attributes->remove("aiarmada.addressing.{$bucket}");
+        }
     }
 }

@@ -1,0 +1,115 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AIArmada\Addressing\Features\AddressLifecycle\Models;
+
+use AIArmada\Addressing\Features\AddressLifecycle\Support\AddressOwnerGuard;
+use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\Addressing\Support\ModelResolver;
+use AIArmada\CommerceSupport\Traits\HasOwner;
+use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
+use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphPivot;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+
+/**
+ * @property string $id
+ * @property string $address_id
+ * @property string $addressable_type
+ * @property string $addressable_id
+ * @property string $type
+ * @property string|null $label
+ * @property bool $is_primary
+ * @property CarbonImmutable|null $valid_from
+ * @property CarbonImmutable|null $valid_until
+ * @property array|null $metadata
+ * @property-read Address $address
+ * @property-read Model $addressable
+ */
+class Addressable extends MorphPivot
+{
+    use HasOwner;
+    use HasOwnerScopeConfig;
+    use HasUuids;
+
+    protected static string $ownerScopeConfigKey = 'addressing.features.owner';
+
+    protected $fillable = [
+        'id',
+        'address_id',
+        'addressable_type',
+        'addressable_id',
+        'type',
+        'label',
+        'is_primary',
+        'valid_from',
+        'valid_until',
+        'metadata',
+    ];
+
+    protected static function booted(): void
+    {
+        static::saving(function (Addressable $addressable): void {
+            AddressOwnerGuard::assertAddressIsWritable($addressable->getAttribute('address_id'));
+            AddressOwnerGuard::assertAddressableIsWritable(
+                $addressable->getAttribute('addressable_type'),
+                $addressable->getAttribute('addressable_id'),
+            );
+        });
+    }
+
+    /**
+     * @param  Builder<Addressable>  $query
+     * @return Builder<Addressable>
+     */
+    public function scopeValidNow(Builder $query): Builder
+    {
+        $now = CarbonImmutable::now();
+
+        return $query
+            ->where(function (Builder $q) use ($now): void {
+                $q->whereNull('valid_from')
+                    ->orWhere('valid_from', '<=', $now);
+            })
+            ->where(function (Builder $q) use ($now): void {
+                $q->whereNull('valid_until')
+                    ->orWhere('valid_until', '>=', $now);
+            });
+    }
+
+    public function getTable(): string
+    {
+        return AddressingTableResolver::resolve('addressables');
+    }
+
+    /**
+     * @return BelongsTo<Address, $this>
+     */
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(ModelResolver::addressClass(), 'address_id');
+    }
+
+    /**
+     * @return MorphTo<Model, $this>
+     */
+    public function addressable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'is_primary' => 'boolean',
+            'valid_from' => 'immutable_datetime',
+            'valid_until' => 'immutable_datetime',
+            'metadata' => 'array',
+        ];
+    }
+}

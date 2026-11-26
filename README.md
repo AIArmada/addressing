@@ -17,11 +17,11 @@ php artisan migrate
 ```
 
 ```php
-use AIArmada\Addressing\Actions\SeedAddressCountriesAction;
-use AIArmada\Addressing\Actions\SeedCountryGeographiesAction;
+use AIArmada\Addressing\Contracts\CountryDatasetSeeder;
+use AIArmada\Addressing\Contracts\CountryGeographySeeder;
 
-app(SeedAddressCountriesAction::class)->execute();
-app(SeedCountryGeographiesAction::class)->execute('MY');
+app(CountryDatasetSeeder::class)->execute();
+app(CountryGeographySeeder::class)->execute('MY');
 ```
 
 Then read `docs/02-installation.md` and `docs/04-usage.md`. Country coverage lives in `docs/05-country-data.md`; adding a country is covered in `docs/13-provider-authoring.md`.

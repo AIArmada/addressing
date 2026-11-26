@@ -69,7 +69,7 @@ It can mean any of these:
 
 1. Accepting or returning `AddressData`.
 2. Casting a JSON column to `AddressData`.
-3. Formatting an address using `FormatAddressAction`.
+3. Formatting an address using `AddressFormatter`.
 4. Normalizing legacy/provider names using `AddressNormalizer`.
 5. Mapping `AddressData` to a provider payload.
 6. Storing a reusable address in `addresses` and linking with `addressables`.

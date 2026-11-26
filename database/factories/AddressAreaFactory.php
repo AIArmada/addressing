@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Database\Factories;
 
-use AIArmada\Addressing\Models\AddressArea;
+use AIArmada\Addressing\Features\Geography\Models\AddressArea;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

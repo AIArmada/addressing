@@ -35,7 +35,7 @@ class BrazilGeographyProvider implements CountryAddressAreaMetadataProvider, Cou
 }
 ```
 
-- `CountryGeographyProvider` (extends `CountryAddressProfile`) is the only required contract. It contributes `countryCode()`, the stable `providerKey()`, `seed()` for `State` rows, and `addressHierarchies()`.
+- `CountryGeographyProvider` (extends `CountryAddressProfile`) is the only required contract. It contributes `countryCode()`, the stable `providerKey()`, `stateSeedData()` for `State` rows, and `addressHierarchies()`.
 - `CountryHierarchyProvider` is optional and contributes `addressAreaSource()` plus `stateAreaMappings()`. Every bundled provider implements it; without it the country has states but no area tree and no state↔area links.
 - `CountryAddressAreaMetadataProvider` is optional and contributes `areaRoles()`, `areaNames()`, and `areaRelationships()`, all keyed by CSV `source_id`. Empty arrays are a normal pattern, not a gap.
 - `CountryAddressFormatter` (extends `AddressFormatter`) lives in a separate class per country and is registered under the separate `addressing.formatters` key, not `addressing.geography.providers`. It contributes static `countryCode()` plus `format(AddressData $address): string`. The static code lets the resolver map country codes without instantiating formatters.
@@ -95,7 +95,7 @@ When a country exposes both an `administrative` and a `postal` hierarchy, every 
 
 ## stateDefinitions and seed()
 
-`seed()` populates `State` rows from a private `stateDefinitions()` list of `['name', 'code']` pairs, keyed by `[country_id, code]`:
+`stateSeedData()` returns a `CountryStateSeedData` value from a private `stateDefinitions()` list of `['name', 'code']` pairs, keyed by `[country_id, code]`:
 
 ```php
 private function stateDefinitions(): array
@@ -107,7 +107,7 @@ private function stateDefinitions(): array
 }
 ```
 
-Use the country's own subdivision codes: ISO 3166-2 second parts (`AC`, `JK`), alpha codes (`BB`…`TH` for Germany), ISTAT numbers (`21`…`88` for Italy), or official numeric strings (`13`, `14` for Bahrain). State names use official endonyms with diacritics (`São Paulo`, `Bayern`, `Piemonte`). Mirror `resources/data/states.json` for names, codes, and ordering so the provider and the bundled data never drift. If a definition changes (a renamed or merged subdivision), prune the stale rows in `seed()` with `GeographyReferenceCleanup::pruneStatesByCodes($country, [...])` so reseeds converge through model deletes with reference integrity; Indonesia (island-unit codes), Ethiopia (`SN`), and Iraq (`KR`) all carry such cleanup. Never bulk-delete states by query: it bypasses `State` events and leaves addresses, cities, and area links dangling.
+Use the country's own subdivision codes: ISO 3166-2 second parts (`AC`, `JK`), alpha codes (`BB`…`TH` for Germany), ISTAT numbers (`21`…`88` for Italy), or official numeric strings (`13`, `14` for Bahrain). State names use official endonyms with diacritics (`São Paulo`, `Bayern`, `Piemonte`). Mirror `resources/data/states.json` for names, codes, and ordering so the provider and the bundled data never drift. If a definition changes (a renamed or merged subdivision), include the retired codes in `CountryStateSeedData` so the centralized country state seeder removes them with reference integrity; Indonesia (island-unit codes), Ethiopia (`SN`), and Iraq (`KR`) all carry such cleanup. Never bulk-delete states by query: it bypasses `State` events and leaves addresses, cities, and area links dangling.
 
 ## areaNames, areaRoles, areaRelationships
 
@@ -115,7 +115,7 @@ All three are keyed by CSV `source_id` and synced with `source = providerKey` on
 
 ```php
 /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
-public function areaNames(AddressCountry $country): array
+public function areaNames(): array
 {
     return [
         'id:province:31' => [
@@ -243,8 +243,11 @@ When the verdict in [postal overlays](18-postal-overlays.md) is
 areas CSV. Import with the generic source — no per-country seeder:
 
 ```php
+use AIArmada\Addressing\Contracts\PostalCodeImporter;
+use AIArmada\Addressing\Support\CsvPostalCodeSource;
+
 $source = new CsvPostalCodeSource('SM', $codesPath, $linksPath, $areaSource);
-app(ImportPostalCodesAction::class)->execute($source);
+app(PostalCodeImporter::class)->execute($source);
 ```
 
 `PostalCodeCsvImportShard*Test` pick up every pair automatically and
@@ -260,12 +263,12 @@ Add `tests/src/Addressing/Geography/<Country>GeographyProviderTest.php` followin
 
 Assert at minimum:
 
-1. `seed()` creates every `State` (count plus one renamed-value check proving `updateOrCreate` overwrites stale names).
+1. `stateSeedData()` creates every `State` (count plus one renamed-value check proving `updateOrCreate` overwrites stale names).
 2. `stateAreaMappings()` covers every state code, with keys in a fixed order.
 3. `addressHierarchies()` has the expected keys, kinds, and assignment roles.
-4. `SeedCountryGeographiesAction::execute('<ISO2>')` imports the tree: active-area counts per type, one `AddressAreaStateLink` per mapping, and any declared aliases present.
+4. `CountryGeographySeeder::execute('<ISO2>')` imports the tree: active-area counts per type, one `AddressAreaStateLink` per mapping, and any declared aliases present.
 
-Then exercise the consumer path once: seed the country, create an address with the role assignments from the new hierarchy, and run `SyncAddressAreaAssignmentsAction` — unknown roles and wrong-level areas must be rejected, correct assignments must persist.
+Then exercise the consumer path once: seed the country, create an address with the role assignments from the new hierarchy, and run `AddressAssignmentWriter` — unknown roles and wrong-level areas must be rejected, correct assignments must persist.
 
 Add two formatter cases to the country's own `tests/src/Addressing/Geography/<Country>GeographyProviderTest.php` (bundled providers test their formatter there, not in a shared file): the main UPU layout with a real example from the research, plus one variant (missing postcode, twin dedup, or a documented edge such as a pass-through prefix). Use the country's real division names so the tests double as usage examples.
 

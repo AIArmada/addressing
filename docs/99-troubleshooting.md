@@ -58,7 +58,7 @@ Three exceptions need deliberate handling:
 
 ## Missing Malaysia States or Federal Territories
 
-`AddressCountrySeeder` only seeds ISO countries. For structured Malaysia geography, run `app(SeedCountryGeographiesAction::class)->execute('MY')` after countries exist. This also imports the hierarchy and creates explicit State↔AddressArea links. Postal localities and administrative districts are separate branches; neither requires a postal-town record.
+`AddressCountrySeeder` only seeds ISO countries. For structured Malaysia geography, run `app(CountryGeographySeeder::class)->execute('MY')` after countries exist. This also imports the hierarchy and creates explicit State↔AddressArea links. Postal localities and administrative districts are separate branches; neither requires a postal-town record.
 
 ## Missing Singapore Districts or Planning Areas
 
@@ -164,7 +164,7 @@ line.
 
 ## Area Assignment Role Rejected
 
-`SyncAddressAreaAssignmentsAction` throws `The selected address area role is not defined by the country address profile.` for unknown roles — check the role against `CountryAddressProfileResolver::definitionForRole()` for that country. It throws `The selected role is not an assignable area role.` for `state_id` and other non-area roles: pass state through the action's `stateId` parameter instead of the assignments map. It throws `The selected state does not match the persisted address state.` when `stateId` contradicts the persisted `state_id` — save the address state first so the two agree.
+`AddressAssignmentWriter` throws `The selected address area role is not defined by the country address profile.` for unknown roles — check the role against `CountryAddressProfileResolver::definitionForRole()` for that country. It throws `The selected role is not an assignable area role.` for `state_id` and other non-area roles: pass state through the action's `stateId` parameter instead of the assignments map. It throws `The selected state does not match the persisted address state.` when `stateId` contradicts the persisted `state_id` — save the address state first so the two agree.
 
 ## Address Has Text State/City but No Relations
 
@@ -196,7 +196,7 @@ ADDRESSING_JSON_COLUMN_TYPE=json
 
 Make sure the addressing migrations have run. Check the `google_maps_url` and `waze_url` columns exist on your `addresses` table.
 
-If a manual URL is set but not appearing in the output, verify it passes `NormalizeNavigationUrl` validation — it must have an `http://` or `https://` scheme.
+If a manual URL is set but not appearing in the output, verify it passes `Data\\NormalizeNavigationUrl` validation — it must have an `http://` or `https://` scheme.
 
 ## Command Not Found
 

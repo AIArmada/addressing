@@ -1,0 +1,136 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AIArmada\Addressing\Features\AddressLifecycle\Models;
+
+use AIArmada\Addressing\Features\AddressLifecycle\Support\AddressOwnerGuard;
+use AIArmada\Addressing\Support\AddressingTableResolver;
+use AIArmada\CommerceSupport\Traits\HasOwner;
+use AIArmada\CommerceSupport\Traits\HasOwnerScopeConfig;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use LogicException;
+
+/**
+ * @property string $id
+ * @property string|null $address_id
+ * @property string $snapshotable_type
+ * @property string $snapshotable_id
+ * @property string|null $reason
+ * @property string|null $label
+ * @property string|null $line1
+ * @property string|null $line2
+ * @property string|null $line3
+ * @property string|null $city
+ * @property string|null $state
+ * @property string|null $postcode
+ * @property string|null $country
+ * @property string|null $country_code
+ * @property string|null $formatted_address
+ * @property array|null $formatted_lines
+ * @property array|null $components
+ * @property float|null $latitude
+ * @property float|null $longitude
+ * @property string|null $google_place_id
+ * @property string|null $google_feature_id
+ * @property string|null $google_cid
+ * @property string|null $google_entity_id
+ * @property array|null $metadata
+ * @property string|null $google_maps_url
+ * @property string|null $waze_url
+ * @property array|null $navigation_links
+ */
+class AddressSnapshot extends Model
+{
+    use HasOwner;
+    use HasOwnerScopeConfig;
+    use HasUuids;
+
+    protected static string $ownerScopeConfigKey = 'addressing.features.owner';
+
+    /** @return class-string<AddressSnapshot> */
+    public static function configuredClass(): string
+    {
+        $modelClass = config('addressing.models.snapshot') ?? self::class;
+
+        if (! is_string($modelClass) || ! is_a($modelClass, self::class, true)) {
+            throw new LogicException('The configured address snapshot model must extend AddressSnapshot.');
+        }
+
+        return $modelClass;
+    }
+
+    protected $fillable = [
+        'address_id',
+        'snapshotable_type',
+        'snapshotable_id',
+        'reason',
+        'label',
+        'line1',
+        'line2',
+        'line3',
+        'city',
+        'state',
+        'postcode',
+        'country',
+        'country_code',
+        'formatted_address',
+        'formatted_lines',
+        'components',
+        'latitude',
+        'longitude',
+        'google_place_id',
+        'google_feature_id',
+        'google_cid',
+        'google_entity_id',
+        'metadata',
+        'google_maps_url',
+        'waze_url',
+        'navigation_links',
+    ];
+
+    public function getTable(): string
+    {
+        return AddressingTableResolver::resolve('snapshots');
+    }
+
+    /**
+     * @return MorphTo<Model, $this>
+     */
+    public function snapshotable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'formatted_lines' => 'array',
+            'components' => 'array',
+            'metadata' => 'array',
+            'navigation_links' => 'array',
+        ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (AddressSnapshot $snapshot): void {
+            AddressOwnerGuard::assertAddressableIsWritable(
+                $snapshot->getAttribute('snapshotable_type'),
+                $snapshot->getAttribute('snapshotable_id'),
+            );
+
+            $addressId = $snapshot->getAttribute('address_id');
+
+            if ($addressId !== null) {
+                AddressOwnerGuard::assertAddressIsWritable($addressId);
+            }
+        });
+
+        static::updating(function (): void {
+            throw new LogicException('Address snapshots are immutable and cannot be updated.');
+        });
+    }
+}

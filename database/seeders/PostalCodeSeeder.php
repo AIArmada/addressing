@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Database\Seeders;
 
-use AIArmada\Addressing\Actions\SeedPostalCodesAction;
+use AIArmada\Addressing\Contracts\PostalCodeSeeder as PostalCodeSeederContract;
 use AIArmada\Addressing\Support\ConsoleSeedProgress;
 use Illuminate\Database\Seeder;
 
 class PostalCodeSeeder extends Seeder
 {
-    public function run(SeedPostalCodesAction $action): void
+    public function run(PostalCodeSeederContract $action): void
     {
         $result = $action->execute(null, ConsoleSeedProgress::for($this->command?->getOutput()));
 

@@ -4,36 +4,33 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Data;
 
-use AIArmada\Addressing\Support\AddressAliasMap;
-use AIArmada\Addressing\Support\NormalizeNavigationUrl;
-
-class AddressData
+final readonly class AddressData
 {
     public function __construct(
-        public readonly ?string $line1 = null,
-        public readonly ?string $line2 = null,
-        public readonly ?string $line3 = null,
-        public readonly ?string $label = null,
-        public readonly ?string $city = null,
-        public readonly ?string $state = null,
-        public readonly ?string $postcode = null,
-        public readonly ?string $country = null,
-        public readonly ?string $countryCode = null,
-        public readonly ?string $formatted = null,
-        public readonly ?float $latitude = null,
-        public readonly ?float $longitude = null,
-        public readonly array $components = [],
-        public readonly array $metadata = [],
-        public readonly ?string $googleMapsUrl = null,
-        public readonly ?string $wazeUrl = null,
-        public readonly array $navigationLinks = [],
-        public readonly ?string $googlePlaceId = null,
-        public readonly ?string $googleFeatureId = null,
-        public readonly ?string $googleCid = null,
-        public readonly ?string $googleEntityId = null,
-        public readonly ?string $countryId = null,
-        public readonly ?string $stateId = null,
-        public readonly ?string $cityId = null,
+        public ?string $line1 = null,
+        public ?string $line2 = null,
+        public ?string $line3 = null,
+        public ?string $label = null,
+        public ?string $city = null,
+        public ?string $state = null,
+        public ?string $postcode = null,
+        public ?string $country = null,
+        public ?string $countryCode = null,
+        public ?string $formatted = null,
+        public ?float $latitude = null,
+        public ?float $longitude = null,
+        public array $components = [],
+        public array $metadata = [],
+        public ?string $googleMapsUrl = null,
+        public ?string $wazeUrl = null,
+        public array $navigationLinks = [],
+        public ?string $googlePlaceId = null,
+        public ?string $googleFeatureId = null,
+        public ?string $googleCid = null,
+        public ?string $googleEntityId = null,
+        public ?string $countryId = null,
+        public ?string $stateId = null,
+        public ?string $cityId = null,
     ) {}
 
     public static function from(array $data): self
@@ -135,7 +132,7 @@ class AddressData
 
     private static function stringOrNull(mixed $value): ?string
     {
-        if ($value === null || $value === '') {
+        if (! is_scalar($value)) {
             return null;
         }
 
@@ -161,7 +158,7 @@ class AddressData
             return null;
         }
 
-        return (float) $value;
+        return is_finite((float) $value) ? (float) $value : null;
     }
 
     private static function navigationUrlOrNull(mixed $value): ?string

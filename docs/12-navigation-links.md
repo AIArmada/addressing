@@ -43,7 +43,7 @@ No API key is required to open Google Maps or Waze URLs. This feature does not p
 
 ## URL Normalization
 
-The `NormalizeNavigationUrl` helper trims whitespace, validates HTTP(S) schemes, and rejects empty or invalid URLs. It does not fetch or expand URLs.
+The `Data\\NormalizeNavigationUrl` helper trims whitespace, validates HTTP(S) schemes, and rejects empty or invalid URLs. It does not fetch or expand URLs.
 
 ## Snapshots
 

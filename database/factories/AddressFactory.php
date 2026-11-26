@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Database\Factories;
 
-use AIArmada\Addressing\Models\Address;
+use AIArmada\Addressing\Features\AddressLifecycle\Models\Address;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

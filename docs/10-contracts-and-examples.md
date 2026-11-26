@@ -32,7 +32,7 @@ them as area assignments.
 
 ## Supported legacy/provider aliases
 
-`AddressData::from()` normalizes these aliases (see `AddressAliasMap`):
+`AddressData::from()` normalizes these aliases (see `Data\\AddressAliasMap`):
 
 ```txt
 address_line_1 -> line1
@@ -62,8 +62,9 @@ ISO2 code explicitly. Removed aliases (`lat`, `lng`, `lon`,
 ```php
 namespace AIArmada\Customers\Actions;
 
+use AIArmada\Addressing\Contracts\AddressAttachmentWriter;
+use AIArmada\Addressing\Contracts\AddressWriter;
 use AIArmada\Addressing\Data\AddressData;
-use AIArmada\Addressing\Models\Address;
 use AIArmada\Customers\Models\Customer;
 
 final class StoreCustomerShippingAddressAction
@@ -73,34 +74,49 @@ final class StoreCustomerShippingAddressAction
      */
     public function execute(Customer $customer, array $input): void
     {
-        $address = Address::query()->create(
-            AddressData::from($input)->toModelAttributes()
-        );
+        $customer->getConnection()->transaction(function () use ($customer, $input): void {
+            $id = app(AddressWriter::class)->execute(
+                AddressData::from($input)->toModelAttributes(),
+                null,
+            );
 
-        $customer->attachAddress($address, type: 'shipping', isPrimary: true);
+            app(AddressAttachmentWriter::class)->attach(
+                $id,
+                $customer->getMorphClass(),
+                (string) $customer->getKey(),
+                type: 'shipping',
+                isPrimary: true,
+            );
+        });
     }
 }
 ```
+
+`AddressWriter::execute()` accepts an optional fifth `assignmentMetadata`
+argument. Pass the caller's provenance there (for example
+`['source' => 'filament-addressing']`) when an explicit area assignment map
+is written; the core action no longer assumes a Filament source.
 
 ## Order snapshot example
 
 ```php
 namespace AIArmada\Orders\Actions;
 
-use AIArmada\Addressing\Actions\CreateAddressSnapshotAction;
+use AIArmada\Addressing\Contracts\AddressSnapshotWriter;
 use AIArmada\Addressing\Data\AddressData;
 use AIArmada\Orders\Models\Order;
 
 final class SnapshotOrderShippingAddressAction
 {
     public function __construct(
-        private readonly CreateAddressSnapshotAction $createAddressSnapshot,
+        private readonly AddressSnapshotWriter $createAddressSnapshot,
     ) {}
 
     public function execute(Order $order, AddressData $shippingAddress): void
     {
         $this->createAddressSnapshot->execute(
-            snapshotable: $order,
+            snapshotableType: $order->getMorphClass(),
+            snapshotableId: $order->getKey(),
             address: $shippingAddress,
             reason: 'order_shipping',
         );
@@ -162,14 +178,14 @@ final class ResolveEventAddressAction
 ```php
 namespace MajlisIlmu\Events\Actions;
 
-use AIArmada\Addressing\Actions\CreateAddressSnapshotAction;
+use AIArmada\Addressing\Contracts\AddressSnapshotWriter;
 use MajlisIlmu\Events\Models\Event;
 
 final class SnapshotEventLocationAction
 {
     public function __construct(
         private readonly ResolveEventAddressAction $resolveEventAddress,
-        private readonly CreateAddressSnapshotAction $createAddressSnapshot,
+        private readonly AddressSnapshotWriter $createAddressSnapshot,
     ) {}
 
     public function execute(Event $event): void
@@ -181,7 +197,8 @@ final class SnapshotEventLocationAction
         }
 
         $this->createAddressSnapshot->execute(
-            snapshotable: $event,
+            snapshotableType: $event->getMorphClass(),
+            snapshotableId: $event->getKey(),
             address: $address,
             reason: 'event_location',
         );
@@ -335,7 +352,7 @@ final class ResolvedLocationData
 `HasAddresses` should be used only on models that own reusable addresses:
 
 ```php
-use AIArmada\Addressing\Traits\HasAddresses;
+use AIArmada\Addressing\Features\AddressLifecycle\Traits\HasAddresses;
 
 final class Institution extends Model
 {
@@ -348,9 +365,9 @@ Do not add `HasAddresses` to order snapshots, shipment snapshots, gateway payloa
 ## Formatting example
 
 ```php
-use AIArmada\Addressing\Actions\FormatAddressAction;
+use AIArmada\Addressing\Contracts\AddressFormatter;
 
-$formatted = app(FormatAddressAction::class)->format($addressData);
+$formatted = app(AddressFormatter::class)->format($addressData);
 ```
 
 Output may be:

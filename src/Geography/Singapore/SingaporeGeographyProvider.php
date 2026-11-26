@@ -11,9 +11,8 @@ use AIArmada\Addressing\Contracts\CountryGeographyProvider;
 use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
-use AIArmada\Addressing\Models\AddressCountry;
+use AIArmada\Addressing\Data\CountryStateSeedData;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
-use AIArmada\Addressing\Support\ModelResolver;
 
 class SingaporeGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider
 {
@@ -31,20 +30,9 @@ class SingaporeGeographyProvider implements CountryAddressAreaMetadataProvider, 
         return 'SG';
     }
 
-    public function seed(AddressCountry $singapore): void
+    public function stateSeedData(): CountryStateSeedData
     {
-        $stateClass = ModelResolver::stateClass();
-        $statesData = $this->stateDefinitions();
-
-        foreach ($statesData as $s) {
-            $stateClass::updateOrCreate(
-                ['country_id' => $singapore->id, 'code' => $s['code']],
-                [
-                    'name' => $s['name'],
-                    'country_code' => $this->countryCode(),
-                ],
-            );
-        }
+        return new CountryStateSeedData($this->stateDefinitions());
     }
 
     /** @return list<AddressHierarchyDefinition> */
@@ -122,7 +110,7 @@ class SingaporeGeographyProvider implements CountryAddressAreaMetadataProvider, 
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
-    public function areaRoles(AddressCountry $country): array
+    public function areaRoles(): array
     {
         $roles = [];
 
@@ -146,7 +134,7 @@ class SingaporeGeographyProvider implements CountryAddressAreaMetadataProvider, 
     }
 
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
-    public function areaNames(AddressCountry $country): array
+    public function areaNames(): array
     {
         return [
             'sg:planning-area:yishun' => [
@@ -156,7 +144,7 @@ class SingaporeGeographyProvider implements CountryAddressAreaMetadataProvider, 
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
-    public function areaRelationships(AddressCountry $country): array
+    public function areaRelationships(): array
     {
         $relationships = [];
 

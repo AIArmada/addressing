@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Data;
 
-class AddressAreaData
+final readonly class AddressAreaData
 {
     public function __construct(
-        public readonly string $source,
-        public readonly string $sourceId,
-        public readonly string $countryCode,
-        public readonly string $type,
-        public readonly string $name,
-        public readonly ?string $nativeName = null,
-        public readonly ?string $code = null,
-        public readonly ?string $parentSourceId = null,
-        public readonly ?int $level = null,
-        public readonly ?float $latitude = null,
-        public readonly ?float $longitude = null,
-        public readonly ?string $hierarchyType = null,
-        public readonly string $relationshipType = 'contains',
-        public readonly array $metadata = [],
-        public readonly array $sourcePayload = [],
+        public string $source,
+        public string $sourceId,
+        public string $countryCode,
+        public string $type,
+        public string $name,
+        public ?string $nativeName = null,
+        public ?string $code = null,
+        public ?string $parentSourceId = null,
+        public ?int $level = null,
+        public ?float $latitude = null,
+        public ?float $longitude = null,
+        public ?string $hierarchyType = null,
+        public string $relationshipType = 'contains',
+        public array $metadata = [],
+        public array $sourcePayload = [],
     ) {}
 }

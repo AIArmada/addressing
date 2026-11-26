@@ -12,9 +12,8 @@ use AIArmada\Addressing\Contracts\CountryHierarchyProvider;
 use AIArmada\Addressing\Contracts\CountryPostalCodeNormalizer;
 use AIArmada\Addressing\Data\AddressHierarchyDefinition;
 use AIArmada\Addressing\Data\AddressLevelDefinition;
-use AIArmada\Addressing\Models\AddressCountry;
+use AIArmada\Addressing\Data\CountryStateSeedData;
 use AIArmada\Addressing\Support\CsvAddressAreaSource;
-use AIArmada\Addressing\Support\ModelResolver;
 use AIArmada\Addressing\Support\UsZipCodeKeys;
 
 class UnitedStatesGeographyProvider implements CountryAddressAreaMetadataProvider, CountryAreaTypeLabelProvider, CountryGeographyProvider, CountryHierarchyProvider, CountryPostalCodeNormalizer
@@ -39,20 +38,9 @@ class UnitedStatesGeographyProvider implements CountryAddressAreaMetadataProvide
         return UsZipCodeKeys::expand($code);
     }
 
-    public function seed(AddressCountry $country): void
+    public function stateSeedData(): CountryStateSeedData
     {
-        $stateClass = ModelResolver::stateClass();
-        $statesData = $this->stateDefinitions();
-
-        foreach ($statesData as $s) {
-            $stateClass::updateOrCreate(
-                ['country_id' => $country->id, 'code' => $s['code']],
-                [
-                    'name' => $s['name'],
-                    'country_code' => $this->countryCode(),
-                ],
-            );
-        }
+        return new CountryStateSeedData($this->stateDefinitions());
     }
 
     /** @return list<AddressHierarchyDefinition> */
@@ -110,7 +98,7 @@ class UnitedStatesGeographyProvider implements CountryAddressAreaMetadataProvide
     }
 
     /** @return array<string, list<array{role: string, country_code?: string, is_primary?: bool}>> */
-    public function areaRoles(AddressCountry $country): array
+    public function areaRoles(): array
     {
         $roles = [];
 
@@ -139,7 +127,7 @@ class UnitedStatesGeographyProvider implements CountryAddressAreaMetadataProvide
     }
 
     /** @return array<string, list<array{name: string, name_type?: string, is_preferred?: bool}>> */
-    public function areaNames(AddressCountry $country): array
+    public function areaNames(): array
     {
         // USPS Publication 28 abbreviations, mirroring the formatter map
         // (military AA/AE/AP intentionally excluded: not areas).
@@ -316,7 +304,7 @@ class UnitedStatesGeographyProvider implements CountryAddressAreaMetadataProvide
     }
 
     /** @return array<string, list<array{parent_source_id: string, relationship_type: string, hierarchy_type: string}>> */
-    public function areaRelationships(AddressCountry $country): array
+    public function areaRelationships(): array
     {
         $relationships = [];
 

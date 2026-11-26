@@ -1,0 +1,135 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AIArmada\Addressing\Features\Geography\Actions;
+
+use AIArmada\Addressing\Contracts\StateDatasetSeeder;
+use AIArmada\Addressing\Support\ModelResolver;
+use Carbon\CarbonImmutable;
+use Illuminate\Support\Str;
+use RuntimeException;
+
+final readonly class SeedAddressStatesAction implements StateDatasetSeeder
+{
+    /**
+     * @param  ?callable(string, int, int, ?string=): void  $progress
+     */
+    public function execute(?array $states = null, ?callable $progress = null): array
+    {
+        return ModelResolver::stateClass()::query()->getConnection()->transaction(fn (): array => $this->seed($states, $progress));
+    }
+
+    /**
+     * @param  array<int, mixed>|null  $states
+     * @param  ?callable(string, int, int, ?string=): void  $progress
+     */
+    private function seed(?array $states, ?callable $progress): array
+    {
+        if ($states === null) {
+            $path = __DIR__ . '/../../../../resources/data/states.json';
+
+            $states = json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+        }
+
+        if (! is_array($states)) {
+            throw new RuntimeException('State data must be an array.');
+        }
+
+        $stateClass = ModelResolver::stateClass();
+
+        // ponytail: cache country lookups by iso2 to avoid per-row queries.
+        $countryIds = ModelResolver::countryClass()::query()->pluck('id', 'iso2')->all();
+
+        $created = 0;
+        $updated = 0;
+        $skipped = 0;
+
+        $existingByKey = $stateClass::query()
+            ->lockForUpdate()
+            ->get(['id', 'country_id', 'name', 'country_code', 'code', 'latitude', 'longitude'])
+            ->keyBy(fn ($state): string => self::naturalKey($state->country_id, $state->code, $state->name));
+
+        $inserts = [];
+        $total = count($states);
+
+        foreach ($states as $index => $row) {
+            if ($progress !== null) {
+                $progress('states', $index + 1, $total);
+            }
+
+            if (! isset($row['name'], $row['country_code'])) {
+                $skipped++;
+
+                continue;
+            }
+
+            $countryId = $countryIds[$row['country_code']] ?? null;
+
+            if ($countryId === null) {
+                $skipped++;
+
+                continue;
+            }
+
+            $code = $row['state_code'] ?? null;
+
+            $attrs = [
+                'country_id' => $countryId,
+                'name' => $row['name'],
+                'country_code' => $row['country_code'] ?? null,
+                'code' => $code,
+                'latitude' => is_numeric($row['latitude'] ?? null) ? round((float) $row['latitude'], 7) : null,
+                'longitude' => is_numeric($row['longitude'] ?? null) ? round((float) $row['longitude'], 7) : null,
+            ];
+
+            $key = self::naturalKey($countryId, $code, $row['name']);
+            $existing = $existingByKey->get($key);
+
+            if ($existing === null) {
+                if (isset($inserts[$key])) {
+                    $skipped++;
+
+                    continue;
+                }
+
+                $now = CarbonImmutable::now()->toDateTimeString();
+                $inserts[$key] = [
+                    'id' => (string) Str::uuid7(),
+                    ...$attrs,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+                $created++;
+
+                continue;
+            }
+
+            $existing->fill($attrs);
+
+            if ($existing->isDirty()) {
+                $existing->save();
+                $updated++;
+            } else {
+                $skipped++;
+            }
+        }
+
+        foreach (array_chunk(array_values($inserts), 1000) as $insertChunk) {
+            $stateClass::query()->insert($insertChunk);
+        }
+
+        if ($progress !== null && $total === 0) {
+            $progress('states', 0, 0);
+        }
+
+        return compact('created', 'updated', 'skipped');
+    }
+
+    private static function naturalKey(string $countryId, ?string $code, string $name): string
+    {
+        return $code !== null
+            ? 'code|' . $countryId . '|' . $code
+            : 'name|' . $countryId . '|' . $name;
+    }
+}

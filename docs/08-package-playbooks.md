@@ -86,7 +86,7 @@ rerun; production deployment requires the normal migration rollout process.
 ### Example
 
 ```php
-use AIArmada\Addressing\Models\Address;
+use AIArmada\Addressing\Features\AddressLifecycle\Models\Address;
 
 $address = Address::create($request->validated('shipping_address'));
 $customer->attachAddress($address, type: 'shipping', isPrimary: true);
@@ -123,7 +123,7 @@ app(CreateOrder::class)->addAddress($order, $addressData, 'shipping');
 $shipping = $order->primaryAddress('shipping');
 ```
 
-Use `CreateAddressSnapshotAction` instead only when tamper-proof immutable
+Use `AddressSnapshotWriter` instead only when tamper-proof immutable
 snapshots are required rather than per-order copies.
 
 ## Events, venues, and institutions

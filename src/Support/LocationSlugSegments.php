@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace AIArmada\Addressing\Support;
 
-use AIArmada\Addressing\Models\City;
-use AIArmada\Addressing\Models\State;
 use Illuminate\Support\Str;
 
 /**
@@ -32,16 +30,12 @@ final class LocationSlugSegments
      */
     public static function suffix(array $address, mixed $cityAreaId = null, mixed $stateAreaId = null, bool $preferLiteralCountry = true): string
     {
-        $city = self::firstFilled([
-            $address['city'] ?? null,
-            self::cityName($address['city_id'] ?? null),
-            self::areaName($cityAreaId),
-        ]);
-        $state = self::firstFilled([
-            $address['state'] ?? null,
-            self::stateName($address['state_id'] ?? null),
-            self::areaName($stateAreaId),
-        ]);
+        $city = self::filled($address['city'] ?? null)
+            ?? self::cityName($address['city_id'] ?? null)
+            ?? self::areaName($cityAreaId);
+        $state = self::filled($address['state'] ?? null)
+            ?? self::stateName($address['state_id'] ?? null)
+            ?? self::areaName($stateAreaId);
         $countryCode = self::countryCode($address, $preferLiteralCountry);
 
         $segments = [];
@@ -86,7 +80,7 @@ final class LocationSlugSegments
             return null;
         }
 
-        $resolved = City::query()->whereKey($cityId)->value('name');
+        $resolved = ModelResolver::cityClass()::query()->whereKey($cityId)->value('name');
 
         return is_string($resolved) && mb_trim($resolved) !== '' ? $resolved : null;
     }
@@ -99,7 +93,7 @@ final class LocationSlugSegments
             return null;
         }
 
-        $resolved = State::query()->whereKey($stateId)->value('name');
+        $resolved = ModelResolver::stateClass()::query()->whereKey($stateId)->value('name');
 
         return is_string($resolved) && mb_trim($resolved) !== '' ? $resolved : null;
     }
@@ -166,24 +160,9 @@ final class LocationSlugSegments
         return $segment !== '' ? $segment : null;
     }
 
-    /**
-     * @param  array<int, mixed>  $values
-     */
-    private static function firstFilled(array $values): ?string
+    private static function filled(mixed $value): ?string
     {
-        foreach ($values as $value) {
-            if (! is_string($value)) {
-                continue;
-            }
-
-            $trimmed = mb_trim($value);
-
-            if ($trimmed !== '') {
-                return $trimmed;
-            }
-        }
-
-        return null;
+        return is_string($value) && mb_trim($value) !== '' ? mb_trim($value) : null;
     }
 
     private static function uuidValue(mixed $value): ?string
