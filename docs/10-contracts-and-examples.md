@@ -212,7 +212,7 @@ final class SnapshotEventLocationAction
 namespace AIArmada\Chip\Support;
 
 use AIArmada\Addressing\Data\AddressData;
-use AIArmada\Chip\Models\Client;
+use AIArmada\Chip\Features\Collect\Models\Client;
 
 final class ClientAddressMapper
 {
