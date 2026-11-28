@@ -60,7 +60,7 @@ ISO2 code explicitly. Removed aliases (`lat`, `lng`, `lon`,
 ## Customer saved address example
 
 ```php
-namespace AIArmada\Customers\Actions;
+namespace AIArmada\Customers\Features\Identity\Actions;
 
 use AIArmada\Addressing\Contracts\AddressAttachmentWriter;
 use AIArmada\Addressing\Contracts\AddressWriter;
